@@ -24,6 +24,8 @@ class RestAPIHeader(object):
             self.token, self.cust = self.generate_admin_token()
         if utype == 'agent':
             self.token, self.cust_id = self.generate_agent_token()
+        if utype == 'unuser':
+            self.token, self.cust_id = self.generate_invalid_token()
         self.token = "Bearer " + str(self.token)
 
     def generate_user_token(self):
@@ -60,7 +62,7 @@ class RestAPIHeader(object):
         response = requests.post(agent_url, data=json.dumps(data))
         return response.json()['token'], response.json()['customer_id']
 
-    def generate_invalid_token_url(self):
+    def generate_invalid_token(self):
         """ Function to generate invalid token """
         token_url, cust_id = self.generate_user_token()
         jwt_dict = jwt.decode(token_url, verify=False)

@@ -6,6 +6,7 @@ from common.config import CUSTOMER_SERVICE_URL
 from common.payloads import CustomerProfileServicePayload
 
 customer_rest_obj = RestAPIHeader()
+customer_rest_obj_invalid_token = RestAPIHeader(utype='unuser')
 customer_profile_url = CUSTOMER_SERVICE_URL + str(customer_rest_obj.cust_id)
 customer_profile_address_url = customer_profile_url + "/addresses/"
 
@@ -29,7 +30,7 @@ class CustomerProfilePutTestCases(unittest.TestCase):
                                              customer_profile_address_url +
                                              "Restore_Job").json()
         self.assertEquals(out.status_code, 200)
-        assert all(out_dict[k] == input_dict[k] for k in input_dict)
+        self.assertDictContainsSubset(input_dict, out_dict)
 
     def test_add_new_shipping_address_with_optional_Param(self):
         """ Testing with optional address to add
@@ -40,13 +41,14 @@ class CustomerProfilePutTestCases(unittest.TestCase):
                                         (addr1="400_New_River_Bridge",
                                          addr2='Near Post Office'))
         input_dict = CustomerProfileServicePayload().customer_profile_payload(
-            title="Restore_Job", addr1="400_NE, River_Bridge")
+            title="Restore_Job", addr1="400_NE, River_Bridge",
+            addr2='Near Post Office')
         out_dict = customer_rest_obj.request(RequestType.GET,
                                              customer_profile_address_url +
                                              "Restore_Job").json()
         input_dict = input_dict['shipping_address']
         self.assertEquals(out.status_code, 200)
-        assert all(out_dict[k] == input_dict[k] for k in input_dict)
+        self.assertDictContainsSubset(input_dict, out_dict)
 
     def test_customer_id_mismatch_error_message(self):
         """ Testing with mismatch customer_id to add
@@ -240,7 +242,7 @@ class CustomerProfilePutTestCases(unittest.TestCase):
 
 
 class CustomerProfileGetTestCases(unittest.TestCase):
-    """ Testcases to get the list of addresses for customer with customer_id """
+    """ Test cases to get the list of addresses of customer """
 
     def test_get_customer_with_valid_id(self):
         """ Test with the valid customer_id to get the list of addresses """
@@ -270,7 +272,7 @@ class CustomerProfileGetTestCases(unittest.TestCase):
         self.assertEquals(out.status_code, 400)
         self.assertEquals(out_dict['message'], message)
 
-    def test_get_customer_with_invalid_id(self):
+    def test_get_customer_with_invalid_url(self):
         """ Test with the invalid customer_id to get the list of addresses """
 
         out = customer_rest_obj.request(RequestType.GET,
@@ -284,7 +286,18 @@ class CustomerProfileGetTestCases(unittest.TestCase):
         """ Test without customer_id to get the list of addresses """
 
         out = customer_rest_obj.request(RequestType.GET, CUSTOMER_SERVICE_URL)
+        out_dict = out.json()
         self.assertEquals(out.status_code, 403)
+        self.assertIn('message', out_dict.keys())
+
+    def test_get_customer_profile_with_invalid_token(self):
+        """ Test without customer_id to get the list of addresses """
+
+        out = customer_rest_obj_invalid_token.request(RequestType.GET,
+                                                      CUSTOMER_SERVICE_URL)
+        out_dict = out.json()
+        self.assertEquals(out.status_code, 403)
+        self.assertIn('message', out_dict.keys())
 
 
 class CustomerProfileDeleteTestCases(unittest.TestCase):

@@ -51,6 +51,7 @@ class GetListAgentTaskTestcases(unittest.TestCase):
 
         out = agent_rest_obj_agent.request(RequestType.GET, LIST_AGENT_TASK_URL)
         out_dict = out.json()
+        print(LIST_AGENT_TASK_URL)
         self.assertEquals(out.status_code, 200)
         self.assertIn('tasks', out_dict.keys())
 
@@ -84,8 +85,7 @@ class UpdateAgentTaskStatusTestcases(unittest.TestCase):
         out = agent_rest_obj_agent.request(RequestType.PUT,
                                            update_agent_task_url('task_id'),
                                            payload=AgentServicePayload().
-                                           update_agent_task_status
-                                           (status='string', message='string'))
+                                           update_agent_task_status())
         out_dict = out.json()
         message = "status string of task is not recognized"
         self.assertEquals(out.status_code, 400)
@@ -98,7 +98,7 @@ class UpdateAgentTaskStatusTestcases(unittest.TestCase):
                                            update_agent_task_url('task_id'),
                                            payload=AgentServicePayload().
                                            update_agent_task_status
-                                           (status='sxniu!', message='string'))
+                                           (status='sxniu!'))
         out_dict = out.json()
         message = "task is not recognized"
         self.assertEquals(out.status_code, 400)
@@ -111,7 +111,7 @@ class UpdateAgentTaskStatusTestcases(unittest.TestCase):
                                            update_agent_task_url('task_id'),
                                            payload=AgentServicePayload().
                                            update_agent_task_status
-                                           (status='string', message='d @! h'))
+                                           (message='d @! h'))
         out_dict = out.json()
         message = "status string of task is not recognized"
         self.assertEquals(out.status_code, 400)
@@ -123,8 +123,7 @@ class UpdateAgentTaskStatusTestcases(unittest.TestCase):
         out = agent_rest_obj_agent.request(RequestType.PUT,
                                            update_agent_task_url('task_id'),
                                            payload=AgentServicePayload().
-                                           update_agent_task_status
-                                           (status='', message='string'))
+                                           update_agent_task_status(status=''))
         out_dict = out.json()
         message = "task is not recognized "
         self.assertEquals(out.status_code, 400)
@@ -136,8 +135,7 @@ class UpdateAgentTaskStatusTestcases(unittest.TestCase):
         out = agent_rest_obj_agent.request(RequestType.PUT,
                                            update_agent_task_url('asdf'),
                                            payload=AgentServicePayload().
-                                           update_agent_task_status
-                                           (status='string', message=''))
+                                           update_agent_task_status(message=''))
         out_dict = out.json()
         message = "status string of task is not recognized"
         self.assertEquals(out.status_code, 400)

@@ -8,6 +8,7 @@ source_system = SYSTEM_SERVICE_URL + "/source/"
 target_system = SYSTEM_SERVICE_URL + "/target/"
 
 system_rest_obj = RestAPIHeader()
+system_rest_obj_invalid_token = RestAPIHeader(utype='unuser')
 
 
 def list_system_url(list_system, system_type):
@@ -33,23 +34,10 @@ class SystemServicePostTestCases(unittest.TestCase):
 
         out = system_rest_obj.request(RequestType.POST, SYSTEM_SERVICE_URL,
                                       payload=SystemServicePayload().
-                                      system_creation_payload
-                                      (system_name="TDCLOUD15TD12"))
+                                      system_creation_payload())
         out_dict = out.json()
         self.assertEquals(out.status_code, 200)
         self.assertEquals(out_dict['system_name'], "TDCLOUD15TD12")
-
-    def test_create_target_system(self):
-        """ Test to create a system target system with valid details """
-
-        out = system_rest_obj.request(RequestType.POST, SYSTEM_SERVICE_URL,
-                                      payload=SystemServicePayload().
-                                      system_creation_payload
-                                      (system_name="TDCLOUD15TD13",
-                                       system_type='target'))
-        out_dict = out.json()
-        self.assertEquals(out.status_code, 200)
-        self.assertEquals(out_dict['system_name'], 'TDCLOUD15TD13')
 
     def test_missing_system_name_from_payload(self):
         """ Test to verify missing system name parameter from payload """
@@ -85,7 +73,7 @@ class SystemServicePostTestCases(unittest.TestCase):
         self.assertEquals(out.status_code, 400)
         self.assertEquals(out_dict['message'], message)
 
-    def test_with_blank_system_name(self):
+    def test_without_system_name(self):
         """ Test to verify blank system name parameter from payload """
 
         out = system_rest_obj.request(RequestType.POST, SYSTEM_SERVICE_URL,
@@ -96,7 +84,7 @@ class SystemServicePostTestCases(unittest.TestCase):
         self.assertEquals(out.status_code, 400)
         self.assertEquals(out_dict['message'], message)
 
-    def test_with_blank_system_type(self):
+    def test_withoutsystem_type(self):
         """ Test to verify system_type parameter passed as blank in payload """
 
         out = system_rest_obj.request(RequestType.POST, SYSTEM_SERVICE_URL,
@@ -107,12 +95,12 @@ class SystemServicePostTestCases(unittest.TestCase):
         self.assertEquals(out.status_code, 400)
         self.assertEquals(out_dict['message'], message)
 
-    def test_with_blank_details(self):
+    def test_without_details(self):
         """ Test to verify details parameter passed as blank in payload """
 
         out = system_rest_obj.request(RequestType.POST, SYSTEM_SERVICE_URL,
                                       payload=SystemServicePayload().
-                                      system_creation_payload(details=' '))
+                                      system_creation_payload(details=''))
         out_dict = out.json()
         message = 'System Details is not provided'
         self.assertEquals(out.status_code, 400)
@@ -120,6 +108,7 @@ class SystemServicePostTestCases(unittest.TestCase):
 
 
 class SystemServiceGetTestCases(unittest.TestCase):
+
     def test_list_system_for_source_type(self):
         """ Test to create a system """
 
@@ -154,9 +143,8 @@ class SystemServiceGetTestCases(unittest.TestCase):
         self.assertEquals(out_dict['message'], message)
 
 
-#
-
 class SystemServiceGetSystemDetailsTestCases(unittest.TestCase):
+
     def test_list_details_for_given_source_system(self):
         """ Test to get the details of system """
 
@@ -193,18 +181,36 @@ class SystemServiceGetSystemDetailsTestCases(unittest.TestCase):
 
 
 class SystemServiceGetCustomerName(unittest.TestCase):
-    def test_get_customer_name(self):
-        out = system_rest_obj.request(RequestType.GET,
-                                      SYSTEM_API_URL + '/customer')
-        self.assertEquals(out.status_code, 200)
+    """ Test cases to get the system details of customer """
 
-    def test_get_customer_name_for_invalid_token(self):
+    def test_get_customer_name(self):
+        """ Testing with the valid name of customer """
+
         out = system_rest_obj.request(RequestType.GET,
                                       SYSTEM_API_URL + '/customer')
         out_dict = out.json()
+        self.assertEquals(out.status_code, 200)
+        self.assertIn('details', out_dict.keys())
+
+    def test_get_customer_name_for_invalid_token(self):
+        """ Testing with the invalid name of customer """
+
+        out = system_rest_obj_invalid_token.request(RequestType.GET,
+                                                    SYSTEM_API_URL +
+                                                    '/customer')
+        out_dict = out.json()
         message = 'exceptions while validating token'
         self.assertEquals(out.status_code, 401)
-        self.assertIn(out_dict['message'], message)
+        self.assertIn(message, out_dict['message'])
+
+    def test_get_customer_name_for_invalid_url(self):
+        """ Testing without name of customer """
+
+        out = system_rest_obj.request(RequestType.GET,
+                                      SYSTEM_API_URL + '/customer1')
+        out_dict = out.json()
+        self.assertEquals(out.status_code, 403)
+        self.assertIn('message', out_dict.keys())
 
 
 if __name__ == '__main__':
