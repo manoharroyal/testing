@@ -114,7 +114,7 @@ class CustomerProfilePutTestCases(unittest.TestCase):
              key, value in data.items() if value == '1111'][0])
         self.assertEquals(out.status_code, 200)
         self.assertEquals(upt_val, 'sagar')
-
+    #
     def test_update_customer_profile_state_param(self):
         """ Testing with state name to update
         shipping address to the customer profile """
