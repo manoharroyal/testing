@@ -12,7 +12,8 @@ customer_profile_address_url = customer_profile_url + "/addresses/"
 
 
 class CustomerProfilePutTestCases(unittest.TestCase):
-    """ Test cases for the PUT method """
+    """ Test cases for the creation of customer profile
+    by passing the input parameters """
 
     def test_add_new_shipping_address_without_optional_Param(self):
         """ Testing without optional address to add
