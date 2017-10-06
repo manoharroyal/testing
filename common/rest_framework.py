@@ -1,17 +1,7 @@
 import json
 import requests
 import jwt
-from enum import Enum
-
-
-class RequestType(Enum):
-    """ Enumeration for the Request Types """
-    GET = 'GET'
-    POST = 'POST'
-    PUT = 'PUT'
-    DELETE = 'DELETE'
-    PATCH = 'PATCH'
-
+from common.helper_function import RequestType
 
 class RestAPIHeader(object):
     """ The helper class for api calling """
@@ -24,7 +14,7 @@ class RestAPIHeader(object):
             self.token, self.cust = self.generate_admin_token()
         if utype == 'agent':
             self.token, self.cust_id = self.generate_agent_token()
-        if utype == 'unuser':
+        if utype == 'un user':
             self.token, self.cust_id = self.generate_invalid_token()
         self.token = "Bearer " + str(self.token)
 

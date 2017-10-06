@@ -269,3 +269,4 @@ class TicketServicePayload(object):
         """ payload to update the ticket status """
         payload = {"detail": detail, "message": message}
         return payload
+
