@@ -21,4 +21,4 @@ system_service:
 agent_service:
 	python2.7 -m pytest /home/manohar/python/manohar-rest-api-test-code-a44d1daf6542/agent_service/agent_service.py
 
-functional-test: customer_profile_service inventory_service ticket_service job_service system_service agent_service
+functional-test: inventory_service customer_profile_service ticket_service job_service system_service agent_service
