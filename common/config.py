@@ -90,4 +90,3 @@ def update_job_logs_url(val):
 def agent_api_url(val, value):
     """ Url for agent api on seed job """
     return '%s/agent/%s?action=%s' % (SEED_JOB_URL, val, value)
-
