@@ -1,9 +1,7 @@
-""" Functional Test cases for Job Service """
-
 import unittest
-from common.payloads import SeedJobServicePayload
 from common.rest_framework import RestAPIHeader
 from common.helper_function import RequestType
+from common.payloads import SeedJobServicePayload
 from common.config import SEED_JOB_URL, INVALID_SEED_JOB_URL, SEED_JOB_ID, \
     seed_job_url, user_action_url, TEMP_KEY, DELETE_JOB_ID, admin_action_url, \
     agent_api_url, update_job_logs_url
@@ -443,6 +441,7 @@ class UpdateJobLogsTestCases(unittest.TestCase):
                                         payload=SeedJobServicePayload().
                                         update_job_logs())
         self.assertEquals(out.status_code, 403)
+
 
 if __name__ == '__main__':
     unittest.main()

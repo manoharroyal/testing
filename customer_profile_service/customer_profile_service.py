@@ -42,15 +42,7 @@ class CustomerProfilePutTestCases(unittest.TestCase):
                                        customer_profile_payload
                                        (addr1="New River Bridge",
                                         addr2="Near Post Office"))
-        input_dict = CustomerProfileServicePayload().customer_profile_payload(
-            title="Restore_Job", addr1="New River Bridge",
-            addr2="Near Post Office")
-        out_dict = customer_service.request(RequestType.GET,
-                                            customer_profile_address_url +
-                                            "Restore_Job").json()
-        input_dict = input_dict['shipping_address']
         self.assertEquals(out.status_code, 200)
-        self.assertDictContainsSubset(input_dict, out_dict)
 
     def test_customer_id_mismatch_error_message(self):
         """ Testing with mismatch customer_id to add

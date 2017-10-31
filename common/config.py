@@ -1,10 +1,10 @@
 """ All Constants goes here """
 
-CUSTOMER_SERVICE_URL = "https://oywvlaayha.execute-api.us-west-2.amazonaws.com/dev/customer-profiles/"
+CUSTOMER_SERVICE_URL = "https://uhwmexpme2.execute-api.us-east-1.amazonaws.com/test/customer-profiles/"
 
 INVENTORY_SERVICE_URL = "https://ipn2b7o6dj.execute-api.us-west-2.amazonaws.com/sb186123dev/inventory/items"
 
-SYSTEM_SERVICE_URL = "https://tlgz19gbal.execute-api.us-west-2.amazonaws.com/dev/system"
+SYSTEM_SERVICE_URL = "https://3du91cebcg.execute-api.us-east-1.amazonaws.com/test/system"
 
 SYSTEM_API_URL = "https://tlgz19gbal.execute-api.us-west-2.amazonaws.com/dev/"
 

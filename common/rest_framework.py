@@ -44,7 +44,7 @@ class RestAPIHeader(object):
         """ Generation of agent_token """
 
         agent_user = "7d4dff18-fb0b-4be4-aeb0-a6e2c015cb99"
-        agent_password = "secretkey"
+        agent_password = "B7C76twh"
         agent_url = \
             "https://k0zvnnx44k.execute-api.us-west-2.amazonaws.com/dev/" \
             "auth/login/agent"
