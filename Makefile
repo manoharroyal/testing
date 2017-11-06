@@ -1,4 +1,4 @@
-.PHONY : customer_profile_service agent_service inventory_service ticket_service job_service system_service init functional-test list
+.PHONY : customer_profile_service agent_service inventory_service ticket_service job_service system_service init functional-test list install
 
 init:
 	@export PYTHONPATH=`pwd`
@@ -27,3 +27,6 @@ list:
 	@$(info Available Targets)
 	@$(info ========= =======)
 	@grep '^.PHONY:*' Makefile | sed 's/\.PHONY : //' |  tr " " "\n"
+
+install:
+	python2.7 -m pip install -r requirements.txt --no-index

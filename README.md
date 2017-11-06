@@ -3,9 +3,10 @@ Repository including functional and integration tests
 
 # Test Execution Steps
 
-**1. cloning the repo**
+**1. cloning the repo and setup**
     
     git clone https://github.td.teradata.com/tmcindia/dss-test.git
+    make install # will install all the required packages
 
 **2. show list of make targets**
 
