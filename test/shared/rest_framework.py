@@ -1,7 +1,19 @@
 import json
 import requests
 import jwt
-from common.helper_function import RequestType
+
+""" Helper functions are goes here """
+from enum import Enum
+
+
+class RequestType(Enum):
+    """ Enumeration for the Request Types """
+    GET = 'GET'
+    POST = 'POST'
+    PUT = 'PUT'
+    DELETE = 'DELETE'
+    PATCH = 'PATCH'
+
 
 class RestAPIHeader(object):
     """ The helper class for api calling """
@@ -82,56 +94,36 @@ class RestAPIHeader(object):
         if method == RequestType.GET:
             try:
                 self.response = requests.get(url, headers=header, timeout=10)
-            except requests.exceptions.Timeout:
-                raise requests.exceptions.Timeout('Request Timeout')
-            except requests.exceptions.RequestException:
-                raise requests.exceptions.RequestException('Connection Refused')
             except:
-                raise Exception('Uncaught Exception')
+                raise
 
         elif method == RequestType.POST:
             header['Content-Type'] = "application/json"
             try:
                 self.response = requests.post(url, headers=header, timeout=10,
                                               data=json.dumps(payload))
-            except requests.exceptions.Timeout:
-                raise requests.exceptions.Timeout('Request Timeout')
-            except requests.exceptions.RequestException:
-                raise requests.exceptions.RequestException('Connection Refused')
             except:
-                raise Exception('Uncaught Exception')
+                raise
 
         elif method == RequestType.PUT:
             header['content-type'] = "application/json"
             try:
                 self.response = requests.put(url, headers=header, timeout=10,
                                              data=json.dumps(payload))
-            except requests.exceptions.Timeout:
-                raise requests.exceptions.Timeout('Request Timeout')
-            except requests.exceptions.RequestException:
-                raise requests.exceptions.RequestException('Connection Refused')
             except:
-                raise Exception('Uncaught Exception')
+                raise
 
         elif method == RequestType.DELETE:
             try:
                 self.response = requests.delete(url, headers=header, timeout=10)
-            except requests.exceptions.Timeout:
-                raise requests.exceptions.Timeout('Request Timeout')
-            except requests.exceptions.RequestException:
-                raise requests.exceptions.RequestException('Connection Refused')
             except:
-                raise Exception('Uncaught Exception')
+                raise
 
         elif method == RequestType.PATCH:
             try:
                 self.response = requests.patch(url, headers=header, timeout=10,
                                                data=json.dumps(payload))
-            except requests.exceptions.Timeout:
-                raise requests.exceptions.Timeout('Request Timeout')
-            except requests.exceptions.RequestException:
-                raise requests.exceptions.RequestException('Connection Refused')
             except:
-                raise Exception('Uncaught Exception')
+                raise
 
         return self.response

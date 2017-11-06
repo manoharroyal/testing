@@ -1,8 +1,7 @@
 import unittest
-from common.config import TICKET_SERVICE_URL
-from common.rest_framework import RestAPIHeader
-from common.helper_function import RequestType
-from common.payloads import TicketServicePayload
+from test.functional_test_suit.common.config import TICKET_SERVICE_URL
+from test.shared.rest_framework import RestAPIHeader, RequestType
+from test.functional_test_suit.common.payloads import TicketServicePayload
 
 ticket_service_obj = RestAPIHeader()
 
@@ -23,7 +22,3 @@ class TicketService(unittest.TestCase):
                                          payload=TicketServicePayload().
                                          update_ticket_payload())
         self.assertEquals(out.status_code, 400)
-
-
-if __name__ == '__main__':
-    unittest.main()
