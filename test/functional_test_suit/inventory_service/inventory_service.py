@@ -1,8 +1,9 @@
 import unittest
-from test.shared.rest_framework import RestAPIHeader, RequestType
-from test.functional_test_suit.common.functional_test_suit.config import\
-            INVENTORY_SERVICE_URL, get_items_url, update_url
-from test.functional_test_suit.common.functional_test_suit.payloads import\
+from api_functional_testing.test.shared.rest_framework import RestAPIHeader, \
+    RequestType
+from api_functional_testing.test.functional_test_suit.common.config import \
+    INVENTORY_SERVICE_URL, get_items_url, update_url
+from api_functional_testing.test.functional_test_suit.common.payloads import\
             Inventoryservicepayload
 
 inventory_service = RestAPIHeader()
@@ -23,7 +24,8 @@ class InventoryServiceTestcases(unittest.TestCase):
         self.assertEquals(add_item_response.status_code, 200,
                           msg="Expected code is 200 and got is %s" %
                               add_item_response.status_code)
-        assert (response_dict.get(k, []) == input_dict[k] for k in input_dict)
+        self.assertIn(response_dict, input_dict,
+                      msg="Expected %s in %s" % (response_dict, input_dict))
 
     def test_add_item_with_invalid_item_id(self):
         """ Testing with invalid item id to add an item into the inventory """
@@ -39,7 +41,8 @@ class InventoryServiceTestcases(unittest.TestCase):
             add_item_response.status_code, 200,
             msg="Expected code is 200 and got is %s" %
                 add_item_response.status_code)
-        assert (response_dict.get(k, []) == input_dict[k] for k in input_dict)
+        self.assertIn(response_dict, input_dict,
+                      msg="Expected %s in %s" % (response_dict, input_dict))
 
     def test_add_item_with_invalid_hw_model(self):
         """ Testing with invalid hardware_model to add an
@@ -156,13 +159,9 @@ class InventoryServiceTestcases(unittest.TestCase):
             RequestType.POST, INVENTORY_SERVICE_URL,
             payload=Inventoryservicepayload().inventory_additem_payload(
                                             order_id='1@ * '))
-        input_dict = Inventoryservicepayload().inventory_additem_payload(
-            order_id='1@ * ')
-        response_dict = add_item_response.json()
         self.assertEquals(add_item_response.status_code, 200,
                           msg="Expected code is 200 and got is %s" %
                               add_item_response.status_code)
-        assert (response_dict.get(k, []) == input_dict[k] for k in input_dict)
 
     def test_add_item_with_invalid_storage_array_model(self):
         """ Testing with invalid storage_array_model to add an

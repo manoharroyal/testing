@@ -1,11 +1,13 @@
 """ Functional Test cases for Inventory Service of DSS Micro Service Layer """
 import unittest
 import httplib
-from test.shared.rest_framework import RestAPIHeader, RequestType
-from test.functional_test_suit.common.config import SYSTEM_SERVICE_URL,\
-    SYSTEM_API_URL, list_system_url, source_system_url, target_system_url,\
-    list_system, target_system, source_system
-from test.functional_test_suit.common.payloads import SystemServicePayload
+from api_functional_testing.test.shared.rest_framework import \
+    RestAPIHeader, RequestType, SystemType
+from api_functional_testing.test.functional_test_suit.common.config import \
+    SYSTEM_SERVICE_URL, SYSTEM_API_URL, list_system_url, source_system_url, \
+    target_system_url, list_system, target_system, source_system
+from api_functional_testing.test.functional_test_suit.common.payloads import \
+    SystemServicePayload
 
 system_service = RestAPIHeader()
 system_service_invalid_token = RestAPIHeader(utype='un user')

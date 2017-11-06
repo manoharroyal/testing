@@ -1,7 +1,8 @@
 import unittest
-from test.shared.rest_framework import RestAPIHeader, RequestType
-from test.functional_test_suit.common.payloads import SeedJobServicePayload
-from test.functional_test_suit.common.config import SEED_JOB_URL,\
+from api_functional_testing.test.shared.rest_framework import RequestType, \
+    RestAPIHeader
+from api_functional_testing.test.functional_test_suit.common.payloads import SeedJobServicePayload
+from api_functional_testing.test.functional_test_suit.common.config import SEED_JOB_URL,\
     INVALID_SEED_JOB_URL, SEED_JOB_ID, seed_job_url, user_action_url,\
     TEMP_KEY, DELETE_JOB_ID, admin_action_url, agent_api_url,\
     update_job_logs_url

@@ -1,9 +1,11 @@
 """ Functional Test cases for Agent Service """
 import unittest
-from test.functional_test_suit.common.payloads import AgentServicePayload
-from test.shared.rest_framework import RestAPIHeader
-from test.shared.rest_framework import RequestType
-from test.functional_test_suit.common.config import AGENT_SERVICE_URL, LIST_AGENT_TASK_URL, \
+from api_functional_testing.test.functional_test_suit.common.payloads import \
+    AgentServicePayload
+from api_functional_testing.test.shared.rest_framework import RestAPIHeader, \
+    RequestType
+from api_functional_testing.test.functional_test_suit.common.config import \
+    AGENT_SERVICE_URL, LIST_AGENT_TASK_URL, \
     REGISTER_AGENT_URL, update_agent_task_url, agent_details_url
 
 agent_service_admin = RestAPIHeader(utype='admin')
