@@ -10,8 +10,8 @@ from api_functional_testing.test.functional_test_suit.common.payloads import \
     CustomerProfileServicePayload
 
 customer_service = RestAPIHeader()
-customer_service_invalid_token = RestAPIHeader(utype='un user')
-customer_profile_url = CUSTOMER_SERVICE_URL + str(customer_service.cust_id)
+customer_service_invalid_token = RestAPIHeader(utype='invalid')
+customer_profile_url = CUSTOMER_SERVICE_URL + str(customer_service.customerId)
 customer_profile_address_url = customer_profile_url + "/addresses/"
 
 
@@ -37,7 +37,7 @@ class CustomerProfileTestCases(unittest.TestCase):
             customer_profile_address_url + "Restore_Job").json()
         self.assertEquals(
             customer_profile_response.status_code, 200,
-            msg="Expected 200 and got %s (%s)" %
+            msg="Expected 200 [success] and got %s (%s)" %
                 (customer_profile_response.status_code,
                  httplib.responses[customer_profile_response.status_code]))
         self.assertDictContainsSubset(
@@ -95,11 +95,18 @@ class CustomerProfileTestCases(unittest.TestCase):
             RequestType.PUT, customer_profile_url,
             payload=CustomerProfileServicePayload().customer_profile_payload(
                 title='1111', addr1="Hollywood"))
+        customer_profile_response_data = customer_profile_response.json()
+        updated_val = [data['address_line_1'] for data in
+                       customer_profile_response_data["shipping_addresses"] for
+                       key, value in data.items() if value == '1111'][0]
         self.assertEquals(
             customer_profile_response.status_code, 200,
             msg="Expected 200 and got %s (%s)" %
                 (customer_profile_response.status_code,
                  httplib.responses[customer_profile_response.status_code]))
+        self.assertEquals(updated_val, "Hollywood",
+                          msg="Expected %s and got %s" %
+                              ("Hollywood", updated_val))
 
     def test_update_customer_profile_with_contact_number_param(self):
         """ Testing with contact number to update
@@ -109,7 +116,7 @@ class CustomerProfileTestCases(unittest.TestCase):
             payload=CustomerProfileServicePayload().customer_profile_payload(
                 title='1111', cont_num=94163748392))
         customer_profile_response_data = customer_profile_response.json()
-        upt_val = \
+        updated_val = \
             [data['contact_number'] for data in customer_profile_response_data[
                 "shipping_addresses"]
              for key, value in data.items() if value == '1111'][0]
@@ -118,9 +125,9 @@ class CustomerProfileTestCases(unittest.TestCase):
             msg="Expected 200 and got %s (%s)" %
                 (customer_profile_response.status_code,
                  httplib.responses[customer_profile_response.status_code]))
-        self.assertEquals(upt_val, 94163748392,
-                          msg="Expected upt_val is %s and got %s" %
-                              (upt_val, 94163748392))
+        self.assertEquals(94163748392, updated_val,
+                          msg="Expected is %s and got %s" %
+                              (94163748392, updated_val))
 
     def test_update_customer_profile_with_city_param(self):
         """ Testing with city to update shipping
@@ -130,7 +137,7 @@ class CustomerProfileTestCases(unittest.TestCase):
             payload=CustomerProfileServicePayload().customer_profile_payload
             (title='1111', city="LA"))
         customer_profile_response_data = customer_profile_response.json()
-        upt_val = ''.join(
+        updated_val = ''.join(
             [data['city'] for data in
              customer_profile_response_data["shipping_addresses"] for
              key, value in data.items() if value == '1111'][0])
@@ -139,9 +146,9 @@ class CustomerProfileTestCases(unittest.TestCase):
             msg="Expected 200 and got %s (%s)" %
                 (customer_profile_response.status_code,
                  httplib.responses[customer_profile_response.status_code]))
-        self.assertEquals(upt_val, 'LA',
-                          msg="Expected upt_val is %s and got %s" %
-                              (upt_val, "LA"))
+        self.assertEquals('LA', updated_val,
+                          msg="Expected is %s and got %s" %
+                              ("LA", updated_val))
 
     def test_update_customer_profile_with_contact_name_param(self):
         """ Testing with contact name to update
@@ -151,7 +158,7 @@ class CustomerProfileTestCases(unittest.TestCase):
             payload=CustomerProfileServicePayload().customer_profile_payload(
                 title='1111', contact_name="sagar"))
         customer_profile_response_data = customer_profile_response.json()
-        upt_val = ''.join(
+        updated_val = ''.join(
             [data['contact_name'] for data in customer_profile_response_data[
                 "shipping_addresses"] for
              key, value in data.items() if value == '1111'][0])
@@ -160,9 +167,9 @@ class CustomerProfileTestCases(unittest.TestCase):
             msg="Expected 200 and got %s (%s)" %
                 (customer_profile_response.status_code,
                  httplib.responses[customer_profile_response.status_code]))
-        self.assertEquals(upt_val, 'sagar',
-                          msg="Expected upt_val is %s and got %s" %
-                              (upt_val, "sagar"))
+        self.assertEquals("sagar", updated_val,
+                          msg="Expected is %s and got %s" %
+                              ("sagar", updated_val))
 
     def test_update_customer_profile_with_state_param(self):
         """ Testing with state name to update
@@ -172,7 +179,7 @@ class CustomerProfileTestCases(unittest.TestCase):
             payload=CustomerProfileServicePayload().customer_profile_payload(
                 title='1111', state="Texas"))
         customer_profile_response_data = customer_profile_response.json()
-        upt_val = ''.join(
+        updated_val = ''.join(
             [data['state'] for data in
              customer_profile_response_data["shipping_addresses"] for
              key, value in data.items() if value == '1111'][0])
@@ -181,9 +188,9 @@ class CustomerProfileTestCases(unittest.TestCase):
             msg='Expected 200 and got %s (%s)' %
                 (customer_profile_response.status_code,
                  httplib.responses[customer_profile_response.status_code]))
-        self.assertEquals(upt_val, 'Texas',
-                          msg="Expected upt_val is %s and got %s" %
-                              (upt_val, "Texas"))
+        self.assertEquals(updated_val, 'Texas',
+                          msg="Expected is %s and got %s" %
+                              (updated_val, "Texas"))
 
     def test_update_customer_profile_with_zipcode_param(self):
         """ Testing with zipcode to update
@@ -193,7 +200,7 @@ class CustomerProfileTestCases(unittest.TestCase):
             payload=CustomerProfileServicePayload().customer_profile_payload(
                 title='1111', zipcode=53235))
         customer_profile_response_data = customer_profile_response.json()
-        upt_val = \
+        updated_val = \
             [data['zipcode'] for data in
              customer_profile_response_data["shipping_addresses"] for
              key, value in data.items() if value == '1111'][0]
@@ -202,9 +209,9 @@ class CustomerProfileTestCases(unittest.TestCase):
             msg='Expected 200 and got %s (%s)' %
                 (customer_profile_response.status_code,
                  httplib.responses[customer_profile_response.status_code]))
-        self.assertEquals(upt_val, 53235,
-                          msg="Expected upt_val is %s and got %s" %
-                              (upt_val, 53235))
+        self.assertEquals(updated_val, 53235,
+                          msg="Expected updated_val is %s and got %s" %
+                              (updated_val, 53235))
 
     def test_update_customer_profile_without_title(self):
         """ Testing without title to update
@@ -360,7 +367,7 @@ class CustomerProfileTestCases(unittest.TestCase):
         self.assertEquals(
             customer_profile_response_text['message'], expected_message,
             msg="Expected message is %s and got %s" %
-                (customer_profile_response_text['mesage'], expected_message))
+                (customer_profile_response_text['message'], expected_message))
 
     # GET: To get the list of addresses
     """ Test cases to get the list of addresses of customer """
@@ -380,7 +387,7 @@ class CustomerProfileTestCases(unittest.TestCase):
 
         customer_profile_response = customer_service.request(
             RequestType.GET, CUSTOMER_SERVICE_URL + str(
-                customer_service.cust_id) + '12')
+                customer_service.customerId) + '12')
         customer_profile_response_dict = customer_profile_response.json()
         expected_message = "Customer_id mismatch"
         self.assertEquals(
@@ -488,24 +495,23 @@ class CustomerProfileTestCases(unittest.TestCase):
             msg='Expected 200 and got %s (%s)' %
                 (customer_profile_response.status_code,
                  httplib.responses[customer_profile_response.status_code]))
-        self.assertEquals(
+        self.assertDictContainsSubset(
             user_input, output,
-            msg="Expected %s equals to %s" % (user_input, output))
+            msg="Expected %s in %s" % (user_input.keys(), output.keys()))
 
     def test_get_address_with_customer_id_mismatch(self):
         """ Testing with the mis match customer_id to get the
         details of the customer """
         customer_profile_addresses_url = \
-            CUSTOMER_SERVICE_URL + str(customer_service.cust_id) + "/addresses/"
+            CUSTOMER_SERVICE_URL + str(customer_service.customerId) + "23" + "/addresses/"
         customer_profile_response = customer_service.request(
             RequestType.GET, customer_profile_addresses_url + "Restore_Job")
         customer_profile_response_dict = customer_profile_response.json()
         expected_message = "Customer_id mismatch"
         self.assertEquals(
             customer_profile_response.status_code, 400,
-            msg='Expected 400 and got %s (%s)' %
-                (customer_profile_response.status_code,
-                 httplib.responses[customer_profile_response.status_code]))
+            msg='Expected 400 and got %s' %
+                httplib.responses[customer_profile_response.status_code])
         self.assertEquals(
             customer_profile_response_dict['message'], expected_message,
             msg="Expected message is %s and got is %s" %
@@ -533,7 +539,7 @@ class CustomerProfileTestCases(unittest.TestCase):
         """ Testing with the mis match customer_id and the valid address
         title to get the details of the customer """
         customer_profile_address_url_change = CUSTOMER_SERVICE_URL + str(
-            customer_service.cust_id) + ' "/addresses/" '
+            customer_service.customerId) + ' "/addresses/" '
         customer_profile_response = customer_service.request(
             RequestType.GET,
             customer_profile_address_url_change + "Restore_Job")

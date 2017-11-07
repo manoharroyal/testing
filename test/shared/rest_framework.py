@@ -1,11 +1,12 @@
 import json
+import sys
 import requests
 import jwt
-
-""" Helper functions are goes here """
 from enum import Enum
 
 LOGIN_URL = "https://sso.teradatacloud.io/oauth/ro"
+
+""" Helper functions are goes here """
 
 
 class RequestType(Enum):
@@ -28,36 +29,50 @@ class RestAPIHeader(object):
 
     def __init__(self, utype='valid'):
         self.response = None
+        self.id_token = None
         if utype == 'valid':
-            self.token, self.cust_id = self.generate_token()
+            self.id_token, self.customerId = self.generate_token()
         if utype == 'invalid':
-            self.token, self.cust_id = self.generate_invalid_token()
-        self.token = "Bearer " + str(self.token)
-
+            self.id_token, self.customerId = self.generate_invalid_token()
+        self.id_token = "Bearer " + self.id_token
 
     def generate_token(self):
-        """ Generation of agent_token """
+        """ Generation of token """
 
-        username = "customer.one"
-        password = "pass@word1"
-        agent_url = ""
-        data = {"username": username, "password": password}
-        response = requests.post(agent_url, data=json.dumps(data))
-        return response.json()['token'], response.json()['customer_id']
+        data = {
+            "client_id": "h4psC1NTevUPYCJ6hTa76htrup4UNIyq",
+            "username": "customer.one",
+            "password": "pass@word1",
+            "connection": "AD-DEV",
+            "grant_type": "password",
+            "scope": "openid profile roles customerId userId serviceNowUserId"
+        }
+        header = {
+            "Content-Type": "application/json"
+        }
+        response = requests.post(LOGIN_URL, data=json.dumps(data),
+                                 headers=header)
+        encode = str(response.json()['id_token'])
+        decode = jwt.decode(encode, 'secret', algorithm=['RS256'], verify=False)
+        customerId = (decode['customerId'])
+        return str(response.json()['id_token']), customerId
+        # else:
+        #     print "login failure"
+        #     sys.exit(1)
 
     def generate_invalid_token(self):
         """ Function to generate invalid token """
-        token_url, cust_id = self.generate_token()
+        token_url, customerId = self.generate_token()
         jwt_dict = jwt.decode(token_url, verify=False)
-        jwt_dict['customer_id'] = '1' + cust_id + '234'
-        cust_id = '1' + cust_id + '234'
+        jwt_dict['customerId'] = customerId + '234'
+        customerId = customerId + '234'
         token_url = jwt.encode(jwt_dict, 'secret', algorithm='HS256')
-        return token_url, cust_id
+        return token_url, customerId
 
     def request(self, method=None, url=None, payload=None):
         """ Do the actual request with validation """
         header = {
-            'authorization': self.token,
+            'authorization': self.id_token,
             'content-type': "application/json"
         }
 
@@ -97,3 +112,7 @@ class RestAPIHeader(object):
                 raise
 
         return self.response
+
+if __name__ == '__main__':
+    api = RestAPIHeader()
+    api.generate_token()

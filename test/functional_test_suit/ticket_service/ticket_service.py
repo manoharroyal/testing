@@ -30,7 +30,7 @@ class TicketService(unittest.TestCase):
             RequestType.PUT, TICKET_SERVICE_URL,
             payload=TicketServicePayload().update_ticket_payload())
         self.assertEquals(
-            ticket_response.status_code, 400,
-            msg="Expected 200 and actual is %s (%s)" %
+            ticket_response.status_code, 401,
+            msg="Expected 401 and actual is %s (%s)" %
                 (ticket_response.status_code,
                  httplib.responses[ticket_response.status_code]))

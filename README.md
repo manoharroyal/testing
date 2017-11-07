@@ -19,7 +19,7 @@ Repository including functional and integration tests
     make customer_profile_service
 
     # making functional-test-suit
-    make functional-test
+    make -k functional-test
 
 **4. Running the Test Functions manually**
 

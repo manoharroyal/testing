@@ -160,8 +160,10 @@ class SeedJobServicePayload(object):
 
     def system_credentials(self, db_user_name='dbc', db_user_password='dbc'):
         """ Credentials for the database """
-        payload = {"db_user_name": db_user_name,
-                   "db_user_password": db_user_password}
+        payload = {
+            "db_user_name": db_user_name,
+            "db_user_password": db_user_password
+        }
         return payload
 
     def expected_payload(self, created_at="2017-09-06 06:34:35.274153",

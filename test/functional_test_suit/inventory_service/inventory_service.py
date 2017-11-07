@@ -24,8 +24,9 @@ class InventoryServiceTestcases(unittest.TestCase):
         self.assertEquals(add_item_response.status_code, 200,
                           msg="Expected code is 200 and got is %s" %
                               add_item_response.status_code)
-        self.assertIn(response_dict, input_dict,
-                      msg="Expected %s in %s" % (response_dict, input_dict))
+        self.assertDictContainsSubset(
+            response_dict, input_dict,
+            msg="Expected %s in %s" % (response_dict.keys(), input_dict.keys()))
 
     def test_add_item_with_invalid_item_id(self):
         """ Testing with invalid item id to add an item into the inventory """
@@ -41,8 +42,9 @@ class InventoryServiceTestcases(unittest.TestCase):
             add_item_response.status_code, 200,
             msg="Expected code is 200 and got is %s" %
                 add_item_response.status_code)
-        self.assertIn(response_dict, input_dict,
-                      msg="Expected %s in %s" % (response_dict, input_dict))
+        self.assertDictContainsSubset(
+            response_dict, input_dict,
+            msg="Expected %s in %s" % (input_dict.keys(), response_dict.keys()))
 
     def test_add_item_with_invalid_hw_model(self):
         """ Testing with invalid hardware_model to add an

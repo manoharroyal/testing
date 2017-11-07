@@ -10,7 +10,6 @@ from api_functional_testing.test.functional_test_suit.common.payloads import \
     SystemServicePayload
 
 system_service = RestAPIHeader()
-system_service_invalid_token = RestAPIHeader(utype='un user')
 
 
 class SystemServiceTestCases(unittest.TestCase):
@@ -269,7 +268,7 @@ class SystemServiceTestCases(unittest.TestCase):
 
     def test_get_systems_customer_with_invalid_token(self):
         """ Testing with the invalid token to get customer system details """
-        customer_systems_response = system_service_invalid_token.request(
+        customer_systems_response = system_service.request(
             RequestType.GET, SYSTEM_API_URL + '/customer')
         response_dict = customer_systems_response.json()
         expected_message = 'exceptions while validating token'

@@ -1,6 +1,6 @@
 """ All Constants goes here """
 
-CUSTOMER_SERVICE_URL = "https://uhwmexpme2.execute-api.us-east-1.amazonaws.com/test/customer-profiles/"
+CUSTOMER_SERVICE_URL = "https://oywvlaayha.execute-api.us-west-2.amazonaws.com/dev/customer-profiles/"
 
 INVENTORY_SERVICE_URL = "https://ipn2b7o6dj.execute-api.us-west-2.amazonaws.com/sb186123dev/inventory/items"
 
