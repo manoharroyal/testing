@@ -37,7 +37,7 @@ class CustomerProfileTestCases(unittest.TestCase):
             customer_profile_address_url + "Restore_Job").json()
         self.assertEquals(
             customer_profile_response.status_code, 200,
-            msg="Expected 200 [success] and got %s (%s)" %
+            msg="Expected 200 and got %s (%s)" %
                 (customer_profile_response.status_code,
                  httplib.responses[customer_profile_response.status_code]))
         self.assertDictContainsSubset(
@@ -511,8 +511,9 @@ class CustomerProfileTestCases(unittest.TestCase):
         expected_message = "Customer_id mismatch"
         self.assertEquals(
             customer_profile_response.status_code, 400,
-            msg='Expected 400 and got %s' %
-                httplib.responses[customer_profile_response.status_code])
+            msg='Expected 400 and got %s (%s)' %
+                (customer_profile_response.status_code,
+                 httplib.responses[customer_profile_response.status_code]))
         self.assertEquals(
             customer_profile_response_dict['message'], expected_message,
             msg="Expected message is %s and got is %s" %

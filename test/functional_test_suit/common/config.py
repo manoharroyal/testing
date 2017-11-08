@@ -12,19 +12,12 @@ with open(path + "/env/configuration.yaml", 'r') as stream:
 
 """ All Constants goes here """
 
-CUSTOMER_SERVICE_URL = config_data['CUSTOMER_SERVICE_URL']
-
-INVENTORY_SERVICE_URL = config_data['INVENTORY_SERVICE_URL']
-
-SYSTEM_SERVICE_URL = config_data['SYSTEM_SERVICE_URL']
-
-SYSTEM_API_URL = config_data['SYSTEM_API_URL']
-
-SEED_JOB_URL = config_data['SEED_JOB_URL']
-
-AGENT_SERVICE_URL = config_data['AGENT_SERVICE_URL']
-
-TICKET_SERVICE_URL = config_data['TICKET_SERVICE_URL']
+CUSTOMER_SERVICE_URL = config_data['BASE_URL'].format(config_data['CUSTOMER_SERVICE_API_ID']) + "/inventory/items"
+INVENTORY_SERVICE_URL = config_data['BASE_URL'].format(config_data['INVENTORY_SERVICE_API_ID'])
+SYSTEM_SERVICE_URL = config_data['BASE_URL'].format(config_data['SYSTEM_SERVICE_API_ID'])
+SEED_JOB_URL = config_data['BASE_URL'].format(config_data['SEED_JOB_API_ID']) + "/seed-jobs/"
+AGENT_SERVICE_URL = config_data['BASE_URL'].format(config_data['AGENT_SERVICE_API_ID']) + "/agent/"
+TICKET_SERVICE_URL = config_data['BASE_URL'].format(config_data['TICKET_SERVICE_API_ID']) + "/tickets/{ticket_id}"
 
 TEMP_KEY = config_data['TEMP_KEY']
 SEED_JOB_ID = config_data['SEED_JOB_ID']

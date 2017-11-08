@@ -25,8 +25,9 @@ class JobServiceTestCases(unittest.TestCase):
         create_job_response_dict = create_job_response.json()
         self.assertEquals(
             create_job_response.status_code, 200,
-            msg="Expected code is 200 and got is %s" %
-                httplib.responses[create_job_response.status_code])
+            msg="Expected code is 200 and got is %s (%s)" % 
+                (create_job_response.status_code, 
+                 httplib.responses[create_job_response.status_code]))
         self.assertIn(
             create_job_response_dict.keys, expected_dict.keys, 
             msg="Expected %s in %s" % 
@@ -43,8 +44,9 @@ class JobServiceTestCases(unittest.TestCase):
         error_message = "Failed to create Job as failed to fetch system"
         self.assertEquals(
             create_job_response.status_code, 403,
-            msg="Expected code is 403 and got is %s" %
-                httplib.responses[create_job_response.status_code])
+            msg="Expected code is 403 and got is %s (%s)" %
+                (create_job_response.status_code,
+                 httplib.responses[create_job_response.status_code]))
         self.assertIn(
             error_message, create_job_response_dict['message'],
             msg="Expected %s in %s" %
@@ -61,8 +63,9 @@ class JobServiceTestCases(unittest.TestCase):
         error_message = "Failed to create Job as failed to fetch system"
         self.assertEquals(
             create_job_response.status_code, 403,
-            msg="Expected code is 403 and got is %s" %
-                httplib.responses[create_job_response.status_code])
+            msg="Expected code is 403 and got is %s (%s)" %
+                (create_job_response.status_code,
+                 httplib.responses[create_job_response.status_code]))
         self.assertIn(
             error_message, create_job_response_dict['message'],
             msg="Expected %s in %s" %
@@ -79,8 +82,9 @@ class JobServiceTestCases(unittest.TestCase):
                         "failed to fetch address address_title"
         self.assertEquals(
             create_job_response.status_code, 403, 
-            msg="Expected code is 403 and got is %s" %
-                httplib.responses[create_job_response.status_code])
+            msg="Expected code is 403 and got is %s (%s)" % (
+                create_job_response.status_code,
+                httplib.responses[create_job_response.status_code]))
         self.assertIn(
             error_message, create_job_response_dict['message'], 
             msg="Expected %s in %s" % 
@@ -97,8 +101,9 @@ class JobServiceTestCases(unittest.TestCase):
                         "failed to fetch address address_title"
         self.assertEquals(
             create_job_response.status_code, 403, 
-            msg="Expected code is 403 and got is %s" %
-                httplib.responses[create_job_response.status_code])
+            msg="Expected code is 403 and got is %s (%s)" % (
+                create_job_response.status_code,
+                httplib.responses[create_job_response.status_code]))
         self.assertIn(
             error_message, create_job_response_dict['message'],
             msg="Expected %s in %s" % 
@@ -113,8 +118,9 @@ class JobServiceTestCases(unittest.TestCase):
         error_message = "Job name must be provided"
         self.assertEquals(
             create_job_response.status_code, 400,
-            msg="Expected code is 400 and got is %s" %
-                httplib.responses[create_job_response.status_code])
+            msg="Expected code is 400 and got is %s (%s)" % (
+                create_job_response.status_code,
+                httplib.responses[create_job_response.status_code]))
         self.assertEquals(
             create_job_response_dict['message'], error_message,
             msg="Expected %s in %s" %
@@ -130,8 +136,9 @@ class JobServiceTestCases(unittest.TestCase):
         error_message = "Job type must be provided"
         self.assertEquals(
             create_job_response.status_code, 400,
-            msg="Expected code is 400 and got is %s" %
-                httplib.responses[create_job_response.status_code])
+            msg="Expected code is 400 and got is %s (%s)" % (
+                create_job_response.status_code,
+                httplib.responses[create_job_response.status_code]))
         self.assertEquals(
             create_job_response_dict['message'], error_message,
             msg="Expected %s in %s" %
@@ -147,8 +154,9 @@ class JobServiceTestCases(unittest.TestCase):
         error_message = "Source System Id should be present"
         self.assertEquals(
             create_job_response.status_code, 400,
-            msg="Expected code is 400 and got is %s" %
-                httplib.responses[create_job_response.status_code])
+            msg="Expected code is 400 and got is %s (%s)" % (
+                create_job_response.status_code,
+                httplib.responses[create_job_response.status_code]))
         self.assertEquals(
             create_job_response_dict['message'], error_message,
             msg="Expected %s in %s" %
@@ -164,8 +172,9 @@ class JobServiceTestCases(unittest.TestCase):
         error_message = "Target System Id should be present"
         self.assertEquals(
             create_job_response.status_code, 400,
-            msg="Expected code is 200 and got is %s" %
-                httplib.responses[create_job_response.status_code])
+            msg="Expected code is 200 and got is %s (%s)" % (
+            create_job_response.status_code,
+            httplib.responses[create_job_response.status_code]))
         self.assertEquals(
             create_job_response_dict['message'], error_message,
             msg="Expected %s in %s" %
@@ -181,8 +190,9 @@ class JobServiceTestCases(unittest.TestCase):
         error_message = "Address Title should be present"
         self.assertEquals(
             create_job_response.status_code, 400,
-            msg="Expected code is 200 and got is %s" %
-                httplib.responses[create_job_response.status_code])
+            msg="Expected code is 200 and got is %s (%s)" % (
+            create_job_response.status_code,
+            httplib.responses[create_job_response.status_code]))
         self.assertEquals(
             create_job_response_dict['message'], error_message,
             msg="Expected %s in %s" %
@@ -198,8 +208,9 @@ class JobServiceTestCases(unittest.TestCase):
         error_message = "Job description must be provided"
         self.assertEquals(
             create_job_response.status_code, 400,
-            msg="Expected code is 200 and got is %s" %
-                httplib.responses[create_job_response.status_code])
+            msg="Expected code is 200 and got is %s (%s)" % (
+            create_job_response.status_code,
+            httplib.responses[create_job_response.status_code]))
         self.assertEquals(
             create_job_response_dict['message'], error_message,
             msg="Expected %s in %s" %
@@ -215,8 +226,9 @@ class JobServiceTestCases(unittest.TestCase):
         error_message = "Data Size must be provided"
         self.assertEquals(
             create_job_response.status_code, 400,
-            msg="Expected code is 200 and got is %s" %
-                httplib.responses[create_job_response.status_code])
+            msg="Expected code is 200 and got is %s (%s)" % (
+            create_job_response.status_code,
+            httplib.responses[create_job_response.status_code]))
         self.assertEquals(
             create_job_response_dict['message'], error_message,
             msg="Expected %s in %s" %
@@ -233,8 +245,9 @@ class JobServiceTestCases(unittest.TestCase):
         create_job_response_dict = create_job_response.json()
         self.assertEquals(
             create_job_response.status_code, 400,
-            msg="Expected code is 200 and got is %s" %
-                httplib.responses[create_job_response.status_code])
+            msg="Expected code is 200 and got is %s (%s)" % (
+            create_job_response.status_code,
+            httplib.responses[create_job_response.status_code]))
         self.assertItemsEqual(
             create_job_response_dict, expected_dict,
             msg="Expected %s in %s" % 
@@ -250,8 +263,9 @@ class JobServiceTestCases(unittest.TestCase):
         create_job_response_dict = create_job_response.json()
         self.assertEquals(
             create_job_response.status_code, 201,
-            msg="Expected code is 200 and got is %s" %
-                httplib.responses[create_job_response.status_code])
+            msg="Expected code is 200 and got is %s (%s)" % (
+            create_job_response.status_code,
+            httplib.responses[create_job_response.status_code]))
         self.assertItemsEqual(
             create_job_response_dict, expected_dict,
             msg="Expected %s in %s" %
@@ -265,8 +279,9 @@ class JobServiceTestCases(unittest.TestCase):
         job_lists_response = job_service.request(RequestType.GET, SEED_JOB_URL)
         self.assertEquals(
             job_lists_response.status_code, 200,
-            msg="Expected code is 200 and got is %s" %
-                httplib.responses[job_lists_response.status_code])
+            msg="Expected code is 200 and got is %s (%s)" % (
+            job_lists_response.status_code,
+            httplib.responses[job_lists_response.status_code]))
         self.assertIn(
             'jobs', job_lists_response.json().keys(),
             msg="Expected %s in %s" %
@@ -278,8 +293,9 @@ class JobServiceTestCases(unittest.TestCase):
             RequestType.GET, INVALID_SEED_JOB_URL)
         self.assertEquals(
             job_lists_response.status_code, 404,
-            msg="Expected code is 200 and got is %s" %
-                httplib.responses[job_lists_response.status_code])
+            msg="Expected code is 200 and got is %s (%s)" % (
+            job_lists_response.status_code,
+            httplib.responses[job_lists_response.status_code]))
         self.assertIn(
             'message', job_lists_response.json().keys(),
             msg="Expected %s in %s" % 
@@ -294,8 +310,9 @@ class JobServiceTestCases(unittest.TestCase):
             RequestType.GET, seed_job_url(SEED_JOB_ID))
         self.assertEquals(
             job_details_response.status_code, 200,
-            msg="Expected code is 200 and got is %s" %
-                httplib.responses[job_details_response.status_code])
+            msg="Expected code is 200 and got is %s (%s)" % (
+                job_details_response.status_code,
+                httplib.responses[job_details_response.status_code]))
         self.assertIn(
             'timeline_status', job_details_response.json().keys(), 
             msg="Expected %s in %s" % 
@@ -309,8 +326,9 @@ class JobServiceTestCases(unittest.TestCase):
         error_message = "Seed Job does not exists"
         self.assertEquals(
             job_details_response.status_code, 404,
-            msg="Expected code is 404 and got is %s" %
-                httplib.responses[job_details_response.status_code])
+            msg="Expected code is 404 and got is %s (%s)" % (
+                job_details_response.status_code,
+                httplib.responses[job_details_response.status_code]))
         self.assertEquals(
             job_details_response.json()['message'], error_message,
             msg="Expected %s in %s" % (error_message,
@@ -324,8 +342,9 @@ class JobServiceTestCases(unittest.TestCase):
         error_message = "Seed Job does not exists"
         self.assertEquals(
             job_details_response.status_code, 404,
-            msg="Expected code is 404 and got is %s" %
-                httplib.responses[job_details_response.status_code])
+            msg="Expected code is 404 and got is %s (%s)" % (
+                job_details_response.status_code,
+                httplib.responses[job_details_response.status_code]))
         self.assertEquals(
             job_details_response.json()['message'], error_message,
             msg="Expected %s in %s" % 
@@ -341,8 +360,9 @@ class JobServiceTestCases(unittest.TestCase):
             payload=SeedJobServicePayload().update_seed_job_payload())
         self.assertEquals(
             job_update_response.status_code, 202,
-            msg="Expected code is 200 and got is %s" %
-                httplib.responses[job_update_response.status_code])
+            msg="Expected code is 202 and got is %s (%s)" % (
+                job_update_response.status_code,
+                httplib.responses[job_update_response.status_code]))
 
     def test_job_update_with_invalid_job_id(self):
         """ Testing with the invalid job_id to update
@@ -352,8 +372,9 @@ class JobServiceTestCases(unittest.TestCase):
             payload=SeedJobServicePayload().update_seed_job_payload())
         self.assertEquals(
             job_update_response.status_code, 404,
-            msg="Expected code is 200 and got is %s" %
-                httplib.responses[job_update_response.status_code])
+            msg="Expected code is 200 and got is %s (%s)" % (
+                job_update_response.status_code,
+                httplib.responses[job_update_response.status_code]))
 
     def test_job_update_without_job_id(self):
         """ Testing without job_id to update the details of seed_job """
@@ -362,8 +383,9 @@ class JobServiceTestCases(unittest.TestCase):
             payload=SeedJobServicePayload().update_seed_job_payload())
         self.assertEquals(
             job_update_response.status_code, 403,
-            msg="Expected code is 200 and got is %s" %
-                httplib.responses[job_update_response.status_code])
+            msg="Expected code is 200 and got is %s (%s)" % (
+                job_update_response.status_code,
+                httplib.responses[job_update_response.status_code]))
 
     def test_job_update_with_invalid_source_system_id(self):
         """ Testing with invalid source_system_id to
@@ -374,8 +396,9 @@ class JobServiceTestCases(unittest.TestCase):
             (source_system_id='26xv762 @'))
         self.assertEquals(
             job_update_response.status_code, 400,
-            msg="Expected code is 200 and got is %s" %
-                httplib.responses[job_update_response.status_code])
+            msg="Expected code is 200 and got is %s (%s)" % (
+                job_update_response.status_code,
+                httplib.responses[job_update_response.status_code]))
 
     def test_job_update_with_invalid_target_system_id(self):
         """ Testing with the invalid target_system_id to
@@ -386,8 +409,9 @@ class JobServiceTestCases(unittest.TestCase):
             (target_system_id="dvwy27@"))
         self.assertEquals(
             job_update_response.status_code, 400,
-            msg="Expected code is 200 and got is %s" %
-                httplib.responses[job_update_response.status_code])
+            msg="Expected code is 200 and got is %s (%s)" % (
+                job_update_response.status_code,
+                httplib.responses[job_update_response.status_code]))
 
     # DELETE: delete the job
     """ Delete the seed job with job id"""
@@ -400,8 +424,9 @@ class JobServiceTestCases(unittest.TestCase):
         message = "Seed Job is deleted"
         self.assertEquals(
             job_delete_response.status_code, 200,
-            msg="Expected code is 200 and got is %s" %
-                httplib.responses[job_delete_response.status_code])
+            msg="Expected code is 200 and got is %s (%s)" % (
+                job_delete_response.status_code,
+                httplib.responses[job_delete_response.status_code]))
         self.assertEquals(
             job_delete_response_dict['message'], message, 
             msg="Expected %s in %s" % 
@@ -415,8 +440,9 @@ class JobServiceTestCases(unittest.TestCase):
         error_message = "does not exists"
         self.assertEquals(
             job_delete_response.status_code, 404,
-            msg="Expected code is 200 and got is %s" %
-                httplib.responses[job_delete_response.status_code])
+            msg="Expected code is 200 and got is %s (%s)" % (
+                job_delete_response.status_code,
+                httplib.responses[job_delete_response.status_code]))
         self.assertEquals(
             job_delete_response_dict['message'], error_message, 
             msg="Expected %s in %s" % 
@@ -429,8 +455,9 @@ class JobServiceTestCases(unittest.TestCase):
         job_delete_response_dict = job_delete_response.json()
         self.assertEquals(
             job_delete_response.status_code, 403,
-            msg="Expected code is 200 and got is %s" %
-                httplib.responses[job_delete_response.status_code])
+            msg="Expected code is 200 and got is %s (%s)" % (
+                job_delete_response.status_code,
+                httplib.responses[job_delete_response.status_code]))
         self.assertIn(
             'message', job_delete_response_dict.keys(), 
             msg="Expected %s in %s" % 
@@ -446,8 +473,9 @@ class JobServiceTestCases(unittest.TestCase):
             payload=SeedJobServicePayload().system_credentials())
         self.assertEquals(
             user_action_response.status_code, 202,
-            msg="Expected code is 200 and got is %s" %
-                httplib.responses[user_action_response.status_code])
+            msg="Expected code is 200 and got is %s (%s)" % (
+                user_action_response.status_code,
+                httplib.responses[user_action_response.status_code]))
 
     def test_action_with_invalid_id(self):
         """ Testing with the invalid job_id to take an action on job by user """
@@ -459,8 +487,9 @@ class JobServiceTestCases(unittest.TestCase):
                   "655-9bde-9fad3304cb0f12 does not exists"
         self.assertEquals(
             user_action_response.status_code, 404,
-            msg="Expected code is 200 and got is %s" %
-                httplib.responses[user_action_response.status_code])
+            msg="Expected code is 200 and got is %s (%s)" % (
+                user_action_response.status_code,
+                httplib.responses[user_action_response.status_code]))
         self.assertEquals(
             user_action_response_dict['message'], message, 
             msg="Expected %s in %s" % 
@@ -477,8 +506,9 @@ class JobServiceTestCases(unittest.TestCase):
                   "An AttributeValue may not contain an empty string"
         self.assertEquals(
             user_action_response.status_code, 403,
-            msg="Expected code is 200 and got is %s" %
-                httplib.responses[user_action_response.status_code])
+            msg="Expected code is 200 and got is %s (%s)" % (
+                user_action_response.status_code,
+                httplib.responses[user_action_response.status_code]))
         self.assertEquals(
             user_action_response_dict['message'], message, 
             msg="Expected %s in %s" % 
@@ -497,8 +527,9 @@ class JobServiceTestCases(unittest.TestCase):
                   "still not connected to Network"
         self.assertEquals(
             user_action_response.status_code, 400,
-            msg="Expected code is 200 and got is %s" %
-                httplib.responses[user_action_response.status_code])
+            msg="Expected code is 200 and got is %s (%s)" % (
+                user_action_response.status_code,
+                httplib.responses[user_action_response.status_code]))
         self.assertEquals(
             user_action_response_dict['message'], message, 
             msg="Expected %s in %s" % 
@@ -517,8 +548,9 @@ class JobServiceTestCases(unittest.TestCase):
                   "not connected to Network"
         self.assertEquals(
             user_action_response.status_code, 400,
-            msg="Expected code is 400 and got is %s" %
-                httplib.responses[user_action_response.status_code])
+            msg="Expected code is 400 and got is %s (%s)" % (
+                user_action_response.status_code,
+                httplib.responses[user_action_response.status_code]))
         self.assertEquals(
             user_action_response_dict['message'], message, 
             msg="Expected %s in %s" % 
@@ -534,8 +566,9 @@ class JobServiceTestCases(unittest.TestCase):
             payload=SeedJobServicePayload().approve_payload())
         self.assertEquals(
             approve_job_response.status_code, 200,
-            msg="Expected code is 200 and got is %s" %
-                httplib.responses[approve_job_response.status_code])
+            msg="Expected code is 200 and got is %s (%s)" % (
+                approve_job_response.status_code,
+                httplib.responses[approve_job_response.status_code]))
 
     def test_approve_job_with_invalid_job_id(self):
         """ Testing with invalid job_id to approve the seed job by admin """
@@ -546,8 +579,9 @@ class JobServiceTestCases(unittest.TestCase):
         message = "does not exists"
         self.assertEquals(
             approve_job_response.status_code, 404,
-            msg="Expected code is 404 and got is %s" %
-                httplib.responses[approve_job_response.status_code])
+            msg="Expected code is 404 and got is %s (%s)" % (
+                approve_job_response.status_code,
+                httplib.responses[approve_job_response.status_code]))
         self.assertEquals(
             approve_job_response_dict['message'], message, 
             msg="Expected %s in %s" % 
@@ -562,8 +596,9 @@ class JobServiceTestCases(unittest.TestCase):
         message = "User is not authorized to perform this action"
         self.assertEquals(
             approve_job_response.status_code, 401,
-            msg="Expected code is 401 and got is %s" %
-                httplib.responses[approve_job_response.status_code])
+            msg="Expected code is 401 and got is %s (%s)" % (
+                approve_job_response.status_code,
+                httplib.responses[approve_job_response.status_code]))
         self.assertEquals(
             approve_job_response_dict['message'], message, 
             msg="Expected %s in %s" % 
@@ -580,8 +615,9 @@ class JobServiceTestCases(unittest.TestCase):
             payload=SeedJobServicePayload().update_job_logs())
         self.assertEquals(
             agent_action_response.status_code, 200,
-            msg="Expected code is 200 and got is %s" %
-                httplib.responses[agent_action_response.status_code])
+            msg="Expected code is 200 and got is %s (%s)" % (
+                agent_action_response.status_code,
+                httplib.responses[agent_action_response.status_code]))
 
     def test_agent_actio_with_invalid_job_id(self):
         """ Testing with invalid job_id to take an action on job by an agent """
@@ -595,7 +631,8 @@ class JobServiceTestCases(unittest.TestCase):
         self.assertEquals(
             agent_action_response.status_code, 404,
             msg="Expected code is 404 and got is %s (%s)" %
-                (agent_action_response.status_code, httplib.responses[agent_action_response.status_code]))
+                (agent_action_response.status_code,
+                 httplib.responses[agent_action_response.status_code]))
         self.assertEquals(
             agent_action_response_dict['message'], message, 
             msg="Expected %s in %s" % 
@@ -612,8 +649,9 @@ class JobServiceTestCases(unittest.TestCase):
         message = "for action test_conn_source_success db objects required"
         self.assertEquals(
             agent_action_response.status_code, 400,
-            msg="Expected code is 400 and got is %s" %
-                httplib.responses[agent_action_response.status_code])
+            msg="Expected code is 400 and got is %s (%s)" % (
+                agent_action_response.status_code,
+                httplib.responses[agent_action_response.status_code]))
         self.assertEquals(
             agent_action_response_dict['message'], message, 
             msg="Expected %s in %s" % 
@@ -631,8 +669,9 @@ class JobServiceTestCases(unittest.TestCase):
         message = "Job Log updated"
         self.assertEquals(
             update_job_logs_response.status_code, 202,
-            msg="Expected code is 202 and got is %s" %
-                httplib.responses[update_job_logs_response.status_code])
+            msg="Expected code is 202 and got is %s (%s)" % (
+                update_job_logs_response.status_code,
+                httplib.responses[update_job_logs_response.status_code]))
         self.assertEquals(
             update_job_logs_response_dict['message'], message, 
             msg="Expected %s in %s" % 
@@ -647,8 +686,9 @@ class JobServiceTestCases(unittest.TestCase):
         message = "does not exists"
         self.assertEquals(
             update_job_logs_response.status_code, 403,
-            msg="Expected code is 403 and got is %s" %
-                httplib.responses[update_job_logs_response.status_code])
+            msg="Expected code is 403 and got is %s (%s)" % (
+                update_job_logs_response.status_code,
+                httplib.responses[update_job_logs_response.status_code]))
         self.assertIn(
             message, update_job_logs_response_dict['message'],
             msg="Expected %s in %s" %

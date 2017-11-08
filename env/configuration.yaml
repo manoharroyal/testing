@@ -1,16 +1,15 @@
-CUSTOMER_SERVICE_URL: "https://oywvlaayha.execute-api.us-west-2.amazonaws.com/dev/customer-profiles/"
+# Do Not change this Base url
+BASE_URL:  "https://{0}.execute-api.us-west-2.amazonaws.com/dev/"
 
-INVENTORY_SERVICE_URL: "https://ipn2b7o6dj.execute-api.us-west-2.amazonaws.com/sb186123dev/inventory/items"
-
-SYSTEM_SERVICE_URL: "https://tlgz19gbal.execute-api.us-west-2.amazonaws.com/dev/system"
-
-SYSTEM_API_URL: "https://tlgz19gbal.execute-api.us-west-2.amazonaws.com/dev/"
-
-SEED_JOB_URL: "https://ulqh6w1du6.execute-api.us-west-2.amazonaws.com/dev/seed-jobs/"
-
-AGENT_SERVICE_URL: "https://4k0bte7z20.execute-api.us-west-2.amazonaws.com/dev/agent"
-
-TICKET_SERVICE_URL: "https://wl0qnbvoqf.execute-api.us-west-2.amazonaws.com/vr186027dev/tickets/{ticket_id}"
+# eg: 
+#     https://oywvlaayha.execute-api.us-west-2.amazonaws.com/dev/
+#     Here api_id: oywvlaayha
+CUSTOMER_SERVICE_API_ID: "oywvlaayha"
+INVENTORY_SERVICE_API_ID: "vrrw4gamg3"
+SYSTEM_SERVICE_API_ID: "tlgz19gbal"
+SEED_JOB_API_ID: "ulqh6w1du6"
+AGENT_SERVICE_API_ID: "4k0bte7z20"
+TICKET_SERVICE_API_ID: "om5u1cc0bc"
 
 TEMP_KEY: 'bb90c867-a02e-4868-bfff-a8ef9c5f68eb2'
 SEED_JOB_ID: 'ee5ca93d-a60f-4655-9bde-9fad3304cb0f'
