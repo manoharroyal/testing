@@ -1,19 +1,34 @@
+import os
+import yaml
+
+path = os.environ['PYTHONPATH']
+
+with open(path + "/env/configuration.yaml", 'r') as stream:
+    try:
+       config_data = yaml.load(stream)
+    except yaml.YAMLError as exc:
+        print("Cannot able to access input configuration")
+
+
 """ All Constants goes here """
 
-CUSTOMER_SERVICE_URL = "https://oywvlaayha.execute-api.us-west-2.amazonaws.com/dev/customer-profiles/"
+CUSTOMER_SERVICE_URL = config_data['CUSTOMER_SERVICE_URL']
 
-INVENTORY_SERVICE_URL = "https://ipn2b7o6dj.execute-api.us-west-2.amazonaws.com/sb186123dev/inventory/items"
+INVENTORY_SERVICE_URL = config_data['INVENTORY_SERVICE_URL']
 
-SYSTEM_SERVICE_URL = "https://tlgz19gbal.execute-api.us-west-2.amazonaws.com/dev/system"
+SYSTEM_SERVICE_URL = config_data['SYSTEM_SERVICE_URL']
 
-SYSTEM_API_URL = "https://tlgz19gbal.execute-api.us-west-2.amazonaws.com/dev/"
+SYSTEM_API_URL = config_data['SYSTEM_API_URL']
 
-SEED_JOB_URL = "https://ulqh6w1du6.execute-api.us-west-2.amazonaws.com/dev/seed-jobs/"
+SEED_JOB_URL = config_data['SEED_JOB_URL']
 
-AGENT_SERVICE_URL = "https://4k0bte7z20.execute-api.us-west-2.amazonaws.com/dev/agent"
+AGENT_SERVICE_URL = config_data['AGENT_SERVICE_URL']
 
-TICKET_SERVICE_URL = "https://wl0qnbvoqf.execute-api.us-west-2.amazonaws.com/vr186027dev/tickets/{ticket_id}"
+TICKET_SERVICE_URL = config_data['TICKET_SERVICE_URL']
 
+TEMP_KEY = config_data['TEMP_KEY']
+SEED_JOB_ID = config_data['SEED_JOB_ID']
+DELETE_JOB_ID = config_data['DELETE_JOB_ID']
 
 """ Setting up the parameters with urls """
 
@@ -49,7 +64,7 @@ def target_system_url(target_system, site_id):
 
 LIST_AGENT_TASK_URL = AGENT_SERVICE_URL + '/tasks'
 REGISTER_AGENT_URL = AGENT_SERVICE_URL + '/register'
-
+INVALID_SEED_JOB_URL = SEED_JOB_URL+"234"
 
 def update_agent_task_url(task_id):
     """ Url to update the agent task status """
@@ -59,12 +74,6 @@ def update_agent_task_url(task_id):
 def agent_details_url(agent_id):
     """ Get the details agent """
     return '%s/%s' % (AGENT_SERVICE_URL, agent_id)
-
-INVALID_SEED_JOB_URL = SEED_JOB_URL+"234"
-TEMP_KEY = 'bb90c867-a02e-4868-bfff-a8ef9c5f68eb2'
-SEED_JOB_ID = 'ee5ca93d-a60f-4655-9bde-9fad3304cb0f'
-DELETE_JOB_ID = '30b93452-71c3-4522-909b-016ea82ee13d'
-
 
 def seed_job_url(seed_jobid):
     """ Url to GET details of seed job and update the seed job and

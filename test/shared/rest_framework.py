@@ -1,10 +1,20 @@
+import os
 import json
 import sys
 import requests
 import jwt
 from enum import Enum
+import yaml
 
-LOGIN_URL = "https://sso.teradatacloud.io/oauth/ro"
+path = os.environ['PYTHONPATH']
+
+with open(path + "/env/login.yaml", 'r') as stream:
+    try:
+       config_data = yaml.load(stream)
+    except yaml.YAMLError as exc:
+        print("Cannot able to access input configuration")
+
+LOGIN_URL = config_data['LOGIN_URL']
 
 """ Helper functions are goes here """
 
@@ -40,21 +50,27 @@ class RestAPIHeader(object):
         """ Generation of token """
 
         data = {
-            "client_id": "h4psC1NTevUPYCJ6hTa76htrup4UNIyq",
-            "username": "customer.one",
-            "password": "pass@word1",
-            "connection": "AD-DEV",
-            "grant_type": "password",
-            "scope": "openid profile roles customerId userId serviceNowUserId"
+            "client_id": config_data['client_id'],
+            "username": config_data['username'],
+            "password": config_data['password'],
+            "connection": config_data['connection'],
+            "grant_type": config_data['grant_type'],
+            "scope": config_data['scope']
         }
+
         header = {
             "Content-Type": "application/json"
         }
         response = requests.post(LOGIN_URL, data=json.dumps(data),
                                  headers=header)
-        encode = str(response.json()['id_token'])
+        try:
+            encode = str(response.json()['id_token'])
+        except:
+            print "Cannot able to parse the token in Login"
+            sys.exit(1)
         decode = jwt.decode(encode, 'secret', algorithm=['RS256'], verify=False)
         customerId = (decode['customerId'])
+        print "response.json()['id_token']", response.json()['id_token']
         return str(response.json()['id_token']), customerId
         # else:
         #     print "login failure"
@@ -112,4 +128,3 @@ class RestAPIHeader(object):
                 raise
 
         return self.response
-

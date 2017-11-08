@@ -2,11 +2,11 @@
 
 import unittest
 import httplib
-from api_functional_testing.test.shared.rest_framework import RequestType, \
+from test.shared.rest_framework import RequestType, \
     RestAPIHeader
-from api_functional_testing.test.functional_test_suit.common.config import \
+from test.functional_test_suit.common.config import \
     CUSTOMER_SERVICE_URL
-from api_functional_testing.test.functional_test_suit.common.payloads import \
+from test.functional_test_suit.common.payloads import \
     CustomerProfileServicePayload
 
 customer_service = RestAPIHeader()

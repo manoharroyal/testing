@@ -1,0 +1,7 @@
+LOGIN_URL : "https://sso.teradatacloud.io/oauth/ro"
+client_id: "h4psC1NTevUPYCJ6hTa76htrup4UNIyq"
+username: "customer.one"
+password: "pass@word1"
+connection: "AD-DEV"
+grant_type: "password"
+scope: "openid profile roles customerId userId serviceNowUserId"
