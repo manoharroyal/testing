@@ -1,13 +1,13 @@
 import unittest
 import httplib
-from api_functional_testing.test.shared.rest_framework import RestAPIHeader, \
+from test.shared.rest_framework import RestAPIHeader, \
     RequestType
-from api_functional_testing.test.functional_test_suit.common.config import \
+from test.functional_test_suit.common.config import \
     INVENTORY_SERVICE_URL, get_items_url, update_url
-from api_functional_testing.test.functional_test_suit.common.payloads import\
+from test.functional_test_suit.common.payloads import\
             Inventoryservicepayload
 
-inventory_service = RestAPIHeader()
+inventory_service = RestAPIHeader(utype='sysops')
 
 
 class InventoryServiceTestcases(unittest.TestCase):
@@ -26,7 +26,7 @@ class InventoryServiceTestcases(unittest.TestCase):
             add_item_response.status_code, 200,
             msg="Expected code is 200 and got is %s (%s)" %
                 (add_item_response.status_code,
-                    httplib.responses(add_item_response.status_code)))
+                    httplib.responses[add_item_response.status_code]))
         self.assertDictContainsSubset(
             response_dict, input_dict,
             msg="Expected %s in %s" % (response_dict.keys(), input_dict.keys()))
@@ -45,7 +45,7 @@ class InventoryServiceTestcases(unittest.TestCase):
             add_item_response.status_code, 200,
             msg="Expected code is 200 and got is %s (%s)" %
                 (add_item_response.status_code, 
-                 httplib.responses(add_item_response.status_code)))
+                 httplib.responses[add_item_response.status_code]))
         self.assertDictContainsSubset(
             response_dict, input_dict,
             msg="Expected %s in %s" % (input_dict.keys(), response_dict.keys()))
@@ -63,9 +63,9 @@ class InventoryServiceTestcases(unittest.TestCase):
                         "please send the correct input parameters"
         self.assertEquals(
             add_item_response.status_code, 400,
-            msg="Expected code is 400 and got is %s (%s)" %
+            msg="Expected code is 400 and got is %s (%s) %s" %
                 (add_item_response.status_code,
-                    httplib.responses(add_item_response.status_code)))
+                    httplib.responses[add_item_response.status_code], INVENTORY_SERVICE_URL))
         self.assertEquals(response_dict['message'], error_message,
                           msg=" expected message is %s and got is %s" %
                               (error_message, response_dict['message']))
@@ -85,7 +85,7 @@ class InventoryServiceTestcases(unittest.TestCase):
             add_item_response.status_code, 400,
             msg="Expected code is 400 and got is %s (%s)" %
                 (add_item_response.status_code,
-                    httplib.responses(add_item_response.status_code)))
+                    httplib.responses[add_item_response.status_code]))
         self.assertEquals(response_dict['message'], error_message,
                           msg=" expected message is %s and got is %s" %
                               (error_message, response_dict['message']))
@@ -105,7 +105,7 @@ class InventoryServiceTestcases(unittest.TestCase):
             add_item_response.status_code, 400,
             msg="Expected code is 400 and got is %s (%s)" %
                 (add_item_response.status_code,
-                    httplib.responses(add_item_response.status_code)))
+                    httplib.responses[add_item_response.status_code]))
         self.assertEquals(response_dict['message'], error_message,
                           msg=" expected message is %s and got is %s" %
                               (error_message, response_dict['message']))
@@ -124,7 +124,7 @@ class InventoryServiceTestcases(unittest.TestCase):
         self.assertEquals(add_item_response.status_code, 400,
                           msg="Expected code is 400 and got is %s (%s)" % (
                             add_item_response.status_code,
-                            httplib.responses(add_item_response.status_code)))
+                            httplib.responses[add_item_response.status_code]))
         self.assertEquals(response_dict['message'], error_message,
                           msg=" expected message is %s and got is %s" %
                               (error_message, response_dict['message']))
@@ -143,7 +143,7 @@ class InventoryServiceTestcases(unittest.TestCase):
         self.assertEquals(add_item_response.status_code, 400,
                           msg="Expected code is 400 and got is %s (%s)" % (
                             add_item_response.status_code,
-                            httplib.responses(add_item_response.status_code)))
+                            httplib.responses[add_item_response.status_code]))
         self.assertEquals(response_dict['message'], error_message,
                           msg=" expected message is %s and got is %s" %
                               (error_message, response_dict['message']))
@@ -162,7 +162,7 @@ class InventoryServiceTestcases(unittest.TestCase):
         self.assertEquals(add_item_response.status_code, 400,
                           msg="Expected code is 400 and got is %s (%s)" % (
                             add_item_response.status_code,
-                            httplib.responses(add_item_response.status_code)))
+                            httplib.responses[add_item_response.status_code]))
         self.assertEquals(response_dict['message'], error_message,
                           msg=" expected message is %s and got is %s" %
                               (error_message, response_dict['message']))
@@ -177,7 +177,7 @@ class InventoryServiceTestcases(unittest.TestCase):
         self.assertEquals(add_item_response.status_code, 200,
                           msg="Expected code is 200 and got is %s (%s)" % (
                             add_item_response.status_code,
-                            httplib.responses(add_item_response.status_code)))
+                            httplib.responses[add_item_response.status_code]))
 
     def test_add_item_with_invalid_storage_array_model(self):
         """ Testing with invalid storage_array_model to add an
@@ -193,7 +193,7 @@ class InventoryServiceTestcases(unittest.TestCase):
         self.assertEquals(add_item_response.status_code, 400,
                           msg="Expected code is 400 and got is %s (%s)" % (
                             add_item_response.status_code,
-                            httplib.responses(add_item_response.status_code)))
+                            httplib.responses[add_item_response.status_code]))
         self.assertEquals(response_dict['message'], error_message,
                           msg=" expected message is %s and got is %s" %
                               (error_message, response_dict['message']))
@@ -212,7 +212,7 @@ class InventoryServiceTestcases(unittest.TestCase):
         self.assertEquals(add_item_response.status_code, 400,
                           msg="Expected code is 400 and got is %s (%s)" % (
                             add_item_response.status_code,
-                            httplib.responses(add_item_response.status_code)))
+                            httplib.responses[add_item_response.status_code]))
         self.assertEquals(response_dict['message'], error_message,
                           msg=" expected message is %s and got is %s" %
                               (error_message, response_dict['message']))
@@ -230,7 +230,7 @@ class InventoryServiceTestcases(unittest.TestCase):
         self.assertEquals(add_item_response.status_code, 400,
                           msg="Expected code is 400 and got is %s (%s)" % (
                              add_item_response.status_code,
-                             httplib.responses(add_item_response.status_code)))
+                             httplib.responses[add_item_response.status_code]))
         self.assertEquals(response_dict['message'], error_message,
                           msg=" expected message is %s and got is %s" %
                               (error_message, response_dict['message']))
@@ -249,7 +249,7 @@ class InventoryServiceTestcases(unittest.TestCase):
         self.assertEquals(add_item_response.status_code, 400,
                           msg="Expected code is 400 and got is %s (%s)" % (
                             add_item_response.status_code,
-                            httplib.responses(add_item_response.status_code)))
+                            httplib.responses[add_item_response.status_code]))
         self.assertEquals(response_dict['message'], error_message,
                           msg=" expected message is %s and got is %s" %
                               (error_message, response_dict['message']))
@@ -268,7 +268,7 @@ class InventoryServiceTestcases(unittest.TestCase):
         self.assertEquals(add_item_response.status_code, 400,
                           msg="Expected code is 400 and got is %s (%s)" % (
                             add_item_response.status_code,
-                            httplib.responses(add_item_response.status_code)))
+                            httplib.responses[add_item_response.status_code]))
         self.assertEquals(response_dict['message'], error_message,
                           msg=" expected message is %s and got is %s" %
                               (error_message, response_dict['message']))
@@ -287,7 +287,7 @@ class InventoryServiceTestcases(unittest.TestCase):
         self.assertEquals(add_item_response.status_code, 400,
                           msg="Expected code is 400 and got is %s (%s)" % (
                             add_item_response.status_code,
-                            httplib.responses(add_item_response.status_code)))
+                            httplib.responses[add_item_response.status_code]))
         self.assertEquals(response_dict['message'], error_message,
                           msg=" expected message is %s and got is %s" %
                               (error_message, response_dict['message']))
@@ -306,7 +306,7 @@ class InventoryServiceTestcases(unittest.TestCase):
         self.assertEquals(add_item_response.status_code, 400,
                           msg="Expected code is 400 and got is %s (%s)" % (
                             add_item_response.status_code,
-                            httplib.responses(add_item_response.status_code)))
+                            httplib.responses[add_item_response.status_code]))
         self.assertEquals(response_dict['message'], error_message,
                           msg=" expected message is %s and got is %s" %
                               (error_message, response_dict['message']))
@@ -325,7 +325,7 @@ class InventoryServiceTestcases(unittest.TestCase):
         self.assertEquals(add_item_response.status_code, 400,
                           msg="Expected code is 400 and got is %s (%s)" % (
                             add_item_response.status_code,
-                            httplib.responses(add_item_response.status_code)))
+                            httplib.responses[add_item_response.status_code]))
         self.assertEquals(response_dict['message'], error_message,
                           msg=" expected message is %s and got is %s" %
                               (error_message, response_dict['message']))
@@ -344,7 +344,7 @@ class InventoryServiceTestcases(unittest.TestCase):
         self.assertEquals(add_item_response.status_code, 400,
                           msg="Expected code is 400 and got is %s (%s)" % (
                             add_item_response.status_code,
-                            httplib.responses(add_item_response.status_code)))
+                            httplib.responses[add_item_response.status_code]))
         self.assertEquals(response_dict['message'], error_message,
                           msg=" expected message is %s and got is %s" %
                               (error_message, response_dict['message']))
@@ -364,7 +364,7 @@ class InventoryServiceTestcases(unittest.TestCase):
             add_item_response.status_code, 400,
             msg="Expected code is 400 and got is %s (%s)" %
                 (add_item_response.status_code,
-                    httplib.responses(add_item_response.status_code)))
+                    httplib.responses[add_item_response.status_code]))
         self.assertEquals(response_dict['message'], error_message,
                           msg=" expected message is %s and got is %s" %
                               (error_message, response_dict['message']))
@@ -384,7 +384,7 @@ class InventoryServiceTestcases(unittest.TestCase):
             add_item_response.status_code, 400,
             msg="Expected code is 400 and got is %s (%s)" %
                 (add_item_response.status_code,
-                    httplib.responses(add_item_response.status_code)))
+                    httplib.responses[add_item_response.status_code]))
         self.assertEquals(response_dict['message'], error_message,
                           msg=" expected message is %s and got is %s" %
                               (error_message, response_dict['message']))
@@ -403,7 +403,7 @@ class InventoryServiceTestcases(unittest.TestCase):
             add_item_response.status_code, 400,
             msg="Expected code is 400 and got is %s (%s)" %
                 (add_item_response.status_code,
-                    httplib.responses(add_item_response.status_code)))
+                    httplib.responses[add_item_response.status_code]))
         self.assertEquals(response_dict['message'], error_message,
                           msg=" expected message is %s and got is %s" %
                               (error_message, response_dict['message']))
@@ -420,7 +420,7 @@ class InventoryServiceTestcases(unittest.TestCase):
             item_availability_response.status_code, 200,
             msg="Expected code is 200 and got is %s (%s)" %
                 (item_availability_response.status_code,
-                 httplib.responses(item_availability_response.status_code)))
+                 httplib.responses[item_availability_response.status_code]))
         self.assertIn(
             'items', item_availability_response.json().keys(),
             msg="Expecting %s in %s" %
@@ -435,7 +435,7 @@ class InventoryServiceTestcases(unittest.TestCase):
             item_availability_response.status_code, 200,
             msg="Expected code is 200 and got is %s (%s)" % (
                 item_availability_response.status_code,
-                httplib.responses(item_availability_response.status_code)))
+                httplib.responses[item_availability_response.status_code]))
         self.assertIn(
             'items', item_availability_response.json().keys(),
             msg="Expecting %s in %s" %
@@ -450,7 +450,7 @@ class InventoryServiceTestcases(unittest.TestCase):
             item_availability_response.status_code, 200,
             msg="Expected code is 200 and got is %s (%s)" % (
                 item_availability_response.status_code,
-                httplib.responses(item_availability_response.status_code)))
+                httplib.responses[item_availability_response.status_code]))
         self.assertIn(
             'items', item_availability_response.json().keys(),
             msg="Expecting %s in %s" %
@@ -465,7 +465,7 @@ class InventoryServiceTestcases(unittest.TestCase):
             item_availability_response.status_code, 200,
             msg="Expected code is 200 and got is %s (%s)" % (
                 item_availability_response.status_code,
-                httplib.responses(item_availability_response.status_code)))
+                httplib.responses[item_availability_response.status_code]))
         self.assertIn(
             'items', item_availability_response.json().keys(),
             msg="Expectiong %s in %s" %
@@ -482,7 +482,7 @@ class InventoryServiceTestcases(unittest.TestCase):
             item_availability_response.status_code, 400,
             msg="Expected code is 400 and got is %s (%s)" % (
                 item_availability_response.status_code,
-                httplib.responses(item_availability_response.status_code)))
+                httplib.responses[item_availability_response.status_code]))
         self.assertEquals(
             response_dict['message'], error_message,
             msg="Expected message is %s and got is %s" %
@@ -499,7 +499,7 @@ class InventoryServiceTestcases(unittest.TestCase):
             item_availability_response.status_code, 400,
             msg="Expected code is 400 and got is %s (%s)" % (
                 item_availability_response.status_code,
-                httplib.responses(item_availability_response.status_code)))
+                httplib.responses[item_availability_response.status_code]))
         self.assertEquals(
             response_dict['message'], error_message,
             msg="Expected message is %s and got is %s" %
@@ -516,7 +516,7 @@ class InventoryServiceTestcases(unittest.TestCase):
             item_availability_response.status_code, 400,
             msg="Expected code is 400 and got is %s (%s)" % (
                 item_availability_response.status_code,
-                httplib.responses(item_availability_response.status_code)))
+                httplib.responses[item_availability_response.status_code]))
         self.assertEquals(
             response_dict['message'], error_message,
             msg="Expected message is %s and got is %s" %
@@ -533,7 +533,7 @@ class InventoryServiceTestcases(unittest.TestCase):
             item_availability_response.status_code, 400,
             msg="Expected code is 400 and got is %s (%s)" % (
                 item_availability_response.status_code,
-                httplib.responses(item_availability_response.status_code)))
+                httplib.responses[item_availability_response.status_code]))
         self.assertEquals(
             response_dict['message'], error_message,
             msg="Expected message is %s and got is %s" %
@@ -550,7 +550,7 @@ class InventoryServiceTestcases(unittest.TestCase):
             item_availability_response.status_code, 400,
             msg="Expected code is 400 and got is %s (%s)" % (
                 item_availability_response.status_code,
-                httplib.responses(item_availability_response.status_code)))
+                httplib.responses[item_availability_response.status_code]))
         self.assertEquals(
             response_dict['message'], error_message,
             msg="Expected message is %s and got is %s" %
@@ -567,7 +567,7 @@ class InventoryServiceTestcases(unittest.TestCase):
             item_availability_response.status_code, 400,
             msg="Expected code is 400 and got is %s (%s)" % (
                 item_availability_response.status_code,
-                httplib.responses(item_availability_response.status_code)))
+                httplib.responses[item_availability_response.status_code]))
         self.assertEquals(
             response_dict['message'], error_message,
             msg="Expected message is %s and got is %s" %
@@ -584,7 +584,7 @@ class InventoryServiceTestcases(unittest.TestCase):
             item_availability_response.status_code, 400,
             msg="Expected code is 400 and got is %s (%s)" % (
                 item_availability_response.status_code,
-                httplib.responses(item_availability_response.status_code)))
+                httplib.responses[item_availability_response.status_code]))
         self.assertEquals(
             response_dict['message'], error_message,
             msg="Expected message is %s and got is %s" %
@@ -606,7 +606,7 @@ class InventoryServiceTestcases(unittest.TestCase):
             update_item_status_response.status_code, 200,
             msg="Expected code is 200 and got is %s (%s)" % (
                 update_item_status_response.status_code,
-                httplib.responses(update_item_status_response.status_code)))
+                httplib.responses[update_item_status_response.status_code]))
         self.assertEquals(
             response_dict['message'], expected_message,
             msg="Expected message is %s and got is %s" %
@@ -627,7 +627,7 @@ class InventoryServiceTestcases(unittest.TestCase):
             update_item_status_response.status_code, 500,
             msg="Expected code is 500 and got is %s (%s)" % (
                 update_item_status_response.status_code,
-                httplib.responses(update_item_status_response.status_code)))
+                httplib.responses[update_item_status_response.status_code]))
         self.assertEquals(
             response_dict['message'], error_message,
             msg="Expected message is %s and got is %s" %

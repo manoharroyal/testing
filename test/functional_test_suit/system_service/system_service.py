@@ -1,15 +1,15 @@
 """ Functional Test cases for Inventory Service of DSS Micro Service Layer """
 import unittest
 import httplib
-from api_functional_testing.test.shared.rest_framework import \
+from test.shared.rest_framework import \
     RestAPIHeader, RequestType, SystemType
-from api_functional_testing.test.functional_test_suit.common.config import \
-    SYSTEM_SERVICE_URL, SYSTEM_API_URL, list_system_url, source_system_url, \
+from test.functional_test_suit.common.config import \
+    SYSTEM_SERVICE_URL, list_system_url, source_system_url, \
     target_system_url, list_system, target_system, source_system
-from api_functional_testing.test.functional_test_suit.common.payloads import \
+from test.functional_test_suit.common.payloads import \
     SystemServicePayload
 
-system_service = RestAPIHeader()
+system_service = RestAPIHeader(utype='customer')
 
 
 class SystemServiceTestCases(unittest.TestCase):
@@ -255,7 +255,7 @@ class SystemServiceTestCases(unittest.TestCase):
     def test_get_system_with_customer_name(self):
         """ Testing with the valid url to get the system details of customer """
         customer_systems_response = system_service.request(
-            RequestType.GET, SYSTEM_API_URL + '/customer')
+            RequestType.GET, SYSTEM_SERVICE_URL + '/customer')
         response_dict = customer_systems_response.json()
         self.assertEquals(
             customer_systems_response.status_code, 400,
@@ -269,7 +269,7 @@ class SystemServiceTestCases(unittest.TestCase):
     def test_get_systems_customer_with_invalid_token(self):
         """ Testing with the invalid token to get customer system details """
         customer_systems_response = system_service.request(
-            RequestType.GET, SYSTEM_API_URL + '/customer')
+            RequestType.GET, SYSTEM_SERVICE_URL + '/customer')
         response_dict = customer_systems_response.json()
         expected_message = 'exceptions while validating token'
         self.assertEquals(
@@ -284,7 +284,7 @@ class SystemServiceTestCases(unittest.TestCase):
     def test_get_systems_customer_with_invalid_url(self):
         """ Testing with invalid url to get the details of customer """
         customer_systems_response = system_service.request(
-            RequestType.GET, SYSTEM_API_URL + '/customer1')
+            RequestType.GET, SYSTEM_SERVICE_URL + '/customer1')
         response_dict = customer_systems_response.json()
         self.assertEquals(
             customer_systems_response.status_code, 403,

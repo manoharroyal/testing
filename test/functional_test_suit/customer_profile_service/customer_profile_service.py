@@ -9,7 +9,8 @@ from test.functional_test_suit.common.config import \
 from test.functional_test_suit.common.payloads import \
     CustomerProfileServicePayload
 
-customer_service = RestAPIHeader()
+customer_service = RestAPIHeader(utype='customer')
+
 customer_service_invalid_token = RestAPIHeader(utype='invalid')
 customer_profile_url = CUSTOMER_SERVICE_URL + str(customer_service.customerId)
 customer_profile_address_url = customer_profile_url + "/addresses/"

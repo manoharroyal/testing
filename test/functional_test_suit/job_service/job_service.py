@@ -1,16 +1,18 @@
 import unittest
 import httplib
-from api_functional_testing.test.shared.rest_framework import RequestType, \
+from test.shared.rest_framework import RequestType, \
     RestAPIHeader
-from api_functional_testing.test.functional_test_suit.common.payloads import \
+from test.functional_test_suit.common.payloads import \
     SeedJobServicePayload
-from api_functional_testing.test.functional_test_suit.common.config import \
+from test.functional_test_suit.common.config import \
     SEED_JOB_URL, INVALID_SEED_JOB_URL, SEED_JOB_ID, seed_job_url, \
     user_action_url, TEMP_KEY, DELETE_JOB_ID, admin_action_url, agent_api_url,\
     update_job_logs_url
 
 
-job_service = RestAPIHeader()
+job_service_customer = RestAPIHeader(utype='customer')
+job_service_sysops = RestAPIHeader(utype='sysops')
+job_service_agent = RestAPIHeader(utype='agent')
 
 
 class JobServiceTestCases(unittest.TestCase):
@@ -18,7 +20,7 @@ class JobServiceTestCases(unittest.TestCase):
 
     def test_create_job_with_valid_details(self):
         """ Testing the creation of seed_job with all valid details """
-        create_job_response = job_service.request(
+        create_job_response = job_service_customer.request(
             RequestType.POST, SEED_JOB_URL,
             payload=SeedJobServicePayload().create_seed_job_payload())
         expected_dict = SeedJobServicePayload().expected_payload()
@@ -36,7 +38,7 @@ class JobServiceTestCases(unittest.TestCase):
     def test_create_job_with_invalid_source_system_id(self):
         """ Testing the creation of seed_job with invalid source_system_id """
 
-        create_job_response = job_service.request(
+        create_job_response = job_service_customer.request(
             RequestType.POST, SEED_JOB_URL,
             payload=SeedJobServicePayload().create_seed_job_payload
             (source_system_id=TEMP_KEY))
@@ -55,7 +57,7 @@ class JobServiceTestCases(unittest.TestCase):
     def test_create_job_with_invalid_target_system_id(self):
         """ Testing the creation of seed_job with invalid target_system_id """
 
-        create_job_response = job_service.request(
+        create_job_response = job_service_customer.request(
             RequestType.POST, SEED_JOB_URL,
             payload=SeedJobServicePayload().create_seed_job_payload
             (target_system_id=TEMP_KEY))
@@ -73,7 +75,7 @@ class JobServiceTestCases(unittest.TestCase):
 
     def test_create_job_with_invalid_address_title(self):
         """ Testing the creation of seed_job with invalid address_title """
-        create_job_response = job_service.request(
+        create_job_response = job_service_customer.request(
             RequestType.POST, SEED_JOB_URL,
             payload=SeedJobServicePayload().create_seed_job_payload
             (address_title='address_title'))
@@ -92,7 +94,7 @@ class JobServiceTestCases(unittest.TestCase):
 
     def test_create_job_with_invalid_max_data_size(self):
         """ Testing the creation of seed_job with invalid max_data_size """
-        create_job_response = job_service.request(
+        create_job_response = job_service_customer.request(
             RequestType.POST, SEED_JOB_URL,
             payload=SeedJobServicePayload().create_seed_job_payload
             (max_data_size='-100'))
@@ -110,7 +112,7 @@ class JobServiceTestCases(unittest.TestCase):
                 (error_message, create_job_response_dict['message']))
 
     def test_create_job_with_empty_seed_job_name(self):
-        create_job_response = job_service.request(
+        create_job_response = job_service_customer.request(
             RequestType.POST, SEED_JOB_URL,
             payload=SeedJobServicePayload().create_seed_job_payload
             (seed_job_name=''))
@@ -128,7 +130,7 @@ class JobServiceTestCases(unittest.TestCase):
 
     def test_create_job_with_empty_job_type(self):
         """ Testing the creation of seed_job without job_type """
-        create_job_response = job_service.request(
+        create_job_response = job_service_customer.request(
             RequestType.POST, SEED_JOB_URL,
             payload=SeedJobServicePayload().create_seed_job_payload
             (job_type=''))
@@ -146,7 +148,7 @@ class JobServiceTestCases(unittest.TestCase):
 
     def test_create_job_with_empty_source_system_id(self):
         """ Testing the creation of seed_job without source_system_id """
-        create_job_response = job_service.request(
+        create_job_response = job_service_customer.request(
             RequestType.POST, SEED_JOB_URL,
             payload=SeedJobServicePayload().create_seed_job_payload
             (source_system_id=''))
@@ -164,7 +166,7 @@ class JobServiceTestCases(unittest.TestCase):
 
     def test_create_job_with_empty_target_system_id(self):
         """ Testing the creation of seed_job without target_system_id """
-        create_job_response = job_service.request(
+        create_job_response = job_service_customer.request(
             RequestType.POST, SEED_JOB_URL,
             payload=SeedJobServicePayload().create_seed_job_payload
             (target_system_id=''))
@@ -182,7 +184,7 @@ class JobServiceTestCases(unittest.TestCase):
 
     def test_create_job_with_empty_address_title(self):
         """ Testing the creation of seed_job without address_title """
-        create_job_response = job_service.request(
+        create_job_response = job_service_customer.request(
             RequestType.POST, SEED_JOB_URL,
             payload=SeedJobServicePayload().create_seed_job_payload
             (address_title=''))
@@ -200,7 +202,7 @@ class JobServiceTestCases(unittest.TestCase):
 
     def test_create_job_with_empty_description(self):
         """ Testing the creation of seed_job without description """
-        create_job_response = job_service.request(
+        create_job_response = job_service_customer.request(
             RequestType.POST, SEED_JOB_URL,
             payload=SeedJobServicePayload().create_seed_job_payload
             (description=''))
@@ -218,7 +220,7 @@ class JobServiceTestCases(unittest.TestCase):
 
     def test_create_job_with_empty_max_data_size(self):
         """ Testing the creation of seed_job without max_data_size """
-        create_job_response = job_service.request(
+        create_job_response = job_service_customer.request(
             RequestType.POST, SEED_JOB_URL,
             payload=SeedJobServicePayload().create_seed_job_payload
             (max_data_size=''))
@@ -237,7 +239,7 @@ class JobServiceTestCases(unittest.TestCase):
     def test_create_job_without_email_id(self):
         """ Testing the creation of seed_job without email_id """
 
-        create_job_response = job_service.request(
+        create_job_response = job_service_customer.request(
             RequestType.POST, SEED_JOB_URL,
             payload=SeedJobServicePayload().create_seed_job_payload
             (email_id=''))
@@ -255,7 +257,7 @@ class JobServiceTestCases(unittest.TestCase):
 
     def test_create_job_without_optional_email_id(self):
         """ Testing the creation of seed_job without optional_email_id """
-        create_job_response = job_service.request(
+        create_job_response = job_service_customer.request(
             RequestType.POST, SEED_JOB_URL,
             payload=SeedJobServicePayload().create_seed_job_payload
             (optional_email_id=''))
@@ -276,7 +278,7 @@ class JobServiceTestCases(unittest.TestCase):
 
     def test_list_seed_jobs_with_valid_url(self):
         """ Testing with the valid url to get the list of seed jobs """
-        job_lists_response = job_service.request(RequestType.GET, SEED_JOB_URL)
+        job_lists_response = job_service_customer.request(RequestType.GET, SEED_JOB_URL)
         self.assertEquals(
             job_lists_response.status_code, 200,
             msg="Expected code is 200 and got is %s (%s)" % (
@@ -289,7 +291,7 @@ class JobServiceTestCases(unittest.TestCase):
 
     def test_list_seed_job_with_invalid_url(self):
         """ Testing with the invalid url to get the list of seed jobs """
-        job_lists_response = job_service.request(
+        job_lists_response = job_service_customer.request(
             RequestType.GET, INVALID_SEED_JOB_URL)
         self.assertEquals(
             job_lists_response.status_code, 404,
@@ -306,7 +308,7 @@ class JobServiceTestCases(unittest.TestCase):
 
     def test_job_details_with_valid_job_id(self):
         """ Testing with the valid job_id to get the details of the seed job """
-        job_details_response = job_service.request(
+        job_details_response = job_service_customer.request(
             RequestType.GET, seed_job_url(SEED_JOB_ID))
         self.assertEquals(
             job_details_response.status_code, 200,
@@ -321,7 +323,7 @@ class JobServiceTestCases(unittest.TestCase):
     def test_job_detail_with_invalid_job_id(self):
         """ Testing with the invalid job_id to get the details
         of the seed job """
-        job_details_response = job_service.request(
+        job_details_response = job_service_customer.request(
             RequestType.GET, seed_job_url(TEMP_KEY))
         error_message = "Seed Job does not exists"
         self.assertEquals(
@@ -337,7 +339,7 @@ class JobServiceTestCases(unittest.TestCase):
     def test_job_details_job_detail_without_job_id(self):
         """ Testing with the invalid job_id to get the details
         of the seed job """
-        job_details_response = job_service.request(
+        job_details_response = job_service_customer.request(
             RequestType.GET, seed_job_url(''))
         error_message = "Seed Job does not exists"
         self.assertEquals(
@@ -355,7 +357,7 @@ class JobServiceTestCases(unittest.TestCase):
 
     def test_job_update_with_valid_job_id(self):
         """ Testing with the valid job_id to update the details of seed_job """
-        job_update_response = job_service.request(
+        job_update_response = job_service_customer.request(
             RequestType.PUT, seed_job_url(SEED_JOB_ID),
             payload=SeedJobServicePayload().update_seed_job_payload())
         self.assertEquals(
@@ -367,7 +369,7 @@ class JobServiceTestCases(unittest.TestCase):
     def test_job_update_with_invalid_job_id(self):
         """ Testing with the invalid job_id to update
         the details of seed_job """
-        job_update_response = job_service.request(
+        job_update_response = job_service_customer.request(
             RequestType.PUT, seed_job_url(TEMP_KEY),
             payload=SeedJobServicePayload().update_seed_job_payload())
         self.assertEquals(
@@ -378,7 +380,7 @@ class JobServiceTestCases(unittest.TestCase):
 
     def test_job_update_without_job_id(self):
         """ Testing without job_id to update the details of seed_job """
-        job_update_response = job_service.request(
+        job_update_response = job_service_customer.request(
             RequestType.PUT, seed_job_url(''),
             payload=SeedJobServicePayload().update_seed_job_payload())
         self.assertEquals(
@@ -390,7 +392,7 @@ class JobServiceTestCases(unittest.TestCase):
     def test_job_update_with_invalid_source_system_id(self):
         """ Testing with invalid source_system_id to
         update the details of seed_job """
-        job_update_response = job_service.request(
+        job_update_response = job_service_customer.request(
             RequestType.PUT, seed_job_url(SEED_JOB_ID),
             payload=SeedJobServicePayload().update_seed_job_payload
             (source_system_id='26xv762 @'))
@@ -403,7 +405,7 @@ class JobServiceTestCases(unittest.TestCase):
     def test_job_update_with_invalid_target_system_id(self):
         """ Testing with the invalid target_system_id to
         update the details of seed_job """
-        job_update_response = job_service.request(
+        job_update_response = job_service_customer.request(
             RequestType.PUT, seed_job_url(SEED_JOB_ID),
             payload=SeedJobServicePayload().update_seed_job_payload
             (target_system_id="dvwy27@"))
@@ -418,7 +420,7 @@ class JobServiceTestCases(unittest.TestCase):
 
     def test_delete_job_with_valid_job_id(self):
         """ Testing with the valid job_id to delete seed_job """
-        job_delete_response = job_service.request(
+        job_delete_response = job_service_customer.request(
             RequestType.DELETE, seed_job_url(DELETE_JOB_ID))
         job_delete_response_dict = job_delete_response.json()
         message = "Seed Job is deleted"
@@ -434,7 +436,7 @@ class JobServiceTestCases(unittest.TestCase):
 
     def test_delete_job_with_invalid_job_id(self):
         """ Testing with the invalid job_id to delete seed_job """
-        job_delete_response = job_service.request(RequestType.DELETE,
+        job_delete_response = job_service_customer.request(RequestType.DELETE,
                                                   seed_job_url(TEMP_KEY))
         job_delete_response_dict = job_delete_response.json()
         error_message = "does not exists"
@@ -450,7 +452,7 @@ class JobServiceTestCases(unittest.TestCase):
 
     def test_delete_job_with_response_job_id(self):
         """ Testing without job_id to delete seed_job """
-        job_delete_response = job_service.request(RequestType.DELETE,
+        job_delete_response = job_service_customer.request(RequestType.DELETE,
                                                   seed_job_url(''))
         job_delete_response_dict = job_delete_response.json()
         self.assertEquals(
@@ -468,7 +470,7 @@ class JobServiceTestCases(unittest.TestCase):
 
     def test_action_with_valid_id(self):
         """ Testing with the valid job_id to take an action on job by user """
-        user_action_response = job_service.request(
+        user_action_response = job_service_customer.request(
             RequestType.PUT, user_action_url(SEED_JOB_ID, 'test_conn_source'),
             payload=SeedJobServicePayload().system_credentials())
         self.assertEquals(
@@ -479,7 +481,7 @@ class JobServiceTestCases(unittest.TestCase):
 
     def test_action_with_invalid_id(self):
         """ Testing with the invalid job_id to take an action on job by user """
-        user_action_response = job_service.request(
+        user_action_response = job_service_customer.request(
             RequestType.PUT, user_action_url(TEMP_KEY, 'test_conn_source'),
             payload=SeedJobServicePayload().system_credentials())
         user_action_response_dict = user_action_response.json()
@@ -497,7 +499,7 @@ class JobServiceTestCases(unittest.TestCase):
 
     def test_action_with_empty_id(self):
         """ Testing without job_id to take an action on job by user """
-        user_action_response = job_service.request(
+        user_action_response = job_service_customer.request(
             RequestType.PUT, user_action_url('', 'test_conn_source'),
             payload=SeedJobServicePayload().system_credentials())
         user_action_response_dict = user_action_response.json()
@@ -505,8 +507,8 @@ class JobServiceTestCases(unittest.TestCase):
                   "One or more parameter values were invalid: " \
                   "An AttributeValue may not contain an empty string"
         self.assertEquals(
-            user_action_response.status_code, 403,
-            msg="Expected code is 200 and got is %s (%s)" % (
+            user_action_response.status_code, 500,
+            msg="Expected code is 500 and got is %s (%s)" % (
                 user_action_response.status_code,
                 httplib.responses[user_action_response.status_code]))
         self.assertEquals(
@@ -517,7 +519,7 @@ class JobServiceTestCases(unittest.TestCase):
     def test_action_with_incorrect_db_user_name(self):
         """ Testing with incorrect database user name to
         take an action on job by user """
-        user_action_response = job_service.request(
+        user_action_response = job_service_customer.request(
             RequestType.PUT, user_action_url(SEED_JOB_ID, 'test_conn_source'),
             payload=SeedJobServicePayload().system_credentials
             (db_user_name='dbc1'))
@@ -538,7 +540,7 @@ class JobServiceTestCases(unittest.TestCase):
     def test_action_with_incorrect_db_password(self):
         """ Testing with incorrect database password to take
         an action on job by user """
-        user_action_response = job_service.request(
+        user_action_response = job_service_customer.request(
             RequestType.PUT, user_action_url(SEED_JOB_ID, 'test_conn_source'),
             payload=SeedJobServicePayload().system_credentials
             (db_user_password='dbc123'))
@@ -557,11 +559,11 @@ class JobServiceTestCases(unittest.TestCase):
                 (message, user_action_response_dict['message']))
 
     # PUT: approve the job
-    """ Test cases for the Admin has approve the action given by user """
+    """ Test cases for the Sysops has approve the action given by user """
 
     def test_approve_job_with_valid_details(self):
         """ Testing with valid details to approve the seed job by admin """
-        approve_job_response = job_service.request(
+        approve_job_response = job_service_sysops.request(
             RequestType.PUT, admin_action_url(SEED_JOB_ID, 'approve'),
             payload=SeedJobServicePayload().approve_payload())
         self.assertEquals(
@@ -572,7 +574,7 @@ class JobServiceTestCases(unittest.TestCase):
 
     def test_approve_job_with_invalid_job_id(self):
         """ Testing with invalid job_id to approve the seed job by admin """
-        approve_job_response = job_service.request(
+        approve_job_response = job_service_sysops.request(
             RequestType.PUT, admin_action_url(TEMP_KEY, 'approve'),
             payload=SeedJobServicePayload().approve_payload())
         approve_job_response_dict = approve_job_response.json()
@@ -589,7 +591,7 @@ class JobServiceTestCases(unittest.TestCase):
 
     def test_approve_job_with_empty_job_id(self):
         """ Testing without job_id to approve the seed job by admin """
-        approve_job_response = job_service.request(
+        approve_job_response = job_service_sysops.request(
             RequestType.PUT, admin_action_url('', 'approve'),
             payload=SeedJobServicePayload().approve_payload())
         approve_job_response_dict = approve_job_response.json()
@@ -609,7 +611,7 @@ class JobServiceTestCases(unittest.TestCase):
 
     def test_agent_action_with_valid_job_id(self):
         """ Testing with valid job_id to take an action on job by an agent """
-        agent_action_response = job_service.request(
+        agent_action_response = job_service_agent.request(
             RequestType.PATCH, agent_api_url(SEED_JOB_ID,
                                              'test_conn_source_success'),
             payload=SeedJobServicePayload().update_job_logs())
@@ -621,7 +623,7 @@ class JobServiceTestCases(unittest.TestCase):
 
     def test_agent_actio_with_invalid_job_id(self):
         """ Testing with invalid job_id to take an action on job by an agent """
-        agent_action_response = job_service.request(
+        agent_action_response = job_service_agent.request(
             RequestType.PATCH, agent_api_url(TEMP_KEY,
                                              'test_conn_source_success'),
             payload=SeedJobServicePayload().update_job_logs())
@@ -641,7 +643,7 @@ class JobServiceTestCases(unittest.TestCase):
     def test_agent_actio_without_source_objects(self):
         """ Testing without source objects to take an
         action on job by an agent """
-        agent_action_response = job_service.request(
+        agent_action_response = job_service_agent.request(
             RequestType.PATCH, agent_api_url(SEED_JOB_ID,
                                              'test_conn_source_success'),
             payload=SeedJobServicePayload().update_job_logs(source_objects={}))
@@ -662,7 +664,7 @@ class JobServiceTestCases(unittest.TestCase):
 
     def test_update_job_logs_with_valid_job_id(self):
         """ Testing with the valid job_id to update the job logs """
-        update_job_logs_response = job_service.request(
+        update_job_logs_response = job_service_agent.request(
             RequestType.PUT, update_job_logs_url(SEED_JOB_ID),
             payload=SeedJobServicePayload().update_job_logs())
         update_job_logs_response_dict = update_job_logs_response.json()
@@ -679,7 +681,7 @@ class JobServiceTestCases(unittest.TestCase):
 
     def test_update_job_logs_with_invalid_job_id(self):
         """ Testing with the invalid job_id to update the job logs """
-        update_job_logs_response = job_service.request(
+        update_job_logs_response = job_service_agent.request(
             RequestType.PUT, update_job_logs_url(TEMP_KEY),
             payload=SeedJobServicePayload().update_job_logs())
         update_job_logs_response_dict = update_job_logs_response.json()
