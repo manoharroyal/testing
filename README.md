@@ -21,6 +21,10 @@ Repository including functional and integration tests
     # making functional-test-suit
     make -k functional-test
 
+**Invidivudla**
+eg
+
+
 **4. Running the Test Functions manually**
 
     steps:

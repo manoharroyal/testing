@@ -503,7 +503,8 @@ class CustomerProfileTestCases(unittest.TestCase):
         """ Testing with the mis match customer_id to get the
         details of the customer """
         customer_profile_addresses_url = \
-            CUSTOMER_SERVICE_URL + str(customer_service.customerId) + "23" + "/addresses/"
+            CUSTOMER_SERVICE_URL + str(customer_service.customerId) + \
+            "23" + "/addresses/"
         customer_profile_response = customer_service.request(
             RequestType.GET, customer_profile_addresses_url + "Restore_Job")
         customer_profile_response_dict = customer_profile_response.json()

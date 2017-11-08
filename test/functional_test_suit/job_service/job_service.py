@@ -594,8 +594,8 @@ class JobServiceTestCases(unittest.TestCase):
                   "13ad524335c3123 does not exists"
         self.assertEquals(
             agent_action_response.status_code, 404,
-            msg="Expected code is 404 and got is %s" %
-                httplib.responses[agent_action_response.status_code])
+            msg="Expected code is 404 and got is %s (%s)" %
+                (agent_action_response.status_code, httplib.responses[agent_action_response.status_code]))
         self.assertEquals(
             agent_action_response_dict['message'], message, 
             msg="Expected %s in %s" % 

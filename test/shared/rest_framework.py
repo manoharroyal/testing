@@ -113,6 +113,3 @@ class RestAPIHeader(object):
 
         return self.response
 
-if __name__ == '__main__':
-    api = RestAPIHeader()
-    api.generate_token()

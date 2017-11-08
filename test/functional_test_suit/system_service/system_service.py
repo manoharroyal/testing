@@ -30,7 +30,7 @@ class SystemServiceTestCases(unittest.TestCase):
                 create_system_response.status_code,
                 httplib.responses[create_system_response.status_code]))
         self.assertEquals(
-            response_dict['system_name'], "TDCLOUD15TD12",
+            response_dict['system_name'], system_name,
             msg='Expected system name  %s and got %s' %
                 (system_name, response_dict['system_name']))
 
@@ -223,7 +223,7 @@ class SystemServiceTestCases(unittest.TestCase):
                 (system_details_response.status_code,
                  httplib.responses[system_details_response.status_code]))
 
-    def test_system_details_withresponse_system_id(self):
+    def test_system_details_without_system_id(self):
         """ Testing without system id to get the source system details  """
         system_details_response = system_service.request(
             RequestType.GET, source_system_url(source_system, ''))
