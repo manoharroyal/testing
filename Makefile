@@ -1,7 +1,7 @@
 .PHONY : customer_profile_service agent_service inventory_service ticket_service job_service system_service init functional-test list install
 
 init:
-	export PYTHONPATH=$(PWD)
+	export PYTHONPATH := $(PWD)
 
 customer_profile_service: init
 	python2.7 -m pytest -v `pwd`/test/functional_test_suit/customer_profile_service/customer_profile_service.py --html=./report/customer_profile_service.html
