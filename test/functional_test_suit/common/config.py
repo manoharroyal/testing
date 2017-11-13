@@ -1,8 +1,8 @@
 import os
 import yaml
 
-path = os.environ['PYTHONPATH']
-
+# path = os.environ['PYTHONPATH']
+path = "/home/manohar/python/new/api_functional_testing"
 with open(path + "/env/configuration.yaml", 'r') as stream:
     try:
        config_data = yaml.load(stream)
@@ -15,11 +15,12 @@ with open(path + "/env/configuration.yaml", 'r') as stream:
 CUSTOMER_SERVICE_URL = config_data['BASE_URL'].format(config_data['CUSTOMER_SERVICE_API_ID']) + "/customer-profiles/"
 INVENTORY_SERVICE_URL = config_data['BASE_URL'].format(config_data['INVENTORY_SERVICE_API_ID']) + "/inventory/items"
 SYSTEM_SERVICE_URL = config_data['BASE_URL'].format(config_data['SYSTEM_SERVICE_API_ID']) + "/system"
-SEED_JOB_URL = config_data['BASE_URL'].format(config_data['SEED_JOB_API_ID']) + "/seed-jobs"
+SEED_JOB_URL = config_data['BASE_URL'].format(config_data['SEED_JOB_API_ID']) + "/seed-jobs/"
 AGENT_SERVICE_URL = config_data['BASE_URL'].format(config_data['AGENT_SERVICE_API_ID']) + "/agent"
 TICKET_SERVICE_URL = config_data['BASE_URL'].format(config_data['TICKET_SERVICE_API_ID']) + "/tickets/{ticket_id}"
 
-
+SYSTEM_SERVICE = config_data['BASE_URL'].format(config_data['SYSTEM_SERVICE_API_ID'])
+SOURCE_SYSTEM_ID = "86dc65e4-42a0-4ee8-91e8-f201678f53aa"
 TEMP_KEY = config_data['TEMP_KEY']
 SEED_JOB_ID = config_data['SEED_JOB_ID']
 DELETE_JOB_ID = config_data['DELETE_JOB_ID']
@@ -58,7 +59,9 @@ def target_system_url(target_system, site_id):
 
 LIST_AGENT_TASK_URL = AGENT_SERVICE_URL + '/tasks'
 REGISTER_AGENT_URL = AGENT_SERVICE_URL + '/register'
-INVALID_SEED_JOB_URL = SEED_JOB_URL+"234"
+INVALID_SEED_JOB_URL = config_data['BASE_URL'].format(config_data['SEED_JOB_API_ID']) + "/seed-jobs1/"
+TICKETS_URL = "https://wl0qnbvoqf.execute-api.us-west-2.amazonaws.com/vr186027dev/tickets"
+
 
 def update_agent_task_url(task_id):
     """ Url to update the agent task status """
@@ -69,15 +72,15 @@ def agent_details_url(agent_id):
     """ Get the details agent """
     return '%s/%s' % (AGENT_SERVICE_URL, agent_id)
 
-def seed_job_url(seed_jobid):
+def seed_job_url(seed_job_id):
     """ Url to GET details of seed job and update the seed job and
     DELETE the seed job with job id """
-    return '%s%s' % (SEED_JOB_URL, seed_jobid)
+    return '%s%s' % (SEED_JOB_URL, seed_job_id)
 
 
 def user_action_url(seed_job_id, action):
     """ Url for giving an action by user """
-    return '%s/%s/job?action=%s' % (SEED_JOB_URL, seed_job_id, action)
+    return '%s%s/job?action=%s' % (SEED_JOB_URL, seed_job_id, action)
 
 
 def admin_action_url(seedjobid, action):
@@ -92,4 +95,4 @@ def update_job_logs_url(val):
 
 def agent_api_url(val, value):
     """ Url for agent api on seed job """
-    return '%s/agent/%s?action=%s' % (SEED_JOB_URL, val, value)
+    return '%sagent/%s?action=%s' % (SEED_JOB_URL, val, value)

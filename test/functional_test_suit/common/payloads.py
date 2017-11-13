@@ -96,15 +96,15 @@ class SeedJobServicePayload(object):
         pass
 
     def create_seed_job_payload(
-            self, seed_job_name='TestBackup20', job_type='BOX',
-            target_system_id='0f9dcceb-926c-4b0e-be63-785d26edc8a1',
-            address_title=1111, description='Thisistestjob',
-            source_system_id='86dc65e4-42a0-4ee8-91e8-f201678f53aa',
-            max_data_size=50, email_id='emanohar80@gmail.com',
-            job_complete=True, job_approved=False, box_shipped=False,
-            ready_to_restore=False, data_erased=False, box_prepared=False,
-            box_in_transit=False, box_at_switch=False, box_del_to_cust=False,
-            data_restored=False,
+            self, seed_job_name='Test Backup102', job_type='BOX',
+            target_system_id='CT12345A',
+            address_title='test', description='Thisistestjob',
+            source_system_id='a17d9dc8-bf85-4f5d-9051-7c946e1e35a4',
+            max_data_size=1, email_id='emanohar80@gmail.com',
+            job_complete=True, job_approved=False, box_shipped=True,
+            ready_to_restore=False, data_erased=True, box_prepared=True,
+            box_in_transit=True, box_at_switch=True, box_del_to_cust=True,
+            data_restored=True,
             optional_email_id='eethakatla.manohar@opcito.com'):
         """ Request body for creation of seed job"""
 
