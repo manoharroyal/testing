@@ -12,7 +12,7 @@ AGENT_SERVICE_API_ID: "4k0bte7z20"
 TICKET_SERVICE_API_ID: "om5u1cc0bc"
 
 TEMP_KEY: 'bb90c867-a02e-4868-bfff-a8ef9c5f68eb2'
-SEED_JOB_ID: '3f5da8bd-b55b-46a9-9a9a-f3d1b7cc279a'
+SEED_JOB_ID: '4b0ddf41-dda0-4dc9-9900-928bf139ac85'
 DELETE_JOB_ID: 'd63f774c-2e3b-48fb-a0ce-f4db1effc8cc'
 
 LOGIN_URL: "https://sso.teradatacloud.io/oauth/ro"

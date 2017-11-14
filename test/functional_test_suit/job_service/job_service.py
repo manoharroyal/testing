@@ -20,6 +20,7 @@ class JobServiceTestCases(unittest.TestCase):
             RequestType.POST, SEED_JOB_URL,
             payload=SeedJobServicePayload().create_seed_job_payload())
         create_job_response_dict = create_job_response.json()
+        print "Response" is create_job_response
         self.assertEquals(
             create_job_response.status_code, 201,
             msg="Expected code is 201 and got is %s (%s)" %
@@ -39,6 +40,8 @@ class JobServiceTestCases(unittest.TestCase):
             (source_system_id=TEMP_KEY))
         create_job_response_dict = create_job_response.json()
         error_message = "Failed to create Job as failed to fetch system"
+        print "Expected" is error_message
+        print "Response" is create_job_response
         self.assertEquals(
             create_job_response.status_code, 403,
             msg="Expected code is 403 and got is %s (%s)" %
@@ -58,6 +61,8 @@ class JobServiceTestCases(unittest.TestCase):
             (target_system_id=TEMP_KEY))
         create_job_response_dict = create_job_response.json()
         error_message = "Failed to create Job as failed to fetch system"
+        print "Expected" is error_message
+        print "Response" is create_job_response
         self.assertEquals(
             create_job_response.status_code, 403,
             msg="Expected code is 403 and got is %s (%s)" %
@@ -77,6 +82,8 @@ class JobServiceTestCases(unittest.TestCase):
         create_job_response_dict = create_job_response.json()
         error_message = "Failed to create Job as " \
                         "failed to fetch address address_title"
+        print "Expected" is error_message
+        print "Response" is create_job_response
         self.assertEquals(
             create_job_response.status_code, 403,
             msg="Expected code is 403 and got is %s (%s)" % (
@@ -96,6 +103,8 @@ class JobServiceTestCases(unittest.TestCase):
         create_job_response_dict = create_job_response.json()
         error_message = "Failed to create Job as " \
                         "failed to fetch address address_title"
+        print "Expected" is error_message
+        print "Response" is create_job_response
         self.assertEquals(
             create_job_response.status_code, 403,
             msg="Expected code is 403 and got is %s (%s)" % (
@@ -113,6 +122,8 @@ class JobServiceTestCases(unittest.TestCase):
             (seed_job_name=''))
         create_job_response_dict = create_job_response.json()
         error_message = "Job name must be provided"
+        print "Expected" is error_message
+        print "Response" is create_job_response
         self.assertEquals(
             create_job_response.status_code, 400,
             msg="Expected code is 400 and got is %s (%s)" % (
@@ -131,6 +142,8 @@ class JobServiceTestCases(unittest.TestCase):
             (job_type=''))
         create_job_response_dict = create_job_response.json()
         error_message = "Job type must be provided"
+        print "Expected" is error_message
+        print "Response" is create_job_response
         self.assertEquals(
             create_job_response.status_code, 400,
             msg="Expected code is 400 and got is %s (%s)" % (
@@ -149,6 +162,8 @@ class JobServiceTestCases(unittest.TestCase):
             (source_system_id=''))
         create_job_response_dict = create_job_response.json()
         error_message = "Source System Id should be present"
+        print "Expected" is error_message
+        print "Response" is create_job_response
         self.assertEquals(
             create_job_response.status_code, 400,
             msg="Expected code is 400 and got is %s (%s)" % (
@@ -167,6 +182,8 @@ class JobServiceTestCases(unittest.TestCase):
             (target_system_id=''))
         create_job_response_dict = create_job_response.json()
         error_message = "Target System Id should be present"
+        print "Expected" is error_message
+        print "Response" is create_job_response
         self.assertEquals(
             create_job_response.status_code, 400,
             msg="Expected code is 400 and got is %s (%s)" % (
@@ -185,6 +202,8 @@ class JobServiceTestCases(unittest.TestCase):
             (address_title=''))
         create_job_response_dict = create_job_response.json()
         error_message = "Address Title should be present"
+        print "Expected" is error_message
+        print "Response" is create_job_response
         self.assertEquals(
             create_job_response.status_code, 400,
             msg="Expected code is 400 and got is %s (%s)" % (
@@ -203,6 +222,8 @@ class JobServiceTestCases(unittest.TestCase):
             (description=''))
         create_job_response_dict = create_job_response.json()
         error_message = "Job description must be provided"
+        print "Expected" is error_message
+        print "Response" is create_job_response
         self.assertEquals(
             create_job_response.status_code, 400,
             msg="Expected code is 400 and got is %s (%s)" % (
@@ -221,6 +242,8 @@ class JobServiceTestCases(unittest.TestCase):
             (max_data_size=''))
         create_job_response_dict = create_job_response.json()
         error_message = "Data Size must be provided"
+        print "Expected" is error_message
+        print "Response" is create_job_response
         self.assertEquals(
             create_job_response.status_code, 400,
             msg="Expected code is 400 and got is %s (%s)" % (
@@ -240,6 +263,8 @@ class JobServiceTestCases(unittest.TestCase):
             (email_id=''))
         expected_dict = SeedJobServicePayload().expected_payload()
         create_job_response_dict = create_job_response.json()
+        print "Expected" is expected_dict
+        print "Response" is create_job_response
         self.assertEquals(
             create_job_response.status_code, 400,
             msg="Expected code is 400 and got is %s (%s)" % (
@@ -258,6 +283,8 @@ class JobServiceTestCases(unittest.TestCase):
             (optional_email_id=''))
         expected_dict = SeedJobServicePayload().expected_payload()
         create_job_response_dict = create_job_response.json()
+        print "Expected" is expected_dict
+        print "Response" is create_job_response
         self.assertEquals(
             create_job_response.status_code, 201,
             msg="Expected code is 201 and got is %s (%s)" % (
@@ -275,6 +302,7 @@ class JobServiceTestCases(unittest.TestCase):
         """ Testing with the valid url to get the list of seed jobs """
         job_lists_response = job_service_customer.request(
             RequestType.GET, SEED_JOB_URL)
+        print "Response" is job_lists_response
         self.assertEquals(
             job_lists_response.status_code, 200,
             msg="Expected code is 200 and got is %s (%s)" % (
@@ -289,6 +317,7 @@ class JobServiceTestCases(unittest.TestCase):
         """ Testing with the invalid url to get the list of seed jobs """
         job_lists_response = job_service_customer.request(
             RequestType.GET, INVALID_SEED_JOB_URL)
+        print "Response" is job_lists_response
         self.assertEquals(
             job_lists_response.status_code, 403,
             msg="Expected code is 403 and got is %s (%s)" %
@@ -306,6 +335,7 @@ class JobServiceTestCases(unittest.TestCase):
         """ Testing with the valid job_id to get the details of the seed job """
         job_details_response = job_service_customer.request(
             RequestType.GET, seed_job_url(SEED_JOB_ID))
+        print "Response" is job_details_response
         self.assertEquals(
             job_details_response.status_code, 200,
             msg="Expected code is 200 and got is %s (%s)" % (
@@ -322,6 +352,8 @@ class JobServiceTestCases(unittest.TestCase):
         job_details_response = job_service_customer.request(
             RequestType.GET, seed_job_url(TEMP_KEY))
         error_message = "Seed Job does not exists"
+        print "Expected" is error_message
+        print "Response" is job_details_response
         self.assertEquals(
             job_details_response.status_code, 404,
             msg="Expected code is 404 and got is %s (%s)" % (
@@ -340,6 +372,7 @@ class JobServiceTestCases(unittest.TestCase):
         job_update_response = job_service_customer.request(
             RequestType.PUT, seed_job_url(SEED_JOB_ID),
             payload=SeedJobServicePayload().update_seed_job_payload())
+        print "Response" is job_update_response
         self.assertEquals(
             job_update_response.status_code, 202,
             msg="Expected code is 202 and got is %s (%s)" % (
@@ -354,6 +387,8 @@ class JobServiceTestCases(unittest.TestCase):
             payload=SeedJobServicePayload().update_seed_job_payload())
         job_update_response_dict = job_update_response.json()
         message = "Resource with id %s does not exists" % TEMP_KEY
+        print "Expected" is message
+        print "Response" is job_update_response
         self.assertEquals(
             job_update_response.status_code, 404,
             msg="Expected code is 404 and got is %s (%s)" % (
@@ -370,6 +405,7 @@ class JobServiceTestCases(unittest.TestCase):
             RequestType.PUT, seed_job_url(''),
             payload=SeedJobServicePayload().update_seed_job_payload())
         job_update_response_dict = job_update_response.json()
+        print "Response" is job_update_response
         self.assertEquals(
             job_update_response.status_code, 403,
             msg="Expected code is 403 and got is %s (%s)" % (
@@ -388,6 +424,7 @@ class JobServiceTestCases(unittest.TestCase):
             payload=SeedJobServicePayload().update_seed_job_payload
             (source_system_id='26xv762 @'))
         job_update_response_dict = job_update_response.json()
+        print "Response" is job_update_response
         self.assertEquals(
             job_update_response.status_code, 400,
             msg="Expected code is 400 and got is %s (%s)" % (
@@ -405,6 +442,7 @@ class JobServiceTestCases(unittest.TestCase):
             payload=SeedJobServicePayload().update_seed_job_payload
             (target_system_id="dvwy27@"))
         job_update_response_dict = job_update_response.json()
+        print "Response" is job_update_response
         self.assertEquals(
             job_update_response.status_code, 400,
             msg="Expected code is 400 and got is %s (%s)" % (
@@ -423,6 +461,8 @@ class JobServiceTestCases(unittest.TestCase):
             RequestType.DELETE, seed_job_url(DELETE_JOB_ID))
         job_delete_response_dict = job_delete_response.json()
         message = "Seed Job is deleted"
+        print "Expected" is message
+        print "Response" is job_delete_response
         self.assertEquals(
             job_delete_response.status_code, 200,
             msg="Expected code is 200 and got is %s (%s)" % (
@@ -439,6 +479,8 @@ class JobServiceTestCases(unittest.TestCase):
             RequestType.DELETE, seed_job_url(TEMP_KEY))
         job_delete_response_dict = job_delete_response.json()
         error_message = "Resource with id %s does not exists" % TEMP_KEY
+        print "Expected" is error_message
+        print "Response" is job_delete_response
         self.assertEquals(
             job_delete_response.status_code, 404,
             msg="Expected code is 404 and got is %s (%s)" % (
@@ -454,6 +496,7 @@ class JobServiceTestCases(unittest.TestCase):
         job_delete_response = job_service_customer.request(
             RequestType.DELETE, seed_job_url(''))
         job_delete_response_dict = job_delete_response.json()
+        print "Response" is job_delete_response
         self.assertEquals(
             job_delete_response.status_code, 403,
             msg="Expected code is 403 and got is %s (%s)" % (
@@ -469,14 +512,17 @@ class JobServiceTestCases(unittest.TestCase):
         job_delete_response = job_service_customer.request(
             RequestType.DELETE, seed_job_url(DELETE_JOB_ID))
         job_delete_response_dict = job_delete_response.json()
-        message = "Resource with id %s has been deleted" % DELETE_JOB_ID
+        message = "Resource with id %s does not exists" % DELETE_JOB_ID
+        print "Expected" is message
+        print "Response" is job_delete_response
         self.assertEquals(job_delete_response.status_code, 404,
             msg="Expected code is 404 and got is %s (%s)" % (
                     job_delete_response.status_code,
                     httplib.responses[job_delete_response.status_code]))
-        self.assertEquals(job_delete_response_dict['message'], message,
-                msg="Expected %s and got is %s" % (
-                job_delete_response_dict['message'], message))
+        self.assertEquals(
+            message, job_delete_response_dict['message'],
+            msg="Expected %s and got is %s" %
+                (message, job_delete_response_dict['message']))
 
     # PUT : take an action on job by user
     """ Test cases As a user take an action on job """
@@ -486,6 +532,7 @@ class JobServiceTestCases(unittest.TestCase):
         user_action_response = job_service_customer.request(
             RequestType.PUT, user_action_url(SEED_JOB_ID, 'test_conn_source'),
             payload=SeedJobServicePayload().system_credentials())
+        print "Response" is user_action_response
         self.assertEquals(
             user_action_response.status_code, 202,
             msg="Expected code is 202 and got is %s (%s)" % (
@@ -500,6 +547,8 @@ class JobServiceTestCases(unittest.TestCase):
         user_action_response_dict = user_action_response.json()
         print (user_action_url(TEMP_KEY, 'test_conn_source'))
         message = "Resource with id %s does not exists" % TEMP_KEY
+        print "Expected" is message
+        print "Response" is user_action_response
         self.assertEquals(
             user_action_response.status_code, 404,
             msg="Expected code is 404 and got is %s (%s)" % (
@@ -519,6 +568,8 @@ class JobServiceTestCases(unittest.TestCase):
         message = "Failed to get item :" \
                   "One or more parameter values were invalid: " \
                   "An AttributeValue may not contain an empty string"
+        print "Expected" is message
+        print "Response" is user_action_response
         self.assertEquals(
             user_action_response.status_code, 500,
             msg="Expected code is 500 and got is %s (%s)" % (
@@ -537,6 +588,7 @@ class JobServiceTestCases(unittest.TestCase):
             payload=SeedJobServicePayload().system_credentials
             (db_user_name='dbc1'))
         user_action_response_dict = user_action_response.json()
+        print user_action_response
         self.assertEquals(
             user_action_response.status_code, 400,
             msg="Expected code is 400 and got is %s (%s)" % (
@@ -555,6 +607,7 @@ class JobServiceTestCases(unittest.TestCase):
             payload=SeedJobServicePayload().system_credentials
             (db_user_password='dbc123'))
         user_action_response_dict = user_action_response.json()
+        print user_action_response
         self.assertEquals(
             user_action_response.status_code, 400,
             msg="Expected code is 400 and got is %s (%s)" % (
@@ -573,7 +626,7 @@ class JobServiceTestCases(unittest.TestCase):
             RequestType.PATCH, agent_api_url(SEED_JOB_ID,
                                              'test_conn_source_success'),
             payload=SeedJobServicePayload().update_job_logs())
-        print (agent_api_url(SEED_JOB_ID, 'test_conn_source_success'))
+        print agent_action_response
         self.assertEquals(
             agent_action_response.status_code, 200,
             msg="Expected code is 200 and got is %s (%s)" % (
@@ -589,6 +642,8 @@ class JobServiceTestCases(unittest.TestCase):
         agent_action_response_dict = agent_action_response.json()
         message = "Resource with id 1d4986d3-b2d8-41ed-865c-" \
                   "13ad524335c3123 does not exists"
+        print "Expected" is message
+        print "Response" is agent_action_response
         self.assertEquals(
             agent_action_response.status_code, 404,
             msg="Expected code is 404 and got is %s (%s)" %
@@ -608,6 +663,8 @@ class JobServiceTestCases(unittest.TestCase):
             payload=SeedJobServicePayload().update_job_logs(source_objects={}))
         agent_action_response_dict = agent_action_response.json()
         message = "for action test_conn_source_success db objects required"
+        print "Expected" is message
+        print "Response" is agent_action_response
         self.assertEquals(
             agent_action_response.status_code, 400,
             msg="Expected code is 400 and got is %s (%s)" % (

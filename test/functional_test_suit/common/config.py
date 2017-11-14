@@ -17,7 +17,7 @@ INVENTORY_SERVICE_URL = config_data['BASE_URL'].format(config_data['INVENTORY_SE
 SYSTEM_SERVICE_URL = config_data['BASE_URL'].format(config_data['SYSTEM_SERVICE_API_ID']) + "/system"
 SEED_JOB_URL = config_data['BASE_URL'].format(config_data['SEED_JOB_API_ID']) + "/seed-jobs/"
 AGENT_SERVICE_URL = config_data['BASE_URL'].format(config_data['AGENT_SERVICE_API_ID']) + "/agent"
-TICKET_SERVICE_URL = config_data['BASE_URL'].format(config_data['TICKET_SERVICE_API_ID']) + "/tickets/{ticket_id}"
+TICKET_SERVICE_URL = config_data['BASE_URL'].format(config_data['TICKET_SERVICE_API_ID']) + "/tickets"
 
 SYSTEM_SERVICE = config_data['BASE_URL'].format(config_data['SYSTEM_SERVICE_API_ID'])
 SOURCE_SYSTEM_ID = "86dc65e4-42a0-4ee8-91e8-f201678f53aa"
@@ -57,10 +57,11 @@ def target_system_url(target_system, site_id):
     """ Url to get the details of target system"""
     return '%s%s' % (target_system, site_id)
 
+agent_id = '6be1b3d7-b9e9-4808-b8d2-1b0197d848e7'
 LIST_AGENT_TASK_URL = AGENT_SERVICE_URL + '/tasks'
 REGISTER_AGENT_URL = AGENT_SERVICE_URL + '/register'
 INVALID_SEED_JOB_URL = config_data['BASE_URL'].format(config_data['SEED_JOB_API_ID']) + "/seed-jobs1/"
-TICKETS_URL = "https://wl0qnbvoqf.execute-api.us-west-2.amazonaws.com/vr186027dev/tickets"
+TICKETS_URL = TICKET_SERVICE_URL + "/{ticket_id}"
 
 
 def update_agent_task_url(task_id):
@@ -71,6 +72,7 @@ def update_agent_task_url(task_id):
 def agent_details_url(agent_id):
     """ Get the details agent """
     return '%s/%s' % (AGENT_SERVICE_URL, agent_id)
+
 
 def seed_job_url(seed_job_id):
     """ Url to GET details of seed job and update the seed job and
@@ -89,10 +91,15 @@ def admin_action_url(seedjobid, action):
 
 
 def update_job_logs_url(val):
-    """ Url for update joblogs by an agent """
+    """ Url for update job logs by an agent """
     return '%s/agent/%s' % (SEED_JOB_URL, val)
 
 
 def agent_api_url(val, value):
     """ Url for agent api on seed job """
     return '%sagent/%s?action=%s' % (SEED_JOB_URL, val, value)
+
+
+def ticket_detail_url(value):
+    """ url to get the details of ticket """
+    return '%s/%s' % (TICKET_SERVICE_URL, value)
