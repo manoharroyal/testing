@@ -29,4 +29,4 @@ list:
 	@grep '^.PHONY:*' Makefile | sed 's/\.PHONY : //' |  tr " " "\n"
 
 install:
-	python2.7 -m pip install -r requirements.txt --no-index
+	pip install -r requirements.txt --no-index
