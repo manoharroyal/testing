@@ -1,0 +1,30 @@
+# Do Not change this Base url
+BASE_URL:  "https://{0}.execute-api.us-west-2.amazonaws.com/dev"
+
+# eg: 
+#     https://oywvlaayha.execute-api.us-west-2.amazonaws.com/dev/
+#     Here api_id: oywvlaayha
+CUSTOMER_SERVICE_API_ID: "oywvlaayha"
+INVENTORY_SERVICE_API_ID: "vrrw4gamg3"
+SYSTEM_SERVICE_API_ID: "tlgz19gbal"
+SEED_JOB_API_ID: "ulqh6w1du6"
+AGENT_SERVICE_API_ID: "4k0bte7z20"
+TICKET_SERVICE_API_ID: "om5u1cc0bc"
+
+TEMP_KEY: 'bb90c867-a02e-4868-bfff-a8ef9c5f68eb2'
+SEED_JOB_ID: '3f5da8bd-b55b-46a9-9a9a-f3d1b7cc279a'
+DELETE_JOB_ID: 'd63f774c-2e3b-48fb-a0ce-f4db1effc8cc'
+
+LOGIN_URL: "https://sso.teradatacloud.io/oauth/ro"
+client_id: "h4psC1NTevUPYCJ6hTa76htrup4UNIyq"
+customer_username: "customer.one"
+customer_password: "pass@word1"
+sysops_username: "sys.ops"
+sysops_password: "pass@word1"
+connection: "AD-DEV"
+grant_type: "password"
+scope: "openid profile roles customerId userId serviceNowUserId"
+
+AGENT_URL: "https://k0zvnnx44k.execute-api.us-west-2.amazonaws.com/dev/auth/login/agent"
+agent_username: "58adfea9-586b-4a36-84b8-e2d89ce3e314"
+agent_password: "B7C76twh"
