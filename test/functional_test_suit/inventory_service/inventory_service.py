@@ -20,8 +20,8 @@ class InventoryServiceTestCases(unittest.TestCase):
             payload=Inventoryservicepayload().inventory_additem_payload())
         input_dict = Inventoryservicepayload().inventory_additem_payload(self)
         response_dict = add_item_response.json()
-        print "Expected" is input_dict
-        print "Response" is add_item_response
+        print "Expected is", input_dict
+        print "Response is", add_item_response
         self.assertEquals(
             add_item_response.status_code, 200,
             msg="Expected code is 200 and got is %s (%s)" %
@@ -42,8 +42,8 @@ class InventoryServiceTestCases(unittest.TestCase):
         input_dict = Inventoryservicepayload().inventory_additem_payload(
             item_id='1@d@323')
         response_dict = add_item_response.json()
-        print "Expected" is input_dict
-        print "Response" is add_item_response
+        print "Expected is", input_dict
+        print "Response is", add_item_response
         self.assertEquals(
             add_item_response.status_code, 200,
             msg="Expected code is 200 and got is %s (%s)" %
@@ -64,8 +64,8 @@ class InventoryServiceTestCases(unittest.TestCase):
         response_dict = add_item_response.json()
         error_message = "Could not validate the input, " \
                         "please send the correct input parameters"
-        print "Expected" is error_message
-        print "Response" is add_item_response
+        print "Expected is", error_message
+        print "Response is", add_item_response
         self.assertEquals(
             add_item_response.status_code, 400,
             msg="Expected code is 400 and got is %s (%s)" %
@@ -86,8 +86,8 @@ class InventoryServiceTestCases(unittest.TestCase):
         response_dict = add_item_response.json()
         error_message = "Could not validate the input, " \
                         "please send the correct input parameters"
-        print "Expected" is error_message
-        print "Response" is add_item_response
+        print "Expected is", error_message
+        print "Response is", add_item_response
         self.assertEquals(
             add_item_response.status_code, 400,
             msg="Expected code is 400 and got is %s (%s)" %
@@ -108,8 +108,8 @@ class InventoryServiceTestCases(unittest.TestCase):
         response_dict = add_item_response.json()
         error_message = "Could not validate the input, " \
                         "please send the correct input parameters"
-        print "Expected" is error_message
-        print "Response" is add_item_response
+        print "Expected is", error_message
+        print "Response is", add_item_response
         self.assertEquals(
             add_item_response.status_code, 400,
             msg="Expected code is 400 and got is %s (%s)" %
@@ -130,8 +130,8 @@ class InventoryServiceTestCases(unittest.TestCase):
         response_dict = add_item_response.json()
         error_message = "Could not validate the input, " \
                         "please send the correct input parameters"
-        print "Expected" is error_message
-        print "Response" is add_item_response
+        print "Expected is", error_message
+        print "Response is", add_item_response
         self.assertEquals(add_item_response.status_code, 400,
                           msg="Expected code is 400 and got is %s (%s)" % (
                             add_item_response.status_code,
@@ -151,8 +151,8 @@ class InventoryServiceTestCases(unittest.TestCase):
         response_dict = add_item_response.json()
         error_message = "Could not validate the input, " \
                         "please send the correct input parameters"
-        print "Expected" is error_message
-        print "Response" is add_item_response
+        print "Expected is", error_message
+        print "Response is", add_item_response
         self.assertEquals(add_item_response.status_code, 400,
                           msg="Expected code is 400 and got is %s (%s)" % (
                             add_item_response.status_code,
@@ -172,8 +172,8 @@ class InventoryServiceTestCases(unittest.TestCase):
         response_dict = add_item_response.json()
         error_message = "Could not validate the input, " \
                         "please send the correct input parameters"
-        print "Expected" is error_message
-        print "Response" is add_item_response
+        print "Expected is", error_message
+        print "Response is", add_item_response
         self.assertEquals(add_item_response.status_code, 400,
                           msg="Expected code is 400 and got is %s (%s)" % (
                             add_item_response.status_code,
@@ -190,7 +190,7 @@ class InventoryServiceTestCases(unittest.TestCase):
             payload=Inventoryservicepayload().inventory_additem_payload(
                                             order_id='1@ * '))
         add_item_response_dict = add_item_response.json()
-        print "Response" is add_item_response
+        print "Response is", add_item_response
         self.assertEquals(add_item_response.status_code, 200,
                           msg="Expected code is 200 and got is %s (%s)" % (
                             add_item_response.status_code,
@@ -209,8 +209,8 @@ class InventoryServiceTestCases(unittest.TestCase):
         response_dict = add_item_response.json()
         error_message = "Could not validate the input, " \
                         "please send the correct input parameters"
-        print "Expected" is error_message
-        print "Response" is add_item_response
+        print "Expected is", error_message
+        print "Response is", add_item_response
         self.assertEquals(add_item_response.status_code, 400,
                           msg="Expected code is 400 and got is %s (%s)" % (
                             add_item_response.status_code,
@@ -230,8 +230,8 @@ class InventoryServiceTestCases(unittest.TestCase):
         response_dict = add_item_response.json()
         error_message = "Could not validate the input, " \
                         "please send the correct input parameters"
-        print "Expected" is error_message
-        print "Response" is add_item_response
+        print "Expected is", error_message
+        print "Response is", add_item_response
         self.assertEquals(add_item_response.status_code, 400,
                           msg="Expected code is 400 and got is %s (%s)" % (
                             add_item_response.status_code,
@@ -249,8 +249,8 @@ class InventoryServiceTestCases(unittest.TestCase):
                                             item_id=''))
         response_dict = add_item_response.json()
         message = "Seed Box added successfully!"
-        print "Expected" is message
-        print "Response" is add_item_response
+        print "Expected is", message
+        print "Response is", add_item_response
         self.assertEquals(add_item_response.status_code, 200,
                           msg="Expected code is 200 and got is %s (%s)" % (
                              add_item_response.status_code,
@@ -270,8 +270,8 @@ class InventoryServiceTestCases(unittest.TestCase):
         response_dict = add_item_response.json()
         error_message = "Could not validate the input, " \
                         "please send the correct input parameters"
-        print "Expected" is error_message
-        print "Response" is add_item_response
+        print "Expected is", error_message
+        print "Response is", add_item_response
         self.assertEquals(add_item_response.status_code, 400,
                           msg="Expected code is 400 and got is %s (%s)" % (
                             add_item_response.status_code,
@@ -291,8 +291,8 @@ class InventoryServiceTestCases(unittest.TestCase):
         response_dict = add_item_response.json()
         error_message = "Could not validate the input, " \
                         "please send the correct input parameters"
-        print "Expected" is error_message
-        print "Response" is add_item_response
+        print "Expected is", error_message
+        print "Response is", add_item_response
         self.assertEquals(add_item_response.status_code, 400,
                           msg="Expected code is 400 and got is %s (%s)" % (
                             add_item_response.status_code,
@@ -312,8 +312,8 @@ class InventoryServiceTestCases(unittest.TestCase):
         response_dict = add_item_response.json()
         error_message = "Could not validate the input, " \
                         "please send the correct input parameters"
-        print "Expected" is error_message
-        print "Response" is add_item_response
+        print "Expected is", error_message
+        print "Response is", add_item_response
         self.assertEquals(add_item_response.status_code, 400,
                           msg="Expected code is 400 and got is %s (%s)" % (
                             add_item_response.status_code,
@@ -333,8 +333,8 @@ class InventoryServiceTestCases(unittest.TestCase):
         response_dict = add_item_response.json()
         error_message = "Could not validate the input, " \
                         "please send the correct input parameters"
-        print "Expected" is error_message
-        print "Response" is add_item_response
+        print "Expected is", error_message
+        print "Response is", add_item_response
         self.assertEquals(add_item_response.status_code, 400,
                           msg="Expected code is 400 and got is %s (%s)" % (
                             add_item_response.status_code,
@@ -354,8 +354,8 @@ class InventoryServiceTestCases(unittest.TestCase):
         response_dict = add_item_response.json()
         error_message = "Could not validate the input, " \
                         "please send the correct input parameters"
-        print "Expected" is error_message
-        print "Response" is add_item_response
+        print "Expected is", error_message
+        print "Response is", add_item_response
         self.assertEquals(add_item_response.status_code, 400,
                           msg="Expected code is 400 and got is %s (%s)" % (
                             add_item_response.status_code,
@@ -375,8 +375,8 @@ class InventoryServiceTestCases(unittest.TestCase):
         response_dict = add_item_response.json()
         error_message = "Could not validate the input, " \
                         "please send the correct input parameters"
-        print "Expected" is error_message
-        print "Response" is add_item_response
+        print "Expected is", error_message
+        print "Response is", add_item_response
         self.assertEquals(add_item_response.status_code, 400,
                           msg="Expected code is 400 and got is %s (%s)" % (
                             add_item_response.status_code,
@@ -396,8 +396,8 @@ class InventoryServiceTestCases(unittest.TestCase):
         response_dict = add_item_response.json()
         error_message = "Could not validate the input, " \
                         "please send the correct input parameters"
-        print "Expected" is error_message
-        print "Response" is add_item_response
+        print "Expected is", error_message
+        print "Response is", add_item_response
         self.assertEquals(
             add_item_response.status_code, 400,
             msg="Expected code is 400 and got is %s (%s)" %
@@ -418,8 +418,8 @@ class InventoryServiceTestCases(unittest.TestCase):
         response_dict = add_item_response.json()
         error_message = "Could not validate the input, " \
                         "please send the correct input parameters"
-        print "Expected" is error_message
-        print "Response" is add_item_response
+        print "Expected is", error_message
+        print "Response is", add_item_response
         self.assertEquals(
             add_item_response.status_code, 400,
             msg="Expected code is 400 and got is %s (%s)" %
@@ -438,8 +438,8 @@ class InventoryServiceTestCases(unittest.TestCase):
                 order_id=''))
         response_dict = add_item_response.json()
         error_message = "Seed Box added successfully!"
-        print "Expected" is error_message
-        print "Response" is add_item_response
+        print "Expected is", error_message
+        print "Response is", add_item_response
         self.assertEquals(
             add_item_response.status_code, 200,
             msg="Expected code is 200 and got is %s (%s)" %
@@ -457,7 +457,7 @@ class InventoryServiceTestCases(unittest.TestCase):
 
         item_availability_response = inventory_service.request(
             RequestType.GET, get_items_url('hw_model', 'ASDF123'))
-        print "Response" is item_availability_response
+        print "Response is", item_availability_response
         self.assertEquals(
             item_availability_response.status_code, 200,
             msg="Expected code is 200 and got is %s (%s)" %
@@ -473,7 +473,7 @@ class InventoryServiceTestCases(unittest.TestCase):
 
         item_availability_response = inventory_service.request(
             RequestType.GET, get_items_url('item_id', 'NOOR'))
-        print "Response" is item_availability_response
+        print "Response is", item_availability_response
         self.assertEquals(
             item_availability_response.status_code, 200,
             msg="Expected code is 200 and got is %s (%s)" % (
@@ -489,7 +489,7 @@ class InventoryServiceTestCases(unittest.TestCase):
 
         item_availability_response = inventory_service.request(
             RequestType.GET, get_items_url('storage_capacity', '299'))
-        print "Response" is item_availability_response
+        print "Response is", item_availability_response
         self.assertEquals(
             item_availability_response.status_code, 200,
             msg="Expected code is 200 and got is %s (%s)" % (
@@ -505,7 +505,7 @@ class InventoryServiceTestCases(unittest.TestCase):
 
         item_availability_response = inventory_service.request(
             RequestType.GET, get_items_url('item_status', 'NEW'))
-        print "Response" is item_availability_response
+        print "Response is", item_availability_response
         self.assertEquals(
             item_availability_response.status_code, 200,
             msg="Expected code is 200 and got is %s (%s)" % (
@@ -523,8 +523,8 @@ class InventoryServiceTestCases(unittest.TestCase):
             RequestType.GET, get_items_url('hw_model', 'sf1@%563 7'))
         response_dict = item_availability_response.json()
         error_message = "Invalid attribute value!"
-        print "Expected" is error_message
-        print "Response" is item_availability_response
+        print "Expected is", error_message
+        print "Response is", item_availability_response
         self.assertEquals(
             item_availability_response.status_code, 400,
             msg="Expected code is 400 and got is %s (%s)" % (
@@ -542,8 +542,8 @@ class InventoryServiceTestCases(unittest.TestCase):
             RequestType.GET, get_items_url('item_id', 'asfyd 227@'))
         response_dict = item_availability_response.json()
         error_message = "Invalid attribute value!"
-        print "Expected" is error_message
-        print "Response" is item_availability_response
+        print "Expected is", error_message
+        print "Response is", item_availability_response
         self.assertEquals(
             item_availability_response.status_code, 400,
             msg="Expected code is 400 and got is %s (%s)" % (
@@ -561,8 +561,8 @@ class InventoryServiceTestCases(unittest.TestCase):
             RequestType.GET, get_items_url('item_status', 'asdf'))
         response_dict = item_availability_response.json()
         error_message = "Invalid attribute value!"
-        print "Expected" is error_message
-        print "Response" is item_availability_response
+        print "Expected is", error_message
+        print "Response is", item_availability_response
         self.assertEquals(
             item_availability_response.status_code, 400,
             msg="Expected code is 400 and got is %s (%s)" % (
@@ -580,8 +580,8 @@ class InventoryServiceTestCases(unittest.TestCase):
             RequestType.GET, get_items_url('hw_model', ''))
         response_dict = item_availability_response.json()
         error_message = "Invalid attribute value!"
-        print "Expected" is error_message
-        print "Response" is item_availability_response
+        print "Expected is", error_message
+        print "Response is", item_availability_response
         self.assertEquals(
             item_availability_response.status_code, 400,
             msg="Expected code is 400 and got is %s (%s)" % (
@@ -599,8 +599,8 @@ class InventoryServiceTestCases(unittest.TestCase):
             RequestType.GET, get_items_url('item_id', ''))
         response_dict = item_availability_response.json()
         error_message = "Invalid attribute value!"
-        print "Expected" is error_message
-        print "Response" is item_availability_response
+        print "Expected is", error_message
+        print "Response is", item_availability_response
         self.assertEquals(
             item_availability_response.status_code, 400,
             msg="Expected code is 400 and got is %s (%s)" % (
@@ -618,8 +618,8 @@ class InventoryServiceTestCases(unittest.TestCase):
             RequestType.GET, get_items_url('storage_capacity', ''))
         response_dict = item_availability_response.json()
         error_message = "Invalid attribute value!"
-        print "Expected" is error_message
-        print "Response" is item_availability_response
+        print "Expected is", error_message
+        print "Response is", item_availability_response
         self.assertEquals(
             item_availability_response.status_code, 400,
             msg="Expected code is 400 and got is %s (%s)" % (
@@ -637,8 +637,8 @@ class InventoryServiceTestCases(unittest.TestCase):
             RequestType.GET, get_items_url('item_status', ''))
         response_dict = item_availability_response.json()
         error_message = "Invalid attribute value!"
-        print "Expected" is error_message
-        print "Response" is item_availability_response
+        print "Expected is", error_message
+        print "Response is", item_availability_response
         self.assertEquals(
             item_availability_response.status_code, 400,
             msg="Expected code is 400 and got is %s (%s)" % (
@@ -661,8 +661,8 @@ class InventoryServiceTestCases(unittest.TestCase):
             payload=Inventoryservicepayload().inventory_update_payload())
         response_dict = update_item_status_response.json()
         expected_message = ["Item has been updated in Inventory"]
-        print "Expected" is expected_message
-        print "Response" is update_item_status_response
+        print "Expected is", expected_message
+        print "Response is", update_item_status_response
         self.assertEquals(
             update_item_status_response.status_code, 200,
             msg="Expected code is 200 and got is %s (%s)" % (
@@ -684,8 +684,8 @@ class InventoryServiceTestCases(unittest.TestCase):
         response_dict = update_item_status_response.json()
         error_message = "Could not update database with expected values : " \
                         "No uid/sku found to update"
-        print "Expected" is error_message
-        print "Response" is update_item_status_response
+        print "Expected is", error_message
+        print "Response is", update_item_status_response
         self.assertEquals(
             update_item_status_response.status_code, 500,
             msg="Expected code is 500 and got is %s (%s)" % (

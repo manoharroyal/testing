@@ -5,8 +5,8 @@ import requests
 import jwt
 from enum import Enum
 import yaml
-
-path = os.environ["PYTHONPATH"]
+path = '/home/manohar/python/new/api_functional_testing'
+# path = os.environ["PYTHONPATH"]
 print (path)
 with open(path + "/env/configuration.yaml", 'r') as stream:
     try:
@@ -132,42 +132,29 @@ class RestAPIHeader(object):
             'content-type': "application/json"
         }
 
-        if method == RequestType.GET:
-            try:
-                self.response = requests.get(url, headers=header, timeout=10)
-            except:
-                raise
+        try:
 
-        elif method == RequestType.POST:
-            header['Content-Type'] = "application/json"
-            try:
+            if method == RequestType.GET:
+                self.response = requests.get(url, headers=header, timeout=10)
+
+            elif method == RequestType.POST:
+                header['Content-Type'] = "application/json"
                 self.response = requests.post(url, headers=header, timeout=10,
                                               data=json.dumps(payload))
-            except:
-                raise
-
-        elif method == RequestType.PUT:
-            header['content-type'] = "application/json"
-            try:
+            elif method == RequestType.PUT:
+                header['content-type'] = "application/json"
                 self.response = requests.put(url, headers=header, timeout=10,
                                              data=json.dumps(payload))
-            except:
-                raise
-
-        elif method == RequestType.DELETE:
-            try:
+            elif method == RequestType.DELETE:
                 self.response = requests.delete(url, headers=header, timeout=10)
-            except:
-                raise
 
-        elif method == RequestType.PATCH:
-            try:
+            elif method == RequestType.PATCH:
                 self.response = requests.patch(url, headers=header, timeout=10,
                                                data=json.dumps(payload))
-            except:
-                raise
+            return self.response
 
-        return self.response
+        except:
+            raise
 
 
 if __name__ == "__main__":

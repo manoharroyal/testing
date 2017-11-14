@@ -16,7 +16,7 @@ class TicketService(unittest.TestCase):
         ticket_response = ticket_service_obj.request(
             RequestType.PUT, ticket_detail_url('wbcsjis'),
             payload=TicketServicePayload().update_ticket_payload())
-        print "Response" is ticket_response
+        print "Response is", ticket_response
         self.assertEquals(
             ticket_response.status_code, 200,
             msg="Expected 200 and actual is %s (%s)" %
@@ -30,8 +30,8 @@ class TicketService(unittest.TestCase):
             payload=TicketServicePayload().update_ticket_payload())
         ticket_response_dict = ticket_response.json()
         message = "No ticket found for provided ticket id"
-        print "Expected" is message
-        print "Response" is ticket_response
+        print "Expected is", message
+        print "Response is", ticket_response
         self.assertEquals(
             ticket_response.status_code, 400,
             msg="Expected 400 and actual is %s (%s)" %
@@ -48,7 +48,7 @@ class TicketService(unittest.TestCase):
             RequestType.PUT, ticket_detail_url(''),
             payload=TicketServicePayload().update_ticket_payload())
         ticket_response_dict = ticket_response.json()
-        print "Response" is ticket_response
+        print "Response is", ticket_response
         self.assertEquals(
             ticket_response.status_code, 403,
             msg="Expected 403 and actual is %s (%s)" %
@@ -65,7 +65,7 @@ class TicketService(unittest.TestCase):
         """ Get the list of tickets """
         list_tickets_response = ticket_service_obj.request(
             RequestType.GET, TICKET_SERVICE_URL)
-        print "Response" is list_tickets_response
+        print "Response is", list_tickets_response
         self.assertEqual(
             list_tickets_response.status_code, 200,
             msg="Expected 200 and got is %s (%s)" %
@@ -76,7 +76,7 @@ class TicketService(unittest.TestCase):
         """ Get the list of tickets """
         list_tickets_response = ticket_service_obj.request(
             RequestType.GET, TICKET_SERVICE_URL)
-        print "Response" is list_tickets_response
+        print "Response is", list_tickets_response
         self.assertEqual(
             list_tickets_response.status_code, 400,
             msg="Expected 400 and got is %s (%s)" %

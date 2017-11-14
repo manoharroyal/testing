@@ -22,7 +22,7 @@ class SystemServiceTestCases(unittest.TestCase):
             payload=SystemServicePayload().system_creation_payload())
         system_name = "TDCLOUD15TD12"
         response_dict = create_system_response.json()
-        print "Response" is create_system_response
+        print "Response is", create_system_response
         self.assertEquals(
             create_system_response.status_code, 200,
             msg='Expected 200 and got %s (%s)' % (
@@ -41,8 +41,8 @@ class SystemServiceTestCases(unittest.TestCase):
                 "system_name"))
         response_dict = create_system_response.json()
         expected_message = 'System Name is not provided'
-        print "Expected" is expected_message
-        print "Response" is create_system_response
+        print "Expected is", expected_message
+        print "Response is", create_system_response
         self.assertEquals(
             create_system_response.status_code, 400,
             msg='Expected 400 and got %s (%s)' %
@@ -61,8 +61,8 @@ class SystemServiceTestCases(unittest.TestCase):
                 "system_type"))
         response_dict = create_system_response.json()
         expected_message = 'System Type is not provided'
-        print "Expected" is expected_message
-        print "Response" is create_system_response
+        print "Expected is", expected_message
+        print "Response is", create_system_response
         self.assertEquals(
             create_system_response.status_code, 400,
             msg='Expected 400 and got %s (%s)' %
@@ -79,8 +79,8 @@ class SystemServiceTestCases(unittest.TestCase):
             payload=SystemServicePayload().system_deletion_payload("details"))
         response_dict = create_system_response.json()
         expected_message = 'System Details is not provided'
-        print "Expected" is expected_message
-        print "Response" is create_system_response
+        print "Expected is", expected_message
+        print "Response is", create_system_response
         self.assertEquals(
             create_system_response.status_code, 400,
             msg='Expected 400 and got %s (%s)' %
@@ -98,8 +98,8 @@ class SystemServiceTestCases(unittest.TestCase):
                 system_name=""))
         response_dict = create_system_response.json()
         expected_message = 'System Name is not provided'
-        print "Expected" is expected_message
-        print "Response" is create_system_response
+        print "Expected is", expected_message
+        print "Response is", create_system_response
         self.assertEquals(
             create_system_response.status_code, 400,
             msg='Expected 400 and got %s (%s)' %
@@ -117,8 +117,8 @@ class SystemServiceTestCases(unittest.TestCase):
                 system_type=""))
         create_system_response_dict = create_system_response.json()
         expected_message = 'System Type is not provided'
-        print "Expected" is expected_message
-        print "Response" is create_system_response
+        print "Expected is", expected_message
+        print "Response is", create_system_response
         self.assertEquals(
             create_system_response.status_code, 400,
             msg='Expected 400 and got %s (%s)' %
@@ -136,8 +136,8 @@ class SystemServiceTestCases(unittest.TestCase):
             payload=SystemServicePayload().system_creation_payload(details=''))
         create_system_response_dict = create_system_response.json()
         expected_message = 'System Details is not provided'
-        print "Expected" is expected_message
-        print "Response" is create_system_response
+        print "Expected is", expected_message
+        print "Response is", create_system_response
         self.assertEquals(
             create_system_response.status_code, 400,
             msg='Expected 400 and got %s (%s)' %
@@ -157,7 +157,7 @@ class SystemServiceTestCases(unittest.TestCase):
             RequestType.GET,
             list_system_url(list_system, SystemType.source))
         source_system_list = system_list_response.json()
-        print "Response" is system_list_response
+        print "Response is", system_list_response
         self.assertEquals(
             system_list_response.status_code, 200,
             msg='Expected 200 and got %s (%s)' %
@@ -170,7 +170,7 @@ class SystemServiceTestCases(unittest.TestCase):
         system_list_response = system_service.request(
             RequestType.GET,
             list_system_url(list_system, SystemType.target))
-        print "Response" is system_list_response
+        print "Response is", system_list_response
         self.assertEquals(
             system_list_response.status_code, 200,
             msg='Expected 200 and got %s (%s)' %
@@ -184,8 +184,8 @@ class SystemServiceTestCases(unittest.TestCase):
             RequestType.GET, SYSTEM_SERVICE_URL)
         response_dict = system_list_response.json()
         expected_message = 'type should be provided'
-        print "Expected" is expected_message
-        print "Response" is system_list_response
+        print "Expected is", expected_message
+        print "Response is", system_list_response
         self.assertEquals(
             system_list_response.status_code, 400,
             msg='Expected 400 and got %s (%s)' %
@@ -201,7 +201,7 @@ class SystemServiceTestCases(unittest.TestCase):
         system_list_response = system_service.request(
             RequestType.GET, SYSTEM_SERVICE_URL + '/?type1')
         system_list_response_dict = system_list_response.json()
-        print "Response" is system_list_response
+        print "Response is", system_list_response
         self.assertEquals(
             system_list_response.status_code, 400,
             msg='Expected 400 and got %s (%s)' %
@@ -221,7 +221,7 @@ class SystemServiceTestCases(unittest.TestCase):
             RequestType.GET,
             source_system_url(source_system, SOURCE_SYSTEM_ID))
         source_system_details = system_details_response.json()
-        print "Expected" is system_details_response
+        print "Expected is", system_details_response
         self.assertEquals(
             system_details_response.status_code, 200,
             msg='Expected 200 and got %s (%s)' %
@@ -236,7 +236,7 @@ class SystemServiceTestCases(unittest.TestCase):
         system_details_response = system_service.request(
             RequestType.GET, target_system_url(target_system, 'KAGAWS3'))
         target_system_details = system_details_response.json()
-        print "Expected" is system_details_response
+        print "Expected is", system_details_response
         self.assertEquals(
             system_details_response.status_code, 200,
             msg='Expected 200 and got %s (%s)' %
@@ -250,7 +250,7 @@ class SystemServiceTestCases(unittest.TestCase):
         system_details_response = system_service.request(
             RequestType.GET, source_system_url(source_system, ''))
         system_details_response_dict = system_details_response.json()
-        print "Expected" is system_details_response
+        print "Expected is", system_details_response
         self.assertEquals(
             system_details_response.status_code, 403,
             msg='Expected 403 and got %s (%s)' %
@@ -267,8 +267,8 @@ class SystemServiceTestCases(unittest.TestCase):
             source_system_url(source_system, '123'))
         response_dict = system_details_response.json()
         expected_message = "Resource with id 123 does not exists"
-        print "Expected" is expected_message
-        print "Response" is system_details_response
+        print "Expected is", expected_message
+        print "Response is", system_details_response
         self.assertEquals(
             system_details_response.status_code, 404,
             msg='Expected 404 and got %s (%s)' %
@@ -285,7 +285,7 @@ class SystemServiceTestCases(unittest.TestCase):
         customer_systems_response = system_service.request(
             RequestType.GET, SYSTEM_SERVICE + '/customer')
         response_dict = customer_systems_response.json()
-        print "Response" is customer_systems_response
+        print "Response is", customer_systems_response
         self.assertEquals(
             customer_systems_response.status_code, 200,
             msg='Expected 200 and got %s (%s)' %
@@ -302,8 +302,8 @@ class SystemServiceTestCases(unittest.TestCase):
             RequestType.GET, SYSTEM_SERVICE + '/customer')
         response_dict = customer_systems_response.json()
         expected_message = 'exceptions while validating token'
-        print "Expected" is expected_message
-        print "Response" is customer_systems_response
+        print "Expected is", expected_message
+        print "Response is", customer_systems_response
         self.assertEquals(
             customer_systems_response.status_code, 401,
             msg='Expected 401 and got %s (%s)' %
@@ -318,7 +318,7 @@ class SystemServiceTestCases(unittest.TestCase):
         customer_systems_response = system_service.request(
             RequestType.GET, SYSTEM_SERVICE_URL + '/customer1')
         response_dict = customer_systems_response.json()
-        print "Response" is customer_systems_response
+        print "Response is", customer_systems_response
         self.assertEquals(
             customer_systems_response.status_code, 403,
             msg='Expected 400 and got %s (%s)' %

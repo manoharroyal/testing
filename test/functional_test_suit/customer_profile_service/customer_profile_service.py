@@ -33,8 +33,8 @@ class CustomerProfileTestCases(unittest.TestCase):
         customer_profile_response_dict = customer_service.request(
             RequestType.GET,
             customer_profile_address_url + "9786").json()
-        print "Expected" is input_dict
-        print "Response" is customer_profile_response
+        print "Expected is", input_dict
+        print "Response is", customer_profile_response
         self.assertEquals(
             customer_profile_response.status_code, 200,
             msg="Expected 200 and got %s (%s)" %
@@ -57,8 +57,8 @@ class CustomerProfileTestCases(unittest.TestCase):
         customer_profile_response_dict = customer_service.request(
             RequestType.GET,
             customer_profile_address_url + "9876").json()
-        print "Expected" is input_dict
-        print "Response" is customer_profile_response
+        print "Expected is", input_dict
+        print "Response is", customer_profile_response
         self.assertEquals(
             customer_profile_response.status_code, 200,
             msg='Expected 200 and got %s (%s)' %
@@ -82,8 +82,8 @@ class CustomerProfileTestCases(unittest.TestCase):
                        customer_profile_response_data["shipping_addresses"] for
                        key, value in data.items()
                        if value == 'cust_new_test'][0]
-        print "Expected" is updated_val
-        print "Response" is customer_profile_response
+        print "Expected is", updated_val
+        print "Response is", customer_profile_response
         self.assertEquals(
             customer_profile_response.status_code, 200,
             msg="Expected 200 and got %s (%s)" %
@@ -106,8 +106,8 @@ class CustomerProfileTestCases(unittest.TestCase):
             [data['contact_number'] for data in
              customer_profile_response_data["shipping_addresses"]
              for key, value in data.items() if value == 'cust_new_test'][0]
-        print "Expected" is updated_val
-        print "Response" is customer_profile_response
+        print "Expected is", updated_val
+        print "Response is", customer_profile_response
         self.assertEquals(
             customer_profile_response.status_code, 200,
             msg="Expected 200 and got %s (%s)" %
@@ -129,8 +129,8 @@ class CustomerProfileTestCases(unittest.TestCase):
             [data['city'] for data in
              customer_profile_response_data["shipping_addresses"] for
              key, value in data.items() if value == 'cust_new_test'][0])
-        print "Expected" is updated_val
-        print "Response" is customer_profile_response
+        print "Expected is", updated_val
+        print "Response is", customer_profile_response
         self.assertEquals(
             customer_profile_response.status_code, 200,
             msg="Expected 200 and got %s (%s)" %
@@ -152,8 +152,8 @@ class CustomerProfileTestCases(unittest.TestCase):
             [data['contact_name'] for data in customer_profile_response_data[
                 "shipping_addresses"] for
              key, value in data.items() if value == 'cust_new_test'][0])
-        print "Expected" is updated_val
-        print "Response" is customer_profile_response
+        print "Expected is", updated_val
+        print "Response is", customer_profile_response
         self.assertEquals(
             customer_profile_response.status_code, 200,
             msg="Expected 200 and got %s (%s)" %
@@ -175,8 +175,8 @@ class CustomerProfileTestCases(unittest.TestCase):
             [data['state'] for data in
              customer_profile_response_data["shipping_addresses"] for
              key, value in data.items() if value == 'cust_new_test'][0])
-        print "Expected" is updated_val
-        print "Response" is customer_profile_response
+        print "Expected is", updated_val
+        print "Response is", customer_profile_response
         self.assertEquals(
             customer_profile_response.status_code, 200,
             msg='Expected 200 and got %s (%s)' %
@@ -198,8 +198,8 @@ class CustomerProfileTestCases(unittest.TestCase):
             [data['zipcode'] for data in
              customer_profile_response_data["shipping_addresses"] for
              key, value in data.items() if value == 'cust_new_test'][0]
-        print "Expected" is updated_val
-        print "Response" is customer_profile_response
+        print "Expected is", updated_val
+        print "Response is", customer_profile_response
         self.assertEquals(
             customer_profile_response.status_code, 200,
             msg='Expected 200 and got %s (%s)' %
@@ -218,8 +218,8 @@ class CustomerProfileTestCases(unittest.TestCase):
                 addr1="400_NE, River_Bridge", addr2='Near Post Office'))
         customer_profile_response_dict = customer_profile_response.json()
         expected_message = "Customer_id mismatch"
-        print "Expected" is expected_message
-        print "Response" is customer_profile_response
+        print "Expected is", expected_message
+        print "Response is", customer_profile_response
         self.assertEquals(
             customer_profile_response.status_code, 400,
             msg='Expected 400 and got %s (%s)' %
@@ -239,8 +239,8 @@ class CustomerProfileTestCases(unittest.TestCase):
                 "title"))
         customer_profile_response_text = customer_profile_response.json()
         expected_message = 'Shipping address: ' + "title" + ' is not provided'
-        print "Expected" is expected_message
-        print "Response" is customer_profile_response
+        print "Expected is", expected_message
+        print "Response is", customer_profile_response
         self.assertEquals(
             customer_profile_response.status_code, 400,
             msg='Expected 400 and got %s (%s)' %
@@ -261,8 +261,8 @@ class CustomerProfileTestCases(unittest.TestCase):
         customer_profile_response_text = customer_profile_response.json()
         expected_message = 'Shipping address: ' + "address_line_1" + \
                            ' is not provided'
-        print "Expected" is expected_message
-        print "Response" is customer_profile_response
+        print "Expected is", expected_message
+        print "Response is", customer_profile_response
         self.assertEquals(
             customer_profile_response.status_code, 400,
             msg='Expected 400 and got %s (%s)' %
@@ -283,8 +283,8 @@ class CustomerProfileTestCases(unittest.TestCase):
         customer_profile_response_text = customer_profile_response.json()
         expected_message = 'Shipping address: ' + "contact_number" + \
                            ' is not provided'
-        print "Expected" is expected_message
-        print "Response" is customer_profile_response
+        print "Expected is", expected_message
+        print "Response is", customer_profile_response
         self.assertEquals(
             customer_profile_response.status_code, 400,
             msg='Expected 400 and got %s (%s)' %
@@ -304,8 +304,8 @@ class CustomerProfileTestCases(unittest.TestCase):
                 "city"))
         customer_profile_response_text = customer_profile_response.json()
         expected_message = 'Shipping address: ' + "city" + ' is not provided'
-        print "Expected" is expected_message
-        print "Response" is customer_profile_response
+        print "Expected is", expected_message
+        print "Response is", customer_profile_response
         self.assertEquals(
             customer_profile_response.status_code, 400,
             msg='Expected 400 and got %s (%s)' %
@@ -326,8 +326,8 @@ class CustomerProfileTestCases(unittest.TestCase):
         customer_profile_response_text = customer_profile_response.json()
         expected_message = 'Shipping address: ' + "contact_name" + \
                            ' is not provided'
-        print "Expected" is expected_message
-        print "Response" is customer_profile_response
+        print "Expected is", expected_message
+        print "Response is", customer_profile_response
         self.assertEquals(
             customer_profile_response.status_code, 400,
             msg='Expected 400 and got %s (%s)' %
@@ -347,8 +347,8 @@ class CustomerProfileTestCases(unittest.TestCase):
                 "state"))
         customer_profile_response_text = customer_profile_response.json()
         expected_message = 'Shipping address: ' + "state" + ' is not provided'
-        print "Expected" is expected_message
-        print "Response" is customer_profile_response
+        print "Expected is", expected_message
+        print "Response is", customer_profile_response
         self.assertEquals(
             customer_profile_response.status_code, 400,
             msg='Expected 400 and got %s (%s)' %
@@ -368,8 +368,8 @@ class CustomerProfileTestCases(unittest.TestCase):
                 "country"))
         customer_profile_response_text = customer_profile_response.json()
         expected_message = 'Shipping address: ' + "country" + ' is not provided'
-        print "Expected" is expected_message
-        print "Response" is customer_profile_response
+        print "Expected is", expected_message
+        print "Response is", customer_profile_response
         self.assertEquals(
             customer_profile_response.status_code, 400,
             msg='Expected 400 and got %s (%s)' %
@@ -390,8 +390,8 @@ class CustomerProfileTestCases(unittest.TestCase):
                 "zipcode"))
         customer_profile_response_text = customer_profile_response.json()
         expected_message = 'Shipping address: ' + "zipcode" + ' is not provided'
-        print "Expected" is expected_message
-        print "Response" is customer_profile_response
+        print "Expected is", expected_message
+        print "Response is", customer_profile_response
         self.assertEquals(
             customer_profile_response.status_code, 400,
             msg='Expected 400 and got %s (%s)' %
@@ -410,7 +410,7 @@ class CustomerProfileTestCases(unittest.TestCase):
         customer_profile_response = customer_service.request(
             RequestType.GET, customer_profile_url)
         customer_profile_response.dict = customer_profile_response.json()
-        print "Response" is customer_profile_response
+        print "Response is", customer_profile_response
         self.assertEquals(
             customer_profile_response.status_code, 200,
             msg='Expected 200 and got %s (%s)' %
@@ -429,8 +429,8 @@ class CustomerProfileTestCases(unittest.TestCase):
                 customer_service.customerId) + '12')
         customer_profile_response_dict = customer_profile_response.json()
         expected_message = "Customer_id mismatch"
-        print "Expected" is expected_message
-        print "Response" is customer_profile_response
+        print "Expected is", expected_message
+        print "Response is", customer_profile_response
         self.assertEquals(
             customer_profile_response.status_code, 400,
             msg='Expected 400 and got %s (%s)' %
@@ -447,8 +447,8 @@ class CustomerProfileTestCases(unittest.TestCase):
             RequestType.GET, CUSTOMER_SERVICE_URL + str('12'))
         customer_profile_response_text = customer_profile_response.json()
         expected_message = 'Customer_id mismatch'
-        print "Expected" is expected_message
-        print "Response" is customer_profile_response
+        print "Expected is", expected_message
+        print "Response is", customer_profile_response
         self.assertEquals(
             customer_profile_response.status_code, 400,
             msg='Expected 400 and got %s (%s)' %
@@ -464,7 +464,7 @@ class CustomerProfileTestCases(unittest.TestCase):
         customer_profile_response = customer_service.request(
             RequestType.GET, CUSTOMER_SERVICE_URL)
         customer_profile_response_dict = customer_profile_response.json()
-        print "Response" is customer_profile_response
+        print "Response is", customer_profile_response
         self.assertEquals(
             customer_profile_response.status_code, 403,
             msg='Expected 403 and got %s (%s)' %
@@ -480,7 +480,7 @@ class CustomerProfileTestCases(unittest.TestCase):
         customer_profile_response = customer_service_invalid_token.request(
             RequestType.GET, CUSTOMER_SERVICE_URL)
         customer_profile_response_dict = customer_profile_response.json()
-        print "Response" is customer_profile_response
+        print "Response is", customer_profile_response
         self.assertEquals(
             customer_profile_response.status_code, 403,
             msg='Expected 403 and got %s (%s)' %
@@ -496,7 +496,7 @@ class CustomerProfileTestCases(unittest.TestCase):
         """ Testing with the valid address title """
         customer_profile_response = customer_service.request(
             RequestType.DELETE, customer_profile_address_url + "1111")
-        print "Response" is customer_profile_response
+        print "Response is", customer_profile_response
         self.assertEquals(
             customer_profile_response.status_code, 200,
             msg='Expected 200 and got %s (%s)' %
@@ -510,8 +510,8 @@ class CustomerProfileTestCases(unittest.TestCase):
             RequestType.DELETE, customer_profile_address_url + "XYZ")
         customer_profile_response_dict = customer_profile_response.json()
         expected_message = "Address does not exist"
-        print "Expected" is expected_message
-        print "Response" is customer_profile_response
+        print "Expected is", expected_message
+        print "Response is", customer_profile_response
         self.assertEquals(
             customer_profile_response.status_code, 404,
             msg='Expected 404 and got %s (%s)' %
@@ -530,8 +530,8 @@ class CustomerProfileTestCases(unittest.TestCase):
             customer_profile_url + "24" + "/addresses/Test_Job")
         customer_profile_response_dict = customer_profile_response.json()
         expected_message = "Customer_id mismatch"
-        print "Expected" is expected_message
-        print "Response" is customer_profile_response
+        print "Expected is", expected_message
+        print "Response is", customer_profile_response
         self.assertEquals(
             customer_profile_response.status_code, 400,
             msg='Expected 400 and got %s (%s)' %
@@ -551,7 +551,7 @@ class CustomerProfileTestCases(unittest.TestCase):
         customer_profile_response = customer_service.request(
             RequestType.GET, customer_profile_address_url + 'cust_new_test')
         customer_profile_response_dict = customer_profile_response.json()
-        print "Response" is customer_profile_response
+        print "Response is", customer_profile_response
         self.assertEquals(
             customer_profile_response.status_code, 200,
             msg='Expected 200 and got %s (%s)' %
@@ -571,8 +571,8 @@ class CustomerProfileTestCases(unittest.TestCase):
             RequestType.GET, customer_profile_addresses_url + "Restore_Job")
         customer_profile_response_dict = customer_profile_response.json()
         expected_message = "Customer_id mismatch"
-        print "Expected" is expected_message
-        print "Response" is customer_profile_response
+        print "Expected is", expected_message
+        print "Response is", customer_profile_response
         self.assertEquals(
             customer_profile_response.status_code, 400,
             msg='Expected 400 and got %s (%s)' %
@@ -591,8 +591,8 @@ class CustomerProfileTestCases(unittest.TestCase):
             customer_profile_address_url + str('xyz'))
         customer_profile_response_dict = customer_profile_response.json()
         expected_message = 'Address does not exist'
-        print "Expected" is expected_message
-        print "Response" is customer_profile_response
+        print "Expected is", expected_message
+        print "Response is", customer_profile_response
         self.assertEquals(
             customer_profile_response.status_code, 404,
             msg='Expected 404 and got %s (%s)' %
@@ -613,8 +613,8 @@ class CustomerProfileTestCases(unittest.TestCase):
             customer_profile_address_url_change + "Restore_Job")
         customer_profile_response_dict = customer_profile_response.json()
         expected_message = "Customer_id mismatch"
-        print "Expected" is expected_message
-        print "Response" is customer_profile_response
+        print "Expected is", expected_message
+        print "Response  is", customer_profile_response
         self.assertEquals(
             customer_profile_response.status_code, 400,
             msg='Expected 400 and got %s (%s)' %
