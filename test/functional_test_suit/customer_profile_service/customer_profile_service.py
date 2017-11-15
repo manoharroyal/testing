@@ -1,6 +1,6 @@
-""" Functional test cases for user profile service """
+""" Functional test cases for customer profile service """
 
-import unittest
+import unittest2
 import httplib
 from test.shared.rest_framework import RequestType, RestAPIHeader
 from test.functional_test_suit.common.config import CUSTOMER_SERVICE_URL
@@ -13,28 +13,28 @@ customer_profile_url = CUSTOMER_SERVICE_URL + str(customer_service.customerId)
 customer_profile_address_url = customer_profile_url + "/addresses/"
 
 
-class CustomerProfileTestCases(unittest.TestCase):
+class CustomerProfileTestCases(unittest2.TestCase):
     """ Test cases for the creation of customer profile
     by passing the input parameters """
     """ PUT : Create/Update customer profile """
 
-    def test_add_new_shipping_address_without_optional_Param(self):
+    def test_add_new_shipping_address_without_addressline2(self):
         """ Testing without optional address to add
         new shipping address to the customer profile """
+
+        # Create an address without addressline 2
         customer_profile_response = customer_service.request(
             RequestType.PUT, customer_profile_url,
             payload=CustomerProfileServicePayload().customer_profile_payload(
                 title="9876"))
-        input_dict = CustomerProfileServicePayload().customer_profile_payload(
-            title="9876")
-        if input_dict['shipping_address']['address_line_2'] is None:
-            input_dict['shipping_address'].pop('address_line_2')
-        input_dict = input_dict['shipping_address']
+
+        # Get the added address
         customer_profile_response_dict = customer_service.request(
             RequestType.GET,
             customer_profile_address_url + "9786").json()
         
-        print "Response is: ", customer_profile_response.text
+        print "Response while creating: ", customer_profile_response.text
+        print "Response while fetching: ", customer_profile_response_dict.text
         self.assertEquals(
             customer_profile_response.status_code, 200,
             msg="Expected 200 and got %s (%s)" %
@@ -44,22 +44,25 @@ class CustomerProfileTestCases(unittest.TestCase):
             'title', customer_profile_response_dict.keys(),
             msg='Expected %s in %s' %
                 ('shipping_addresses', customer_profile_response_dict.keys()))
-        print "working fine ..."
 
-    def test_add_new_shipping_address_with_optional_Param(self):
+    def test_add_new_shipping_address_with_addressline2(self):
         """ Testing with optional address to add
         new shipping address to the customer profile """
+
+        # creating address
         customer_profile_response = customer_service.request(
             RequestType.PUT, customer_profile_url,
             payload=CustomerProfileServicePayload().customer_profile_payload
             (addr1="New River Bridge", addr2="Near Post Office"))
-        input_dict = CustomerProfileServicePayload().customer_profile_payload(
-            addr1="New River Bridge", addr2="Near Post Office")
+
+        # getting added address
         customer_profile_response_dict = customer_service.request(
             RequestType.GET,
             customer_profile_address_url + "9876").json()
         
-        print "Response is: ", customer_profile_response.text
+        print "Response while creating: ", customer_profile_response.text
+        print "Response while fetching: ", customer_profile_response_dict.text
+
         self.assertEquals(
             customer_profile_response.status_code, 200,
             msg='Expected 200 and got %s (%s)' %
