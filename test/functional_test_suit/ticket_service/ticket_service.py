@@ -13,6 +13,8 @@ class TicketService(unittest.TestCase):
 
     def test_with_valid_ticket_id(self):
         """ Update the ticket with the valid ticket_id """
+
+        # Update the ticket with valid ticket id
         ticket_response = ticket_service_obj.request(
             RequestType.PUT, ticket_detail_url('wbcsjis'),
             payload=TicketServicePayload().update_ticket_payload())
@@ -25,12 +27,14 @@ class TicketService(unittest.TestCase):
 
     def test_with_invalid_ticket_id(self):
         """ Update the ticket with the duplicate ticket_id """
+
+        message = "No ticket found for provided ticket id"
+
+        # Update the ticket with invalid ticket id
         ticket_response = ticket_service_obj.request(
             RequestType.PUT, ticket_detail_url('asdf'),
             payload=TicketServicePayload().update_ticket_payload())
         ticket_response_dict = ticket_response.json()
-        message = "No ticket found for provided ticket id"
-        
         print "Response is: ", ticket_response.text
         self.assertEquals(
             ticket_response.status_code, 400,
@@ -44,6 +48,8 @@ class TicketService(unittest.TestCase):
 
     def test_without_ticket_id(self):
         """ Update the ticket with the duplicate ticket_id """
+
+        # Update the ticket without ticket id
         ticket_response = ticket_service_obj.request(
             RequestType.PUT, ticket_detail_url(''),
             payload=TicketServicePayload().update_ticket_payload())
@@ -63,6 +69,8 @@ class TicketService(unittest.TestCase):
 
     def test_get_list_tickets_with_valid_url(self):
         """ Get the list of tickets """
+
+        # Get the list of all tickets with valid url
         list_tickets_response = ticket_service_obj.request(
             RequestType.GET, TICKET_SERVICE_URL)
         print "Response is: ", list_tickets_response.text
@@ -74,6 +82,8 @@ class TicketService(unittest.TestCase):
 
     def test_get_list_tickets_with_invalid_url(self):
         """ Get the list of tickets """
+
+        # Get the list of all tickets with invalid url
         list_tickets_response = ticket_service_obj.request(
             RequestType.GET, TICKET_SERVICE_URL)
         print "Response is: ", list_tickets_response.text

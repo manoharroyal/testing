@@ -17,11 +17,13 @@ class SystemServiceTestCases(unittest.TestCase):
 
     def test_create_source_system(self):
         """ Testing with valid details to create a source system """
+        system_name = "TDCLOUD15TD12"
+
+        # Create source system with valid details
         create_system_response = system_service.request(
             RequestType.POST, SYSTEM_SERVICE_URL,
             payload=SystemServicePayload().system_creation_payload())
-        system_name = "TDCLOUD15TD12"
-        response_dict = create_system_response.json()
+        create_system_response_dict = create_system_response.json()
         print "Response is: ", create_system_response.text
         self.assertEquals(
             create_system_response.status_code, 200,
@@ -29,19 +31,21 @@ class SystemServiceTestCases(unittest.TestCase):
                 create_system_response.status_code,
                 httplib.responses[create_system_response.status_code]))
         self.assertEquals(
-            response_dict['system_name'], system_name,
+            system_name, create_system_response_dict['system_name'],
             msg='Expected system name  %s and got %s' %
-                (system_name, response_dict['system_name']))
+                (system_name, create_system_response_dict['system_name']))
 
     def test_create_system_with_missing_system_name_from_payload(self):
         """ Test to verify missing system name parameter from payload """
+
+        expected_message = 'System Name is not provided'
+
+        # Create source system with missing system from payload
         create_system_response = system_service.request(
             RequestType.POST, SYSTEM_SERVICE_URL,
             payload=SystemServicePayload().system_deletion_payload(
                 "system_name"))
-        response_dict = create_system_response.json()
-        expected_message = 'System Name is not provided'
-        
+        create_system_response_dict = create_system_response.json()
         print "Response is: ", create_system_response.text
         self.assertEquals(
             create_system_response.status_code, 400,
@@ -49,75 +53,86 @@ class SystemServiceTestCases(unittest.TestCase):
                 (create_system_response.status_code,
                  httplib.responses[create_system_response.status_code]))
         self.assertEquals(
-            response_dict['message'], expected_message,
+            expected_message, create_system_response_dict['message'],
             msg='Expected message %s and got %s' %
-                (response_dict['message'], expected_message))
+                (expected_message, create_system_response_dict['message']))
 
     def test_create_system_with__missing_system_type_from_payload(self):
         """ Test to verify missing system type parameter from payload """
+
+        expected_message = 'System Type is not provided'
+
+        # Create source system with missing system type from payload
         create_system_response = system_service.request(
             RequestType.POST, SYSTEM_SERVICE_URL,
             payload=SystemServicePayload().system_deletion_payload(
                 "system_type"))
-        response_dict = create_system_response.json()
-        expected_message = 'System Type is not provided'
-        
+        create_system_response_dict = create_system_response.json()
         print "Response is: ", create_system_response.text
         self.assertEquals(
             create_system_response.status_code, 400,
             msg='Expected 400 and got %s (%s)' %
                 (create_system_response.status_code,
                  httplib.responses[create_system_response.status_code]))
-        self.assertEquals(response_dict['message'], expected_message,
-                          msg='Expected message %s and got %s' %
-                              (response_dict['message'], expected_message))
+        self.assertEquals(
+            expected_message, create_system_response_dict['message'],
+            msg='Expected message %s and got %s' %
+                (expected_message, create_system_response_dict['message']))
 
     def test_create_system_with__missing_details_from_payload(self):
         """ Test to verify missing details parameter from payload """
+
+        expected_message = 'System Details is not provided'
+
+        # Create source system with missing details from payload
         create_system_response = system_service.request(
             RequestType.POST, SYSTEM_SERVICE_URL,
             payload=SystemServicePayload().system_deletion_payload("details"))
-        response_dict = create_system_response.json()
-        expected_message = 'System Details is not provided'
-        
+        create_system_response_dict = create_system_response.json()
         print "Response is: ", create_system_response.text
         self.assertEquals(
             create_system_response.status_code, 400,
             msg='Expected 400 and got %s (%s)' %
                 (create_system_response.status_code,
                  httplib.responses[create_system_response.status_code]))
-        self.assertEquals(response_dict['message'], expected_message,
-                          msg='Expected message %s and got %s' %
-                              (response_dict['message'], expected_message))
+        self.assertEquals(
+            expected_message, create_system_response_dict['message'],
+            msg='Expected message %s and got %s' %
+                (expected_message,  create_system_response_dict['message']))
 
     def test_create_system_without_system_name(self):
         """ Test to verify blank system name parameter from payload """
+
+        expected_message = 'System Name is not provided'
+
+        # Create source system without system name
         create_system_response = system_service.request(
             RequestType.POST, SYSTEM_SERVICE_URL,
             payload=SystemServicePayload().system_creation_payload(
                 system_name=""))
-        response_dict = create_system_response.json()
-        expected_message = 'System Name is not provided'
-        
+        create_system_response_dict = create_system_response.json()
         print "Response is: ", create_system_response.text
         self.assertEquals(
             create_system_response.status_code, 400,
             msg='Expected 400 and got %s (%s)' %
                 (create_system_response.status_code,
                  httplib.responses[create_system_response.status_code]))
-        self.assertEquals(response_dict['message'], expected_message,
-                          msg='Expected message %s and got %s' %
-                              (response_dict['message'], expected_message))
+        self.assertEquals(
+            expected_message, create_system_response_dict['message'],
+            msg='Expected message %s and got %s' %
+                (expected_message, create_system_response_dict['message']))
 
     def test_create_system_without_system_type(self):
         """ Test to verify system_type parameter passed as blank in payload """
+
+        expected_message = 'System Type is not provided'
+
+        # Create source system without system type
         create_system_response = system_service.request(
             RequestType.POST, SYSTEM_SERVICE_URL,
             payload=SystemServicePayload().system_creation_payload(
                 system_type=""))
         create_system_response_dict = create_system_response.json()
-        expected_message = 'System Type is not provided'
-        
         print "Response is: ", create_system_response.text
         self.assertEquals(
             create_system_response.status_code, 400,
@@ -125,18 +140,20 @@ class SystemServiceTestCases(unittest.TestCase):
                 (create_system_response.status_code,
                  httplib.responses[create_system_response.status_code]))
         self.assertEquals(
-            create_system_response_dict['message'], expected_message,
+            expected_message, create_system_response_dict['message'],
             msg='Expected message %s and got %s' %
-                (create_system_response_dict['message'], expected_message))
+                (expected_message, create_system_response_dict['message']))
 
     def test_create_system_without_details(self):
         """ Test to verify details parameter passed as blank in payload """
+
+        expected_message = 'System Details is not provided'
+
+        # Create source system without system type
         create_system_response = system_service.request(
             RequestType.POST, SYSTEM_SERVICE_URL,
             payload=SystemServicePayload().system_creation_payload(details=''))
         create_system_response_dict = create_system_response.json()
-        expected_message = 'System Details is not provided'
-        
         print "Response is: ", create_system_response.text
         self.assertEquals(
             create_system_response.status_code, 400,
@@ -144,7 +161,7 @@ class SystemServiceTestCases(unittest.TestCase):
                 (create_system_response.status_code,
                  httplib.responses[create_system_response.status_code]))
         self.assertEquals(
-            create_system_response_dict['message'], expected_message,
+            expected_message, create_system_response_dict['message'],
             msg=" Expecting message \"%s\" and got \"%s\" " %
                 (expected_message, create_system_response_dict['message']))
 
@@ -153,10 +170,11 @@ class SystemServiceTestCases(unittest.TestCase):
     def test_list_system_for_source_type(self):
         """ Testing with the given type as source to
         get list of source systems """
+
+        # Get the source system lists
         system_list_response = system_service.request(
             RequestType.GET,
             list_system_url(list_system, SystemType.source))
-        source_system_list = system_list_response.json()
         print "Response is: ", system_list_response.text
         self.assertEquals(
             system_list_response.status_code, 200,
@@ -167,6 +185,8 @@ class SystemServiceTestCases(unittest.TestCase):
     def test_list_system_for_target_type(self):
         """ Testing with the given type as target to
         get list of source systems  """
+
+        # Get the target systems list
         system_list_response = system_service.request(
             RequestType.GET,
             list_system_url(list_system, SystemType.target))
@@ -177,14 +197,16 @@ class SystemServiceTestCases(unittest.TestCase):
                 (system_list_response.status_code,
                  httplib.responses[system_list_response.status_code]))
 
-    def test_list_systems_with_missing_type(self):
+    def test_list_systems_with_missing_type_url(self):
         """ Testing without type of system to
         get list of source system """
+
+        expected_message = 'type should be provided'
+
+        # Get system lists without type of the system
         system_list_response = system_service.request(
             RequestType.GET, SYSTEM_SERVICE_URL)
         response_dict = system_list_response.json()
-        expected_message = 'type should be provided'
-        
         print "Response is: ", system_list_response.text
         self.assertEquals(
             system_list_response.status_code, 400,
@@ -192,12 +214,14 @@ class SystemServiceTestCases(unittest.TestCase):
                 (system_list_response.status_code,
                  httplib.responses[system_list_response.status_code]))
         self.assertEquals(
-            response_dict['message'], expected_message,
+            expected_message, response_dict['message'],
             msg="Expected message is %s and got is %s" %
-                (response_dict['message'], expected_message))
+                (expected_message, response_dict['message']))
 
     def test_list_systems_with_misspelled_in_url(self):
         """ Testing with invalid url to get the list details of system """
+
+        # Get the system lists with invalid url
         system_list_response = system_service.request(
             RequestType.GET, SYSTEM_SERVICE_URL + '/?type1')
         system_list_response_dict = system_list_response.json()
@@ -217,11 +241,13 @@ class SystemServiceTestCases(unittest.TestCase):
 
     def test_system_details_with_valid_source_system(self):
         """ Testing with valid details to get the source system details """
+
+        # Get the system details with valid source system id
         system_details_response = system_service.request(
             RequestType.GET,
             source_system_url(source_system, SOURCE_SYSTEM_ID))
         source_system_details = system_details_response.json()
-        
+        print "Response is: ", source_system_details.text
         self.assertEquals(
             system_details_response.status_code, 200,
             msg='Expected 200 and got %s (%s)' %
@@ -233,10 +259,12 @@ class SystemServiceTestCases(unittest.TestCase):
 
     def test_system_details_with_valid_target_system(self):
         """ Testing with valid details to get the target system details """
+
+        # Get the system details with valid target system id
         system_details_response = system_service.request(
             RequestType.GET, target_system_url(target_system, 'KAGAWS3'))
         target_system_details = system_details_response.json()
-        
+        print "Response is: ", target_system_details.text
         self.assertEquals(
             system_details_response.status_code, 200,
             msg='Expected 200 and got %s (%s)' %
@@ -247,10 +275,12 @@ class SystemServiceTestCases(unittest.TestCase):
 
     def test_system_details_without_system_id(self):
         """ Testing without system id to get the source system details  """
+
+        # Get the system details without system id
         system_details_response = system_service.request(
             RequestType.GET, source_system_url(source_system, ''))
         system_details_response_dict = system_details_response.json()
-        
+        print "Response is: ", system_details_response.text
         self.assertEquals(
             system_details_response.status_code, 403,
             msg='Expected 403 and got %s (%s)' %
@@ -258,72 +288,83 @@ class SystemServiceTestCases(unittest.TestCase):
                  httplib.responses[system_details_response.status_code]))
         self.assertIn(
             'message', system_details_response_dict.keys(),
-            msg="Expected %s in %s" % ('message', system_details_response_dict.keys()))
+            msg="Expected %s in %s" %
+                ('message', system_details_response_dict.keys()))
 
     def test_system_details_with_invalid_system_id(self):
         """ Testing with invalid system id to get the source system details """
+
+        expected_message = "Resource with id 123 does not exists"
+
+        # Get the system details without system id
         system_details_response = system_service.request(
             RequestType.GET,
             source_system_url(source_system, '123'))
-        response_dict = system_details_response.json()
-        expected_message = "Resource with id 123 does not exists"
-        
+        system_details_response_dict = system_details_response.json()
         print "Response is: ", system_details_response.text
         self.assertEquals(
             system_details_response.status_code, 404,
             msg='Expected 404 and got %s (%s)' %
                 (system_details_response.status_code,
                  httplib.responses[system_details_response.status_code]))
-        self.assertEquals(response_dict['message'], expected_message,
-                          msg="Expected message is %s and got is %s" %
-                              (response_dict['message'], expected_message))
+        self.assertEquals(
+            expected_message, system_details_response_dict['message'],
+            msg="Expected message is %s and got is %s" %
+                (expected_message, system_details_response_dict['message']))
 
     """ GET: Test cases to get the system details of customer """
 
-    def test_get_system_with_customer_name(self):
+    def test_get_system_with_valid_customer(self):
         """ Testing with the valid url to get the system details of customer """
+
+        # Get the list systems of customer
         customer_systems_response = system_service.request(
             RequestType.GET, SYSTEM_SERVICE + '/customer')
-        response_dict = customer_systems_response.json()
+        customer_systems_response_dict = customer_systems_response.json()
         print "Response is: ", customer_systems_response.text
         self.assertEquals(
             customer_systems_response.status_code, 200,
             msg='Expected 200 and got %s (%s)' %
                 (customer_systems_response.status_code,
                  httplib.responses[customer_systems_response.status_code]))
-
-        self.assertIn('details', response_dict.keys(),
+        self.assertIn('details', customer_systems_response_dict.keys(),
                       msg="Expecting %s in %s" %
-                          ('details', response_dict.keys()))
+                          ('details', customer_systems_response_dict.keys()))
 
     def test_get_systems_customer_with_invalid_token(self):
         """ Testing with the invalid token to get customer system details """
+
+        expected_message = 'exceptions while validating token'
+
+        # Get the list systems of customer with invalid token
         customer_systems_response = invalid_system_service.request(
             RequestType.GET, SYSTEM_SERVICE + '/customer')
-        response_dict = customer_systems_response.json()
-        expected_message = 'exceptions while validating token'
-        
+        customer_systems_response_dict = customer_systems_response.json()
         print "Response is: ", customer_systems_response.text
         self.assertEquals(
             customer_systems_response.status_code, 401,
             msg='Expected 401 and got %s (%s)' %
                 (customer_systems_response.status_code,
                  httplib.responses[customer_systems_response.status_code]))
-        self.assertIn(expected_message, response_dict['message'],
-                      msg="Expected message is %s in %s" %
-                          (expected_message, response_dict['message']))
+        self.assertIn(
+            expected_message, customer_systems_response_dict['message'],
+            msg="Expected message is %s in %s" %
+                (expected_message, customer_systems_response_dict['message']))
 
     def test_get_systems_customer_with_invalid_url(self):
         """ Testing with invalid url to get the details of customer """
+
+        # Get the list systems of customer with invalid url
         customer_systems_response = system_service.request(
             RequestType.GET, SYSTEM_SERVICE_URL + '/customer1')
-        response_dict = customer_systems_response.json()
+        customer_systems_response_dict = customer_systems_response.json()
         print "Response is: ", customer_systems_response.text
         self.assertEquals(
             customer_systems_response.status_code, 403,
             msg='Expected 400 and got %s (%s)' %
                 (customer_systems_response.status_code,
                  httplib.responses[customer_systems_response.status_code]))
-        self.assertIn('message', response_dict.keys(),
-                      msg="Expecting %s in %s" %
-                          ('message', response_dict.keys()))
+        self.assertIn(
+            'message', customer_systems_response_dict.keys(),
+            msg="Expecting %s in %s" %
+                ('message', customer_systems_response_dict.keys()))

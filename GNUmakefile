@@ -3,7 +3,7 @@
 customer_profile_service: 
 	export PYTHONPATH=`pwd` && python2.7 -m pytest -v --instafail `pwd`/test/functional_test_suit/customer_profile_service/customer_profile_service.py --html=./report/customer_profile_service.html
 
-inventory_service: 
+inventory_service:
 	export PYTHONPATH=`pwd` && python2. -m pytest -v --instafail `pwd`/test/functional_test_suit/inventory_service/inventory_service.py --html=./report/inventory_service.html
 
 ticket_service: 
@@ -28,3 +28,4 @@ list:
 install:
 	@$(info installing requirements...)
 	python2.7 -m pip install -r requirements.txt --no-index
+
