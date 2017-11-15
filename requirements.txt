@@ -1,0 +1,6 @@
+requests
+pyjwt
+unittest2
+pytest
+pytest-html
+pytest-instafail
