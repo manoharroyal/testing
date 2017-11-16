@@ -247,7 +247,7 @@ class SystemServiceTestCases(unittest.TestCase):
             RequestType.GET,
             source_system_url(source_system, SOURCE_SYSTEM_ID))
         source_system_details = system_details_response.json()
-        print "Response is: ", source_system_details.text
+        print "Response is: ", system_details_response.text
         self.assertEquals(
             system_details_response.status_code, 200,
             msg='Expected 200 and got %s (%s)' %
@@ -264,7 +264,7 @@ class SystemServiceTestCases(unittest.TestCase):
         system_details_response = system_service.request(
             RequestType.GET, target_system_url(target_system, 'KAGAWS3'))
         target_system_details = system_details_response.json()
-        print "Response is: ", target_system_details.text
+        print "Response is: ", system_details_response.text
         self.assertEquals(
             system_details_response.status_code, 200,
             msg='Expected 200 and got %s (%s)' %

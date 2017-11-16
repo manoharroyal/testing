@@ -1,5 +1,6 @@
 import unittest
 import httplib
+import json
 from test.shared.rest_framework import RestAPIHeader, RequestType
 from test.functional_test_suit.common.config import INVENTORY_SERVICE_URL, \
     get_items_url, update_url
@@ -15,48 +16,40 @@ class InventoryServiceTestCases(unittest.TestCase):
     def test_add_item_with_valid_details(self):
         """ Adding an item with all valid parameters into the inventory """
 
-        expected_dict = Inventoryservicepayload().inventory_additem_payload()
-
         # Add an item with valid details
         add_item_response = inventory_service.request(
             RequestType.POST, INVENTORY_SERVICE_URL,
             payload=Inventoryservicepayload().inventory_additem_payload())
         add_item_response_dict = add_item_response.json()
         print "Response while adding: ", add_item_response.text
-        print "Response while fetching: ", expected_dict.keys()
         self.assertEquals(
             add_item_response.status_code, 200,
             msg="Expected code is 200 and got is %s (%s)" %
                 (add_item_response.status_code,
                     httplib.responses[add_item_response.status_code]))
         self.assertIn(
-            expected_dict.keys(), add_item_response_dict.keys(),
+            'created_at', add_item_response_dict.keys(),
             msg="Expected %s in %s" %
-                (expected_dict.keys(), add_item_response_dict.keys()))
+                ('created_at', add_item_response_dict.keys()))
 
     def test_add_item_with_invalid_item_id(self):
         """ Testing with invalid item id to add an item into the inventory """
 
-        expected_dict = Inventoryservicepayload().inventory_additem_payload(
-            item_id='1@d@323')
-
-        # Add an item with valid details
+        # Add an item with invalid item id
         add_item_response = inventory_service.request(
             RequestType.POST, INVENTORY_SERVICE_URL,
             payload=Inventoryservicepayload().inventory_additem_payload(
                 item_id='1@d@323'))
         add_item_response_dict = add_item_response.json()
         print "Response while adding: ", add_item_response.text
-        print "Response while fetching: ", expected_dict.keys()
         self.assertEquals(
             add_item_response.status_code, 200,
             msg="Expected code is 200 and got is %s (%s)" %
                 (add_item_response.status_code, 
                  httplib.responses[add_item_response.status_code]))
-        self.assertIn(
-            expected_dict.keys(), add_item_response_dict.keys(),
+        self.assertIn('created_at', add_item_response_dict.keys(),
             msg="Expected %s in %s" %
-                (expected_dict.keys(), add_item_response_dict.keys()))
+                ('created_at', add_item_response_dict.keys))
 
     def test_add_item_with_invalid_hw_model(self):
         """ Testing with invalid hardware_model to add an
@@ -205,26 +198,22 @@ class InventoryServiceTestCases(unittest.TestCase):
     def test_add_item_with_invalid_order_id(self):
         """ Testing with invalid order_id to add an item into the inventory """
 
-        expected_dict = Inventoryservicepayload().inventory_additem_payload(
-            order_id='1@ *')
-
         # Add an item with valid details
         add_item_response = inventory_service.request(
             RequestType.POST, INVENTORY_SERVICE_URL,
             payload=Inventoryservicepayload().inventory_additem_payload(
                                             order_id='1@ *'))
         add_item_response_dict = add_item_response.json()
-        print "Response while adding: ", add_item_response.text
-        print "Response while fetching: ", expected_dict.keys()
+        # print "Response while adding: ", add_item_response.text
         self.assertEquals(
             add_item_response.status_code, 200,
             msg="Expected code is 200 and got is %s (%s)" %
                 (add_item_response.status_code,
                  httplib.responses[add_item_response.status_code]))
         self.assertIn(
-            expected_dict.keys(), add_item_response_dict.keys(),
+            'created_at', add_item_response_dict.keys(),
             msg="Expected %s in %s" %
-                (expected_dict.keys(), add_item_response_dict.keys()))
+                ('created_at', add_item_response_dict.keys()))
 
     def test_add_item_with_invalid_storage_array_model(self):
         """ Testing with invalid storage_array_model to add an
@@ -685,9 +674,10 @@ class InventoryServiceTestCases(unittest.TestCase):
                 httplib.responses[item_availability_response.status_code]))
         self.assertEquals(
             error_message,
-            item_availability_response['message'],
+            item_availability_response_dict['message'],
             msg="Expected message is %s and got is %s" %
                 (error_message, item_availability_response_dict['message']))
+
     def test_item_availability_without_item_status(self):
         """ Checking the item availability without item_status """
 
@@ -697,7 +687,6 @@ class InventoryServiceTestCases(unittest.TestCase):
         item_availability_response = inventory_service.request(
             RequestType.GET, get_items_url('item_status', ''))
         item_availability_response_dict = item_availability_response.json()
-        error_message = "Invalid attribute value!"
         print "Response is: ", item_availability_response.text
         self.assertEquals(
             item_availability_response.status_code, 400,

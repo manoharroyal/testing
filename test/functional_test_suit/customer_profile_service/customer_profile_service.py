@@ -33,7 +33,7 @@ class CustomerProfileTestCases(unittest2.TestCase):
             RequestType.GET,
             customer_profile_address_url + "9786").json()
         print "Response while creating: ", customer_profile_response.text
-        print "Response while fetching: ", customer_profile_response_dict.text
+        print "Response while fetching: ", customer_profile_response_dict
         self.assertEquals(
             customer_profile_response.status_code, 200,
             msg="Expected 200 and got %s (%s)" %
@@ -59,7 +59,7 @@ class CustomerProfileTestCases(unittest2.TestCase):
             RequestType.GET,
             customer_profile_address_url + "9876").json()
         print "Response while creating: ", customer_profile_response.text
-        print "Response while fetching: ", customer_profile_response_dict.text
+        print "Response while fetching: ", customer_profile_response_dict
         self.assertEquals(
             customer_profile_response.status_code, 200,
             msg='Expected 200 and got %s (%s)' %
