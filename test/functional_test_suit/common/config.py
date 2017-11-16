@@ -4,7 +4,7 @@ import yaml
 path = os.environ['PYTHONPATH']
 with open(path + "/env/configuration.yaml", 'r') as stream:
     try:
-       config_data = yaml.load(stream)
+        config_data = yaml.load(stream)
     except yaml.YAMLError as exc:
         print("Cannot able to access input configuration")
 
