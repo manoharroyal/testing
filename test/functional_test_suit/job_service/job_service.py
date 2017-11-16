@@ -1,5 +1,6 @@
 """ Functional Test cases for Job Service """
-import unittest
+
+import unittest2
 import httplib
 from test.shared.rest_framework import RequestType, RestAPIHeader
 from test.functional_test_suit.common.payloads import SeedJobServicePayload
@@ -12,7 +13,7 @@ job_service_sysops = RestAPIHeader(utype='sysops')
 job_service_agent = RestAPIHeader(utype='agent')
 
 
-class JobServiceTestCases(unittest.TestCase):
+class JobServiceTestCases(unittest2.TestCase):
     """ Test cases to Creation of seed job """
 
     def test_create_job_with_valid_details(self):

@@ -1,6 +1,6 @@
 """ Functional Test cases for Inventory Service of DSS Micro Service Layer """
-import unittest
-import json
+
+import unittest2
 import httplib
 from test.shared.rest_framework import RestAPIHeader, RequestType, SystemType
 from test.functional_test_suit.common.config import SYSTEM_SERVICE_URL, \
@@ -12,7 +12,7 @@ system_service = RestAPIHeader(utype='customer')
 invalid_system_service = RestAPIHeader(utype='invalid')
 
 
-class SystemServiceTestCases(unittest.TestCase):
+class SystemServiceTestCases(unittest2.TestCase):
     """ POST: Test cases to create the systems by using POST method """
 
     def test_create_source_system(self):

@@ -1,4 +1,6 @@
-import unittest
+""" Functional test cases for ticket service """
+
+import unittest2
 import httplib
 from test.functional_test_suit.common.config import TICKET_SERVICE_URL, \
     ticket_detail_url
@@ -8,7 +10,7 @@ from test.functional_test_suit.common.payloads import TicketServicePayload
 ticket_service_obj = RestAPIHeader(utype='sysops')
 
 
-class TicketService(unittest.TestCase):
+class TicketService(unittest2.TestCase):
     """ To update the status of ticket"""
 
     def test_with_valid_ticket_id(self):

@@ -1,6 +1,7 @@
-import unittest
+""" Functional test cases for inventory service """
+
+import unittest2
 import httplib
-import json
 from test.shared.rest_framework import RestAPIHeader, RequestType
 from test.functional_test_suit.common.config import INVENTORY_SERVICE_URL, \
     get_items_url, update_url
@@ -9,7 +10,7 @@ from test.functional_test_suit.common.payloads import Inventoryservicepayload
 inventory_service = RestAPIHeader(utype='sysops')
 
 
-class InventoryServiceTestCases(unittest.TestCase):
+class InventoryServiceTestCases(unittest2.TestCase):
     """ Add item class """
     """ POST: Add item into inventory"""
 
