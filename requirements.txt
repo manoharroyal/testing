@@ -1,4 +1,7 @@
 requests
+pyyaml
+enum
+unittest2
 pyjwt
 pytest
 pytest-html
