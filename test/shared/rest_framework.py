@@ -1,14 +1,15 @@
-import os
 import json
+import os
 import sys
 import requests
 import jwt
 from enum import Enum
 import yaml
-path = os.environ["PYTHONPATH"]
+path = os.environ['PYTHONPATH']
+print (path)
 with open(path + "/env/configuration.yaml", 'r') as stream:
     try:
-       config_data = yaml.load(stream)
+        config_data = yaml.load(stream)
     except yaml.YAMLError as exc:
         print("Cannot able to access input configuration")
 
@@ -100,14 +101,13 @@ class RestAPIHeader(object):
                                  headers=header)
         try:
             encode = str(response.json()['id_token'])
+
         except:
             print "response is " + response.text
             print "Cannot able to parse the token in Login"
             sys.exit(1)
         decode = jwt.decode(encode, 'secret', algorithm=['RS256'], verify=False)
         customerId = (decode['customerId'])
-        # print "response.json()['id_token']", response.json()['id_token']
-        print (customerId)
         return str(response.json()['id_token']), customerId
 
     def generate_invalid_token(self):
@@ -115,10 +115,7 @@ class RestAPIHeader(object):
         token_url, customerId = self.generate_customer_token()
         jwt_dict = jwt.decode(token_url, verify=False)
         jwt_dict['customerId'] = customerId + '234'
-        customer_id = customerId + '234'
         token_url = jwt.encode(jwt_dict, 'secret', algorithm='HS256')
-        print (token_url, customerId)
-        print (customer_id)
         return token_url, customerId
 
     def request(self, method=None, url=None, payload=None):
@@ -134,11 +131,9 @@ class RestAPIHeader(object):
                 self.response = requests.get(url, headers=header, timeout=10)
 
             elif method == RequestType.POST:
-                header['Content-Type'] = "application/json"
                 self.response = requests.post(url, headers=header, timeout=10,
                                               data=json.dumps(payload))
             elif method == RequestType.PUT:
-                header['content-type'] = "application/json"
                 self.response = requests.put(url, headers=header, timeout=10,
                                              data=json.dumps(payload))
             elif method == RequestType.DELETE:
