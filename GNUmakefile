@@ -27,5 +27,5 @@ list:
 
 install:
 	@$(info installing requirements...)
-	python2.7 -m pip install -r requirements.txt --no-index
+	python2.7 -m pip install -r requirements.txt
 
