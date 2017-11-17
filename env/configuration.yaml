@@ -19,13 +19,13 @@ SOURCE_SYSTEM_ID: '86dc65e4-42a0-4ee8-91e8-f201678f53aa'
 LOGIN_URL: "https://sso.teradatacloud.io/oauth/ro"
 client_id: "h4psC1NTevUPYCJ6hTa76htrup4UNIyq"
 customer_username: "customer.one"
-customer_password:
+customer_password: "pass@word1"
 sysops_username: "sys.ops"
-sysops_password:
+sysops_password: "pass@word1"
 connection: "AD-DEV"
 grant_type: "password"
 scope: "openid profile roles customerId userId serviceNowUserId"
 
 AGENT_URL: "https://k0zvnnx44k.execute-api.us-west-2.amazonaws.com/dev/auth/login/agent"
 agent_username: "58adfea9-586b-4a36-84b8-e2d89ce3e314"
-agent_password:
+agent_password: "B7C76twh"

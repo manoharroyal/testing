@@ -1,10 +1,10 @@
 """ Functional Test cases for Agent Service """
-
-import unittest2
+import logging
+import unittest
 import httplib
-from test.functional_test_suit.common.payloads import AgentServicePayload
+from test.functional_test_suite.common.payloads import AgentServicePayload
 from test.shared.rest_framework import RestAPIHeader, RequestType
-from test.functional_test_suit.common.config import AGENT_SERVICE_URL, \
+from test.functional_test_suite.common.config import AGENT_SERVICE_URL, \
     LIST_AGENT_TASK_URL, agent_id, REGISTER_AGENT_URL, update_agent_task_url, \
     agent_details_url
 
@@ -12,7 +12,7 @@ agent_service_sysops = RestAPIHeader(utype='sysops')
 agent_service_agent = RestAPIHeader(utype='agent')
 
 
-class AgentServiceTestCases(unittest2.TestCase):
+class AgentServiceTestCases(unittest.TestCase):
     """ Test cases to get the list agents """
 
     def test_list_agents_with_valid_url(self):
@@ -22,7 +22,7 @@ class AgentServiceTestCases(unittest2.TestCase):
         list_agents_response = agent_service_sysops.request(
             RequestType.GET, AGENT_SERVICE_URL)
         list_agents_response_dict = list_agents_response.json()
-        print "Response is: ", list_agents_response.text
+        logging.info('Response is %s', list_agents_response.text)
         self.assertEquals(
             list_agents_response.status_code, 200,
             msg="Expected response code is 200 and got is %s (%s)" % (
@@ -39,7 +39,7 @@ class AgentServiceTestCases(unittest2.TestCase):
         list_agents_response = agent_service_sysops.request(
             RequestType.GET, AGENT_SERVICE_URL + '12')
         list_agents_response_dict = list_agents_response.json()
-        print "Response is: ", list_agents_response.text
+        logging.info('Response is %s', list_agents_response.text)
         self.assertEquals(
             list_agents_response.status_code, 403,
             msg="Expected response code is 403 and got is %s (%s)" % (
@@ -59,7 +59,7 @@ class AgentServiceTestCases(unittest2.TestCase):
         list_agents_tasks_response = agent_service_agent.request(
             RequestType.GET, LIST_AGENT_TASK_URL)
         list_agents_tasks_response_dict = list_agents_tasks_response.json()
-        print "Response is: ", list_agents_tasks_response.text
+        logging.info('Response is %s', list_agents_tasks_response.text)
         self.assertEquals(
             list_agents_tasks_response.status_code, 200,
             msg="Expected response code is 200 and got is %s (%s)" % (
@@ -75,15 +75,15 @@ class AgentServiceTestCases(unittest2.TestCase):
         message = "Resource with id tasksasq does not exists"
 
         # Get list agent tasks with invalid url
-        list_agents_response = agent_service_agent.request(
+        list_agents_tasks_response = agent_service_agent.request(
             RequestType.GET, LIST_AGENT_TASK_URL + 'asq')
-        list_agents_tasks_response_dict = list_agents_response.json()
-        print "Response is: ", list_agents_response.text
+        list_agents_tasks_response_dict = list_agents_tasks_response.json()
+        logging.info('Response is %s', list_agents_tasks_response.text)
         self.assertEquals(
-            list_agents_response.status_code, 404,
+            list_agents_tasks_response.status_code, 404,
             msg="Expected response code is 404 and got is %s (%s)" % (
-                list_agents_response.status_code,
-                httplib.responses[list_agents_response.status_code]))
+                list_agents_tasks_response.status_code,
+                httplib.responses[list_agents_tasks_response.status_code]))
         self.assertEquals(
             message, list_agents_tasks_response_dict['message'],
             msg="Expected %s in and got is %s" %
@@ -100,7 +100,7 @@ class AgentServiceTestCases(unittest2.TestCase):
             RequestType.PUT, update_agent_task_url('task_id'),
             payload=AgentServicePayload().update_agent_task_status(
                 status='update', message='updated'))
-        print "Response is: ", update_agent_task_response.text
+        logging.info('Response is %s', update_agent_task_response.text)
         self.assertEquals(
             update_agent_task_response.status_code, 202,
             msg="Expected response code is 202 and got is %s (%s)" % (
@@ -117,7 +117,7 @@ class AgentServiceTestCases(unittest2.TestCase):
             RequestType.PUT, update_agent_task_url('task_id'),
             payload=AgentServicePayload().update_agent_task_status())
         update_agent_task_response_dict = update_agent_task_response.json()
-        print "Response is: ", update_agent_task_response.text
+        logging.info('Response is %s', update_agent_task_response.text)
         self.assertEquals(
             update_agent_task_response.status_code, 400,
             msg="Expected response code is 400 and got is %s (%s)" % (
@@ -138,7 +138,7 @@ class AgentServiceTestCases(unittest2.TestCase):
             RequestType.PUT, update_agent_task_url('task_id'),
             payload=AgentServicePayload().update_agent_task_status(status='su'))
         update_agent_task_response_dict = update_agent_task_response.json()
-        print "Response is: ", update_agent_task_response.text
+        logging.info('Response is %s', update_agent_task_response.text)
         self.assertEquals(
             update_agent_task_response.status_code, 400,
             msg="Expected response code is 400 and got is %s (%s)" % (
@@ -160,7 +160,7 @@ class AgentServiceTestCases(unittest2.TestCase):
             payload=AgentServicePayload().update_agent_task_status(
                 message='dh'))
         update_agent_task_response_dict = update_agent_task_response.json()
-        print "Response is: ", update_agent_task_response.text
+        logging.info('Response is %s', update_agent_task_response.text)
         self.assertEquals(
             update_agent_task_response.status_code, 400,
             msg="Expected response code is 400 and got is %s (%s)" % (
@@ -181,7 +181,7 @@ class AgentServiceTestCases(unittest2.TestCase):
             RequestType.PUT, update_agent_task_url('task_id'),
             payload=AgentServicePayload().update_agent_task_status(status=''))
         update_agent_task_response_dict = update_agent_task_response.json()
-        print "Response is: ", update_agent_task_response.text
+        logging.info('Response is %s', update_agent_task_response.text)
         self.assertEquals(
             update_agent_task_response.status_code, 400,
             msg="Expected response code is 400 and got is %s (%s)" % (
@@ -202,7 +202,7 @@ class AgentServiceTestCases(unittest2.TestCase):
             RequestType.PUT, update_agent_task_url('asdf'),
             payload=AgentServicePayload().update_agent_task_status(message=''))
         update_agent_task_response_dict = update_agent_task_response.json()
-        print "Response is: ", update_agent_task_response.text
+        logging.info('Response is %s', update_agent_task_response.text)
         self.assertEquals(
             update_agent_task_response.status_code, 400,
             msg="Expected response code is 400 and got is %s (%s)" % (
@@ -222,7 +222,7 @@ class AgentServiceTestCases(unittest2.TestCase):
         # Register an agent with valid url
         register_agent_response = agent_service_agent.request(
             RequestType.PUT, REGISTER_AGENT_URL)
-        print "Response is: ", register_agent_response.text
+        logging.info('Response is %s', register_agent_response.text)
         self.assertEquals(
             register_agent_response.status_code, 202,
             msg="Expected response code is 202 and got is %s (%s)" % (
@@ -236,7 +236,7 @@ class AgentServiceTestCases(unittest2.TestCase):
         register_agent_response = agent_service_agent.request(
             RequestType.PUT, REGISTER_AGENT_URL + 'as')
         register_agent_response_dict = register_agent_response.json()
-        print "Response is: ", register_agent_response.text
+        logging.info('Response is %s', register_agent_response.text)
         self.assertEquals(
             register_agent_response.status_code, 403,
             msg="Expected response code is 403 and got is %s (%s)" % (
@@ -256,7 +256,7 @@ class AgentServiceTestCases(unittest2.TestCase):
         # Get the agent task details with valid task id
         agent_task_details_response = agent_service_agent.request(
             RequestType.GET, update_agent_task_url('task_id'))
-        print "Response is: ", agent_task_details_response.text
+        logging.info('Response is %s', agent_task_details_response.text)
         self.assertEquals(
             agent_task_details_response.status_code, 200,
             msg="Expected response code is 200 and got is %s (%s)" % (
@@ -269,7 +269,7 @@ class AgentServiceTestCases(unittest2.TestCase):
         # Get the agent task details with invalid task id
         agent_task_details_response = agent_service_agent.request(
             RequestType.GET, update_agent_task_url('182d8s'))
-        print "Response is: ", agent_task_details_response.text
+        logging.info('Response is %s', agent_task_details_response.text)
         self.assertEquals(
             agent_task_details_response.status_code, 401,
             msg="Expected response code is 401 and got is %s" %
@@ -284,7 +284,7 @@ class AgentServiceTestCases(unittest2.TestCase):
         # Get the details of an agent with valid agent id
         agent_details_response = agent_service_agent.request(
             RequestType.GET, agent_details_url(agent_id))
-        print "Response is: ", agent_details_response.text
+        logging.info('Response is %s', agent_details_response.text)
         self.assertEquals(
             agent_details_response.status_code, 200,
             msg="Expected response code is 200 and got is %s (%s)" % (
@@ -300,7 +300,7 @@ class AgentServiceTestCases(unittest2.TestCase):
         agent_details_response = agent_service_agent.request(
             RequestType.GET, agent_details_url('agent_id'))
         agent_details_response_dict = agent_details_response.json()
-        print "Response is: ", agent_details_response.text
+        logging.info('Response is %s', agent_details_response.text)
         self.assertEquals(
             agent_details_response.status_code, 404,
             msg="Expected response code is 404 and got is %s (%s)" % (
@@ -320,7 +320,7 @@ class AgentServiceTestCases(unittest2.TestCase):
         agent_details_response = agent_service_agent.request(
             RequestType.GET, agent_details_url(''))
         agent_details_response_dict = agent_details_response.json()
-        print "Response is: ", agent_details_response.text
+        logging.info('Response is %s', agent_details_response.text)
         self.assertEquals(
             agent_details_response.status_code, 401,
             msg="Expected response code is 401 and got is %s (%s)" % (

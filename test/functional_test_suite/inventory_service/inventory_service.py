@@ -1,16 +1,16 @@
 """ Functional test cases for inventory service """
-
-import unittest2
+import logging
+import unittest
 import httplib
 from test.shared.rest_framework import RestAPIHeader, RequestType
-from test.functional_test_suit.common.config import INVENTORY_SERVICE_URL, \
+from test.functional_test_suite.common.config import INVENTORY_SERVICE_URL, \
     get_items_url, update_url
-from test.functional_test_suit.common.payloads import Inventoryservicepayload
+from test.functional_test_suite.common.payloads import Inventoryservicepayload
 
 inventory_service = RestAPIHeader(utype='sysops')
 
 
-class InventoryServiceTestCases(unittest2.TestCase):
+class InventoryServiceTestCases(unittest.TestCase):
     """ Add item class """
     """ POST: Add item into inventory"""
 
@@ -22,7 +22,7 @@ class InventoryServiceTestCases(unittest2.TestCase):
             RequestType.POST, INVENTORY_SERVICE_URL,
             payload=Inventoryservicepayload().inventory_additem_payload())
         add_item_response_dict = add_item_response.json()
-        print "Response while adding: ", add_item_response.text
+        logging.info('Response is %s', add_item_response.text)
         self.assertEquals(
             add_item_response.status_code, 200,
             msg="Expected code is 200 and got is %s (%s)" %
@@ -42,13 +42,14 @@ class InventoryServiceTestCases(unittest2.TestCase):
             payload=Inventoryservicepayload().inventory_additem_payload(
                 item_id='1@d@323'))
         add_item_response_dict = add_item_response.json()
-        print "Response while adding: ", add_item_response.text
+        logging.info('Response is %s', add_item_response.text)
         self.assertEquals(
             add_item_response.status_code, 200,
             msg="Expected code is 200 and got is %s (%s)" %
                 (add_item_response.status_code, 
                  httplib.responses[add_item_response.status_code]))
-        self.assertIn('created_at', add_item_response_dict.keys(),
+        self.assertIn(
+            'created_at', add_item_response_dict.keys(),
             msg="Expected %s in %s" %
                 ('created_at', add_item_response_dict.keys))
 
@@ -65,7 +66,7 @@ class InventoryServiceTestCases(unittest2.TestCase):
             payload=Inventoryservicepayload().inventory_additem_payload(
                 hw_model='@dry@'))
         add_item_response_dict = add_item_response.json()
-        print "Response while adding: ", add_item_response.text
+        logging.info('Response is %s', add_item_response.text)
         self.assertEquals(
             add_item_response.status_code, 400,
             msg="Expected code is 400 and got is %s (%s)" %
@@ -89,7 +90,7 @@ class InventoryServiceTestCases(unittest2.TestCase):
             payload=Inventoryservicepayload().inventory_additem_payload(
                 hw_number='5tg#'))
         add_item_response_dict = add_item_response.json()
-        print "Response is: ", add_item_response.text
+        logging.info('Response is %s', add_item_response.text)
         self.assertEquals(
             add_item_response.status_code, 400,
             msg="Expected code is 400 and got is %s (%s)" %
@@ -113,7 +114,7 @@ class InventoryServiceTestCases(unittest2.TestCase):
             payload=Inventoryservicepayload().inventory_additem_payload(
                 mac_address='tg$cb(wdui%'))
         add_item_response_dict = add_item_response.json()
-        print "Response is: ", add_item_response.text
+        logging.info('Response is %s', add_item_response.text)
         self.assertEquals(
             add_item_response.status_code, 400,
             msg="Expected code is 400 and got is %s (%s)" %
@@ -137,7 +138,7 @@ class InventoryServiceTestCases(unittest2.TestCase):
             payload=Inventoryservicepayload().inventory_additem_payload(
                 storage_capacity=-300))
         add_item_response_dict = add_item_response.json()
-        print "Response is: ", add_item_response.text
+        logging.info('Response is %s', add_item_response.text)
         self.assertEquals(
             add_item_response.status_code, 400,
             msg="Expected code is 400 and got is %s (%s)" %
@@ -161,7 +162,7 @@ class InventoryServiceTestCases(unittest2.TestCase):
             payload=Inventoryservicepayload().inventory_additem_payload(
                 item_status='NEW@##*'))
         add_item_response_dict = add_item_response.json()
-        print "Response is: ", add_item_response.text
+        logging.info('Response is %s', add_item_response.text)
         self.assertEquals(
             add_item_response.status_code, 400,
             msg="Expected code is 400 and got is %s (%s)" %
@@ -185,7 +186,7 @@ class InventoryServiceTestCases(unittest2.TestCase):
             payload=Inventoryservicepayload().inventory_additem_payload(
                 remarks='AS #@'))
         add_item_response_dict = add_item_response.json()
-        print "Response is: ", add_item_response.text
+        logging.info('Response is %s', add_item_response.text)
         self.assertEquals(
             add_item_response.status_code, 400,
             msg="Expected code is 400 and got is %s (%s)" %
@@ -205,7 +206,7 @@ class InventoryServiceTestCases(unittest2.TestCase):
             payload=Inventoryservicepayload().inventory_additem_payload(
                                             order_id='1@ *'))
         add_item_response_dict = add_item_response.json()
-        # print "Response while adding: ", add_item_response.text
+        logging.info('Response is %s', add_item_response.text)
         self.assertEquals(
             add_item_response.status_code, 200,
             msg="Expected code is 200 and got is %s (%s)" %
@@ -229,7 +230,7 @@ class InventoryServiceTestCases(unittest2.TestCase):
             payload=Inventoryservicepayload().inventory_additem_payload(
                                             storage_array_model='sv *cy%@'))
         add_item_response_dict = add_item_response.json()
-        print "Response is: ", add_item_response.text
+        logging.info('Response is %s', add_item_response.text)
         self.assertEquals(
             add_item_response.status_code, 400,
             msg="Expected code is 400 and got is %s (%s)" %
@@ -253,7 +254,7 @@ class InventoryServiceTestCases(unittest2.TestCase):
             payload=Inventoryservicepayload().inventory_additem_payload(
                                             storage_array_type='asd# @'))
         add_item_response_dict = add_item_response.json()
-        print "Response is: ", add_item_response.text
+        logging.info('Response is %s', add_item_response.text)
         self.assertEquals(
             add_item_response.status_code, 400,
             msg="Expected code is 400 and got is %s (%s)" %
@@ -275,7 +276,7 @@ class InventoryServiceTestCases(unittest2.TestCase):
             payload=Inventoryservicepayload().inventory_additem_payload(
                                             item_id=''))
         add_item_response_dict = add_item_response.json()
-        print "Response is: ", add_item_response.text
+        logging.info('Response is %s', add_item_response.text)
         self.assertEquals(
             add_item_response.status_code, 200,
             msg="Expected code is 200 and got is %s (%s)" %
@@ -299,14 +300,16 @@ class InventoryServiceTestCases(unittest2.TestCase):
             payload=Inventoryservicepayload().inventory_additem_payload(
                                             hw_model=''))
         add_item_response_dict = add_item_response.json()
-        print "Response is: ", add_item_response.text
-        self.assertEquals(add_item_response.status_code, 400,
-                          msg="Expected code is 400 and got is %s (%s)" % (
-                            add_item_response.status_code,
-                            httplib.responses[add_item_response.status_code]))
-        self.assertEquals(error_message, add_item_response_dict['message'],
-                          msg=" expected message is %s and got is %s" %
-                              (error_message, add_item_response_dict['message']))
+        logging.info('Response is %s', add_item_response.text)
+        self.assertEquals(
+            add_item_response.status_code, 400,
+            msg="Expected code is 400 and got is %s (%s)" %
+                (add_item_response.status_code,
+                 httplib.responses[add_item_response.status_code]))
+        self.assertEquals(
+            error_message, add_item_response_dict['message'],
+            msg=" expected message is %s and got is %s" %
+                (error_message, add_item_response_dict['message']))
 
     def test_add_item_without_hw_number(self):
         """ Testing with empty hardware_number to add an
@@ -321,14 +324,16 @@ class InventoryServiceTestCases(unittest2.TestCase):
             payload=Inventoryservicepayload().inventory_additem_payload(
                                             hw_number=''))
         add_item_response_dict = add_item_response.json()
-        print "Response is: ", add_item_response.text
-        self.assertEquals(add_item_response.status_code, 400,
-                          msg="Expected code is 400 and got is %s (%s)" % (
-                            add_item_response.status_code,
-                            httplib.responses[add_item_response.status_code]))
-        self.assertEquals(error_message, add_item_response_dict['message'],
-                          msg=" expected message is %s and got is %s" %
-                              (error_message, add_item_response_dict['message']))
+        logging.info('Response is %s', add_item_response.text)
+        self.assertEquals(
+            add_item_response.status_code, 400,
+            msg="Expected code is 400 and got is %s (%s)" %
+                (add_item_response.status_code,
+                 httplib.responses[add_item_response.status_code]))
+        self.assertEquals(
+            error_message, add_item_response_dict['message'],
+            msg=" expected message is %s and got is %s" %
+                (error_message, add_item_response_dict['message']))
 
     def test_add_item_without_mac_address(self):
         """ Testing without content for mac_address to add an item
@@ -343,14 +348,16 @@ class InventoryServiceTestCases(unittest2.TestCase):
             payload=Inventoryservicepayload().inventory_additem_payload(
                                             mac_address=''))
         add_item_response_dict = add_item_response.json()
-        print "Response is: ", add_item_response.text
-        self.assertEquals(add_item_response.status_code, 400,
-                          msg="Expected code is 400 and got is %s (%s)" % (
-                            add_item_response.status_code,
-                            httplib.responses[add_item_response.status_code]))
-        self.assertEquals(error_message, add_item_response_dict['message'],
-                          msg=" expected message is %s and got is %s" %
-                              (error_message, add_item_response_dict['message']))
+        logging.info('Response is %s', add_item_response.text)
+        self.assertEquals(
+            add_item_response.status_code, 400,
+            msg="Expected code is 400 and got is %s (%s)" %
+                (add_item_response.status_code,
+                 httplib.responses[add_item_response.status_code]))
+        self.assertEquals(
+            error_message, add_item_response_dict['message'],
+            msg=" expected message is %s and got is %s" %
+                (error_message, add_item_response_dict['message']))
 
     def test_add_item_without_storage_capacity(self):
         """ Testing without content for mac_address to
@@ -365,14 +372,16 @@ class InventoryServiceTestCases(unittest2.TestCase):
             payload=Inventoryservicepayload().inventory_additem_payload(
                                             storage_capacity=''))
         add_item_response_dict = add_item_response.json()
-        print "Response is: ", add_item_response.text
-        self.assertEquals(add_item_response.status_code, 400,
-                          msg="Expected code is 400 and got is %s (%s)" % (
-                            add_item_response.status_code,
-                            httplib.responses[add_item_response.status_code]))
-        self.assertEquals(error_message, add_item_response_dict['message'],
-                          msg=" expected message is %s and got is %s" %
-                              (error_message, add_item_response_dict['message']))
+        logging.info('Response is %s', add_item_response.text)
+        self.assertEquals(
+            add_item_response.status_code, 400,
+            msg="Expected code is 400 and got is %s (%s)" %
+                (add_item_response.status_code,
+                 httplib.responses[add_item_response.status_code]))
+        self.assertEquals(
+            error_message, add_item_response_dict['message'],
+            msg=" expected message is %s and got is %s" %
+                (error_message, add_item_response_dict['message']))
 
     def test_add_item_without_item_status(self):
         """ Testing without status of item to add an
@@ -387,7 +396,7 @@ class InventoryServiceTestCases(unittest2.TestCase):
             payload=Inventoryservicepayload().inventory_additem_payload(
                                             item_status=''))
         add_item_response_dict = add_item_response.json()
-        print "Response is: ", add_item_response.text
+        logging.info('Response is %s', add_item_response.text)
         self.assertEquals(
             add_item_response.status_code, 400,
             msg="Expected code is 400 and got is %s (%s)" %
@@ -411,14 +420,16 @@ class InventoryServiceTestCases(unittest2.TestCase):
             payload=Inventoryservicepayload().inventory_additem_payload(
                                             remarks=''))
         add_item_response_dict = add_item_response.json()
-        print "Response is: ", add_item_response.text
-        self.assertEquals(add_item_response.status_code, 400,
-                          msg="Expected code is 400 and got is %s (%s)" % (
-                            add_item_response.status_code,
-                            httplib.responses[add_item_response.status_code]))
-        self.assertEquals(error_message, add_item_response_dict['message'],
-                          msg=" expected message is %s and got is %s" %
-                              (error_message, add_item_response_dict['message']))
+        logging.info('Response is %s', add_item_response.text)
+        self.assertEquals(
+            add_item_response.status_code, 400,
+            msg="Expected code is 400 and got is %s (%s)" %
+                (add_item_response.status_code,
+                 httplib.responses[add_item_response.status_code]))
+        self.assertEquals(
+            error_message, add_item_response_dict['message'],
+            msg=" expected message is %s and got is %s" %
+                (error_message, add_item_response_dict['message']))
 
     def test_add_item_without_storage_array_type(self):
         """ Testing with response storage_array_model to add an
@@ -433,15 +444,16 @@ class InventoryServiceTestCases(unittest2.TestCase):
             payload=Inventoryservicepayload().inventory_additem_payload(
                                             storage_array_type=''))
         add_item_response_dict = add_item_response.json()
-        print "Response is: ", add_item_response.text
+        logging.info('Response is %s', add_item_response.text)
         self.assertEquals(
             add_item_response.status_code, 400,
             msg="Expected code is 400 and got is %s (%s)" %
                 (add_item_response.status_code,
                     httplib.responses[add_item_response.status_code]))
-        self.assertEquals(error_message, add_item_response_dict['message'],
-                          msg=" expected message is %s and got is %s" %
-                              (error_message, add_item_response_dict['message']))
+        self.assertEquals(
+            error_message, add_item_response_dict['message'],
+            msg=" expected message is %s and got is %s" %
+                (error_message, add_item_response_dict['message']))
 
     def test_add_item_without_storage_array_model(self):
         """ Testing with  response storage_array_type to add an
@@ -456,15 +468,16 @@ class InventoryServiceTestCases(unittest2.TestCase):
             payload=Inventoryservicepayload().inventory_additem_payload(
                                             storage_array_model=''))
         add_item_response_dict = add_item_response.json()
-        print "Response is: ", add_item_response.text
+        logging.info('Response is %s', add_item_response.text)
         self.assertEquals(
             add_item_response.status_code, 400,
             msg="Expected code is 400 and got is %s (%s)" %
                 (add_item_response.status_code,
                     httplib.responses[add_item_response.status_code]))
-        self.assertEquals(error_message, add_item_response_dict['message'],
-                          msg=" expected message is %s and got is %s" %
-                              (error_message, add_item_response_dict['message']))
+        self.assertEquals(
+            error_message, add_item_response_dict['message'],
+            msg=" expected message is %s and got is %s" %
+                (error_message, add_item_response_dict['message']))
 
     def test_add_item_without_order_id(self):
         """ Testing with response order_id to add an item into the inventory """
@@ -477,7 +490,7 @@ class InventoryServiceTestCases(unittest2.TestCase):
             payload=Inventoryservicepayload().inventory_additem_payload(
                 order_id=''))
         add_item_response_dict = add_item_response.json()
-        print "Response is: ", add_item_response.text
+        logging.info('Response is %s', add_item_response.text)
         self.assertEquals(
             add_item_response.status_code, 200,
             msg="Expected code is 200 and got is %s (%s)" %
@@ -496,7 +509,7 @@ class InventoryServiceTestCases(unittest2.TestCase):
         # Check item availability in the inventory with hardware model
         item_availability_response = inventory_service.request(
             RequestType.GET, get_items_url('hw_model', 'ASDF123'))
-        print "Response is: ", item_availability_response.text
+        logging.info('Response is %s', item_availability_response.text)
         self.assertEquals(
             item_availability_response.status_code, 200,
             msg="Expected code is 200 and got is %s (%s)" %
@@ -513,7 +526,7 @@ class InventoryServiceTestCases(unittest2.TestCase):
         # Check item availability in the inventory with item id
         item_availability_response = inventory_service.request(
             RequestType.GET, get_items_url('item_id', 'NOOR'))
-        print "Response is: ", item_availability_response.text
+        logging.info('Response is %s', item_availability_response.text)
         self.assertEquals(
             item_availability_response.status_code, 200,
             msg="Expected code is 200 and got is %s (%s)" % (
@@ -530,7 +543,7 @@ class InventoryServiceTestCases(unittest2.TestCase):
         # Check item availability in the inventory with storage capacity
         item_availability_response = inventory_service.request(
             RequestType.GET, get_items_url('storage_capacity', '299'))
-        print "Response is: ", item_availability_response.text
+        logging.info('Response is %s', item_availability_response.text)
         self.assertEquals(
             item_availability_response.status_code, 200,
             msg="Expected code is 200 and got is %s (%s)" % (
@@ -547,7 +560,7 @@ class InventoryServiceTestCases(unittest2.TestCase):
         # Check item availability in the inventory with hardware model
         item_availability_response = inventory_service.request(
             RequestType.GET, get_items_url('item_status', 'NEW'))
-        print "Response is: ", item_availability_response.text
+        logging.info('Response is %s', item_availability_response.text)
         self.assertEquals(
             item_availability_response.status_code, 200,
             msg="Expected code is 200 and got is %s (%s)" % (
@@ -567,7 +580,7 @@ class InventoryServiceTestCases(unittest2.TestCase):
         item_availability_response = inventory_service.request(
             RequestType.GET, get_items_url('hw_model', 'sf1@%563 7'))
         item_availability_response_dict = item_availability_response.json()
-        print "Response is: ", item_availability_response.text
+        logging.info('Response is %s', item_availability_response.text)
         self.assertEquals(
             item_availability_response.status_code, 400,
             msg="Expected code is 400 and got is %s (%s)" % (
@@ -587,7 +600,7 @@ class InventoryServiceTestCases(unittest2.TestCase):
         item_availability_response = inventory_service.request(
             RequestType.GET, get_items_url('item_id', 'asfyd 227@'))
         item_availability_response_dict = item_availability_response.json()
-        print "Response is: ", item_availability_response.text
+        logging.info('Response is %s', item_availability_response.text)
         self.assertEquals(
             item_availability_response.status_code, 400,
             msg="Expected code is 400 and got is %s (%s)" % (
@@ -607,7 +620,7 @@ class InventoryServiceTestCases(unittest2.TestCase):
         item_availability_response = inventory_service.request(
             RequestType.GET, get_items_url('item_status', 'asdf'))
         item_availability_response_dict = item_availability_response.json()
-        print "Response is: ", item_availability_response.text
+        logging.info('Response is %s', item_availability_response.text)
         self.assertEquals(
             item_availability_response.status_code, 400,
             msg="Expected code is 400 and got is %s (%s)" % (
@@ -627,7 +640,7 @@ class InventoryServiceTestCases(unittest2.TestCase):
         item_availability_response = inventory_service.request(
             RequestType.GET, get_items_url('hw_model', ''))
         item_availability_response_dict = item_availability_response.json()
-        print "Response is: ", item_availability_response.text
+        logging.info('Response is %s', item_availability_response.text)
         self.assertEquals(
             item_availability_response.status_code, 400,
             msg="Expected code is 400 and got is %s (%s)" % (
@@ -647,7 +660,7 @@ class InventoryServiceTestCases(unittest2.TestCase):
         item_availability_response = inventory_service.request(
             RequestType.GET, get_items_url('item_id', ''))
         item_availability_response_dict = item_availability_response.json()
-        print "Response is: ", item_availability_response.text
+        logging.info('Response is %s', item_availability_response.text)
         self.assertEquals(
             item_availability_response.status_code, 400,
             msg="Expected code is 400 and got is %s (%s)" % (
@@ -667,7 +680,7 @@ class InventoryServiceTestCases(unittest2.TestCase):
         item_availability_response = inventory_service.request(
             RequestType.GET, get_items_url('storage_capacity', ''))
         item_availability_response_dict = item_availability_response.json()
-        print "Response is: ", item_availability_response.text
+        logging.info('Response is %s', item_availability_response.text)
         self.assertEquals(
             item_availability_response.status_code, 400,
             msg="Expected code is 400 and got is %s (%s)" % (
@@ -688,7 +701,7 @@ class InventoryServiceTestCases(unittest2.TestCase):
         item_availability_response = inventory_service.request(
             RequestType.GET, get_items_url('item_status', ''))
         item_availability_response_dict = item_availability_response.json()
-        print "Response is: ", item_availability_response.text
+        logging.info('Response is %s', item_availability_response.text)
         self.assertEquals(
             item_availability_response.status_code, 400,
             msg="Expected code is 400 and got is %s (%s)" % (
@@ -714,7 +727,7 @@ class InventoryServiceTestCases(unittest2.TestCase):
             RequestType.PUT, update_url('NOOR'),
             payload=Inventoryservicepayload().inventory_update_payload())
         update_item_status_response_dict = update_item_status_response.json()
-        print "Response is: ", update_item_status_response.text
+        logging.info('Response is %s', update_item_status_response.text)
         self.assertEquals(
             update_item_status_response.status_code, 200,
             msg="Expected code is 200 and got is %s (%s)" % (
@@ -739,7 +752,7 @@ class InventoryServiceTestCases(unittest2.TestCase):
             payload=Inventoryservicepayload().inventory_update_payload(
                 item_status='newly', sku=''))
         update_item_status_response_dict = update_item_status_response.json()
-        print "Response is: ", update_item_status_response.text
+        logging.info('Response is %s', update_item_status_response.text)
         self.assertEquals(
             update_item_status_response.status_code, 500,
             msg="Expected code is 500 and got is %s (%s)" % (

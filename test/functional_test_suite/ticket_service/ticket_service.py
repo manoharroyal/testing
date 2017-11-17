@@ -1,16 +1,16 @@
 """ Functional test cases for ticket service """
-
-import unittest2
+import logging
+import unittest
 import httplib
-from test.functional_test_suit.common.config import TICKET_SERVICE_URL, \
+from test.functional_test_suite.common.config import TICKET_SERVICE_URL, \
     ticket_detail_url
 from test.shared.rest_framework import RestAPIHeader, RequestType
-from test.functional_test_suit.common.payloads import TicketServicePayload
+from test.functional_test_suite.common.payloads import TicketServicePayload
 
 ticket_service_obj = RestAPIHeader(utype='sysops')
 
 
-class TicketService(unittest2.TestCase):
+class TicketService(unittest.TestCase):
     """ To update the status of ticket"""
 
     def test_with_valid_ticket_id(self):
@@ -20,7 +20,7 @@ class TicketService(unittest2.TestCase):
         ticket_response = ticket_service_obj.request(
             RequestType.PUT, ticket_detail_url('wbcsjis'),
             payload=TicketServicePayload().update_ticket_payload())
-        print "Response is: ", ticket_response.text
+        logging.info('Response is %s', ticket_response.text)
         self.assertEquals(
             ticket_response.status_code, 200,
             msg="Expected 200 and actual is %s (%s)" %
@@ -37,7 +37,7 @@ class TicketService(unittest2.TestCase):
             RequestType.PUT, ticket_detail_url('asdf'),
             payload=TicketServicePayload().update_ticket_payload())
         ticket_response_dict = ticket_response.json()
-        print "Response is: ", ticket_response.text
+        logging.info('Response is %s', ticket_response.text)
         self.assertEquals(
             ticket_response.status_code, 400,
             msg="Expected 400 and actual is %s (%s)" %
@@ -56,7 +56,7 @@ class TicketService(unittest2.TestCase):
             RequestType.PUT, ticket_detail_url(''),
             payload=TicketServicePayload().update_ticket_payload())
         ticket_response_dict = ticket_response.json()
-        print "Response is: ", ticket_response.text
+        logging.info('Response is %s', ticket_response.text)
         self.assertEquals(
             ticket_response.status_code, 403,
             msg="Expected 403 and actual is %s (%s)" %
@@ -75,7 +75,7 @@ class TicketService(unittest2.TestCase):
         # Get the list of all tickets with valid url
         list_tickets_response = ticket_service_obj.request(
             RequestType.GET, TICKET_SERVICE_URL)
-        print "Response is: ", list_tickets_response.text
+        logging.info('Response is %s', list_tickets_response.text)
         self.assertEqual(
             list_tickets_response.status_code, 200,
             msg="Expected 200 and got is %s (%s)" %
@@ -88,7 +88,7 @@ class TicketService(unittest2.TestCase):
         # Get the list of all tickets with invalid url
         list_tickets_response = ticket_service_obj.request(
             RequestType.GET, TICKET_SERVICE_URL)
-        print "Response is: ", list_tickets_response.text
+        logging.info('Response is %s', list_tickets_response.text)
         self.assertEqual(
             list_tickets_response.status_code, 400,
             msg="Expected 400 and got is %s (%s)" %
