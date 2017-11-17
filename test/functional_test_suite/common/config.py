@@ -1,8 +1,7 @@
 import os
 import yaml
 
-path = '/home/manohar/python/new/api_functional_testing'
-# path = os.environ['PYTHONPATH']
+path = os.environ['PYTHONPATH']
 with open(path + "/env/configuration.yaml", 'r') as stream:
     try:
         config_data = yaml.load(stream)
@@ -19,7 +18,7 @@ AGENT_SERVICE_URL = config_data['BASE_URL'].format(config_data['AGENT_SERVICE_AP
 TICKET_SERVICE_URL = config_data['BASE_URL'].format(config_data['TICKET_SERVICE_API_ID']) + "/tickets"
 
 SYSTEM_SERVICE = config_data['BASE_URL'].format(config_data['SYSTEM_SERVICE_API_ID'])
-SOURCE_SYSTEM_ID = "86dc65e4-42a0-4ee8-91e8-f201678f53aa"
+SOURCE_SYSTEM_ID = config_data['SOURCE_SYSTEM_ID']
 TEMP_KEY = config_data['TEMP_KEY']
 SEED_JOB_ID = config_data['SEED_JOB_ID']
 DELETE_JOB_ID = config_data['DELETE_JOB_ID']

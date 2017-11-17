@@ -4,9 +4,6 @@
 class AgentServicePayload(object):
     """ Agent Service Payload """
 
-    def __init__(self):
-        pass
-
     def update_agent_task_status(self, status='string', message='string'):
         """ update status of agent """
         payload = {"status": status, "message": message}
@@ -15,9 +12,6 @@ class AgentServicePayload(object):
 
 class CustomerProfileServicePayload(object):
     """ Payloads for customer profile service """
-
-    def __init__(self):
-        pass
 
     def customer_profile_payload(self, title="Test_Job",
                                  addr1="40 NE River Bridge", addr2=None,
@@ -52,9 +46,6 @@ class CustomerProfileServicePayload(object):
 
 class Inventoryservicepayload(object):
     """ Inventory Service Payload """
-
-    def __init__(self):
-        pass
 
     def inventory_additem_payload(self, item_id='NOOR', hw_model='ASDF123',
                                   hw_number='5QWER', mac_address='NOONE',
@@ -91,9 +82,6 @@ class Inventoryservicepayload(object):
 
 class SeedJobServicePayload(object):
     """ Payload for seed job service """
-
-    def __init__(self):
-        pass
 
     def create_seed_job_payload(
             self, seed_job_name='Test Backup102', job_type='BOX',
@@ -238,16 +226,16 @@ SYSTEM_DETAILS = {
 class SystemServicePayload(object):
     """ Payloads for system service """
 
-    def __init__(self):
-        pass
-
     def system_creation_payload(self, system_type='source',
                                 system_name="TDCLOUD15TD12",
                                 details=SYSTEM_DETAILS["details"]):
         """ Request body for creation of seed job"""
 
-        payload = {"system_type": system_type, "system_name": system_name,
-                   "details": details}
+        payload = {
+            "system_type": system_type,
+            "system_name": system_name,
+            "details": details
+        }
         return payload
 
     def system_deletion_payload(self, del_param=None):
@@ -264,10 +252,10 @@ class SystemServicePayload(object):
 class TicketServicePayload(object):
     """ Class for Ticket Service Payloads """
 
-    def __init__(self):
-        pass
-
     def update_ticket_payload(self, detail="string", message="string"):
         """ payload to update the ticket status """
-        payload = {"detail": detail, "message": message}
+        payload = {
+            "detail": detail,
+            "message": message
+        }
         return payload
