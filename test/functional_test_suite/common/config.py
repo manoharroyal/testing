@@ -1,13 +1,13 @@
 import os
 import yaml
 
-path = os.environ['PYTHONPATH']
+path = '/home/manohar/python/new/api_functional_testing'
+# path = os.environ['PYTHONPATH']
 with open(path + "/env/configuration.yaml", 'r') as stream:
     try:
         config_data = yaml.load(stream)
     except yaml.YAMLError as exc:
-        print("Cannot able to access input configuration")
-
+        print "Cannot able to access input configuration"
 
 """ All Constants goes here """
 
@@ -56,10 +56,11 @@ def target_system_url(target_system, site_id):
     """ Url to get the details of target system"""
     return '%s%s' % (target_system, site_id)
 
+
 agent_id = '6be1b3d7-b9e9-4808-b8d2-1b0197d848e7'
 LIST_AGENT_TASK_URL = AGENT_SERVICE_URL + '/tasks'
 REGISTER_AGENT_URL = AGENT_SERVICE_URL + '/register'
-INVALID_SEED_JOB_URL = config_data['BASE_URL'].format(config_data['SEED_JOB_API_ID']) + "/seed-jobs1/"
+INVALID_SEED_JOB_URL = SEED_JOB_URL + "1/"
 TICKETS_URL = TICKET_SERVICE_URL + "/{ticket_id}"
 
 
