@@ -5,13 +5,13 @@ import requests
 import jwt
 from enum import Enum
 import yaml
+
 path = os.environ['PYTHONPATH']
-print (path)
 with open(path + "/env/configuration.yaml", 'r') as stream:
     try:
         config_data = yaml.load(stream)
     except yaml.YAMLError as exc:
-        print("Cannot able to access input configuration")
+        print "Cannot able to access input configuration"
 
 LOGIN_URL = config_data['LOGIN_URL']
 AGENT_LOGIN_URL = config_data['AGENT_URL']
@@ -68,7 +68,6 @@ class RestAPIHeader(object):
         try:
             encode = str(response.json()['id_token'])
         except:
-            print "response is " + response.text
             print "Cannot able to parse the token in Login"
             sys.exit(1)
         return str(response.json()['id_token']), response.json()
@@ -103,7 +102,6 @@ class RestAPIHeader(object):
             encode = str(response.json()['id_token'])
 
         except:
-            print "response is " + response.text
             print "Cannot able to parse the token in Login"
             sys.exit(1)
         decode = jwt.decode(encode, 'secret', algorithm=['RS256'], verify=False)
