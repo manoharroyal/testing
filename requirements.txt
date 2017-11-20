@@ -1,7 +1,6 @@
 requests
 pyyaml
 enum
-unittest
 pyjwt
 pytest
 pytest-html
