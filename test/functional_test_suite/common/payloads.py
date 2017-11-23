@@ -34,6 +34,25 @@ class CustomerProfileServicePayload(object):
         }
         return payload
 
+    def update_shipping_address_payload(
+            self, title="cust_new_test", addr1="newbackup", addr2="Rest",
+            contact_name="manohar", contact_number=9492, company_name="opc",
+            city="opera", state="windows", country="lenovo", zipcode=411057):
+        """ Payload to update the shipping address """
+        payload = {
+            "title": title,
+            "address_line_1": addr1,
+            "address_line_2": addr2,
+            "contact_name": contact_name,
+            "contact_number": contact_number,
+            "company_name": company_name,
+            "city": city,
+            "state": state,
+            "country": country,
+            "zipcode": zipcode
+        }
+        return payload
+
     def delete_payload_parameter(self, del_param=None):
         """ Delete the payload parameter """
         customer_profile_payload = self.customer_profile_payload()
@@ -178,53 +197,52 @@ class SeedJobServicePayload(object):
         return payload
 
 
-SYSTEM_DETAILS = {
-    "details": {
-        "system_name": "TDCLOUD15TD11",
-        "bynet": {
-            "PMA": "72",
-            "bynet0": {
-                "ip": "10.20.2.8",
-                "net_mask": "255.255.0.0"
-            },
-            "bynet1": {
-                "ip": "10.16.2.8",
-                "net_mask": "255.255.0.0"
-            }
-        },
-        "node_ip": {
-            "interface": "eth0",
-            "ip": "10.21.130.8",
-            "mask": "255.255.0.0"
-        },
-        "dc_ip": {
-            "interface": "eth3",
-            "ip": "10.25.152.62",
-            "mask": "255.255.254.0"
-        },
-        "version": {
-            "BLM driver": "03.07.03.02",
-            "BLM protocol": "15.07.27.15",
-            "database_version": "15.10.02.04",
-            "BLM commands": "03.07.03.02"
-        },
-        "host_name": "TDCLOUD15TD10-2-8",
-        "nodes": [
-            {
-                "short_hostname": [
-                    "TDCLOUD15TD10-2-8"
-                ],
-                "ip": "10.22.130.8",
-                "name": "TDCLOUD15TD10",
-                "full_qualified_hostname": "SMP002-8"
-            }
-        ]
-    }
-}
-
-
 class SystemServicePayload(object):
     """ Payloads for system service """
+
+    SYSTEM_DETAILS = {
+        "details": {
+            "system_name": "TDCLOUD15TD11",
+            "bynet": {
+                "PMA": "72",
+                "bynet0": {
+                    "ip": "10.20.2.8",
+                    "net_mask": "255.255.0.0"
+                },
+                "bynet1": {
+                    "ip": "10.16.2.8",
+                    "net_mask": "255.255.0.0"
+                }
+            },
+            "node_ip": {
+                "interface": "eth0",
+                "ip": "10.21.130.8",
+                "mask": "255.255.0.0"
+            },
+            "dc_ip": {
+                "interface": "eth3",
+                "ip": "10.25.152.62",
+                "mask": "255.255.254.0"
+            },
+            "version": {
+                "BLM driver": "03.07.03.02",
+                "BLM protocol": "15.07.27.15",
+                "database_version": "15.10.02.04",
+                "BLM commands": "03.07.03.02"
+            },
+            "host_name": "TDCLOUD15TD10-2-8",
+            "nodes": [
+                {
+                    "short_hostname": [
+                        "TDCLOUD15TD10-2-8"
+                    ],
+                    "ip": "10.22.130.8",
+                    "name": "TDCLOUD15TD10",
+                    "full_qualified_hostname": "SMP002-8"
+                }
+            ]
+        }
+    }
 
     def system_creation_payload(self, system_type='source',
                                 system_name="TDCLOUD15TD12",
@@ -257,5 +275,26 @@ class TicketServicePayload(object):
         payload = {
             "detail": detail,
             "message": message
+        }
+        return payload
+
+
+class AuthServicePayload(object):
+    """ Class for Auth Service Payloads """
+
+    def create_user_payload(self, roles="something"):
+        """ Payload to create user """
+        payload = {
+            "roles": roles
+        }
+        return payload
+
+    def validate_user_credentials_payload(self, userId="awdasi", password="123@",
+                                          client_id="abcd"):
+        """ Payload to validate user credentials """
+        payload = {
+            "userId": userId,
+            "password": password,
+            "client_id": client_id
         }
         return payload
