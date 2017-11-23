@@ -1,6 +1,5 @@
 import os
 import yaml
-
 path = os.environ['PYTHONPATH']
 with open(path + "/env/configuration.yaml", 'r') as stream:
     try:
@@ -16,6 +15,8 @@ SYSTEM_SERVICE_URL = config_data['BASE_URL'].format(config_data['SYSTEM_SERVICE_
 SEED_JOB_URL = config_data['BASE_URL'].format(config_data['SEED_JOB_API_ID']) + "/seed-jobs/"
 AGENT_SERVICE_URL = config_data['BASE_URL'].format(config_data['AGENT_SERVICE_API_ID']) + "/agent"
 TICKET_SERVICE_URL = config_data['BASE_URL'].format(config_data['TICKET_SERVICE_API_ID']) + "/tickets"
+AUTH_SERVICE_URL = "https://vcufjy5lv4.execute-api.us-east-1.amazonaws.com/test/auth/users"
+
 
 SYSTEM_SERVICE = config_data['BASE_URL'].format(config_data['SYSTEM_SERVICE_API_ID'])
 SOURCE_SYSTEM_ID = config_data['SOURCE_SYSTEM_ID']
@@ -44,14 +45,20 @@ def list_system_url(list_system, system_type):
 list_system = SYSTEM_SERVICE_URL + "/?type="
 source_system = SYSTEM_SERVICE_URL + "/source/"
 target_system = SYSTEM_SERVICE_URL + "/target/"
+validate_auth_user_url = AUTH_SERVICE_URL + "/validate"
 
 
-def source_system_url(source_system, system_id):
+def delete_auth_user_url(user_name):
+    """ Url to delete the user """
+    return '%s/%s' % (AUTH_SERVICE_URL, user_name)
+
+
+def source_system_url(system_id):
     """ Url to get the details of source system """
     return '%s%s' % (source_system, system_id)
 
 
-def target_system_url(target_system, site_id):
+def target_system_url(site_id):
     """ Url to get the details of target system"""
     return '%s%s' % (target_system, site_id)
 
