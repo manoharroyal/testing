@@ -1,15 +1,6 @@
 """ All the payloads managed here """
 
 
-class AgentServicePayload(object):
-    """ Agent Service Payload """
-
-    def update_agent_task_status(self, status='string', message='string'):
-        """ update status of agent """
-        payload = {"status": status, "message": message}
-        return payload
-
-
 class CustomerProfileServicePayload(object):
     """ Payloads for customer profile service """
 
@@ -264,6 +255,18 @@ class SystemServicePayload(object):
             print ("parameter should be passed")
         else:
             payload.pop(del_param)
+        return payload
+
+
+class AgentServicePayload(object):
+    """ Agent Service Payload """
+
+    def update_agent_task_status(self, status='string', message='string'):
+        """ update status of agent """
+        payload = {
+            "status": status,
+            "message": message
+        }
         return payload
 
 

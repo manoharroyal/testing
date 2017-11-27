@@ -5,14 +5,17 @@ import httplib
 from test.functional_test_suite.common.payloads import AgentServicePayload
 from test.shared.rest_framework import RestAPIHeader, RequestType
 from test.functional_test_suite.common.config import AGENT_SERVICE_URL, \
-    LIST_AGENT_TASK_URL, agent_id, REGISTER_AGENT_URL, update_agent_task_url, \
-    agent_details_url
+    agent_id, update_agent_task_url, agent_details_url, register_agent_url, \
+    list_agent_tasks_url
 
 agent_service_sysops = RestAPIHeader(utype='sysops')
 agent_service_agent = RestAPIHeader(utype='agent')
 
 
 class AgentServiceTestCases(unittest.TestCase):
+    """ Test cases to get the list agents """
+
+    # GET: To get list agent tasks
     """ Test cases to get the list agents """
 
     def test_list_agents_with_valid_url(self):
@@ -49,15 +52,15 @@ class AgentServiceTestCases(unittest.TestCase):
                       msg="Expected %s in and got is %s" % (
                           'message', list_agents_response_dict.keys()))
 
-    # GET: To get list agent tasks
+        # GET: To get list agent tasks
     """ Test cases to get the list agent tasks """
 
-    def test_list_agent_tasks_with_valid_url(self):
+    def test_list_agent_tasks_with_valid_agent_id(self):
         """ Testing with the valid url to get the list agent tasks """
 
         # Get list agent tasks  with valid url
         list_agents_tasks_response = agent_service_agent.request(
-            RequestType.GET, LIST_AGENT_TASK_URL)
+            RequestType.GET, list_agent_tasks_url(agent_id))
         list_agents_tasks_response_dict = list_agents_tasks_response.json()
         logging.info('Response is %s', list_agents_tasks_response.text)
         self.assertEquals(
@@ -69,14 +72,14 @@ class AgentServiceTestCases(unittest.TestCase):
                       msg="Expected %s in and got is %s" % (
                           'message', list_agents_tasks_response_dict.keys()))
 
-    def test_list_agent_tasks_with_invalid_url(self):
+    def test_list_agent_tasks_with_invalid_agent_id(self):
         """ Testing with the invalid url to get the list agent tasks """
 
         message = "Resource with id tasksasq does not exists"
 
         # Get list agent tasks with invalid url
         list_agents_tasks_response = agent_service_agent.request(
-            RequestType.GET, LIST_AGENT_TASK_URL + 'asq')
+            RequestType.GET, list_agent_tasks_url("asd"))
         list_agents_tasks_response_dict = list_agents_tasks_response.json()
         logging.info('Response is %s', list_agents_tasks_response.text)
         self.assertEquals(
@@ -216,12 +219,12 @@ class AgentServiceTestCases(unittest.TestCase):
     # PUT: Register an agent
     """ Test cases to Register an agent by passing input parameters """
 
-    def test_register_agent_with_valid_url(self):
+    def test_register_agent_with_valid_agent_id(self):
         """ Testing with valid url to register an agent """
 
         # Register an agent with valid url
         register_agent_response = agent_service_agent.request(
-            RequestType.PUT, REGISTER_AGENT_URL)
+            RequestType.PUT, register_agent_url(agent_id))
         logging.info('Response is %s', register_agent_response.text)
         self.assertEquals(
             register_agent_response.status_code, 202,
@@ -229,12 +232,12 @@ class AgentServiceTestCases(unittest.TestCase):
                 register_agent_response.status_code,
                 httplib.responses[register_agent_response.status_code]))
 
-    def test_register_agent_with_invalid_url(self):
+    def test_register_agent_with_invalid_agent_id(self):
         """ Testing with invalid url to register an agent """
 
         # Register an agent with invalid url
         register_agent_response = agent_service_agent.request(
-            RequestType.PUT, REGISTER_AGENT_URL + 'as')
+            RequestType.PUT, register_agent_url('sbh'))
         register_agent_response_dict = register_agent_response.json()
         logging.info('Response is %s', register_agent_response.text)
         self.assertEquals(

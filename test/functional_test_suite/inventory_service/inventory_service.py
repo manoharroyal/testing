@@ -4,7 +4,7 @@ import unittest
 import httplib
 from test.shared.rest_framework import RestAPIHeader, RequestType
 from test.functional_test_suite.common.config import INVENTORY_SERVICE_URL, \
-    get_items_url, update_url
+    get_items_url, update_item_url
 from test.functional_test_suite.common.payloads import Inventoryservicepayload
 
 inventory_service = RestAPIHeader(utype='sysops')
@@ -724,7 +724,7 @@ class InventoryServiceTestCases(unittest.TestCase):
 
         # Update inventory with valid item id and sku
         update_item_status_response = inventory_service.request(
-            RequestType.PUT, update_url('NOOR'),
+            RequestType.PUT, update_item_url('NOOR'),
             payload=Inventoryservicepayload().inventory_update_payload())
         update_item_status_response_dict = update_item_status_response.json()
         logging.info('Response is %s', update_item_status_response.text)
@@ -748,7 +748,7 @@ class InventoryServiceTestCases(unittest.TestCase):
 
         # Update an inventory without sku
         update_item_status_response = inventory_service.request(
-            RequestType.PUT, update_url('NOOR'),
+            RequestType.PUT, update_item_url('NOOR'),
             payload=Inventoryservicepayload().inventory_update_payload(
                 item_status='newly', sku=''))
         update_item_status_response_dict = update_item_status_response.json()

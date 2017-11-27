@@ -1,7 +1,6 @@
 import logging
 import unittest
 import httplib
-import requests
 from test.functional_test_suite.common.config import AUTH_SERVICE_URL, \
     delete_auth_user_url, validate_auth_user_url
 from test.shared.rest_framework import RestAPIHeader, RequestType
@@ -45,11 +44,16 @@ class AuthService(unittest.TestCase):
         create_auth_user_response = auth_service.request(
             RequestType.POST, AUTH_SERVICE_URL,
             payload=AuthServicePayload().create_user_payload())
+        create_auth_user_response_dict = create_auth_user_response.json()
         logging.info("Response is %s" % create_auth_user_response.text)
+        key = 'userId'
         self.assertEquals(create_auth_user_response.status_code, 200,
                           msg="Expected 200 and got is %s (%s)" %
                               (create_auth_user_response.status_code,
                                httplib.responses(create_auth_user_response.status_code)))
+        self.assertIn(key, create_auth_user_response_dict.keys(),
+                      msg="Expected %s in and got is %s" % (
+                          key, create_auth_user_response_dict.keys()))
 
     def test_create_user_with_invalid_url(self):
 
@@ -91,11 +95,16 @@ class AuthService(unittest.TestCase):
         validate_auth_user_response = auth_service.request(
             RequestType.POST, validate_auth_user_url,
             payload=AuthServicePayload().validate_user_credentials_payload())
+        validate_auth_user_response_dict = validate_auth_user_response.json()
+        key = 'userId'
         self.assertEquals(
             validate_auth_user_response.status_code, 200,
             msg=("Expected code is 200 and got is %s (%s)" %
                  (validate_auth_user_response.status_code,
                   httplib.responses(validate_auth_user_response.status_code))))
+        self.assertIn(key, validate_auth_user_response_dict.keys(),
+                      msg="Expected %s in and got is %s" % (
+                          key, validate_auth_user_response_dict.keys()))
 
     def test_validate_auth_user_with_invalid_url(self):
 
