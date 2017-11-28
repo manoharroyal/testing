@@ -4,10 +4,10 @@ import unittest
 import httplib
 from test.functional_test_suite.common.config import TICKET_SERVICE_URL, \
     ticket_detail_url
-from test.shared.rest_framework import RestAPIHeader, RequestType
+from test.shared.rest_framework import RestAPI, RequestType
 from test.functional_test_suite.common.payloads import TicketServicePayload
 
-ticket_service_obj = RestAPIHeader(utype='sysops')
+ticket_service_obj = RestAPI(utype='sysops')
 
 
 class TicketService(unittest.TestCase):

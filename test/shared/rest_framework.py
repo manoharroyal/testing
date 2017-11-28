@@ -33,7 +33,7 @@ class SystemType(Enum):
     target = 'target'
 
 
-class RestAPIHeader(object):
+class RestAPI(object):
     """ The helper class for api calling """
 
     def __init__(self, utype='invalid'):

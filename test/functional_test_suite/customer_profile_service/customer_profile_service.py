@@ -3,13 +3,13 @@
 import logging
 import unittest
 import httplib
-from test.shared.rest_framework import RequestType, RestAPIHeader
+from test.shared.rest_framework import RequestType, RestAPI
 from test.functional_test_suite.common.config import CUSTOMER_SERVICE_URL
 from test.functional_test_suite.common.payloads import \
     CustomerProfileServicePayload
 
-customer_service = RestAPIHeader(utype='customer')
-customer_service_invalid_token = RestAPIHeader(utype='invalid')
+customer_service = RestAPI(utype='customer')
+customer_service_invalid_token = RestAPI(utype='invalid')
 customer_profile_url = CUSTOMER_SERVICE_URL + str(customer_service.customerId)
 customer_profile_address_url = customer_profile_url + "/addresses/"
 

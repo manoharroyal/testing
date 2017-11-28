@@ -2,15 +2,15 @@
 import logging
 import unittest
 import httplib
-from test.shared.rest_framework import RequestType, RestAPIHeader
+from test.shared.rest_framework import RequestType, RestAPI
 from test.functional_test_suite.common.payloads import SeedJobServicePayload
 from test.functional_test_suite.common.config import SEED_JOB_URL, \
     INVALID_SEED_JOB_URL, SEED_JOB_ID, seed_job_url, user_action_url, \
     TEMP_KEY, DELETE_JOB_ID, agent_api_url
 
-job_service_customer = RestAPIHeader(utype='customer')
-job_service_sysops = RestAPIHeader(utype='sysops')
-job_service_agent = RestAPIHeader(utype='agent')
+job_service_customer = RestAPI(utype='customer')
+job_service_sysops = RestAPI(utype='sysops')
+job_service_agent = RestAPI(utype='agent')
 
 
 class JobServiceTestCases(unittest.TestCase):

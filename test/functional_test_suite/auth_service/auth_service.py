@@ -3,9 +3,9 @@ import unittest
 import httplib
 from test.functional_test_suite.common.config import AUTH_SERVICE_URL, \
     delete_auth_user_url, validate_auth_user_url
-from test.shared.rest_framework import RestAPIHeader, RequestType
+from test.shared.rest_framework import RestAPI, RequestType
 from test.functional_test_suite.common.payloads import AuthServicePayload
-auth_service = RestAPIHeader()
+auth_service = RestAPI()
 
 
 class AuthService(unittest.TestCase):

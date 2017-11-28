@@ -2,12 +2,12 @@
 import logging
 import unittest
 import httplib
-from test.shared.rest_framework import RestAPIHeader, RequestType
+from test.shared.rest_framework import RestAPI, RequestType
 from test.functional_test_suite.common.config import INVENTORY_SERVICE_URL, \
     get_items_url, update_item_url
 from test.functional_test_suite.common.payloads import Inventoryservicepayload
 
-inventory_service = RestAPIHeader(utype='sysops')
+inventory_service = RestAPI(utype='sysops')
 
 
 class InventoryServiceTestCases(unittest.TestCase):

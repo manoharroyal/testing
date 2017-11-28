@@ -2,14 +2,14 @@
 import logging
 import unittest
 import httplib
-from test.shared.rest_framework import RestAPIHeader, RequestType, SystemType
+from test.shared.rest_framework import RestAPI, RequestType, SystemType
 from test.functional_test_suite.common.config import SYSTEM_SERVICE_URL, \
     SYSTEM_SERVICE, list_system_url, source_system_url, target_system_url, \
     list_system, target_system, source_system, SOURCE_SYSTEM_ID
 from test.functional_test_suite.common.payloads import SystemServicePayload
 
-system_service = RestAPIHeader(utype='customer')
-invalid_system_service = RestAPIHeader(utype='invalid')
+system_service = RestAPI(utype='customer')
+invalid_system_service = RestAPI(utype='invalid')
 
 
 class SystemServiceTestCases(unittest.TestCase):
