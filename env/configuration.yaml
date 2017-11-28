@@ -4,7 +4,7 @@ BASE_URL:  "https://{0}.execute-api.us-west-2.amazonaws.com/dev"
 # eg: 
 #     https://oywvlaayha.execute-api.us-west-2.amazonaws.com/dev/
 #     Here api_id: oywvlaayha
-CUSTOMER_SERVICE_API_ID: "oywvlaayha"
+CUSTOMER_SERVICE_API_ID: "8bfaht51mh"
 INVENTORY_SERVICE_API_ID: "vrrw4gamg3"
 SYSTEM_SERVICE_API_ID: "tlgz19gbal"
 SEED_JOB_API_ID: "ulqh6w1du6"
@@ -19,7 +19,7 @@ SOURCE_SYSTEM_ID: '86dc65e4-42a0-4ee8-91e8-f201678f53aa'
 LOGIN_URL: "https://sso.teradatacloud.io/oauth/ro"
 client_id: "h4psC1NTevUPYCJ6hTa76htrup4UNIyq"
 customer_username: "customer.one"
-customer_password: 
+customer_password:
 sysops_username: "sys.ops"
 sysops_password:
 connection: "AD-DEV"
