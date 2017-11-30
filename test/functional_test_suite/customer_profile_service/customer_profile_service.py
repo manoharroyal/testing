@@ -5,12 +5,14 @@ import unittest
 import httplib
 from test.shared.rest_framework import RequestType, RestAPI
 from test.functional_test_suite.common.config import CUSTOMER_SERVICE_URL
-from test.functional_test_suite.common.payloads import \
-    CustomerProfileServicePayload
+from test.functional_test_suite.common.payloads import CustomerProfileServicePayload
 
 customer_service = RestAPI(utype='customer')
 customer_service_invalid_token = RestAPI(utype='invalid')
+
+
 customer_profile_url = CUSTOMER_SERVICE_URL + str(customer_service.customerId)
+customer_profile_invalid_customer_id = customer_profile_url + "1" + "/addresses/"
 customer_profile_address_url = customer_profile_url + "/addresses/"
 
 
@@ -59,43 +61,6 @@ class CustomerProfileTestCases(unittest.TestCase):
             msg="Expected message is %s and got %s" %
                 (customer_profile_response_dict['message'], expected_message))
 
-    def test_list_address_customer_with_invalid_url(self):
-        """ Test with the invalid customer_id to get the list of addresses """
-
-        expected_message = 'Customer_id mismatch'
-
-        # Get the list of addresses of customer with invalid url
-        customer_profile_response = customer_service.request(
-            RequestType.GET, CUSTOMER_SERVICE_URL + str('12'))
-        customer_profile_response_text = customer_profile_response.json()
-        logging.info('Response is %s', customer_profile_response.text)
-        self.assertEquals(
-            customer_profile_response.status_code, 400,
-            msg='Expected 400 and got %s (%s)' %
-                (customer_profile_response.status_code,
-                 httplib.responses[customer_profile_response.status_code]))
-        self.assertEquals(
-            customer_profile_response_text['message'], expected_message,
-            msg="Expected message is %s and got %s" %
-                (customer_profile_response_text['message'], expected_message))
-
-    def test_list_address_customer_profile_without_id(self):
-        """ Test without customer_id to get the list of addresses """
-
-        # Get the list of addresses of customer without customer id
-        customer_profile_response = customer_service.request(
-            RequestType.GET, CUSTOMER_SERVICE_URL)
-        customer_profile_response_dict = customer_profile_response.json()
-        logging.info('Response is %s', customer_profile_response.text)
-        self.assertEquals(
-            customer_profile_response.status_code, 403,
-            msg='Expected 403 and got %s (%s)' %
-                (customer_profile_response.status_code,
-                 httplib.responses[customer_profile_response.status_code]))
-        self.assertIn('message', customer_profile_response_dict.keys(),
-                      msg="Expected message in %s and got %s" %
-                          ('message', customer_profile_response_dict.keys()))
-
     def test_list_address_customer_profile_with_invalid_token(self):
         """ Test without customer_id to get the list of addresses """
 
@@ -115,33 +80,8 @@ class CustomerProfileTestCases(unittest.TestCase):
 
     """ PUT : Create/Update customer profile """
 
-    def test_add_new_shipping_address_without_address_line2(self):
-        """ Testing without address line2 to add
-        new shipping address to the customer profile """
-
-        # Create an address without address line 2
-        customer_profile_response = customer_service.request(
-            RequestType.PUT, customer_profile_url,
-            payload=CustomerProfileServicePayload().customer_profile_payload(
-                title="9876"))
-
-        # Get the added address
-        customer_profile_response_dict = customer_service.request(
-            RequestType.GET,
-            customer_profile_address_url + "9876").json()
-        logging.info('Response is %s', customer_profile_response.text)
-        self.assertEquals(
-            customer_profile_response.status_code, 200,
-            msg="Expected 200 and got %s (%s)" %
-                (customer_profile_response.status_code,
-                 httplib.responses[customer_profile_response.status_code]))
-        self.assertIn(
-            'title', customer_profile_response_dict.keys(),
-            msg='Expected %s in %s' %
-                ('shipping_addresses', customer_profile_response_dict.keys()))
-
-    def test_add_new_shipping_address_with_address_line2(self):
-        """ Testing with optional address to add
+    def test_add_new_shipping_address_with_valid_details(self):
+        """ Testing with valid details to add
         new shipping address to the customer profile """
 
         # create an address with address line 2
@@ -182,6 +122,30 @@ class CustomerProfileTestCases(unittest.TestCase):
         self.assertEquals(
             customer_profile_response.status_code, 400,
             msg='Expected 400 and got %s (%s)' %
+                (customer_profile_response.status_code,
+                 httplib.responses[customer_profile_response.status_code]))
+        self.assertEquals(
+            expected_message, customer_profile_response_dict['message'],
+            msg="Expected message %s and got %s" %
+                (expected_message, customer_profile_response_dict['message']))
+
+    def test_add_new_shipping_address_with_invalid_token(self):
+        """ Testing with mismatch customer_id to add
+        new shipping address to the customer profile """
+
+        expected_message = "Unauthorized"
+
+        # Create an address with invalid customer id
+        customer_profile_response = customer_service_invalid_token.request(
+            RequestType.PUT,
+            CUSTOMER_SERVICE_URL + str(customer_service.customerId),
+            payload=CustomerProfileServicePayload().customer_profile_payload(
+                addr1="400_NE, River_Bridge", addr2='Near Post Office'))
+        customer_profile_response_dict = customer_profile_response.json()
+        logging.info('Response is %s', customer_profile_response.text)
+        self.assertEquals(
+            customer_profile_response.status_code, 401,
+            msg='Expected 401 and got %s (%s)' %
                 (customer_profile_response.status_code,
                  httplib.responses[customer_profile_response.status_code]))
         self.assertEquals(
@@ -233,6 +197,31 @@ class CustomerProfileTestCases(unittest.TestCase):
             expected_message, customer_profile_response_text['message'],
             msg="Expected message is %s and got %s" %
                 (expected_message,  customer_profile_response_text['message']))
+
+    def test_add_new_shipping_address_without_address_line2(self):
+        """ Testing without address line2 to add
+        new shipping address to the customer profile """
+
+        # Create an address without address line 2
+        customer_profile_response = customer_service.request(
+            RequestType.PUT, customer_profile_url,
+            payload=CustomerProfileServicePayload().customer_profile_payload(
+                title="9876"))
+
+        # Get the added address
+        customer_profile_response_dict = customer_service.request(
+            RequestType.GET,
+            customer_profile_address_url + "9876").json()
+        logging.info('Response is %s', customer_profile_response.text)
+        self.assertEquals(
+            customer_profile_response.status_code, 200,
+            msg="Expected 200 and got %s (%s)" %
+                (customer_profile_response.status_code,
+                 httplib.responses[customer_profile_response.status_code]))
+        self.assertIn(
+            'title', customer_profile_response_dict.keys(),
+            msg='Expected %s in %s' %
+                ('shipping_addresses', customer_profile_response_dict.keys()))
 
     def test_update_customer_profile_without_contact_name(self):
         """ Testing without  contact name to update customer profile """
@@ -378,7 +367,7 @@ class CustomerProfileTestCases(unittest.TestCase):
 
         # Get the address details with valid title
         customer_profile_response = customer_service.request(
-            RequestType.GET, customer_profile_address_url + 'cust_new_test')
+            RequestType.GET, customer_profile_address_url + 'Test_Job')
         customer_profile_response_dict = customer_profile_response.json()
         logging.info('Response is %s', customer_profile_response.text)
         self.assertEquals(
@@ -444,7 +433,7 @@ class CustomerProfileTestCases(unittest.TestCase):
 
         # Update the shipping_address with valid details
         customer_profile_shipping_address_response = customer_service.request(
-            RequestType.PUT, customer_profile_address_url + "1111",
+            RequestType.PUT, customer_profile_address_url + "cust_new_test",
             payload=CustomerProfileServicePayload
             ().update_shipping_address_payload())
         logging.info('Response is %s', customer_profile_shipping_address_response.text)
@@ -458,33 +447,75 @@ class CustomerProfileTestCases(unittest.TestCase):
         """ Testing with invalid title to update
         shipping address to the customer profile """
 
+        expected_message = "Address does not exist"
+
         # Update the shipping_address with invalid title
         customer_profile_shipping_address_response = customer_service.request(
             RequestType.PUT, customer_profile_address_url + "1111123",
             payload=CustomerProfileServicePayload
             ().update_shipping_address_payload())
+        customer_profile_shipping_address_response_dict = \
+            customer_profile_shipping_address_response.json()
         logging.info('Response is %s', customer_profile_shipping_address_response.text)
         self.assertEquals(
-            customer_profile_shipping_address_response.status_code, 400,
-            msg="Expected 400 and got %s (%s)" %
+            customer_profile_shipping_address_response.status_code, 404,
+            msg="Expected 404 and got %s (%s)" %
                 (customer_profile_shipping_address_response.status_code,
                  httplib.responses[customer_profile_shipping_address_response.status_code]))
+        self.assertEquals(
+            expected_message,
+            customer_profile_shipping_address_response_dict['message'],
+            msg="Expected %s equals %s" %
+                (expected_message, customer_profile_shipping_address_response_dict['message']))
 
     def test_update_shipping_address_with_invalid_customer_id(self):
         """ Testing with invalid title to update
         shipping address to the customer profile """
 
-        # Update the shipping_address with invalid title
+        expected_message = "Customer_id mismatch"
+
+        # Update the shipping_address with invalid customer_id
         customer_profile_shipping_address_response = customer_service.request(
-            RequestType.PUT, customer_profile_address_url + "1111123",
+            RequestType.PUT, customer_profile_invalid_customer_id + "cust_new_test",
             payload=CustomerProfileServicePayload
             ().update_shipping_address_payload())
+        customer_profile_shipping_address_response_dict = \
+            customer_profile_shipping_address_response.json()
         logging.info('Response is %s', customer_profile_shipping_address_response.text)
         self.assertEquals(
             customer_profile_shipping_address_response.status_code, 400,
             msg="Expected 400 and got %s (%s)" %
                 (customer_profile_shipping_address_response.status_code,
                  httplib.responses[customer_profile_shipping_address_response.status_code]))
+        self.assertEquals(
+            expected_message,
+            customer_profile_shipping_address_response_dict['message'],
+            msg="Expected %s equals %s" %
+                (expected_message, customer_profile_shipping_address_response_dict['message']))
+
+    def test_update_shipping_address_with_invalid_token(self):
+        """ Testing with invalid title to update
+        shipping address to the customer profile """
+
+        expected_message = "Unauthorized"
+
+        # Update the shipping_address with invalid customer_id
+        customer_profile_shipping_address_response = customer_service_invalid_token.request(
+            RequestType.PUT, customer_profile_address_url + "cust_new_test",
+            payload=CustomerProfileServicePayload().update_shipping_address_payload())
+        customer_profile_shipping_address_response_dict = \
+            customer_profile_shipping_address_response.json()
+        logging.info('Response is %s', customer_profile_shipping_address_response.text)
+        self.assertEquals(
+            customer_profile_shipping_address_response.status_code, 401,
+            msg="Expected 401 and got %s (%s)" %
+                (customer_profile_shipping_address_response.status_code,
+                 httplib.responses[customer_profile_shipping_address_response.status_code]))
+        self.assertEquals(
+            expected_message,
+            customer_profile_shipping_address_response_dict['message'],
+            msg="Expected %s equals %s" %
+                (expected_message, customer_profile_shipping_address_response_dict['message']))
 
     def test_update_shipping_address_without_address_line_1(self):
         """ Testing without address_line_1 to update
@@ -492,13 +523,13 @@ class CustomerProfileTestCases(unittest.TestCase):
 
         # Update the shipping_address without address_line_1
         customer_profile_shipping_address_response = customer_service.request(
-            RequestType.PUT, customer_profile_address_url + "1111",
+            RequestType.PUT, customer_profile_address_url + "cust_new_test",
             payload=CustomerProfileServicePayload
             ().update_shipping_address_payload(addr1=""))
         logging.info('Response is %s', customer_profile_shipping_address_response.text)
         self.assertEquals(
-            customer_profile_shipping_address_response.status_code, 400,
-            msg="Expected 400 and got %s (%s)" %
+            customer_profile_shipping_address_response.status_code, 200,
+            msg="Expected 200 and got %s (%s)" %
                 (customer_profile_shipping_address_response.status_code,
                  httplib.responses[customer_profile_shipping_address_response.status_code]))
 
@@ -508,7 +539,7 @@ class CustomerProfileTestCases(unittest.TestCase):
 
         # Update the shipping_address without address_line_2
         customer_profile_shipping_address_response = customer_service.request(
-            RequestType.PUT, customer_profile_address_url + "1111",
+            RequestType.PUT, customer_profile_address_url + "cust_new_test",
             payload=CustomerProfileServicePayload
             ().update_shipping_address_payload(addr2=""))
         logging.info('Response is %s', customer_profile_shipping_address_response.text)
@@ -524,13 +555,13 @@ class CustomerProfileTestCases(unittest.TestCase):
 
         # Update the shipping_address without contact name
         customer_profile_shipping_address_response = customer_service.request(
-            RequestType.PUT, customer_profile_address_url + "1111",
+            RequestType.PUT, customer_profile_address_url + "cust_new_test",
             payload=CustomerProfileServicePayload
             ().update_shipping_address_payload(contact_name=""))
         logging.info('Response is %s', customer_profile_shipping_address_response.text)
         self.assertEquals(
-            customer_profile_shipping_address_response.status_code, 400,
-            msg="Expected 400 and got %s (%s)" %
+            customer_profile_shipping_address_response.status_code, 200,
+            msg="Expected 200 and got %s (%s)" %
                 (customer_profile_shipping_address_response.status_code,
                  httplib.responses[customer_profile_shipping_address_response.status_code]))
 
@@ -540,13 +571,13 @@ class CustomerProfileTestCases(unittest.TestCase):
 
         # Update the shipping_address without number
         customer_profile_shipping_address_response = customer_service.request(
-            RequestType.PUT, customer_profile_address_url + "1111",
+            RequestType.PUT, customer_profile_address_url + "cust_new_test",
             payload=CustomerProfileServicePayload
             ().update_shipping_address_payload(contact_number=""))
         logging.info('Response is %s', customer_profile_shipping_address_response.text)
         self.assertEquals(
-            customer_profile_shipping_address_response.status_code, 400,
-            msg="Expected 400 and got %s (%s)" %
+            customer_profile_shipping_address_response.status_code, 200,
+            msg="Expected 200 and got %s (%s)" %
                 (customer_profile_shipping_address_response.status_code,
                  httplib.responses[customer_profile_shipping_address_response.status_code]))
 
@@ -556,13 +587,13 @@ class CustomerProfileTestCases(unittest.TestCase):
 
         # Update the shipping_address without company name
         customer_profile_shipping_address_response = customer_service.request(
-            RequestType.PUT, customer_profile_address_url + "1111",
+            RequestType.PUT, customer_profile_address_url + "cust_new_test",
             payload=CustomerProfileServicePayload
             ().update_shipping_address_payload(company_name="buiH12^&!%$"))
         logging.info('Response is %s', customer_profile_shipping_address_response.text)
         self.assertEquals(
-            customer_profile_shipping_address_response.status_code, 400,
-            msg="Expected 400 and got %s (%s)" %
+            customer_profile_shipping_address_response.status_code, 200,
+            msg="Expected 200 and got %s (%s)" %
                 (customer_profile_shipping_address_response.status_code,
                  httplib.responses[customer_profile_shipping_address_response.status_code]))
 
@@ -572,13 +603,13 @@ class CustomerProfileTestCases(unittest.TestCase):
 
         # Update the shipping_address without city
         customer_profile_shipping_address_response = customer_service.request(
-            RequestType.PUT, customer_profile_address_url + "1111",
+            RequestType.PUT, customer_profile_address_url + "cust_new_test",
             payload=CustomerProfileServicePayload
             ().update_shipping_address_payload(city=""))
         logging.info('Response is %s', customer_profile_shipping_address_response.text)
         self.assertEquals(
-            customer_profile_shipping_address_response.status_code, 400,
-            msg="Expected 400 and got %s (%s)" %
+            customer_profile_shipping_address_response.status_code, 200,
+            msg="Expected 200 and got %s (%s)" %
                 (customer_profile_shipping_address_response.status_code,
                  httplib.responses[customer_profile_shipping_address_response.status_code]))
 
@@ -588,13 +619,13 @@ class CustomerProfileTestCases(unittest.TestCase):
 
         # Update the shipping_address without state
         customer_profile_shipping_address_response = customer_service.request(
-            RequestType.PUT, customer_profile_address_url + "1111",
+            RequestType.PUT, customer_profile_address_url + "cust_new_test",
             payload=CustomerProfileServicePayload
             ().update_shipping_address_payload(state=""))
         logging.info('Response is %s', customer_profile_shipping_address_response.text)
         self.assertEquals(
-            customer_profile_shipping_address_response.status_code, 400,
-            msg="Expected 400 and got %s (%s)" %
+            customer_profile_shipping_address_response.status_code, 200,
+            msg="Expected 200 and got %s (%s)" %
                 (customer_profile_shipping_address_response.status_code,
                  httplib.responses[customer_profile_shipping_address_response.status_code]))
 
@@ -604,13 +635,13 @@ class CustomerProfileTestCases(unittest.TestCase):
 
         # Update the shipping_address without country
         customer_profile_shipping_address_response = customer_service.request(
-            RequestType.PUT, customer_profile_address_url + "1111",
+            RequestType.PUT, customer_profile_address_url + "cust_new_test",
             payload=CustomerProfileServicePayload
             ().update_shipping_address_payload(country=""))
         logging.info('Response is %s', customer_profile_shipping_address_response.text)
         self.assertEquals(
-            customer_profile_shipping_address_response.status_code, 400,
-            msg="Expected 400 and got %s (%s)" %
+            customer_profile_shipping_address_response.status_code, 200,
+            msg="Expected 200 and got %s (%s)" %
                 (customer_profile_shipping_address_response.status_code,
                  httplib.responses[customer_profile_shipping_address_response.status_code]))
 
@@ -620,13 +651,13 @@ class CustomerProfileTestCases(unittest.TestCase):
 
         # Update the shipping_address without zipcode
         customer_profile_shipping_address_response = customer_service.request(
-            RequestType.PUT, customer_profile_address_url + "1111",
+            RequestType.PUT, customer_profile_address_url + "cust_new_test",
             payload=CustomerProfileServicePayload
             ().update_shipping_address_payload(zipcode=""))
         logging.info('Response is %s', customer_profile_shipping_address_response.text)
         self.assertEquals(
-            customer_profile_shipping_address_response.status_code, 400,
-            msg="Expected 400 and got %s (%s)" %
+            customer_profile_shipping_address_response.status_code, 200,
+            msg="Expected 200 and got %s (%s)" %
                 (customer_profile_shipping_address_response.status_code,
                  httplib.responses[customer_profile_shipping_address_response.status_code]))
 
