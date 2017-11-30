@@ -27,7 +27,7 @@ class CustomerProfileServicePayload(object):
 
     def update_shipping_address_payload(
             self, title="cust_new_test", addr1="newbackup", addr2="Rest",
-            contact_name="manohar", contact_number=9492, company_name="opc",
+            contact_name="manohar", contact_number=9492, company_name="Company",
             city="opera", state="windows", country="lenovo", zipcode=411057):
         """ Payload to update the shipping address """
         payload = {
@@ -54,7 +54,7 @@ class CustomerProfileServicePayload(object):
         return customer_profile_payload
 
 
-class Inventoryservicepayload(object):
+class InventoryServicePayload(object):
     """ Inventory Service Payload """
 
     def inventory_additem_payload(self, item_id='NOOR', hw_model='ASDF123',
@@ -65,13 +65,18 @@ class Inventoryservicepayload(object):
                                   storage_array_type='sop', order_id='asdfgh'):
         """ Request body for adding an item into the inventory """
 
-        payload = {"item_id": item_id, "hw_model": hw_model,
-                   "hw_number": hw_number, "mac_address": mac_address,
-                   "storage_capacity": storage_capacity,
-                   "item_status": item_status, "remarks": remarks,
-                   "storage_array_model": storage_array_model,
-                   "storage_array_type": storage_array_type,
-                   "order_id": order_id}
+        payload = {
+            "item_id": item_id,
+            "hw_model": hw_model,
+            "hw_number": hw_number,
+            "mac_address": mac_address,
+            "storage_capacity": storage_capacity,
+            "item_status": item_status,
+            "remarks": remarks,
+            "storage_array_model": storage_array_model,
+            "storage_array_type": storage_array_type,
+            "order_id": order_id
+        }
         return payload
 
     def inventory_update_payload(self, item_status='ONEONLY', sku='ASDF123-299',
@@ -94,7 +99,7 @@ class SeedJobServicePayload(object):
     """ Payload for seed job service """
 
     def create_seed_job_payload(
-            self, seed_job_name='Test Backup102', job_type='BOX',
+            self, job_name='TestBackup102', job_type='BOX',
             target_system_id='CT12345A',
             address_title='test', description='Thisistestjob',
             source_system_id='a17d9dc8-bf85-4f5d-9051-7c946e1e35a4',
@@ -106,7 +111,8 @@ class SeedJobServicePayload(object):
             optional_email_id='eethakatla.manohar@opcito.com'):
         """ Request body for creation of seed job"""
 
-        payload = {"seed_job_name": seed_job_name, "job_type": job_type,
+        payload = {"job_name": job_name,
+                   "job_type": job_type,
                    "target_system_id": target_system_id,
                    "notification": {"email_id": email_id,
                                     "job_complete": job_complete,
@@ -120,7 +126,8 @@ class SeedJobServicePayload(object):
                                     "box_at_switch": box_at_switch,
                                     "box_del_to_cust": box_del_to_cust,
                                     "data_restored": data_restored},
-                   "address_title": address_title, "description": description,
+                   "address_title": address_title,
+                   "description": description,
                    "source_system_id": source_system_id,
                    "max_data_size": max_data_size}
         return payload

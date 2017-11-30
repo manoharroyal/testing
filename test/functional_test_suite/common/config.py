@@ -12,7 +12,7 @@ with open(path + "/env/configuration.yaml", 'r') as stream:
 CUSTOMER_SERVICE_URL = config_data['BASE_URL'].format(config_data['CUSTOMER_SERVICE_API_ID']) + "/customer-profiles/"
 INVENTORY_SERVICE_URL = config_data['BASE_URL'].format(config_data['INVENTORY_SERVICE_API_ID']) + "/inventory/items"
 SYSTEM_SERVICE_URL = config_data['BASE_URL'].format(config_data['SYSTEM_SERVICE_API_ID']) + "/system"
-SEED_JOB_URL = config_data['BASE_URL'].format(config_data['SEED_JOB_API_ID']) + "/seed-jobs/"
+SEED_JOB_URL = config_data['BASE_URL'].format(config_data['SEED_JOB_API_ID']) + "/jobs"
 AGENT_SERVICE_URL = config_data['BASE_URL'].format(config_data['AGENT_SERVICE_API_ID']) + "/agents"
 TICKET_SERVICE_URL = config_data['BASE_URL'].format(config_data['TICKET_SERVICE_API_ID']) + "/tickets"
 AUTH_SERVICE_URL = "https://vcufjy5lv4.execute-api.us-east-1.amazonaws.com/test/auth/users"
@@ -63,14 +63,9 @@ def target_system_url(site_id):
     return '%s%s' % (target_system, site_id)
 
 
-agent_id = '6be1b3d7-b9e9-4808-b8d2-1b0197d848e7'
-INVALID_SEED_JOB_URL = SEED_JOB_URL + "1/"
+agent_id = 'dd12082c-972e-49d7-a8ec-13d30a2f59b2'
 TICKETS_URL = TICKET_SERVICE_URL + "/{ticket_id}"
 LIST_AGENT_TASK_URL = AGENT_SERVICE_URL + '/tasks'
-
-def register_agent_url(agent_id):
-    """ Url to register an agent """
-    return '%s/%s/register' % (AGENT_SERVICE_URL, agent_id)
 
 
 def list_agent_tasks_url(agent_id):
@@ -78,25 +73,30 @@ def list_agent_tasks_url(agent_id):
     return '%s/%s/tasks' % (AGENT_SERVICE_URL, agent_id)
 
 
-def update_agent_task_url(task_id):
-    """ Url to update the agent task status """
-    return '%s/%s' % (LIST_AGENT_TASK_URL, task_id)
-
-
 def agent_details_url(agent_id):
     """ Get the details agent """
     return '%s/%s' % (AGENT_SERVICE_URL, agent_id)
 
 
+def agent_task_url(task_id):
+    """ Url to update the agent task status """
+    return '%s/tasks/%s' % (AGENT_SERVICE_URL, task_id)
+
+
+def register_agent_url(agent_id):
+    """ Url to register an agent """
+    return '%s/%s/register' % (AGENT_SERVICE_URL, agent_id)
+
+
 def seed_job_url(seed_job_id):
     """ Url to GET details of seed job and update the seed job and
     DELETE the seed job with job id """
-    return '%s%s' % (SEED_JOB_URL, seed_job_id)
+    return '%s/%s' % (SEED_JOB_URL, seed_job_id)
 
 
 def user_action_url(seed_job_id, action):
     """ Url for giving an action by user """
-    return '%s%s/job?action=%s' % (SEED_JOB_URL, seed_job_id, action)
+    return '%s/%s/job?action=%s' % (SEED_JOB_URL, seed_job_id, action)
 
 
 def admin_action_url(seedjobid, action):
@@ -111,7 +111,7 @@ def update_job_logs_url(val):
 
 def agent_api_url(val, value):
     """ Url for agent api on seed job """
-    return '%sagent/%s?action=%s' % (SEED_JOB_URL, val, value)
+    return '%s/agent/%s?action=%s' % (SEED_JOB_URL, val, value)
 
 
 def ticket_detail_url(value):
