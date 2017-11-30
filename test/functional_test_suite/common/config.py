@@ -15,7 +15,7 @@ SYSTEM_SERVICE_URL = config_data['BASE_URL'].format(config_data['SYSTEM_SERVICE_
 SEED_JOB_URL = config_data['BASE_URL'].format(config_data['SEED_JOB_API_ID']) + "/jobs"
 AGENT_SERVICE_URL = config_data['BASE_URL'].format(config_data['AGENT_SERVICE_API_ID']) + "/agents"
 TICKET_SERVICE_URL = config_data['BASE_URL'].format(config_data['TICKET_SERVICE_API_ID']) + "/tickets"
-AUTH_SERVICE_URL = "https://vcufjy5lv4.execute-api.us-east-1.amazonaws.com/test/auth/users"
+AUTH_SERVICE_URL = config_data['BASE_URL'].format(config_data['AUTH_SERVICE_API_ID']) + "/auth/users"
 
 
 SYSTEM_SERVICE = config_data['BASE_URL'].format(config_data['SYSTEM_SERVICE_API_ID'])
@@ -27,14 +27,14 @@ DELETE_JOB_ID = config_data['DELETE_JOB_ID']
 """ Setting up the parameters with urls """
 
 
-def get_items_url(param, val):
+def get_items_url(param, value):
     """ Url for checking the item availability in the inventory"""
-    return '%s?%s=%s' % (INVENTORY_SERVICE_URL, param, val)
+    return '%s?%s=%s' % (INVENTORY_SERVICE_URL, param, value)
 
 
-def update_item_url(val):
+def update_item_url(item_id):
     """ Url for updating the item status in the inventory by item id """
-    return '%s/%s' % (INVENTORY_SERVICE_URL, val)
+    return '%s/%s' % (INVENTORY_SERVICE_URL, item_id)
 
 
 def list_system_url(list_system, system_type):
@@ -48,9 +48,9 @@ target_system = SYSTEM_SERVICE_URL + "/target/"
 validate_auth_user_url = AUTH_SERVICE_URL + "/validate"
 
 
-def delete_auth_user_url(user_name):
+def delete_auth_user_url(user_id):
     """ Url to delete the user """
-    return '%s/%s' % (AUTH_SERVICE_URL, user_name)
+    return '%s/%s' % (AUTH_SERVICE_URL, user_id)
 
 
 def source_system_url(system_id):

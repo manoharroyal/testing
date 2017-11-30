@@ -5,7 +5,7 @@ import httplib
 from test.shared.rest_framework import RestAPI, RequestType
 from test.functional_test_suite.common.config import INVENTORY_SERVICE_URL, \
     get_items_url, update_item_url
-from test.functional_test_suite.common.payloads import Inventoryservicepayload
+from test.functional_test_suite.common.payloads import InventoryServicePayload
 
 inventory_service = RestAPI(utype='sysops')
 
@@ -20,7 +20,7 @@ class InventoryServiceTestCases(unittest.TestCase):
         # Add an item with valid details
         add_item_response = inventory_service.request(
             RequestType.POST, INVENTORY_SERVICE_URL,
-            payload=Inventoryservicepayload().inventory_additem_payload())
+            payload=InventoryServicePayload().inventory_additem_payload())
         add_item_response_dict = add_item_response.json()
         logging.info('Response is %s', add_item_response.text)
         self.assertEquals(
@@ -32,98 +32,6 @@ class InventoryServiceTestCases(unittest.TestCase):
             'created_at', add_item_response_dict.keys(),
             msg="Expected %s in %s" %
                 ('created_at', add_item_response_dict.keys()))
-
-    def test_add_item_with_invalid_item_id(self):
-        """ Testing with invalid item id to add an item into the inventory """
-
-        # Add an item with invalid item id
-        add_item_response = inventory_service.request(
-            RequestType.POST, INVENTORY_SERVICE_URL,
-            payload=Inventoryservicepayload().inventory_additem_payload(
-                item_id='1@d@323'))
-        add_item_response_dict = add_item_response.json()
-        logging.info('Response is %s', add_item_response.text)
-        self.assertEquals(
-            add_item_response.status_code, 200,
-            msg="Expected code is 200 and got is %s (%s)" %
-                (add_item_response.status_code, 
-                 httplib.responses[add_item_response.status_code]))
-        self.assertIn(
-            'created_at', add_item_response_dict.keys(),
-            msg="Expected %s in %s" %
-                ('created_at', add_item_response_dict.keys))
-
-    def test_add_item_with_invalid_hw_model(self):
-        """ Testing with invalid hardware_model to add an
-        item into the inventory """
-
-        error_message = "Could not validate the input, " \
-                        "please send the correct input parameters"
-
-        # Add an item with invalid hardware model
-        add_item_response = inventory_service.request(
-            RequestType.POST, INVENTORY_SERVICE_URL,
-            payload=Inventoryservicepayload().inventory_additem_payload(
-                hw_model='@dry@'))
-        add_item_response_dict = add_item_response.json()
-        logging.info('Response is %s', add_item_response.text)
-        self.assertEquals(
-            add_item_response.status_code, 400,
-            msg="Expected code is 400 and got is %s (%s)" %
-                (add_item_response.status_code,
-                    httplib.responses[add_item_response.status_code]))
-        self.assertEquals(
-            error_message, add_item_response_dict['message'],
-            msg=" expected message is %s and got is %s" %
-            (error_message, add_item_response_dict['message']))
-
-    def test_add_item_with_invalid_hw_number(self):
-        """ Testing with invalid hardware_number to
-        add an item into the inventory """
-
-        error_message = "Could not validate the input, " \
-                        "please send the correct input parameters"
-
-        # Add an item with invalid hardware number
-        add_item_response = inventory_service.request(
-            RequestType.POST, INVENTORY_SERVICE_URL,
-            payload=Inventoryservicepayload().inventory_additem_payload(
-                hw_number='5tg#'))
-        add_item_response_dict = add_item_response.json()
-        logging.info('Response is %s', add_item_response.text)
-        self.assertEquals(
-            add_item_response.status_code, 400,
-            msg="Expected code is 400 and got is %s (%s)" %
-                (add_item_response.status_code,
-                    httplib.responses[add_item_response.status_code]))
-        self.assertEquals(
-            error_message, add_item_response_dict['message'],
-            msg=" expected message is %s and got is %s" %
-                (error_message, add_item_response_dict['message']))
-
-    def test_add_item_with_invalid_mac_address(self):
-        """ Testing with invalid mac_address to add an
-        item into the inventory """
-
-        error_message = "Could not validate the input, " \
-                        "please send the correct input parameters"
-
-        # Add an item with invalid mac address
-        add_item_response = inventory_service.request(
-            RequestType.POST, INVENTORY_SERVICE_URL,
-            payload=Inventoryservicepayload().inventory_additem_payload(
-                mac_address='tg$cb(wdui%'))
-        add_item_response_dict = add_item_response.json()
-        logging.info('Response is %s', add_item_response.text)
-        self.assertEquals(
-            add_item_response.status_code, 400,
-            msg="Expected code is 400 and got is %s (%s)" %
-                (add_item_response.status_code,
-                    httplib.responses[add_item_response.status_code]))
-        self.assertEquals(
-            error_message, add_item_response_dict['message'],
-            msg=" expected message is %s and got is %s" %
-            (error_message, add_item_response_dict['message']))
 
     def test_add_item_with_invalid_storage_capacity(self):
         """ Testing with invalid storage_capacity to add
@@ -135,124 +43,8 @@ class InventoryServiceTestCases(unittest.TestCase):
         # Add an item with invalid storage capacity
         add_item_response = inventory_service.request(
             RequestType.POST, INVENTORY_SERVICE_URL,
-            payload=Inventoryservicepayload().inventory_additem_payload(
+            payload=InventoryServicePayload().inventory_additem_payload(
                 storage_capacity=-300))
-        add_item_response_dict = add_item_response.json()
-        logging.info('Response is %s', add_item_response.text)
-        self.assertEquals(
-            add_item_response.status_code, 400,
-            msg="Expected code is 400 and got is %s (%s)" %
-                (add_item_response.status_code,
-                 httplib.responses[add_item_response.status_code]))
-        self.assertEquals(
-            error_message, add_item_response_dict['message'],
-            msg=" expected message is %s and got is %s" %
-                (error_message, add_item_response_dict['message']))
-
-    def test_add_item_with_invalid_item_status(self):
-        """ Testing with invalid item_status to add an
-        item into the inventory """
-
-        error_message = "Could not validate the input, " \
-                        "please send the correct input parameters"
-
-        # Add an item with invalid item status
-        add_item_response = inventory_service.request(
-            RequestType.POST, INVENTORY_SERVICE_URL,
-            payload=Inventoryservicepayload().inventory_additem_payload(
-                item_status='NEW@##*'))
-        add_item_response_dict = add_item_response.json()
-        logging.info('Response is %s', add_item_response.text)
-        self.assertEquals(
-            add_item_response.status_code, 400,
-            msg="Expected code is 400 and got is %s (%s)" %
-                (add_item_response.status_code,
-                 httplib.responses[add_item_response.status_code]))
-        self.assertEquals(
-            error_message, add_item_response_dict['message'],
-            msg=" expected message is %s and got is %s" %
-                (error_message, add_item_response_dict['message']))
-
-    def test_add_item_with_invalid_remarks(self):
-        """ Testing with invalid data for remarks to add an
-        item into the inventory """
-
-        error_message = "Could not validate the input, " \
-                        "please send the correct input parameters"
-
-        # Add an item with invalid remarks
-        add_item_response = inventory_service.request(
-            RequestType.POST, INVENTORY_SERVICE_URL,
-            payload=Inventoryservicepayload().inventory_additem_payload(
-                remarks='AS #@'))
-        add_item_response_dict = add_item_response.json()
-        logging.info('Response is %s', add_item_response.text)
-        self.assertEquals(
-            add_item_response.status_code, 400,
-            msg="Expected code is 400 and got is %s (%s)" %
-                (add_item_response.status_code,
-                 httplib.responses[add_item_response.status_code]))
-        self.assertEquals(
-            error_message, add_item_response_dict['message'],
-            msg=" expected message is %s and got is %s" %
-                (error_message, add_item_response_dict['message']))
-
-    def test_add_item_with_invalid_order_id(self):
-        """ Testing with invalid order_id to add an item into the inventory """
-
-        # Add an item with valid details
-        add_item_response = inventory_service.request(
-            RequestType.POST, INVENTORY_SERVICE_URL,
-            payload=Inventoryservicepayload().inventory_additem_payload(
-                                            order_id='1@ *'))
-        add_item_response_dict = add_item_response.json()
-        logging.info('Response is %s', add_item_response.text)
-        self.assertEquals(
-            add_item_response.status_code, 200,
-            msg="Expected code is 200 and got is %s (%s)" %
-                (add_item_response.status_code,
-                 httplib.responses[add_item_response.status_code]))
-        self.assertIn(
-            'created_at', add_item_response_dict.keys(),
-            msg="Expected %s in %s" %
-                ('created_at', add_item_response_dict.keys()))
-
-    def test_add_item_with_invalid_storage_array_model(self):
-        """ Testing with invalid storage_array_model to add an
-        item into the inventory """
-
-        error_message = "Could not validate the input, " \
-                        "please send the correct input parameters"
-
-        # Add an item with invalid storage array model
-        add_item_response = inventory_service.request(
-            RequestType.POST, INVENTORY_SERVICE_URL,
-            payload=Inventoryservicepayload().inventory_additem_payload(
-                                            storage_array_model='sv *cy%@'))
-        add_item_response_dict = add_item_response.json()
-        logging.info('Response is %s', add_item_response.text)
-        self.assertEquals(
-            add_item_response.status_code, 400,
-            msg="Expected code is 400 and got is %s (%s)" %
-                (add_item_response.status_code,
-                 httplib.responses[add_item_response.status_code]))
-        self.assertEquals(
-            error_message, add_item_response_dict['message'],
-            msg=" expected message is %s and got is %s" %
-                (error_message, add_item_response_dict['message']))
-
-    def test_add_item_with_invalid_storage_array_type(self):
-        """ Testing with invalid storage_array_type to add
-        an item into the inventory """
-
-        error_message = "Could not validate the input, " \
-                        "please send the correct input parameters"
-
-        # Add an item with invalid storage array type
-        add_item_response = inventory_service.request(
-            RequestType.POST, INVENTORY_SERVICE_URL,
-            payload=Inventoryservicepayload().inventory_additem_payload(
-                                            storage_array_type='asd# @'))
         add_item_response_dict = add_item_response.json()
         logging.info('Response is %s', add_item_response.text)
         self.assertEquals(
@@ -273,7 +65,7 @@ class InventoryServiceTestCases(unittest.TestCase):
         # Add an item without item id
         add_item_response = inventory_service.request(
             RequestType.POST, INVENTORY_SERVICE_URL,
-            payload=Inventoryservicepayload().inventory_additem_payload(
+            payload=InventoryServicePayload().inventory_additem_payload(
                                             item_id=''))
         add_item_response_dict = add_item_response.json()
         logging.info('Response is %s', add_item_response.text)
@@ -297,7 +89,7 @@ class InventoryServiceTestCases(unittest.TestCase):
         # Add an item without hardware model
         add_item_response = inventory_service.request(
             RequestType.POST, INVENTORY_SERVICE_URL,
-            payload=Inventoryservicepayload().inventory_additem_payload(
+            payload=InventoryServicePayload().inventory_additem_payload(
                                             hw_model=''))
         add_item_response_dict = add_item_response.json()
         logging.info('Response is %s', add_item_response.text)
@@ -321,7 +113,7 @@ class InventoryServiceTestCases(unittest.TestCase):
         # Add an item without hardware number
         add_item_response = inventory_service.request(
             RequestType.POST, INVENTORY_SERVICE_URL,
-            payload=Inventoryservicepayload().inventory_additem_payload(
+            payload=InventoryServicePayload().inventory_additem_payload(
                                             hw_number=''))
         add_item_response_dict = add_item_response.json()
         logging.info('Response is %s', add_item_response.text)
@@ -345,7 +137,7 @@ class InventoryServiceTestCases(unittest.TestCase):
         # Add an item without mac address
         add_item_response = inventory_service.request(
             RequestType.POST, INVENTORY_SERVICE_URL,
-            payload=Inventoryservicepayload().inventory_additem_payload(
+            payload=InventoryServicePayload().inventory_additem_payload(
                                             mac_address=''))
         add_item_response_dict = add_item_response.json()
         logging.info('Response is %s', add_item_response.text)
@@ -369,7 +161,7 @@ class InventoryServiceTestCases(unittest.TestCase):
         # Add an item without storage capacity
         add_item_response = inventory_service.request(
             RequestType.POST, INVENTORY_SERVICE_URL,
-            payload=Inventoryservicepayload().inventory_additem_payload(
+            payload=InventoryServicePayload().inventory_additem_payload(
                                             storage_capacity=''))
         add_item_response_dict = add_item_response.json()
         logging.info('Response is %s', add_item_response.text)
@@ -393,7 +185,7 @@ class InventoryServiceTestCases(unittest.TestCase):
         # Add an item with out item status
         add_item_response = inventory_service.request(
             RequestType.POST, INVENTORY_SERVICE_URL,
-            payload=Inventoryservicepayload().inventory_additem_payload(
+            payload=InventoryServicePayload().inventory_additem_payload(
                                             item_status=''))
         add_item_response_dict = add_item_response.json()
         logging.info('Response is %s', add_item_response.text)
@@ -417,7 +209,7 @@ class InventoryServiceTestCases(unittest.TestCase):
         # Add an item without remarks
         add_item_response = inventory_service.request(
             RequestType.POST, INVENTORY_SERVICE_URL,
-            payload=Inventoryservicepayload().inventory_additem_payload(
+            payload=InventoryServicePayload().inventory_additem_payload(
                                             remarks=''))
         add_item_response_dict = add_item_response.json()
         logging.info('Response is %s', add_item_response.text)
@@ -441,7 +233,7 @@ class InventoryServiceTestCases(unittest.TestCase):
         # Add an item with out storage array type
         add_item_response = inventory_service.request(
             RequestType.POST, INVENTORY_SERVICE_URL,
-            payload=Inventoryservicepayload().inventory_additem_payload(
+            payload=InventoryServicePayload().inventory_additem_payload(
                                             storage_array_type=''))
         add_item_response_dict = add_item_response.json()
         logging.info('Response is %s', add_item_response.text)
@@ -465,7 +257,7 @@ class InventoryServiceTestCases(unittest.TestCase):
         # Add an item with out storage array model
         add_item_response = inventory_service.request(
             RequestType.POST, INVENTORY_SERVICE_URL,
-            payload=Inventoryservicepayload().inventory_additem_payload(
+            payload=InventoryServicePayload().inventory_additem_payload(
                                             storage_array_model=''))
         add_item_response_dict = add_item_response.json()
         logging.info('Response is %s', add_item_response.text)
@@ -487,7 +279,7 @@ class InventoryServiceTestCases(unittest.TestCase):
         # Add an item without order id
         add_item_response = inventory_service.request(
             RequestType.POST, INVENTORY_SERVICE_URL,
-            payload=Inventoryservicepayload().inventory_additem_payload(
+            payload=InventoryServicePayload().inventory_additem_payload(
                 order_id=''))
         add_item_response_dict = add_item_response.json()
         logging.info('Response is %s', add_item_response.text)
@@ -508,7 +300,7 @@ class InventoryServiceTestCases(unittest.TestCase):
 
         # Check item availability in the inventory with hardware model
         item_availability_response = inventory_service.request(
-            RequestType.GET, get_items_url('hw_model', 'ASDF123'))
+            RequestType.GET, get_items_url(param='hw_model', value='ASDF123'))
         logging.info('Response is %s', item_availability_response.text)
         self.assertEquals(
             item_availability_response.status_code, 200,
@@ -525,7 +317,7 @@ class InventoryServiceTestCases(unittest.TestCase):
 
         # Check item availability in the inventory with item id
         item_availability_response = inventory_service.request(
-            RequestType.GET, get_items_url('item_id', 'NOOR'))
+            RequestType.GET, get_items_url(param='item_id', value='NOOR'))
         logging.info('Response is %s', item_availability_response.text)
         self.assertEquals(
             item_availability_response.status_code, 200,
@@ -542,7 +334,7 @@ class InventoryServiceTestCases(unittest.TestCase):
 
         # Check item availability in the inventory with storage capacity
         item_availability_response = inventory_service.request(
-            RequestType.GET, get_items_url('storage_capacity', '299'))
+            RequestType.GET, get_items_url(param='storage_capacity', value='299'))
         logging.info('Response is %s', item_availability_response.text)
         self.assertEquals(
             item_availability_response.status_code, 200,
@@ -559,7 +351,7 @@ class InventoryServiceTestCases(unittest.TestCase):
 
         # Check item availability in the inventory with hardware model
         item_availability_response = inventory_service.request(
-            RequestType.GET, get_items_url('item_status', 'NEW'))
+            RequestType.GET, get_items_url(param='item_status', value='NEW'))
         logging.info('Response is %s', item_availability_response.text)
         self.assertEquals(
             item_availability_response.status_code, 200,
@@ -578,7 +370,7 @@ class InventoryServiceTestCases(unittest.TestCase):
 
         # Check item availability in the inventory with invalid hardware model
         item_availability_response = inventory_service.request(
-            RequestType.GET, get_items_url('hw_model', 'sf1@%563 7'))
+            RequestType.GET, get_items_url(param='hw_model', value='ss7'))
         item_availability_response_dict = item_availability_response.json()
         logging.info('Response is %s', item_availability_response.text)
         self.assertEquals(
@@ -598,7 +390,7 @@ class InventoryServiceTestCases(unittest.TestCase):
 
         # Check item availability in the inventory with invalid item id
         item_availability_response = inventory_service.request(
-            RequestType.GET, get_items_url('item_id', 'asfyd 227@'))
+            RequestType.GET, get_items_url(param='item_id', value='as7@'))
         item_availability_response_dict = item_availability_response.json()
         logging.info('Response is %s', item_availability_response.text)
         self.assertEquals(
@@ -618,7 +410,7 @@ class InventoryServiceTestCases(unittest.TestCase):
 
         # Check item availability in the inventory with invalid item status
         item_availability_response = inventory_service.request(
-            RequestType.GET, get_items_url('item_status', 'asdf'))
+            RequestType.GET, get_items_url(param='item_status', value='asdf'))
         item_availability_response_dict = item_availability_response.json()
         logging.info('Response is %s', item_availability_response.text)
         self.assertEquals(
@@ -638,7 +430,7 @@ class InventoryServiceTestCases(unittest.TestCase):
 
         # Check item availability in the inventory without hardware model
         item_availability_response = inventory_service.request(
-            RequestType.GET, get_items_url('hw_model', ''))
+            RequestType.GET, get_items_url(param='hw_model', value=''))
         item_availability_response_dict = item_availability_response.json()
         logging.info('Response is %s', item_availability_response.text)
         self.assertEquals(
@@ -724,8 +516,8 @@ class InventoryServiceTestCases(unittest.TestCase):
 
         # Update inventory with valid item id and sku
         update_item_status_response = inventory_service.request(
-            RequestType.PUT, update_item_url('NOOR'),
-            payload=Inventoryservicepayload().inventory_update_payload())
+            RequestType.PUT, update_item_url(item_id='NOOR'),
+            payload=InventoryServicePayload().inventory_update_payload())
         update_item_status_response_dict = update_item_status_response.json()
         logging.info('Response is %s', update_item_status_response.text)
         self.assertEquals(
@@ -748,8 +540,8 @@ class InventoryServiceTestCases(unittest.TestCase):
 
         # Update an inventory without sku
         update_item_status_response = inventory_service.request(
-            RequestType.PUT, update_item_url('NOOR'),
-            payload=Inventoryservicepayload().inventory_update_payload(
+            RequestType.PUT, update_item_url(item_id='NOOR'),
+            payload=InventoryServicePayload().inventory_update_payload(
                 item_status='newly', sku=''))
         update_item_status_response_dict = update_item_status_response.json()
         logging.info('Response is %s', update_item_status_response.text)

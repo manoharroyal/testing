@@ -100,9 +100,9 @@ class SeedJobServicePayload(object):
 
     def create_seed_job_payload(
             self, job_name='TestBackup102', job_type='BOX',
-            target_system_id='CT12345A',
-            address_title='test', description='Thisistestjob',
-            source_system_id='a17d9dc8-bf85-4f5d-9051-7c946e1e35a4',
+            target_system_id='CTAZURE2',
+            address_title='cust_new_test', description='Thisistestjob',
+            source_system_id='01e493cc-4dfd-47bb-9881-e24599432f16',
             max_data_size=1, email_id='emanohar80@gmail.com',
             job_complete=True, job_approved=False, box_shipped=True,
             ready_to_restore=False, data_erased=True, box_prepared=True,
@@ -292,18 +292,19 @@ class TicketServicePayload(object):
 class AuthServicePayload(object):
     """ Class for Auth Service Payloads """
 
-    def create_user_payload(self, roles="something"):
+    def create_user_payload(self, role="SysOps-client"):
         """ Payload to create user """
         payload = {
-            "roles": roles
+            "role": role
         }
         return payload
 
-    def validate_user_credentials_payload(self, userId="awdasi", password="123@",
-                                          client_id="abcd"):
+    def validate_user_credentials_payload(self, username="e3abf07d-82f2-43fd-bc95-1b4e9e7dc6d5",
+                                          password="Q1aeKDnSh5q6q4AF",
+                                          client_id="h4psC1NTevUPYCJ6hTa76htrup4UNIyq"):
         """ Payload to validate user credentials """
         payload = {
-            "userId": userId,
+            "username": username,
             "password": password,
             "client_id": client_id
         }

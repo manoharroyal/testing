@@ -5,37 +5,13 @@ from test.functional_test_suite.common.config import AUTH_SERVICE_URL, \
     delete_auth_user_url, validate_auth_user_url
 from test.shared.rest_framework import RestAPI, RequestType
 from test.functional_test_suite.common.payloads import AuthServicePayload
-auth_service = RestAPI()
+
+auth_service = RestAPI(utype='sysops')
+auth_service_invalid = RestAPI(utype='invalid')
 
 
 class AuthService(unittest.TestCase):
     """ Test cases for the auth service """
-
-    """ DELETE: Delete the user with user name """
-
-    def test_delete_user_with_valid_user_id(self):
-        """ testing with valid user id to delete the user """
-
-        auth_service_response = auth_service.request(
-            RequestType.DELETE, delete_auth_user_url('your'))
-        logging.info("Response is %s" % auth_service_response.text)
-        self.assertEquals(
-            auth_service_response.status_code, 200,
-            msg="Expected 200 and got is %s (%s)" %
-                (auth_service_response.status_code,
-                 httplib.responses(auth_service_response.status_code)))
-
-    def test_delete_user_with_invalid_user_id(self):
-        """ testing with valid user id to delete the user """
-
-        auth_service_response = auth_service.request(
-            RequestType.DELETE, delete_auth_user_url('you@#'))
-        logging.info("Response is %s" % auth_service_response.text)
-        self.assertEquals(
-            auth_service_response.status_code, 400,
-            msg="Expected 400 and got is %s (%s)" %
-                (auth_service_response.status_code,
-                 httplib.responses(auth_service_response.status_code)))
 
     """ POST: Create user for given role """
 
@@ -46,47 +22,71 @@ class AuthService(unittest.TestCase):
             payload=AuthServicePayload().create_user_payload())
         create_auth_user_response_dict = create_auth_user_response.json()
         logging.info("Response is %s" % create_auth_user_response.text)
-        key = 'userId'
-        self.assertEquals(create_auth_user_response.status_code, 200,
-                          msg="Expected 200 and got is %s (%s)" %
+        key = "roles"
+        self.assertEquals(create_auth_user_response.status_code, 201,
+                          msg="Expected 201 and got is %s (%s)" %
                               (create_auth_user_response.status_code,
-                               httplib.responses(create_auth_user_response.status_code)))
+                               httplib.responses[create_auth_user_response.status_code]))
         self.assertIn(key, create_auth_user_response_dict.keys(),
-                      msg="Expected %s in and got is %s" % (
-                          key, create_auth_user_response_dict.keys()))
+                      msg="Expected %s in %s" % (key, create_auth_user_response_dict.keys))
 
-    def test_create_user_with_invalid_url(self):
+    def test_create_user_with_invalid_token(self):
+        """ Create user for given role with invalid token """
 
-        create_auth_user_response = auth_service.request(
-            RequestType.POST, AUTH_SERVICE_URL + "12",
+        expected_message = "Unauthorized"
+
+        create_auth_user_response = auth_service_invalid.request(
+            RequestType.POST, AUTH_SERVICE_URL,
             payload=AuthServicePayload().create_user_payload())
+        create_auth_user_response_dict = create_auth_user_response.json()
         logging.info("Response is %s" % create_auth_user_response.text)
-        self.assertEquals(create_auth_user_response.status_code, 403,
-                          msg="Expected 403 and got is %s (%s)" %
-                              (create_auth_user_response.status_code,
-                               httplib.responses(create_auth_user_response.status_code)))
+        self.assertEquals(
+            create_auth_user_response.status_code, 401,
+            msg="Expected 401 and got is %s (%s)" %
+                (create_auth_user_response.status_code,
+                 httplib.responses[create_auth_user_response.status_code]))
+        self.assertEquals(
+            expected_message, create_auth_user_response_dict['message'],
+            msg="Expected %s equals %s" %
+                (expected_message, create_auth_user_response_dict['message']))
 
     def test_create_user_with_invalid_roles(self):
 
+        expected_message = "role is not supported"
+
         create_auth_user_response = auth_service.request(
             RequestType.POST, AUTH_SERVICE_URL,
-            payload=AuthServicePayload().create_user_payload(roles="@#"))
+            payload=AuthServicePayload().create_user_payload(role="@#"))
+        create_auth_user_response_dict = create_auth_user_response.json()
         logging.info("Response is %s" % create_auth_user_response.text)
-        self.assertEquals(create_auth_user_response.status_code, 200,
-                          msg="Expected 200 and got is %s (%s)" %
-                              (create_auth_user_response.status_code,
-                               httplib.responses(create_auth_user_response.status_code)))
+        self.assertEquals(
+            create_auth_user_response.status_code, 400,
+            msg="Expected 400 and got is %s (%s)" %
+                (create_auth_user_response.status_code,
+                 httplib.responses[create_auth_user_response.status_code]))
+        self.assertEquals(
+            expected_message, create_auth_user_response_dict['message'],
+            msg="Expected %s equals %s" %
+                (expected_message, create_auth_user_response_dict['message']))
 
     def test_create_user_without_roles(self):
 
+        expected_message = "role is not present in request body"
+
         create_auth_user_response = auth_service.request(
             RequestType.POST, AUTH_SERVICE_URL,
-            payload=AuthServicePayload().create_user_payload(roles=""))
+            payload=AuthServicePayload().create_user_payload(role=""))
+        create_auth_user_response_dict = create_auth_user_response.json()
         logging.info("Response is %s" % create_auth_user_response.text)
-        self.assertEquals(create_auth_user_response.status_code, 200,
-                          msg="Expected 200 and got is %s (%s)" %
-                              (create_auth_user_response.status_code,
-                               httplib.responses(create_auth_user_response.status_code)))
+        self.assertEquals(
+            create_auth_user_response.status_code, 400,
+            msg="Expected 400 and got is %s (%s)" %
+                (create_auth_user_response.status_code,
+                 httplib.responses[create_auth_user_response.status_code]))
+        self.assertEquals(
+            expected_message, create_auth_user_response_dict['message'],
+            msg="Expected %s equals %s" %
+                (expected_message, create_auth_user_response_dict['message']))
 
     """ POST: validate the auth user for given role """
 
@@ -96,89 +96,198 @@ class AuthService(unittest.TestCase):
             RequestType.POST, validate_auth_user_url,
             payload=AuthServicePayload().validate_user_credentials_payload())
         validate_auth_user_response_dict = validate_auth_user_response.json()
+        logging.info("Response is %s" % validate_auth_user_response.text)
         key = 'userId'
         self.assertEquals(
             validate_auth_user_response.status_code, 200,
             msg=("Expected code is 200 and got is %s (%s)" %
                  (validate_auth_user_response.status_code,
-                  httplib.responses(validate_auth_user_response.status_code))))
+                  httplib.responses[validate_auth_user_response.status_code])))
         self.assertIn(key, validate_auth_user_response_dict.keys(),
                       msg="Expected %s in and got is %s" % (
                           key, validate_auth_user_response_dict.keys()))
 
-    def test_validate_auth_user_with_invalid_url(self):
+    def test_validate_auth_user_with_invalid_token(self):
 
-        validate_auth_user_response = auth_service.request(
-            RequestType.POST, validate_auth_user_url + "12",
+        expected_message = "Unauthorized"
+
+        validate_auth_user_response = auth_service_invalid.request(
+            RequestType.POST, validate_auth_user_url,
             payload=AuthServicePayload().validate_user_credentials_payload())
+        validate_auth_user_response_dict = validate_auth_user_response.json()
+        logging.info("Response is %s" % validate_auth_user_response.text)
         self.assertEquals(
-            validate_auth_user_response.status_code, 400,
-            msg=("Expected code is 400 and got is %s (%s)" %
+            validate_auth_user_response.status_code, 401,
+            msg=("Expected code is 401 and got is %s (%s)" %
                  (validate_auth_user_response.status_code,
-                  httplib.responses(validate_auth_user_response.status_code))))
+                  httplib.responses[validate_auth_user_response.status_code])))
+        self.assertEquals(
+            expected_message, validate_auth_user_response_dict['message'],
+            msg="Expected %s equals %s" %
+                (expected_message, validate_auth_user_response_dict['message']))
 
     def test_validate_auth_user_with_invalid_user_id(self):
 
+        expected_message = "User not found"
+
         validate_auth_user_response = auth_service.request(
             RequestType.POST, validate_auth_user_url,
-            payload=AuthServicePayload().validate_user_credentials_payload(userId="@#"))
+            payload=AuthServicePayload().validate_user_credentials_payload(username="@3"))
+        validate_auth_user_response_dict = validate_auth_user_response.json()
+        logging.info("Response is %s" % validate_auth_user_response.text)
         self.assertEquals(
-            validate_auth_user_response.status_code, 400,
-            msg=("Expected code is 400 and got is %s (%s)" %
+            validate_auth_user_response.status_code, 404,
+            msg=("Expected code is 404 and got is %s (%s)" %
                  (validate_auth_user_response.status_code,
-                  httplib.responses(validate_auth_user_response.status_code))))
+                  httplib.responses[validate_auth_user_response.status_code])))
+        self.assertEquals(
+            expected_message, validate_auth_user_response_dict['message'],
+            msg="Expected %s equals %s" %
+                (expected_message, validate_auth_user_response_dict['message']))
 
     def test_validate_auth_user_with_invalid_password(self):
+
+        expected_message = "Invalid credentials"
 
         validate_auth_user_response = auth_service.request(
             RequestType.POST, validate_auth_user_url,
             payload=AuthServicePayload().validate_user_credentials_payload(password="1@"))
+        validate_auth_user_response_dict = validate_auth_user_response.json()
+        logging.info("Response is %s" % validate_auth_user_response.text)
         self.assertEquals(
             validate_auth_user_response.status_code, 400,
             msg=("Expected code is 400 and got is %s (%s)" %
                  (validate_auth_user_response.status_code,
-                  httplib.responses(validate_auth_user_response.status_code))))
+                  httplib.responses[validate_auth_user_response.status_code])))
+        self.assertEquals(
+            expected_message, validate_auth_user_response_dict['message'],
+            msg="Expected %s equals %s" %
+                (expected_message, validate_auth_user_response_dict['message']))
 
     def test_validate_auth_user_with_invalid_client_id(self):
+
+        expected_message = "Client_id is not valid"
 
         validate_auth_user_response = auth_service.request(
             RequestType.POST, validate_auth_user_url,
             payload=AuthServicePayload().validate_user_credentials_payload(client_id="1@"))
+        validate_auth_user_response_dict = validate_auth_user_response.json()
+        logging.info("Response is %s" % validate_auth_user_response.text)
         self.assertEquals(
             validate_auth_user_response.status_code, 400,
             msg=("Expected code is 400 and got is %s (%s)" %
                  (validate_auth_user_response.status_code,
-                  httplib.responses(validate_auth_user_response.status_code))))
+                  httplib.responses[validate_auth_user_response.status_code])))
+        self.assertEquals(
+            expected_message, validate_auth_user_response_dict['message'],
+            msg="Expected %s equals %s" %
+                (expected_message, validate_auth_user_response_dict['message']))
 
     def test_validate_auth_user_without_user_id(self):
 
+        expected_message = "Internal server error"
+
         validate_auth_user_response = auth_service.request(
             RequestType.POST, validate_auth_user_url,
-            payload=AuthServicePayload().validate_user_credentials_payload(userId=""))
+            payload=AuthServicePayload().validate_user_credentials_payload(username=""))
+        validate_auth_user_response_dict = validate_auth_user_response.json()
+        logging.info("Response is %s" % validate_auth_user_response.text)
         self.assertEquals(
-            validate_auth_user_response.status_code, 400,
-            msg=("Expected code is 400 and got is %s (%s)" %
+            validate_auth_user_response.status_code, 500,
+            msg=("Expected code is 500 and got is %s (%s)" %
                  (validate_auth_user_response.status_code,
-                  httplib.responses(validate_auth_user_response.status_code))))
+                  httplib.responses[validate_auth_user_response.status_code])))
+        self.assertEquals(
+            expected_message, validate_auth_user_response_dict['message'],
+            msg="Expected %s equals %s" %
+                (expected_message, validate_auth_user_response_dict['message']))
 
     def test_validate_auth_user_without_password(self):
+
+        expected_message = "Invalid credentials"
 
         validate_auth_user_response = auth_service.request(
             RequestType.POST, validate_auth_user_url,
             payload=AuthServicePayload().validate_user_credentials_payload(password=""))
+        validate_auth_user_response_dict = validate_auth_user_response.json()
+        logging.info("Response is %s" % validate_auth_user_response.text)
         self.assertEquals(
             validate_auth_user_response.status_code, 400,
             msg=("Expected code is 400 and got is %s (%s)" %
                  (validate_auth_user_response.status_code,
-                  httplib.responses(validate_auth_user_response.status_code))))
+                  httplib.responses[validate_auth_user_response.status_code])))
+        self.assertEquals(
+            expected_message, validate_auth_user_response_dict['message'],
+            msg="Expected %s equals %s" %
+                (expected_message, validate_auth_user_response_dict['message']))
 
     def test_validate_auth_user_without_client_id(self):
+
+        expected_message = "Client_id is not valid"
 
         validate_auth_user_response = auth_service.request(
             RequestType.POST, validate_auth_user_url,
             payload=AuthServicePayload().validate_user_credentials_payload(client_id=""))
+        validate_auth_user_response_dict = validate_auth_user_response.json()
+        logging.info("Response is %s" % validate_auth_user_response.text)
         self.assertEquals(
             validate_auth_user_response.status_code, 400,
             msg=("Expected code is 400 and got is %s (%s)" %
                  (validate_auth_user_response.status_code,
-                  httplib.responses(validate_auth_user_response.status_code))))
+                  httplib.responses[validate_auth_user_response.status_code])))
+        self.assertEquals(
+            expected_message, validate_auth_user_response_dict['message'],
+            msg="Expected %s equals %s" %
+                (expected_message, validate_auth_user_response_dict['message']))
+
+    """ DELETE: Delete the user with user name """
+
+    def test_delete_user_with_valid_user_id(self):
+        """ testing with valid user id to delete the user """
+
+        auth_service_response = auth_service.request(
+            RequestType.DELETE, delete_auth_user_url(user_id='your'))
+        logging.info("Response is %s" % auth_service_response.text)
+        self.assertEquals(
+            auth_service_response.status_code, 202,
+            msg="Expected 202 and got is %s (%s)" %
+                (auth_service_response.status_code,
+                 httplib.responses[auth_service_response.status_code]))
+
+    def test_delete_user_with_invalid_user_id(self):
+        """ testing with valid user id to delete the user """
+
+        expected_message = "User not found"
+
+        auth_service_response = auth_service.request(
+            RequestType.DELETE, delete_auth_user_url('you@#'))
+        logging.info("Response is %s" % auth_service_response.text)
+        auth_service_response_dict = auth_service_response.json()
+        self.assertEquals(
+            auth_service_response.status_code, 404,
+            msg="Expected 404 and got is %s (%s)" %
+                (auth_service_response.status_code,
+                 httplib.responses[auth_service_response.status_code]))
+        self.assertEquals(
+            expected_message, auth_service_response_dict['message'],
+            msg="Expected %s equals %s" %
+                (expected_message, auth_service_response_dict['message']))
+
+    def test_delete_user_with_invalid_token(self):
+        """ testing with valid user id to delete the user """
+
+        expected_message = "Unauthorized"
+
+        auth_service_response = auth_service_invalid.request(
+            RequestType.DELETE, delete_auth_user_url(user_id='you@#'))
+        auth_service_response_dict = auth_service_response.json()
+        logging.info("Response is %s" % auth_service_response.text)
+        self.assertEquals(
+            auth_service_response.status_code, 401,
+            msg="Expected 401 and got is %s (%s)" %
+                (auth_service_response.status_code,
+                 httplib.responses[auth_service_response.status_code]))
+        self.assertEquals(
+            expected_message, auth_service_response_dict['message'],
+            msg="Expected %s equals %s" %
+                (expected_message, auth_service_response_dict['message']))
