@@ -6,7 +6,7 @@ from test.shared.rest_framework import RequestType, RestAPI
 from test.functional_test_suite.common.payloads import SeedJobServicePayload
 from test.functional_test_suite.common.config import SEED_JOB_URL,\
     SEED_JOB_ID, seed_job_url, user_action_url, \
-    TEMP_KEY, DELETE_JOB_ID, agent_api_url
+    TEMP_KEY, DELETE_JOB_ID, agent_action_url
 
 job_service_customer = RestAPI(utype='customer')
 job_service_sysops = RestAPI(utype='sysops')
@@ -505,7 +505,7 @@ class JobServiceTestCases(unittest.TestCase):
 
         # Action on job with valid job id
         user_action_response = job_service_customer.request(
-            RequestType.PUT, user_action_url(SEED_JOB_ID, 'test_conn_source'),
+            RequestType.PUT, user_action_url(SEED_JOB_ID, action='test_conn_source'),
             payload=SeedJobServicePayload().system_credentials())
         logging.info('Response is %s', user_action_response.text)
         self.assertEquals(
@@ -521,7 +521,7 @@ class JobServiceTestCases(unittest.TestCase):
 
         # Action on job with valid job id
         user_action_response = job_service_customer.request(
-            RequestType.PUT, user_action_url(TEMP_KEY, 'test_conn_source'),
+            RequestType.PUT, user_action_url(TEMP_KEY, action='test_conn_source'),
             payload=SeedJobServicePayload().system_credentials())
         user_action_response_dict = user_action_response.json()
         logging.info('Response is %s', user_action_response.text)
@@ -542,7 +542,7 @@ class JobServiceTestCases(unittest.TestCase):
 
         # Action on job without job id
         user_action_response = job_service_invalid.request(
-            RequestType.PUT, user_action_url(SEED_JOB_ID, 'test_conn_source'),
+            RequestType.PUT, user_action_url(SEED_JOB_ID, action='test_conn_source'),
             payload=SeedJobServicePayload().system_credentials())
         user_action_response_dict = user_action_response.json()
         logging.info('Response is %s', user_action_response.text)
@@ -606,8 +606,8 @@ class JobServiceTestCases(unittest.TestCase):
 
         # Agent action with valid job id
         agent_action_response = job_service_agent.request(
-            RequestType.PATCH, agent_api_url(SEED_JOB_ID,
-                                             'test_conn_source_success'),
+            RequestType.PATCH,
+            agent_action_url(job_id=SEED_JOB_ID, action='test_conn_source_success'),
             payload=SeedJobServicePayload().update_job_logs())
         logging.info('Response is %s', agent_action_response.text)
         self.assertEquals(
@@ -623,8 +623,8 @@ class JobServiceTestCases(unittest.TestCase):
 
         # Agent action with invalid job id
         agent_action_response = job_service_agent.request(
-            RequestType.PATCH, agent_api_url(TEMP_KEY,
-                                             'test_conn_source_success'),
+            RequestType.PATCH,
+            agent_action_url(job_id=TEMP_KEY, action='test_conn_source_success'),
             payload=SeedJobServicePayload().update_job_logs())
         agent_action_response_dict = agent_action_response.json()
         logging.info('Response is %s', agent_action_response.text)
@@ -646,8 +646,8 @@ class JobServiceTestCases(unittest.TestCase):
 
         # Agent action without source objects
         agent_action_response = job_service_agent.request(
-            RequestType.PATCH, agent_api_url(SEED_JOB_ID,
-                                             'test_conn_source_success'),
+            RequestType.PATCH,
+            agent_action_url(job_id=SEED_JOB_ID, action='test_conn_source_success'),
             payload=SeedJobServicePayload().update_job_logs(source_objects={}))
         agent_action_response_dict = agent_action_response.json()
         logging.info('Response is %s', agent_action_response.text)

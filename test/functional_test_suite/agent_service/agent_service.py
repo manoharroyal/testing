@@ -172,7 +172,7 @@ class AgentServiceTestCases(unittest.TestCase):
     def test_agent_task_details_with_invalid_token(self):
         """ Testing with the invalid task id to get the task details """
 
-        message = "Unauthorized"
+        message = "User is not assigned proper role"
 
         # Get the agent task details with invalid task id
         agent_task_details_response = agent_service_sysops.request(

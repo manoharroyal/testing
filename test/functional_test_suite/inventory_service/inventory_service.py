@@ -38,7 +38,7 @@ class InventoryServiceTestCases(unittest.TestCase):
         an item into the inventory """
 
         error_message = "Could not validate the input, " \
-                        "please send the correct input parameters"
+                        "please send the correct input parameters : Invalid storage_capacity value."
 
         # Add an item with invalid storage capacity
         add_item_response = inventory_service.request(
@@ -156,7 +156,7 @@ class InventoryServiceTestCases(unittest.TestCase):
         add an item into the inventory """
 
         error_message = "Could not validate the input, " \
-                        "please send the correct input parameters"
+                        "please send the correct input parameters : Invalid storage_capacity value"
 
         # Add an item without storage capacity
         add_item_response = inventory_service.request(
@@ -180,7 +180,7 @@ class InventoryServiceTestCases(unittest.TestCase):
         item into the inventory """
 
         error_message = "Could not validate the input, " \
-                        "please send the correct input parameters"
+                        "please send the correct input parameters : Item status is not valid"
 
         # Add an item with out item status
         add_item_response = inventory_service.request(
@@ -370,7 +370,7 @@ class InventoryServiceTestCases(unittest.TestCase):
 
         # Check item availability in the inventory with invalid hardware model
         item_availability_response = inventory_service.request(
-            RequestType.GET, get_items_url(param='hw_model', value='ss7'))
+            RequestType.GET, get_items_url(param='hw_model', value='ss@'))
         item_availability_response_dict = item_availability_response.json()
         logging.info('Response is %s', item_availability_response.text)
         self.assertEquals(

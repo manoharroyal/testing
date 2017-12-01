@@ -1,4 +1,4 @@
-.PHONY : customer_profile_service agent_service inventory_service ticket_service job_service system_service  functional-test list install
+.PHONY : customer_profile_service agent_service inventory_service ticket_service auth_service job_service system_service  functional-test list install
 
 customer_profile_service: 
 	export PYTHONPATH=`pwd` && python2.7 -m pytest -v --instafail `pwd`/test/functional_test_suite/customer_profile_service/customer_profile_service.py --html=./report/customer_profile_service.html
@@ -18,7 +18,10 @@ system_service:
 agent_service: 
 	export PYTHONPATH=`pwd` && python2.7 -m pytest -v --instafail  `pwd`/test/functional_test_suite/agent_service/agent_service.py --html=./report/agent_service.html
 
-functional-test:  customer_profile_service inventory_service ticket_service job_service system_service agent_service pytest-html
+auth_service:
+	export PYTHONPATH=`pwd` && python2.7 -m pytest -v --instafail  `pwd`/test/functional_test_suite/auth_service/auth_service.py --html=./report/auth_service.html
+
+functional-test:  customer_profile_service inventory_service ticket_service job_service system_service agent_service auth_service pytest-html
 
 list:
 	@$(info Available Targets)

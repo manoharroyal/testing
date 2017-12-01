@@ -99,21 +99,11 @@ def user_action_url(seed_job_id, action):
     return '%s/%s/job?action=%s' % (SEED_JOB_URL, seed_job_id, action)
 
 
-def admin_action_url(seedjobid, action):
-    """ Url for giving an action by admin """
-    return '%s/admin/%s?action=%s' % (SEED_JOB_URL, seedjobid, action)
-
-
-def update_job_logs_url(val):
-    """ Url for update job logs by an agent """
-    return '%s/agent/%s' % (SEED_JOB_URL, val)
-
-
-def agent_api_url(val, value):
+def agent_action_url(job_id, action):
     """ Url for agent api on seed job """
-    return '%s/agent/%s?action=%s' % (SEED_JOB_URL, val, value)
+    return '%s/agent/%s?action=%s' % (SEED_JOB_URL, job_id, action)
 
 
-def ticket_detail_url(value):
+def ticket_detail_url(ticket_id):
     """ url to get the details of ticket """
-    return '%s/%s' % (TICKET_SERVICE_URL, value)
+    return '%s/%s' % (TICKET_SERVICE_URL, ticket_id)
