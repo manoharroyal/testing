@@ -1,4 +1,7 @@
-.PHONY : customer_profile_service agent_service inventory_service ticket_service job_service system_service  functional-test list install
+.PHONY : integration customer_profile_service agent_service inventory_service ticket_service job_service system_service  functional-test list install
+
+integration:
+	export PYTHONPATH=`pwd` && python2.7 -m pytest -v --instafail `pwd`/test/integration_test_suite/integration_test.py
 
 customer_profile_service: 
 	export PYTHONPATH=`pwd` && python2.7 -m pytest -v --instafail `pwd`/test/functional_test_suite/customer_profile_service/customer_profile_service.py --html=./report/customer_profile_service.html
