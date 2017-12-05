@@ -26,7 +26,7 @@ class CustomerProfileServicePayload(object):
         return payload
 
     def update_shipping_address_payload(
-            self, title="cust_new_test", addr1="newbackup", addr2="Rest",
+            self, title="9876", addr1="newbackup", addr2="Rest",
             contact_name="manohar", contact_number=9492, company_name="Company",
             city="opera", state="windows", country="lenovo", zipcode=411057):
         """ Payload to update the shipping address """

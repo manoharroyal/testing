@@ -50,9 +50,10 @@ class AgentServiceTestCases(unittest.TestCase):
             msg="Expected response code is 401 and got is %s (%s)" % (
                 list_agents_response.status_code,
                 httplib.responses[list_agents_response.status_code]))
-        self.assertIn(expected_message, list_agents_response_dict['message'],
-                      msg="Expected %s in and got is %s" % (
-                          expected_message, list_agents_response_dict['message']))
+        self.assertIn(
+            expected_message, list_agents_response_dict['message'],
+            msg="Expected %s in and got is %s" %
+                (expected_message, list_agents_response_dict['message']))
 
     """ GET: Test cases to get the list agent tasks """
 
@@ -384,4 +385,3 @@ class AgentServiceTestCases(unittest.TestCase):
             expected_message, register_agent_response_dict['message'],
             msg="Expected %s in %s" %
                 (expected_message, register_agent_response_dict['message']))
-

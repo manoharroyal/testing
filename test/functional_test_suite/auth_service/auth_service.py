@@ -23,12 +23,15 @@ class AuthService(unittest.TestCase):
         create_auth_user_response_dict = create_auth_user_response.json()
         logging.info("Response is %s" % create_auth_user_response.text)
         key = "roles"
-        self.assertEquals(create_auth_user_response.status_code, 201,
-                          msg="Expected 201 and got is %s (%s)" %
-                              (create_auth_user_response.status_code,
-                               httplib.responses[create_auth_user_response.status_code]))
-        self.assertIn(key, create_auth_user_response_dict.keys(),
-                      msg="Expected %s in %s" % (key, create_auth_user_response_dict.keys))
+        self.assertEquals(
+            create_auth_user_response.status_code, 201,
+            msg="Expected 201 and got is %s (%s)" %
+                (create_auth_user_response.status_code,
+                 httplib.responses[create_auth_user_response.status_code]))
+        self.assertIn(
+            key, create_auth_user_response_dict.keys(),
+            msg="Expected %s in %s" %
+                (key, create_auth_user_response_dict.keys))
 
     def test_create_user_with_invalid_token(self):
         """ Create user for given role with invalid token """
@@ -132,7 +135,8 @@ class AuthService(unittest.TestCase):
 
         validate_auth_user_response = auth_service.request(
             RequestType.POST, validate_auth_user_url,
-            payload=AuthServicePayload().validate_user_credentials_payload(username="@3"))
+            payload=AuthServicePayload().validate_user_credentials_payload
+            (username="@3"))
         validate_auth_user_response_dict = validate_auth_user_response.json()
         logging.info("Response is %s" % validate_auth_user_response.text)
         self.assertEquals(
@@ -151,7 +155,8 @@ class AuthService(unittest.TestCase):
 
         validate_auth_user_response = auth_service.request(
             RequestType.POST, validate_auth_user_url,
-            payload=AuthServicePayload().validate_user_credentials_payload(password="1@"))
+            payload=AuthServicePayload().validate_user_credentials_payload
+            (password="1@"))
         validate_auth_user_response_dict = validate_auth_user_response.json()
         logging.info("Response is %s" % validate_auth_user_response.text)
         self.assertEquals(
@@ -170,7 +175,8 @@ class AuthService(unittest.TestCase):
 
         validate_auth_user_response = auth_service.request(
             RequestType.POST, validate_auth_user_url,
-            payload=AuthServicePayload().validate_user_credentials_payload(client_id="1@"))
+            payload=AuthServicePayload().validate_user_credentials_payload
+            (client_id="1@"))
         validate_auth_user_response_dict = validate_auth_user_response.json()
         logging.info("Response is %s" % validate_auth_user_response.text)
         self.assertEquals(
@@ -189,7 +195,8 @@ class AuthService(unittest.TestCase):
 
         validate_auth_user_response = auth_service.request(
             RequestType.POST, validate_auth_user_url,
-            payload=AuthServicePayload().validate_user_credentials_payload(username=""))
+            payload=AuthServicePayload().validate_user_credentials_payload
+            (username=""))
         validate_auth_user_response_dict = validate_auth_user_response.json()
         logging.info("Response is %s" % validate_auth_user_response.text)
         self.assertEquals(
@@ -208,7 +215,8 @@ class AuthService(unittest.TestCase):
 
         validate_auth_user_response = auth_service.request(
             RequestType.POST, validate_auth_user_url,
-            payload=AuthServicePayload().validate_user_credentials_payload(password=""))
+            payload=AuthServicePayload().validate_user_credentials_payload
+            (password=""))
         validate_auth_user_response_dict = validate_auth_user_response.json()
         logging.info("Response is %s" % validate_auth_user_response.text)
         self.assertEquals(
@@ -227,7 +235,8 @@ class AuthService(unittest.TestCase):
 
         validate_auth_user_response = auth_service.request(
             RequestType.POST, validate_auth_user_url,
-            payload=AuthServicePayload().validate_user_credentials_payload(client_id=""))
+            payload=AuthServicePayload().validate_user_credentials_payload
+            (client_id=""))
         validate_auth_user_response_dict = validate_auth_user_response.json()
         logging.info("Response is %s" % validate_auth_user_response.text)
         self.assertEquals(
