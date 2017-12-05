@@ -34,8 +34,8 @@ customer_scope: "openid profile roles customerId userId serviceNowUserId"
 scope: "openid profile"
 
 customer_username: "customer.one"
-customer_password: "pass@word1"
+customer_password:
 sysops_username: "sys.ops"
-sysops_password: "pass@word1"
+sysops_password:
 agent_username: "39ac13e7-bba9-4df7-8a21-e87b6d7c8887"
-agent_password: "f1ZbD^75fcx$)oil"
+agent_password: 
