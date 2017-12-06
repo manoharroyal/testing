@@ -3,14 +3,15 @@ import logging
 import unittest
 import httplib
 from test.functional_test_suite.common.payloads import AgentServicePayload
-from test.shared.rest_framework import RestAPI, RequestType
+from test.shared.rest_framework import RestAPI, RequestType, path
 from test.functional_test_suite.common.config import AGENT_SERVICE_URL, \
     agent_task_url, agent_id, agent_details_url, register_agent_url, \
-    list_agent_tasks_url
+    list_agent_tasks_url, initialize_logger
 
 agent_service_sysops = RestAPI(utype='sysops')
 agent_service_agent = RestAPI(utype='agent')
 agent_service_invalid = RestAPI(utype='invalid')
+initialize_logger(path + '/logs/agent_service.log')
 
 
 class AgentServiceTestCases(unittest.TestCase):

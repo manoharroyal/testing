@@ -2,12 +2,13 @@
 import logging
 import unittest
 import httplib
-from test.shared.rest_framework import RestAPI, RequestType
+from test.shared.rest_framework import RestAPI, RequestType, path
 from test.functional_test_suite.common.config import INVENTORY_SERVICE_URL, \
-    get_items_url, update_item_url
+    get_items_url, update_item_url, initialize_logger
 from test.functional_test_suite.common.payloads import InventoryServicePayload
 
 inventory_service = RestAPI(utype='sysops')
+initialize_logger(path + '/logs/inventory_service.log')
 
 
 class InventoryServiceTestCases(unittest.TestCase):

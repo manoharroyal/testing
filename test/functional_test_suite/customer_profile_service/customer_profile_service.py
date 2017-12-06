@@ -3,9 +3,9 @@
 import logging
 import unittest
 import httplib
-import os
-from test.shared.rest_framework import RequestType, RestAPI
-from test.functional_test_suite.common.config import CUSTOMER_SERVICE_URL
+from test.shared.rest_framework import RequestType, RestAPI, path
+from test.functional_test_suite.common.config import CUSTOMER_SERVICE_URL, \
+    initialize_logger
 from test.functional_test_suite.common.payloads import CustomerProfileServicePayload
 
 customer_service = RestAPI(utype='customer')
@@ -15,38 +15,7 @@ customer_service_invalid_token = RestAPI(utype='invalid')
 customer_profile_url = CUSTOMER_SERVICE_URL + str(customer_service.customerId)
 customer_profile_invalid_customer_id = customer_profile_url + "1" + "/addresses/"
 customer_profile_address_url = customer_profile_url + "/addresses/"
-
-output_dir = "/home/manohar/python/new/api_functional_testing/"
-
-
-def initialize_logger(output_dir):
-    logger = logging.getLogger()
-    logger.setLevel(logging.DEBUG)
-
-    # create console handler and set level to info
-    handler = logging.StreamHandler()
-    handler.setLevel(logging.INFO)
-    formatter = logging.Formatter("%(levelname)s - %(message)s")
-    handler.setFormatter(formatter)
-    logger.addHandler(handler)
-
-    # create error file handler and set level to error
-    handler = logging.FileHandler(os.path.join(output_dir, "error.log"), "w",
-                                  encoding=None, delay="true")
-    handler.setLevel(logging.ERROR)
-    formatter = logging.Formatter("%(levelname)s - %(message)s")
-    handler.setFormatter(formatter)
-    logger.addHandler(handler)
-
-    # create debug file handler and set level to debug
-    handler = logging.FileHandler(os.path.join(output_dir, "all.log"), "w")
-    handler.setLevel(logging.DEBUG)
-    formatter = logging.Formatter("%(levelname)s - %(message)s")
-    handler.setFormatter(formatter)
-    logger.addHandler(handler)
-
-
-initialize_logger('/home/manohar/python/new/api_functional_testing')
+initialize_logger(path + "/logs/customer_profile_service.log")
 
 
 class CustomerProfileTestCases(unittest.TestCase):

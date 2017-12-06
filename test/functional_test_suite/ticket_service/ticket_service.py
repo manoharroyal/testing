@@ -3,12 +3,13 @@ import logging
 import unittest
 import httplib
 from test.functional_test_suite.common.config import TICKET_SERVICE_URL, \
-    ticket_detail_url
-from test.shared.rest_framework import RestAPI, RequestType
+    ticket_detail_url, initialize_logger
+from test.shared.rest_framework import RestAPI, RequestType, path
 from test.functional_test_suite.common.payloads import TicketServicePayload
 
 ticket_service = RestAPI(utype='sysops')
 ticket_service_invalid = RestAPI(utype='invalid')
+initialize_logger(path + '/logs/ticket_service.log')
 
 
 class TicketService(unittest.TestCase):
