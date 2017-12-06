@@ -5,8 +5,8 @@ import requests
 import jwt
 from enum import Enum
 import yaml
-path = os.environ['PYTHONPATH']
-with open(path + "/env/configuration.yaml", 'r') as stream:
+path = os.path.dirname(os.path.realpath(__file__))
+with open(path + "/../../env/configuration.yaml", 'r') as stream:
     try:
         config_data = yaml.load(stream)
     except yaml.YAMLError as exc:
