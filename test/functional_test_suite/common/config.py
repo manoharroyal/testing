@@ -1,6 +1,7 @@
 import os
 import yaml
 import logging
+from test.shared.rest_framework import RestAPI, RequestType
 path = os.path.dirname(os.path.realpath(__file__))
 with open(path + "/../../../env/configuration.yaml", 'r') as stream:
     try:
@@ -8,19 +9,59 @@ with open(path + "/../../../env/configuration.yaml", 'r') as stream:
     except yaml.YAMLError as exc:
         print "Cannot able to access input configuration"
 
+end_point = RestAPI(utype='customer')
+
+
+class EndPoints(object):
+    """ class to get end points """
+
+    def generate_customer_url(self):
+        response = end_point.request(
+            RequestType.GET, config_data['END_POINTS_URL']).json()
+        return response['customer-profile-dev'][0]['endpoint']
+
+    def generate_system_url(self):
+        response = end_point.request(
+            RequestType.GET, config_data['END_POINTS_URL']).json()
+        return response['system-service-dev'][0]['endpoint']
+
+    def generate_inventory_url(self):
+        response = end_point.request(
+            RequestType.GET, config_data['END_POINTS_URL']).json()
+        return response['inventory-service-dev'][0]['endpoint']
+
+    def generate_agent_url(self):
+        response = end_point.request(
+            RequestType.GET, config_data['END_POINTS_URL']).json()
+        return response['agent-service-dev'][0]['endpoint']
+
+    def generate_job_url(self):
+        response = end_point.request(
+            RequestType.GET, config_data['END_POINTS_URL']).json()
+        return response['seedjob-service-dev'][0]['endpoint']
+
+    def generate_ticket_url(self):
+        response = end_point.request(
+            RequestType.GET, config_data['END_POINTS_URL']).json()
+        return response['ticket-service-dev'][0]['endpoint']
+
+    def generate_auth_url(self):
+        response = end_point.request(
+            RequestType.GET, config_data['END_POINTS_URL']).json()
+        return response['auth-dev'][0]['endpoint']
+
+
+api = EndPoints()
+
 """ All Constants goes here """
+CUSTOMER_SERVICE_URL = api.generate_customer_url().replace("{customer_id}", "")
+INVENTORY_SERVICE_URL = api.generate_inventory_url()
+SYSTEM_SERVICE_URL = api.generate_system_url()
+SEED_JOB_URL = api.generate_job_url()
+AGENT_SERVICE_URL = api.generate_agent_url()
+TICKET_SERVICE_URL = api.generate_ticket_url()
+AUTH_SERVICE_URL = api.generate_auth_url()
 
-CUSTOMER_SERVICE_URL = config_data['BASE_URL'].format(config_data['CUSTOMER_SERVICE_API_ID']) + "/customer-profiles/"
-INVENTORY_SERVICE_URL = config_data['BASE_URL'].format(config_data['INVENTORY_SERVICE_API_ID']) + "/inventory/items"
-SYSTEM_SERVICE_URL = config_data['BASE_URL'].format(config_data['SYSTEM_SERVICE_API_ID']) + "/system"
-SEED_JOB_URL = config_data['BASE_URL'].format(config_data['SEED_JOB_API_ID']) + "/jobs"
-AGENT_SERVICE_URL = config_data['BASE_URL'].format(config_data['AGENT_SERVICE_API_ID']) + "/agents"
-TICKET_SERVICE_URL = config_data['BASE_URL'].format(config_data['TICKET_SERVICE_API_ID']) + "/tickets"
-AUTH_SERVICE_URL = config_data['BASE_URL'].format(config_data['AUTH_SERVICE_API_ID']) + "/auth/users"
-
-
-SYSTEM_SERVICE = config_data['BASE_URL'].format(config_data['SYSTEM_SERVICE_API_ID'])
-SOURCE_SYSTEM_ID = config_data['SOURCE_SYSTEM_ID']
 TEMP_KEY = config_data['TEMP_KEY']
 SEED_JOB_ID = config_data['SEED_JOB_ID']
 DELETE_JOB_ID = config_data['DELETE_JOB_ID']
