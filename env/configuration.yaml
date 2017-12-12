@@ -1,16 +1,6 @@
 # Do Not change this Base url
 BASE_URL:  "https://{0}.execute-api.us-west-2.amazonaws.com/dev"
-
-# eg: 
-#     https://oywvlaayha.execute-api.us-west-2.amazonaws.com/dev/
-#     Here api_id: oywvlaayha
-CUSTOMER_SERVICE_API_ID: "8bfaht51mh"
-INVENTORY_SERVICE_API_ID: "jojtixvz2c"
-SYSTEM_SERVICE_API_ID: "7hg5rkdftc"
-SEED_JOB_API_ID: "fudkvrzvb7"
-AGENT_SERVICE_API_ID: "f02gsiq51l"
-TICKET_SERVICE_API_ID: "hl6mcn7aq3"
-AUTH_SERVICE_API_ID: "ga6x17tucc"
+END_POINTS_URL: "https://e39vocykp2.execute-api.us-west-2.amazonaws.com/dev/endpoints"
 
 TEMP_KEY: 'bb90c867-a02e-4868-bfff-a8ef9c5f68eb2'
 SEED_JOB_ID: 'e3b3d908-c916-42ae-964f-ebba727a00ab'
@@ -38,4 +28,4 @@ customer_password:
 sysops_username: "sys.ops"
 sysops_password:
 agent_username: "39ac13e7-bba9-4df7-8a21-e87b6d7c8887"
-agent_password: 
+agent_password:
