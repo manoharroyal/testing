@@ -8,7 +8,7 @@ from test.functional_test_suite.common.config import INVENTORY_SERVICE_URL, \
 from test.functional_test_suite.common.payloads import InventoryServicePayload
 
 inventory_service = RestAPI(utype='sysops')
-initialize_logger(path + '/logs/inventory_service.log')
+initialize_logger(path + '/../../logs/inventory_service.log')
 
 
 class InventoryServiceTestCases(unittest.TestCase):

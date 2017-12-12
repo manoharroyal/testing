@@ -8,7 +8,7 @@ from test.functional_test_suite.common.payloads import AuthServicePayload
 
 auth_service = RestAPI(utype='sysops')
 auth_service_invalid = RestAPI(utype='invalid')
-initialize_logger(path + '/logs/auth_service.log')
+initialize_logger(path + '/../../logs/auth_service.log')
 
 
 class AuthService(unittest.TestCase):

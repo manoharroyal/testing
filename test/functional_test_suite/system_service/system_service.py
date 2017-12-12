@@ -9,7 +9,7 @@ from test.functional_test_suite.common.payloads import SystemServicePayload
 
 system_service = RestAPI(utype='customer')
 invalid_system_service = RestAPI(utype='invalid')
-initialize_logger(path + '/logs/system_service.log')
+initialize_logger(path + '/../../logs/system_service.log')
 
 
 class SystemServiceTestCases(unittest.TestCase):

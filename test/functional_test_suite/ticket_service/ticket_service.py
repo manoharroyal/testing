@@ -9,7 +9,7 @@ from test.functional_test_suite.common.payloads import TicketServicePayload
 
 ticket_service = RestAPI(utype='sysops')
 ticket_service_invalid = RestAPI(utype='invalid')
-initialize_logger(path + '/logs/ticket_service.log')
+initialize_logger(path + '/../../logs/ticket_service.log')
 
 
 class TicketService(unittest.TestCase):

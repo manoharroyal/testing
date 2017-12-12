@@ -15,7 +15,7 @@ customer_service_invalid_token = RestAPI(utype='invalid')
 customer_profile_url = CUSTOMER_SERVICE_URL + str(customer_service.customerId)
 customer_profile_invalid_customer_id = customer_profile_url + "1" + "/addresses/"
 customer_profile_address_url = customer_profile_url + "/addresses/"
-initialize_logger(path + "/logs/customer_profile_service.log")
+initialize_logger(path + "/../../logs/customer_profile_service.log")
 
 
 class CustomerProfileTestCases(unittest.TestCase):

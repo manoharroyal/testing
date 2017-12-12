@@ -11,7 +11,7 @@ from test.functional_test_suite.common.config import AGENT_SERVICE_URL, \
 agent_service_sysops = RestAPI(utype='sysops')
 agent_service_agent = RestAPI(utype='agent')
 agent_service_invalid = RestAPI(utype='invalid')
-initialize_logger(path + '/logs/agent_service.log')
+initialize_logger(path + '/../../logs/agent_service.log')
 
 
 class AgentServiceTestCases(unittest.TestCase):

@@ -12,7 +12,7 @@ job_service_customer = RestAPI(utype='customer')
 job_service_sysops = RestAPI(utype='sysops')
 job_service_invalid = RestAPI(utype='invalid')
 job_service_agent = RestAPI(utype='agent')
-initialize_logger(path + '/logs/job_service.log')
+initialize_logger(path + '/../../logs/job_service.log')
 
 
 class JobServiceTestCases(unittest.TestCase):
