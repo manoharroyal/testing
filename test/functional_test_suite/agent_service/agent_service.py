@@ -2,7 +2,7 @@
 import logging
 import unittest
 import httplib
-from test.functional_test_suite.common.payloads import AgentServicePayload
+from test.functional_test_suite.agent_service.agent_service_payloads import AgentServicePayload
 from test.shared.rest_framework import RestAPI, RequestType, path
 from test.functional_test_suite.common.config import AGENT_SERVICE_URL, \
     agent_task_url, agent_id, agent_details_url, register_agent_url, \

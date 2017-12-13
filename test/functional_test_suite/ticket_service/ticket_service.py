@@ -5,11 +5,11 @@ import httplib
 from test.functional_test_suite.common.config import TICKET_SERVICE_URL, \
     ticket_detail_url, initialize_logger
 from test.shared.rest_framework import RestAPI, RequestType, path
-from test.functional_test_suite.common.payloads import TicketServicePayload
+from test.functional_test_suite.ticket_service.ticket_service_payload import TicketServicePayload
 
 ticket_service = RestAPI(utype='sysops')
 ticket_service_invalid = RestAPI(utype='invalid')
-initialize_logger(path + '/../../logs/ticket_service.log')
+initialize_logger(path + '/logs/ticket_service.log')
 
 
 class TicketService(unittest.TestCase):

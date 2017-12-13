@@ -4,7 +4,7 @@ import httplib
 from test.functional_test_suite.common.config import AUTH_SERVICE_URL, \
     delete_auth_user_url, validate_auth_user_url, initialize_logger
 from test.shared.rest_framework import RestAPI, RequestType, path
-from test.functional_test_suite.common.payloads import AuthServicePayload
+from test.functional_test_suite.auth_service.auth_service_payloads import AuthServicePayload
 
 auth_service = RestAPI(utype='sysops')
 auth_service_invalid = RestAPI(utype='invalid')

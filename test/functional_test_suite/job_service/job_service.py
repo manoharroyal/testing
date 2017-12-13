@@ -3,7 +3,7 @@ import logging
 import unittest
 import httplib
 from test.shared.rest_framework import RequestType, RestAPI, path
-from test.functional_test_suite.common.payloads import SeedJobServicePayload
+from test.functional_test_suite.job_service.job_service_payloads import SeedJobServicePayload
 from test.functional_test_suite.common.config import SEED_JOB_URL,\
     SEED_JOB_ID, seed_job_url, user_action_url, \
     TEMP_KEY, DELETE_JOB_ID, agent_action_url, initialize_logger
