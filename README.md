@@ -31,3 +31,7 @@ Repository including functional and integration tests
 **5. Reports**
 
     The reports will be generated in the "report" folder in the parent directory
+
+**6. Logs**
+
+    The output logs will generated in the "logs" folder in the parent directory
