@@ -11,56 +11,28 @@ with open(path + "/../../../env/configuration.yaml", 'r') as stream:
 
 end_point = RestAPI(utype='customer')
 
-
-class EndPoints(object):
-    """ class to get end points """
-
-    def generate_customer_url(self):
-        response = end_point.request(
-            RequestType.GET, config_data['END_POINTS_URL']).json()
-        return response['customer-profile-dev'][0]['endpoint']
-
-    def generate_system_url(self):
-        response = end_point.request(
-            RequestType.GET, config_data['END_POINTS_URL']).json()
-        return response['system-service-dev'][0]['endpoint']
-
-    def generate_inventory_url(self):
-        response = end_point.request(
-            RequestType.GET, config_data['END_POINTS_URL']).json()
-        return response['inventory-service-dev'][0]['endpoint']
-
-    def generate_agent_url(self):
-        response = end_point.request(
-            RequestType.GET, config_data['END_POINTS_URL']).json()
-        return response['agent-service-dev'][0]['endpoint']
-
-    def generate_job_url(self):
-        response = end_point.request(
-            RequestType.GET, config_data['END_POINTS_URL']).json()
-        return response['seedjob-service-dev'][0]['endpoint']
-
-    def generate_ticket_url(self):
-        response = end_point.request(
-            RequestType.GET, config_data['END_POINTS_URL']).json()
-        return response['ticket-service-dev'][0]['endpoint']
-
-    def generate_auth_url(self):
-        response = end_point.request(
-            RequestType.GET, config_data['END_POINTS_URL']).json()
-        return response['auth-dev'][0]['endpoint']
-
-
-api = EndPoints()
-
 """ All Constants goes here """
-CUSTOMER_SERVICE_URL = api.generate_customer_url().replace("{customer_id}", "")
-INVENTORY_SERVICE_URL = api.generate_inventory_url()
-SYSTEM_SERVICE_URL = api.generate_system_url()
-SEED_JOB_URL = api.generate_job_url()
-AGENT_SERVICE_URL = api.generate_agent_url()
-TICKET_SERVICE_URL = api.generate_ticket_url()
-AUTH_SERVICE_URL = api.generate_auth_url()
+CUSTOMER_SERVICE_URL = end_point.request(
+    RequestType.GET,
+    config_data['END_POINTS_URL']).json()['customer-profile-dev'][0]['endpoint'].replace("{customer_id}", "")
+INVENTORY_SERVICE_URL = end_point.request(
+    RequestType.GET,
+    config_data['END_POINTS_URL']).json()['inventory-service-dev'][0]['endpoint']
+SYSTEM_SERVICE_URL = end_point.request(
+    RequestType.GET,
+    config_data['END_POINTS_URL']).json()['system-service-dev'][0]['endpoint']
+SEED_JOB_URL = end_point.request(
+    RequestType.GET,
+    config_data['END_POINTS_URL']).json()['seedjob-service-dev'][0]['endpoint']
+AGENT_SERVICE_URL = end_point.request(
+    RequestType.GET,
+    config_data['END_POINTS_URL']).json()['agent-service-dev'][0]['endpoint']
+TICKET_SERVICE_URL = end_point.request(
+    RequestType.GET,
+    config_data['END_POINTS_URL']).json()['ticket-service-dev'][0]['endpoint']
+AUTH_SERVICE_URL = end_point.request(
+    RequestType.GET,
+    config_data['END_POINTS_URL']).json()['auth-dev'][0]['endpoint']
 
 TEMP_KEY = config_data['TEMP_KEY']
 SEED_JOB_ID = config_data['SEED_JOB_ID']
@@ -151,31 +123,17 @@ def ticket_detail_url(ticket_id):
     return '%s/%s' % (TICKET_SERVICE_URL, ticket_id)
 
 
-output_dir = path
+""" logging function goes here """
 
 
 def initialize_logger(output_dir):
+    """ logging function to generate log reports """
     logger = logging.getLogger()
-    logger.setLevel(logging.DEBUG)
+    handler = logging.FileHandler(
+        os.path.join(output_dir), "w", encoding=None, delay="true")
 
     # create console handler and set level to info
-    handler = logging.StreamHandler()
     handler.setLevel(logging.INFO)
-    formatter = logging.Formatter("%(levelname)s - %(message)s")
-    handler.setFormatter(formatter)
-    logger.addHandler(handler)
-
-    # create error file handler and set level to error
-    handler = logging.FileHandler(os.path.join(output_dir, "error.log"), "w",
-                                  encoding=None, delay="true")
-    handler.setLevel(logging.ERROR)
-    formatter = logging.Formatter("%(levelname)s - %(message)s")
-    handler.setFormatter(formatter)
-    logger.addHandler(handler)
-
-    # create debug file handler and set level to debug
-    handler = logging.FileHandler(os.path.join(output_dir), "w")
-    handler.setLevel(logging.DEBUG)
     formatter = logging.Formatter("%(levelname)s - %(message)s")
     handler.setFormatter(formatter)
     logger.addHandler(handler)
