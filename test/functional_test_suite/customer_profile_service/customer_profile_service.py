@@ -434,18 +434,26 @@ class CustomerProfileTestCases(unittest.TestCase):
         """ Testing with valid details to update
         shipping address to the customer profile """
 
+        address_title = "9876"
+
         # Update the shipping_address with valid details
         customer_profile_shipping_address_response = customer_service.request(
-            RequestType.PUT, customer_profile_address_url + "9876",
+            RequestType.PUT, customer_profile_address_url + address_title,
             payload=CustomerProfileServicePayload
             ().update_shipping_address_payload())
+        response_dict = customer_profile_shipping_address_response.json()
         logging.info('Response is %s',
                      customer_profile_shipping_address_response.text)
         self.assertEquals(
             customer_profile_shipping_address_response.status_code, 200,
             msg="Expected 200 and got %s (%s)" %
                 (customer_profile_shipping_address_response.status_code,
-                 httplib.responses[customer_profile_shipping_address_response.status_code]))
+                 httplib.responses[
+                     customer_profile_shipping_address_response.status_code]))
+        self.assertEquals(
+            address_title, response_dict['title'],
+            msg="Expected %s is equal to %s" %
+                (address_title, response_dict['title']))
 
     def test_update_shipping_address_with_invalid_title(self):
         """ Testing with invalid title to update
@@ -466,12 +474,14 @@ class CustomerProfileTestCases(unittest.TestCase):
             customer_profile_shipping_address_response.status_code, 404,
             msg="Expected 404 and got %s (%s)" %
                 (customer_profile_shipping_address_response.status_code,
-                 httplib.responses[customer_profile_shipping_address_response.status_code]))
+                 httplib.responses[
+                     customer_profile_shipping_address_response.status_code]))
         self.assertEquals(
             expected_message,
             customer_profile_shipping_address_response_dict['message'],
             msg="Expected %s equals %s" %
-                (expected_message, customer_profile_shipping_address_response_dict['message']))
+                (expected_message,
+                 customer_profile_shipping_address_response_dict['message']))
 
     def test_update_shipping_address_with_invalid_customer_id(self):
         """ Testing with invalid title to update
@@ -492,7 +502,8 @@ class CustomerProfileTestCases(unittest.TestCase):
             customer_profile_shipping_address_response.status_code, 400,
             msg="Expected 400 and got %s (%s)" %
                 (customer_profile_shipping_address_response.status_code,
-                 httplib.responses[customer_profile_shipping_address_response.status_code]))
+                 httplib.responses[
+                     customer_profile_shipping_address_response.status_code]))
         self.assertEquals(
             expected_message,
             customer_profile_shipping_address_response_dict['message'],
@@ -519,7 +530,8 @@ class CustomerProfileTestCases(unittest.TestCase):
             customer_profile_shipping_address_response.status_code, 401,
             msg="Expected 401 and got %s (%s)" %
                 (customer_profile_shipping_address_response.status_code,
-                 httplib.responses[customer_profile_shipping_address_response.status_code]))
+                 httplib.responses[
+                     customer_profile_shipping_address_response.status_code]))
         self.assertEquals(
             expected_message,
             customer_profile_shipping_address_response_dict['message'],
@@ -542,7 +554,8 @@ class CustomerProfileTestCases(unittest.TestCase):
             customer_profile_shipping_address_response.status_code, 200,
             msg="Expected 200 and got %s (%s)" %
                 (customer_profile_shipping_address_response.status_code,
-                 httplib.responses[customer_profile_shipping_address_response.status_code]))
+                 httplib.responses[
+                     customer_profile_shipping_address_response.status_code]))
 
     def test_update_shipping_address_without_address_line_2(self):
         """ Testing without address_line_2 to update
@@ -559,7 +572,8 @@ class CustomerProfileTestCases(unittest.TestCase):
             customer_profile_shipping_address_response.status_code, 200,
             msg="Expected 200 and got %s (%s)" %
                 (customer_profile_shipping_address_response.status_code,
-                 httplib.responses[customer_profile_shipping_address_response.status_code]))
+                 httplib.responses[
+                     customer_profile_shipping_address_response.status_code]))
 
     def test_update_shipping_address_without_contact_name(self):
         """ Testing without contact name to update
@@ -576,7 +590,8 @@ class CustomerProfileTestCases(unittest.TestCase):
             customer_profile_shipping_address_response.status_code, 200,
             msg="Expected 200 and got %s (%s)" %
                 (customer_profile_shipping_address_response.status_code,
-                 httplib.responses[customer_profile_shipping_address_response.status_code]))
+                 httplib.responses[
+                     customer_profile_shipping_address_response.status_code]))
 
     def test_update_shipping_address_without_contact_number(self):
         """ Testing without contact number to update
@@ -593,7 +608,8 @@ class CustomerProfileTestCases(unittest.TestCase):
             customer_profile_shipping_address_response.status_code, 200,
             msg="Expected 200 and got %s (%s)" %
                 (customer_profile_shipping_address_response.status_code,
-                 httplib.responses[customer_profile_shipping_address_response.status_code]))
+                 httplib.responses[
+                     customer_profile_shipping_address_response.status_code]))
 
     def test_update_shipping_address_without_company_name(self):
         """ Testing without company name update
@@ -610,7 +626,8 @@ class CustomerProfileTestCases(unittest.TestCase):
             customer_profile_shipping_address_response.status_code, 200,
             msg="Expected 200 and got %s (%s)" %
                 (customer_profile_shipping_address_response.status_code,
-                 httplib.responses[customer_profile_shipping_address_response.status_code]))
+                 httplib.responses[
+                     customer_profile_shipping_address_response.status_code]))
 
     def test_update_shipping_address_without_city(self):
         """ Testing without city to update
@@ -627,7 +644,8 @@ class CustomerProfileTestCases(unittest.TestCase):
             customer_profile_shipping_address_response.status_code, 200,
             msg="Expected 200 and got %s (%s)" %
                 (customer_profile_shipping_address_response.status_code,
-                 httplib.responses[customer_profile_shipping_address_response.status_code]))
+                 httplib.responses[
+                     customer_profile_shipping_address_response.status_code]))
 
     def test_update_shipping_address_without_state(self):
         """ Testing without state to update
@@ -644,7 +662,8 @@ class CustomerProfileTestCases(unittest.TestCase):
             customer_profile_shipping_address_response.status_code, 200,
             msg="Expected 200 and got %s (%s)" %
                 (customer_profile_shipping_address_response.status_code,
-                 httplib.responses[customer_profile_shipping_address_response.status_code]))
+                 httplib.responses[
+                     customer_profile_shipping_address_response.status_code]))
 
     def test_update_shipping_address_without_country(self):
         """ Testing without country to update
@@ -661,7 +680,8 @@ class CustomerProfileTestCases(unittest.TestCase):
             customer_profile_shipping_address_response.status_code, 200,
             msg="Expected 200 and got %s (%s)" %
                 (customer_profile_shipping_address_response.status_code,
-                 httplib.responses[customer_profile_shipping_address_response.status_code]))
+                 httplib.responses[
+                     customer_profile_shipping_address_response.status_code]))
 
     def test_update_shipping_address_without_zipcode(self):
         """ Testing without zipcode to update
@@ -678,7 +698,8 @@ class CustomerProfileTestCases(unittest.TestCase):
             customer_profile_shipping_address_response.status_code, 200,
             msg="Expected 200 and got %s (%s)" %
                 (customer_profile_shipping_address_response.status_code,
-                 httplib.responses[customer_profile_shipping_address_response.status_code]))
+                 httplib.responses[
+                     customer_profile_shipping_address_response.status_code]))
 
     """ DELETE: Test cases to delete the customer address with address title """
 
