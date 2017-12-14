@@ -5,7 +5,7 @@ import httplib
 from test.shared.rest_framework import RestAPI, RequestType, path
 from test.functional_test_suite.common.config import INVENTORY_SERVICE_URL, \
     get_items_url, update_item_url, initialize_logger
-from test.functional_test_suite.inventory_service.inventory_service_payload import InventoryServicePayload
+from test.functional_test_suite.inventory_service.inventory_service_payloads import InventoryServicePayload
 
 inventory_service = RestAPI(utype='sysops')
 initialize_logger(path + '/../../logs/inventory_service.log')

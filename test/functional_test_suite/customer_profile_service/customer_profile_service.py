@@ -6,7 +6,7 @@ import httplib
 from test.shared.rest_framework import RequestType, RestAPI, path
 from test.functional_test_suite.common.config import CUSTOMER_SERVICE_URL, \
     initialize_logger
-from test.functional_test_suite.customer_profile_service.customer_profile_service_payload import CustomerProfileServicePayload
+from test.functional_test_suite.customer_profile_service.customer_profile_service_payloads import CustomerProfileServicePayload
 
 customer_service = RestAPI(utype='customer')
 customer_service_invalid_token = RestAPI(utype='invalid')
