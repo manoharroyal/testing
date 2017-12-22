@@ -543,11 +543,14 @@ class CustomerProfileTestCases(unittest.TestCase):
         """ Testing without address_line_1 to update
         shipping address to the customer profile """
 
+        address_title = "9876"
+
         # Update the shipping_address without address_line_1
         customer_profile_shipping_address_response = customer_service.request(
             RequestType.PUT, customer_profile_address_url + "9876",
             payload=CustomerProfileServicePayload
             ().update_shipping_address_payload(addr1=""))
+        response_dict = customer_profile_shipping_address_response.json()
         logging.info('Response is %s',
                      customer_profile_shipping_address_response.text)
         self.assertEquals(
@@ -556,16 +559,23 @@ class CustomerProfileTestCases(unittest.TestCase):
                 (customer_profile_shipping_address_response.status_code,
                  httplib.responses[
                      customer_profile_shipping_address_response.status_code]))
+        self.assertEquals(
+            address_title, response_dict['title'],
+            msg="Expected %s is equal to %s" %
+                (address_title, response_dict['title']))
 
     def test_update_shipping_address_without_address_line_2(self):
         """ Testing without address_line_2 to update
         shipping address to the customer profile """
+
+        address_title = "9876"
 
         # Update the shipping_address without address_line_2
         customer_profile_shipping_address_response = customer_service.request(
             RequestType.PUT, customer_profile_address_url + "9876",
             payload=CustomerProfileServicePayload
             ().update_shipping_address_payload(addr2=""))
+        response_dict = customer_profile_shipping_address_response.json()
         logging.info('Response is %s',
                      customer_profile_shipping_address_response.text)
         self.assertEquals(
@@ -574,16 +584,23 @@ class CustomerProfileTestCases(unittest.TestCase):
                 (customer_profile_shipping_address_response.status_code,
                  httplib.responses[
                      customer_profile_shipping_address_response.status_code]))
+        self.assertEquals(
+            address_title, response_dict['title'],
+            msg="Expected %s is equal to %s" %
+                (address_title, response_dict['title']))
 
     def test_update_shipping_address_without_contact_name(self):
         """ Testing without contact name to update
         shipping address to the customer profile """
+
+        address_title = "9876"
 
         # Update the shipping_address without contact name
         customer_profile_shipping_address_response = customer_service.request(
             RequestType.PUT, customer_profile_address_url + "9876",
             payload=CustomerProfileServicePayload
             ().update_shipping_address_payload(contact_name=""))
+        response_dict = customer_profile_shipping_address_response.json()
         logging.info('Response is %s',
                      customer_profile_shipping_address_response.text)
         self.assertEquals(
@@ -592,16 +609,23 @@ class CustomerProfileTestCases(unittest.TestCase):
                 (customer_profile_shipping_address_response.status_code,
                  httplib.responses[
                      customer_profile_shipping_address_response.status_code]))
+        self.assertEquals(
+            address_title, response_dict['title'],
+            msg="Expected %s is equal to %s" %
+                (address_title, response_dict['title']))
 
     def test_update_shipping_address_without_contact_number(self):
         """ Testing without contact number to update
         shipping address to the customer profile """
+
+        address_title = "9876"
 
         # Update the shipping_address without number
         customer_profile_shipping_address_response = customer_service.request(
             RequestType.PUT, customer_profile_address_url + "9876",
             payload=CustomerProfileServicePayload
             ().update_shipping_address_payload(contact_number=""))
+        response_dict = customer_profile_shipping_address_response.json()
         logging.info('Response is %s',
                      customer_profile_shipping_address_response.text)
         self.assertEquals(
@@ -610,16 +634,23 @@ class CustomerProfileTestCases(unittest.TestCase):
                 (customer_profile_shipping_address_response.status_code,
                  httplib.responses[
                      customer_profile_shipping_address_response.status_code]))
+        self.assertEquals(
+            address_title, response_dict['title'],
+            msg="Expected %s is equal to %s" %
+                (address_title, response_dict['title']))
 
     def test_update_shipping_address_without_company_name(self):
         """ Testing without company name update
         shipping address to the customer profile """
+
+        address_title = "9876"
 
         # Update the shipping_address without company name
         customer_profile_shipping_address_response = customer_service.request(
             RequestType.PUT, customer_profile_address_url + "9876",
             payload=CustomerProfileServicePayload
             ().update_shipping_address_payload(company_name="buiH12^&!%$"))
+        response_dict = customer_profile_shipping_address_response.json()
         logging.info('Response is %s',
                      customer_profile_shipping_address_response.text)
         self.assertEquals(
@@ -628,16 +659,23 @@ class CustomerProfileTestCases(unittest.TestCase):
                 (customer_profile_shipping_address_response.status_code,
                  httplib.responses[
                      customer_profile_shipping_address_response.status_code]))
+        self.assertEquals(
+            address_title, response_dict['title'],
+            msg="Expected %s is equal to %s" %
+                (address_title, response_dict['title']))
 
     def test_update_shipping_address_without_city(self):
         """ Testing without city to update
         shipping address to the customer profile """
+
+        address_title = "9876"
 
         # Update the shipping_address without city
         customer_profile_shipping_address_response = customer_service.request(
             RequestType.PUT, customer_profile_address_url + "9876",
             payload=CustomerProfileServicePayload
             ().update_shipping_address_payload(city=""))
+        response_dict = customer_profile_shipping_address_response.json()
         logging.info('Response is %s',
                      customer_profile_shipping_address_response.text)
         self.assertEquals(
@@ -646,16 +684,23 @@ class CustomerProfileTestCases(unittest.TestCase):
                 (customer_profile_shipping_address_response.status_code,
                  httplib.responses[
                      customer_profile_shipping_address_response.status_code]))
+        self.assertEquals(
+            address_title, response_dict['title'],
+            msg="Expected %s is equal to %s" %
+                (address_title, response_dict['title']))
 
     def test_update_shipping_address_without_state(self):
         """ Testing without state to update
         shipping address to the customer profile """
+
+        address_title = "9876"
 
         # Update the shipping_address without state
         customer_profile_shipping_address_response = customer_service.request(
             RequestType.PUT, customer_profile_address_url + "9876",
             payload=CustomerProfileServicePayload
             ().update_shipping_address_payload(state=""))
+        response_dict = customer_profile_shipping_address_response.json()
         logging.info('Response is %s',
                      customer_profile_shipping_address_response.text)
         self.assertEquals(
@@ -664,16 +709,23 @@ class CustomerProfileTestCases(unittest.TestCase):
                 (customer_profile_shipping_address_response.status_code,
                  httplib.responses[
                      customer_profile_shipping_address_response.status_code]))
+        self.assertEquals(
+            address_title, response_dict['title'],
+            msg="Expected %s is equal to %s" %
+                (address_title, response_dict['title']))
 
     def test_update_shipping_address_without_country(self):
         """ Testing without country to update
         shipping address to the customer profile """
+
+        address_title = "9876"
 
         # Update the shipping_address without country
         customer_profile_shipping_address_response = customer_service.request(
             RequestType.PUT, customer_profile_address_url + "9876",
             payload=CustomerProfileServicePayload
             ().update_shipping_address_payload(country=""))
+        response_dict = customer_profile_shipping_address_response.json()
         logging.info('Response is %s',
                      customer_profile_shipping_address_response.text)
         self.assertEquals(
@@ -682,16 +734,23 @@ class CustomerProfileTestCases(unittest.TestCase):
                 (customer_profile_shipping_address_response.status_code,
                  httplib.responses[
                      customer_profile_shipping_address_response.status_code]))
+        self.assertEquals(
+            address_title, response_dict['title'],
+            msg="Expected %s is equal to %s" %
+                (address_title, response_dict['title']))
 
     def test_update_shipping_address_without_zipcode(self):
         """ Testing without zipcode to update
         shipping address to the customer profile """
+
+        address_title = "9876"
 
         # Update the shipping_address without zipcode
         customer_profile_shipping_address_response = customer_service.request(
             RequestType.PUT, customer_profile_address_url + "9876",
             payload=CustomerProfileServicePayload
             ().update_shipping_address_payload(zipcode=""))
+        response_dict = customer_profile_shipping_address_response.json()
         logging.info('Response is %s',
                      customer_profile_shipping_address_response.text)
         self.assertEquals(
@@ -700,8 +759,12 @@ class CustomerProfileTestCases(unittest.TestCase):
                 (customer_profile_shipping_address_response.status_code,
                  httplib.responses[
                      customer_profile_shipping_address_response.status_code]))
+        self.assertEquals(
+            address_title, response_dict['title'],
+            msg="Expected %s is equal to %s" %
+                (address_title, response_dict['title']))
 
-    """ DELETE: Test cases to delete the customer address with address title """
+        """ DELETE: Test cases to delete the customer address with address title """
 
     def test_delete_address_with_customer(self):
         """ Testing with the valid address title """
