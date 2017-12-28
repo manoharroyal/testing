@@ -15,6 +15,23 @@ with open(path + "/../../env/configuration.yaml", 'r') as stream:
 USER_LOGIN_URL = config_data['USER_LOGIN_URL']
 LOGIN_URL = config_data['LOGIN_URL']
 
+""" Pre Function """
+
+def pre_check(key):
+    if config_data.get(key) != None:
+        pass
+    elif os.environ.get(key) != None:
+        config_data[key] = os .environ[key]
+    else:
+        print "[Error] set %s in env file or shell using export" % key
+        sys.exit(1)
+
+
+""" checking ..."""
+pre_check('customer_password')
+pre_check('sysops_password')
+pre_check('agent_password')
+
 """ Helper functions are goes here """
 
 
