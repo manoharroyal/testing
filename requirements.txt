@@ -1,7 +1,0 @@
-requests
-pyyaml
-enum
-pyjwt
-pytest
-pytest-html
-pytest-instafail
