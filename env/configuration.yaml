@@ -1,6 +1,6 @@
 # Do Not change this Base url
 BASE_URL:  "https://{0}.execute-api.us-west-2.amazonaws.com/dev"
-
+END_POINTS_URL: "https://e39vocykp2.execute-api.us-west-2.amazonaws.com/dev/endpoints"
 # eg: 
 #     https://oywvlaayha.execute-api.us-west-2.amazonaws.com/dev/
 #     Here api_id: oywvlaayha
