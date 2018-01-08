@@ -1,15 +1,38 @@
 """ Integration test cases for All Flows"""
 import unittest
-
+import os
+import yaml
 from test.shared.rest_framework import RequestType, RestAPI
+path = os.path.dirname(os.path.realpath(__file__))
+with open(path + "/../../env/configuration.yaml", 'r') as stream:
+    try:
+        config_data = yaml.load(stream)
+    except yaml.YAMLError as exc:
+        print "Cannot able to access input configuration"
+
+END_POINTS_URL = config_data['END_POINTS_URL']
+end_point = RestAPI(utype='customer')
 
 """ urls over here """
-CUSTOMER_SERVICE_URL = "https://8bfaht51mh.execute-api.us-west-2.amazonaws.com/dev/customer-profiles/"
-SYSTEM_SERVICE_URL = "https://7hg5rkdftc.execute-api.us-west-2.amazonaws.com/dev/system"
-JOB_SERVICE_URL = "https://fudkvrzvb7.execute-api.us-west-2.amazonaws.com/dev/jobs"
-BOX_SERVICE_URL = "https://tcj0l5l2na.execute-api.us-west-2.amazonaws.com/dev/box"
-AGENT_SERVICE_URL = "https://f02gsiq51l.execute-api.us-west-2.amazonaws.com/dev/agents/{0}/register"
-SEEDJOB_ACTION_URL = "https://fudkvrzvb7.execute-api.us-west-2.amazonaws.com/dev/jobs/{0}/job?action={1}"
+CUSTOMER_SERVICE_URL = end_point.request(
+    RequestType.GET,
+    END_POINTS_URL).json()['customer-profile-dev'][0]['endpoint'].replace("{customer_id}", "")
+SYSTEM_SERVICE_URL = end_point.request(
+    RequestType.GET,
+    END_POINTS_URL).json()['system-service-dev'][0]['endpoint']
+JOB_SERVICE_URL = end_point.request(
+    RequestType.GET,
+    END_POINTS_URL).json()['seedjob-service-dev'][0]['endpoint']
+BOX_SERVICE_URL = end_point.request(
+    RequestType.GET,
+    END_POINTS_URL).json()['box-manager-dev'][0]['endpoint'].replace("{box_id}", "")
+AGENT_SERVICE_URL = end_point.request(
+    RequestType.GET,
+    END_POINTS_URL).json()['agent-service-dev'][0]['endpoint'] + "/{0}/register"
+SEEDJOB_ACTION_URL = end_point.request(
+    RequestType.GET,
+    END_POINTS_URL).json()['seedjob-service-dev'][0]['endpoint'] + "/{0}/job?action={1}"
+
 
 """ Token Creation """
 customer = RestAPI(utype='customer')
@@ -36,9 +59,9 @@ cust_payload = {
     "contact_number": 12345,
     "company_name": "testcompnay",
     "city": "testcity",
-            "state": "teststate",
-            "country": "testcountry",
-            "zipcode": 411057
+    "state": "teststate",
+    "country": "testcountry",
+    "zipcode": 411057
 }
 
 SYSTEM_DETAILS = {
@@ -160,16 +183,14 @@ class IntegrationTest(unittest.TestCase):
         self.assertEquals(job.status_code, 201)
 
     def test_prepare_shipment_flow(self):
-        """ Testing Shippment Flow
+        """ Testing Shipment Flow
             1) Register Agent
         """
 
         # 1) Register Agent
-        print "url is ", register_agent_url
         agent_resp = agent.request(method=RequestType.PUT,
                                    url=register_agent_url,
                                    payload=None)
-        print "agent resp", agent_resp.text
         self.assertEqual(agent_resp.status_code, 202)
 
     def test_backupjob_flow(self):
@@ -210,7 +231,7 @@ class IntegrationTest(unittest.TestCase):
             2. Box Ready for Import
             3. Get Task (box)
             4. Get Target Details (box)
-            5. Target connection successfull (box)
+            5. Target connection successful (box)
             6. Ready for restore (box)
             7. Get task (box)
             8. Restore job update complete (box)
