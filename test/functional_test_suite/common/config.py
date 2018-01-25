@@ -33,12 +33,20 @@ TICKET_SERVICE_URL = end_point.request(
 AUTH_SERVICE_URL = end_point.request(
     RequestType.GET,
     config_data['END_POINTS_URL']).json()['auth-dev'][0]['endpoint']
+BOX_SERVICE_URL = end_point.request(
+    RequestType.GET,
+    config_data['END_POINTS_URL']).json()['box-manager-dev'][-1]['endpoint']
 
 TEMP_KEY = config_data['TEMP_KEY']
 SEED_JOB_ID = config_data['SEED_JOB_ID']
 DELETE_JOB_ID = config_data['DELETE_JOB_ID']
 
 """ Setting up the parameters with urls """
+
+
+def box_details_url(box_id):
+    """ Url ti get the details of box """
+    return '%s/%s' % (BOX_SERVICE_URL, box_id)
 
 
 def get_items_url(param, value):
