@@ -136,12 +136,19 @@ def ticket_detail_url(ticket_id):
 
 def initialize_logger(output_dir):
     """ logging function to generate log reports """
-    logger = logging.getLogger()
-    handler = logging.FileHandler(
-        os.path.join(output_dir), "w", encoding=None, delay="true")
 
-    # create console handler and set level to info
-    handler.setLevel(logging.INFO)
-    formatter = logging.Formatter("%(levelname)s - %(message)s")
-    handler.setFormatter(formatter)
-    logger.addHandler(handler)
+    logger = logging.getLogger()
+    logger.setLevel(logging.DEBUG)
+
+    formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+
+    fh = logging.FileHandler(os.path.join(output_dir), "w", encoding=None, delay=True)
+    fh.setLevel(logging.DEBUG)
+    fh.setFormatter(formatter)
+    logger.addHandler(fh)
+
+    ch = logging.StreamHandler()
+    ch.setLevel(logging.DEBUG)
+    ch.setFormatter(formatter)
+    logger.addHandler(ch)
+    logger.debug('This is a test log message.')
