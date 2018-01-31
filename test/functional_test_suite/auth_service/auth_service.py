@@ -22,6 +22,9 @@ class AuthService(unittest.TestCase):
             RequestType.POST, AUTH_SERVICE_URL,
             payload=AuthServicePayload().create_user_payload())
         create_auth_user_response_dict = create_auth_user_response.json()
+        logging.info('test_create_user_with_valid_details')
+        logging.info('Url is %s', AUTH_SERVICE_URL)
+        logging.info('Request is %s', AuthServicePayload().create_user_payload())
         logging.info("Response is %s" % create_auth_user_response.text)
         key = "roles"
         self.assertEquals(
@@ -43,6 +46,10 @@ class AuthService(unittest.TestCase):
             RequestType.POST, AUTH_SERVICE_URL,
             payload=AuthServicePayload().create_user_payload())
         create_auth_user_response_dict = create_auth_user_response.json()
+        logging.info('test_create_user_with_invalid_token')
+        logging.info('Url is %s', AUTH_SERVICE_URL)
+        logging.info('Request is %s',
+                     AuthServicePayload().create_user_payload())
         logging.info("Response is %s" % create_auth_user_response.text)
         self.assertEquals(
             create_auth_user_response.status_code, 401,
@@ -62,6 +69,10 @@ class AuthService(unittest.TestCase):
             RequestType.POST, AUTH_SERVICE_URL,
             payload=AuthServicePayload().create_user_payload(role="@#"))
         create_auth_user_response_dict = create_auth_user_response.json()
+        logging.info('test_create_user_with_invalid_roles')
+        logging.info('Url is %s', AUTH_SERVICE_URL)
+        logging.info('Request is %s',
+                     AuthServicePayload().create_user_payload(role="@#"))
         logging.info("Response is %s" % create_auth_user_response.text)
         self.assertEquals(
             create_auth_user_response.status_code, 400,
@@ -81,6 +92,10 @@ class AuthService(unittest.TestCase):
             RequestType.POST, AUTH_SERVICE_URL,
             payload=AuthServicePayload().create_user_payload(role=""))
         create_auth_user_response_dict = create_auth_user_response.json()
+        logging.info('test_create_user_without_roles')
+        logging.info('Url is %s', AUTH_SERVICE_URL)
+        logging.info('Request is %s',
+                     AuthServicePayload().create_user_payload(role=""))
         logging.info("Response is %s" % create_auth_user_response.text)
         self.assertEquals(
             create_auth_user_response.status_code, 400,
@@ -100,6 +115,10 @@ class AuthService(unittest.TestCase):
             RequestType.POST, validate_auth_user_url,
             payload=AuthServicePayload().validate_user_credentials_payload())
         validate_auth_user_response_dict = validate_auth_user_response.json()
+        logging.info('test_validate_auth_user_with_valid_details')
+        logging.info('Url is %s', validate_auth_user_url)
+        logging.info('Request is %s',
+                     AuthServicePayload().validate_user_credentials_payload())
         logging.info("Response is %s" % validate_auth_user_response.text)
         key = 'userId'
         self.assertEquals(
@@ -111,25 +130,6 @@ class AuthService(unittest.TestCase):
                       msg="Expected %s in and got is %s" % (
                           key, validate_auth_user_response_dict.keys()))
 
-    def test_validate_auth_user_with_invalid_token(self):
-
-        expected_message = "Unauthorized"
-
-        validate_auth_user_response = auth_service_invalid.request(
-            RequestType.POST, validate_auth_user_url,
-            payload=AuthServicePayload().validate_user_credentials_payload())
-        validate_auth_user_response_dict = validate_auth_user_response.json()
-        logging.info("Response is %s" % validate_auth_user_response.text)
-        self.assertEquals(
-            validate_auth_user_response.status_code, 401,
-            msg=("Expected code is 401 and got is %s (%s)" %
-                 (validate_auth_user_response.status_code,
-                  httplib.responses[validate_auth_user_response.status_code])))
-        self.assertEquals(
-            expected_message, validate_auth_user_response_dict['message'],
-            msg="Expected %s equals %s" %
-                (expected_message, validate_auth_user_response_dict['message']))
-
     def test_validate_auth_user_with_invalid_user_id(self):
 
         expected_message = "User not found"
@@ -139,6 +139,11 @@ class AuthService(unittest.TestCase):
             payload=AuthServicePayload().validate_user_credentials_payload
             (username="@3"))
         validate_auth_user_response_dict = validate_auth_user_response.json()
+        logging.info('test_validate_auth_user_with_invalid_user_id')
+        logging.info('Url is %s', validate_auth_user_url)
+        logging.info('Request is %s',
+                     AuthServicePayload().validate_user_credentials_payload
+                     (username="@3"))
         logging.info("Response is %s" % validate_auth_user_response.text)
         self.assertEquals(
             validate_auth_user_response.status_code, 404,
@@ -159,6 +164,11 @@ class AuthService(unittest.TestCase):
             payload=AuthServicePayload().validate_user_credentials_payload
             (password="1@"))
         validate_auth_user_response_dict = validate_auth_user_response.json()
+        logging.info('test_validate_auth_user_with_invalid_password')
+        logging.info('Url is %s', validate_auth_user_url)
+        logging.info('Request is %s',
+                     AuthServicePayload().validate_user_credentials_payload
+                     (password="1@"))
         logging.info("Response is %s" % validate_auth_user_response.text)
         self.assertEquals(
             validate_auth_user_response.status_code, 400,
@@ -179,6 +189,11 @@ class AuthService(unittest.TestCase):
             payload=AuthServicePayload().validate_user_credentials_payload
             (client_id="1@"))
         validate_auth_user_response_dict = validate_auth_user_response.json()
+        logging.info('test_validate_auth_user_with_invalid_client_id')
+        logging.info('Url is %s', validate_auth_user_url)
+        logging.info('Request is %s',
+                     AuthServicePayload().validate_user_credentials_payload
+                     (client_id="1@"))
         logging.info("Response is %s" % validate_auth_user_response.text)
         self.assertEquals(
             validate_auth_user_response.status_code, 400,
@@ -199,6 +214,11 @@ class AuthService(unittest.TestCase):
             payload=AuthServicePayload().validate_user_credentials_payload
             (username=""))
         validate_auth_user_response_dict = validate_auth_user_response.json()
+        logging.info('test_validate_auth_user_without_user_id')
+        logging.info('Url is %s', validate_auth_user_url)
+        logging.info('Request is %s',
+                     AuthServicePayload().validate_user_credentials_payload
+                     (username=""))
         logging.info("Response is %s" % validate_auth_user_response.text)
         self.assertEquals(
             validate_auth_user_response.status_code, 500,
@@ -219,6 +239,11 @@ class AuthService(unittest.TestCase):
             payload=AuthServicePayload().validate_user_credentials_payload
             (password=""))
         validate_auth_user_response_dict = validate_auth_user_response.json()
+        logging.info('test_validate_auth_user_without_password')
+        logging.info('Url is %s', validate_auth_user_url)
+        logging.info('Request is %s',
+                     AuthServicePayload().validate_user_credentials_payload
+                     (password=""))
         logging.info("Response is %s" % validate_auth_user_response.text)
         self.assertEquals(
             validate_auth_user_response.status_code, 400,
@@ -239,6 +264,11 @@ class AuthService(unittest.TestCase):
             payload=AuthServicePayload().validate_user_credentials_payload
             (client_id=""))
         validate_auth_user_response_dict = validate_auth_user_response.json()
+        logging.info('test_validate_auth_user_without_client_id')
+        logging.info('Url is %s', validate_auth_user_url)
+        logging.info('Request is %s',
+                     AuthServicePayload().validate_user_credentials_payload
+                     (client_id=""))
         logging.info("Response is %s" % validate_auth_user_response.text)
         self.assertEquals(
             validate_auth_user_response.status_code, 400,
@@ -257,6 +287,8 @@ class AuthService(unittest.TestCase):
 
         auth_service_response = auth_service.request(
             RequestType.DELETE, delete_auth_user_url(user_id='your'))
+        logging.info('test_delete_user_with_valid_user_id')
+        logging.info('Url is %s', delete_auth_user_url(user_id='your'))
         logging.info("Response is %s" % auth_service_response.text)
         self.assertEquals(
             auth_service_response.status_code, 202,
@@ -271,6 +303,8 @@ class AuthService(unittest.TestCase):
 
         auth_service_response = auth_service.request(
             RequestType.DELETE, delete_auth_user_url('you@#'))
+        logging.info('test_delete_user_with_invalid_user_id')
+        logging.info('Url is %s', delete_auth_user_url('you@#'))
         logging.info("Response is %s" % auth_service_response.text)
         auth_service_response_dict = auth_service_response.json()
         self.assertEquals(
@@ -291,6 +325,8 @@ class AuthService(unittest.TestCase):
         auth_service_response = auth_service_invalid.request(
             RequestType.DELETE, delete_auth_user_url(user_id='you@#'))
         auth_service_response_dict = auth_service_response.json()
+        logging.info('test_delete_user_with_invalid_token')
+        logging.info('Url is %s', delete_auth_user_url(user_id='you@#'))
         logging.info("Response is %s" % auth_service_response.text)
         self.assertEquals(
             auth_service_response.status_code, 401,
