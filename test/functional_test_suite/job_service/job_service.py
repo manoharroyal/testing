@@ -27,6 +27,10 @@ class JobServiceTestCases(unittest.TestCase):
             RequestType.POST, SEED_JOB_URL,
             payload=SeedJobServicePayload().create_seed_job_payload())
         create_job_response_dict = create_job_response.json()
+        logging.info('test_create_job_with_valid_details')
+        logging.info('Url is %s', SEED_JOB_URL)
+        logging.info('Request is %s',
+                     SeedJobServicePayload().create_seed_job_payload())
         logging.info('Response is %s', create_job_response.text)
         self.assertEquals(
             create_job_response.status_code, 201,
@@ -48,6 +52,10 @@ class JobServiceTestCases(unittest.TestCase):
             RequestType.POST, SEED_JOB_URL,
             payload=SeedJobServicePayload().create_seed_job_payload())
         create_job_response_dict = create_job_response.json()
+        logging.info('test_create_job_with_invalid_token')
+        logging.info('Url is %s', SEED_JOB_URL)
+        logging.info('Request is %s',
+                     SeedJobServicePayload().create_seed_job_payload())
         logging.info('Response is %s', create_job_response.text)
         self.assertEquals(
             create_job_response.status_code, 401,
@@ -58,7 +66,6 @@ class JobServiceTestCases(unittest.TestCase):
             error_message, create_job_response_dict['message'],
             msg="Expected %s in %s" %
                 (error_message, create_job_response_dict['message']))
-
 
     def test_create_job_with_invalid_source_system_id(self):
         """ Testing the creation of seed_job with invalid source_system_id """
@@ -72,6 +79,10 @@ class JobServiceTestCases(unittest.TestCase):
             payload=SeedJobServicePayload().create_seed_job_payload
             (source_system_id=TEMP_KEY))
         create_job_response_dict = create_job_response.json()
+        logging.info('test_create_job_with_invalid_source_system_id')
+        logging.info('Url is %s', SEED_JOB_URL)
+        logging.info('Request is %s', SeedJobServicePayload().
+                     create_seed_job_payload(source_system_id=TEMP_KEY))
         logging.info('Response is %s', create_job_response.text)
         self.assertEquals(
             create_job_response.status_code, 403,
@@ -95,6 +106,10 @@ class JobServiceTestCases(unittest.TestCase):
             payload=SeedJobServicePayload().create_seed_job_payload
             (target_system_id=TEMP_KEY))
         create_job_response_dict = create_job_response.json()
+        logging.info('test_create_job_with_invalid_target_system_id')
+        logging.info('Url is %s', SEED_JOB_URL)
+        logging.info('Request is %s', SeedJobServicePayload().
+                     create_seed_job_payload(target_system_id=TEMP_KEY))
         logging.info('Response is %s', create_job_response.text)
         self.assertEquals(
             create_job_response.status_code, 403,
@@ -117,6 +132,10 @@ class JobServiceTestCases(unittest.TestCase):
             payload=SeedJobServicePayload().create_seed_job_payload
             (address_title='address_title'))
         create_job_response_dict = create_job_response.json()
+        logging.info('test_create_job_with_invalid_address_title')
+        logging.info('Url is %s', SEED_JOB_URL)
+        logging.info('Request is %s', SeedJobServicePayload().
+                     create_seed_job_payload(address_title='address_title'))
         logging.info('Response is %s', create_job_response.text)
         self.assertEquals(
             create_job_response.status_code, 403,
@@ -139,6 +158,10 @@ class JobServiceTestCases(unittest.TestCase):
             payload=SeedJobServicePayload().create_seed_job_payload
             (max_data_size='100'))
         create_job_response_dict = create_job_response.json()
+        logging.info('test_create_job_with_invalid_max_data_size')
+        logging.info('Url is %s', SEED_JOB_URL)
+        logging.info('Request is %s', SeedJobServicePayload().
+                     create_seed_job_payload(max_data_size='100'))
         logging.info('Response is %s', create_job_response.text)
         self.assertEquals(
             create_job_response.status_code, 400,
@@ -161,6 +184,10 @@ class JobServiceTestCases(unittest.TestCase):
             payload=SeedJobServicePayload().create_seed_job_payload
             (source_system_id=''))
         create_job_response_dict = create_job_response.json()
+        logging.info('test_create_job_without_source_system_id')
+        logging.info('Url is %s', SEED_JOB_URL)
+        logging.info('Request is %s', SeedJobServicePayload().
+                     create_seed_job_payload(source_system_id=''))
         logging.info('Response is %s', create_job_response.text)
         self.assertEquals(
             create_job_response.status_code, 403,
@@ -183,6 +210,10 @@ class JobServiceTestCases(unittest.TestCase):
             payload=SeedJobServicePayload().create_seed_job_payload
             (target_system_id=''))
         create_job_response_dict = create_job_response.json()
+        logging.info('test_create_job_without_target_system_id')
+        logging.info('Url is %s', SEED_JOB_URL)
+        logging.info('Request is %s', SeedJobServicePayload().
+                     create_seed_job_payload(target_system_id=''))
         logging.info('Response is %s', create_job_response.text)
         self.assertEquals(
             create_job_response.status_code, 403,
@@ -205,6 +236,10 @@ class JobServiceTestCases(unittest.TestCase):
             payload=SeedJobServicePayload().create_seed_job_payload
             (address_title=''))
         create_job_response_dict = create_job_response.json()
+        logging.info('test_create_job_without_address_title')
+        logging.info('Url is %s', SEED_JOB_URL)
+        logging.info('Request is %s', SeedJobServicePayload().
+                     create_seed_job_payload(address_title=''))
         logging.info('Response is %s', create_job_response.text)
         self.assertEquals(
             create_job_response.status_code, 403,
@@ -227,6 +262,10 @@ class JobServiceTestCases(unittest.TestCase):
             payload=SeedJobServicePayload().create_seed_job_payload
             (max_data_size=''))
         create_job_response_dict = create_job_response.json()
+        logging.info('test_create_job_without_max_data_size')
+        logging.info('Url is %s', SEED_JOB_URL)
+        logging.info('Request is %s', SeedJobServicePayload().
+                     create_seed_job_payload(max_data_size=''))
         logging.info('Response is %s', create_job_response.text)
         self.assertEquals(
             create_job_response.status_code, 500,
@@ -246,6 +285,8 @@ class JobServiceTestCases(unittest.TestCase):
         # Get list of seed jobs with valid url
         job_lists_response = job_service_customer.request(
             RequestType.GET, SEED_JOB_URL)
+        logging.info('test_list_seed_jobs_with_valid_url')
+        logging.info('Url is %s', SEED_JOB_URL)
         logging.info('Response is %s', job_lists_response.text)
         self.assertEquals(
             job_lists_response.status_code, 200,
@@ -266,6 +307,8 @@ class JobServiceTestCases(unittest.TestCase):
         job_lists_response = job_service_invalid.request(
             RequestType.GET, SEED_JOB_URL)
         job_lists_response_dict = job_lists_response.json()
+        logging.info('test_list_seed_job_with_invalid_token')
+        logging.info('Url is %s', SEED_JOB_URL)
         logging.info('Response is %s', job_lists_response.text)
         self.assertEquals(
             job_lists_response.status_code, 401,
@@ -285,6 +328,8 @@ class JobServiceTestCases(unittest.TestCase):
         # Get the seed job details with valid job id
         job_details_response = job_service_customer.request(
             RequestType.GET, seed_job_url(SEED_JOB_ID))
+        logging.info('test_job_details_with_valid_job_id')
+        logging.info('Url is %s', seed_job_url(SEED_JOB_ID))
         logging.info('Response is %s', job_details_response.text)
         self.assertEquals(
             job_details_response.status_code, 200,
@@ -305,6 +350,8 @@ class JobServiceTestCases(unittest.TestCase):
         # Get the details of seed job with invalid job id
         job_details_response = job_service_customer.request(
             RequestType.GET, seed_job_url(TEMP_KEY))
+        logging.info('test_job_detail_with_invalid_job_id')
+        logging.info('Url is %s', seed_job_url(TEMP_KEY))
         logging.info('Response is %s', job_details_response.text)
         self.assertEquals(
             job_details_response.status_code, 404,
@@ -325,6 +372,8 @@ class JobServiceTestCases(unittest.TestCase):
         # Get the details of seed job with invalid job id
         job_details_response = job_service_invalid.request(
             RequestType.GET, seed_job_url(SEED_JOB_ID))
+        logging.info('test_job_detail_with_invalid_token')
+        logging.info('Url is %s', seed_job_url(SEED_JOB_ID))
         logging.info('Response is %s', job_details_response.text)
         self.assertEquals(
             job_details_response.status_code, 401,
@@ -345,6 +394,10 @@ class JobServiceTestCases(unittest.TestCase):
         job_update_response = job_service_customer.request(
             RequestType.PUT, seed_job_url(SEED_JOB_ID),
             payload=SeedJobServicePayload().update_seed_job_payload())
+        logging.info('test_job_update_with_valid_job_id')
+        logging.info('Url is %s', seed_job_url(SEED_JOB_ID))
+        logging.info('Request is %s', SeedJobServicePayload().
+                     update_seed_job_payload())
         logging.info('Response is %s', job_update_response.text)
         self.assertEquals(
             job_update_response.status_code, 202,
@@ -363,6 +416,10 @@ class JobServiceTestCases(unittest.TestCase):
             RequestType.PUT, seed_job_url(TEMP_KEY),
             payload=SeedJobServicePayload().update_seed_job_payload())
         job_update_response_dict = job_update_response.json()
+        logging.info('test_job_update_with_invalid_job_id')
+        logging.info('Url is %s', seed_job_url(TEMP_KEY))
+        logging.info('Request is %s', SeedJobServicePayload().
+                     update_seed_job_payload())
         logging.info('Response is %s', job_update_response.text)
         self.assertEquals(
             job_update_response.status_code, 404,
@@ -384,6 +441,10 @@ class JobServiceTestCases(unittest.TestCase):
             RequestType.PUT, seed_job_url(SEED_JOB_ID),
             payload=SeedJobServicePayload().update_seed_job_payload())
         job_update_response_dict = job_update_response.json()
+        logging.info('test_job_update_with_invalid_token')
+        logging.info('Url is %s', seed_job_url(SEED_JOB_ID))
+        logging.info('Request is %s', SeedJobServicePayload().
+                     update_seed_job_payload())
         logging.info('Response is %s', job_update_response.text)
         self.assertEquals(
             job_update_response.status_code, 401,
@@ -405,6 +466,10 @@ class JobServiceTestCases(unittest.TestCase):
             payload=SeedJobServicePayload().update_seed_job_payload
             (source_system_id='26xv762 @'))
         job_update_response_dict = job_update_response.json()
+        logging.info('test_job_update_with_invalid_source_system_id')
+        logging.info('Url is %s', seed_job_url(SEED_JOB_ID))
+        logging.info('Request is %s', SeedJobServicePayload().
+                     update_seed_job_payload(source_system_id='26xv762 @'))
         logging.info('Response is %s', job_update_response.text)
         self.assertEquals(
             job_update_response.status_code, 400,
@@ -426,6 +491,10 @@ class JobServiceTestCases(unittest.TestCase):
             payload=SeedJobServicePayload().update_seed_job_payload
             (target_system_id="dvwy27@"))
         job_update_response_dict = job_update_response.json()
+        logging.info('test_job_update_with_invalid_target_system_id')
+        logging.info('Url is %s', seed_job_url(SEED_JOB_ID))
+        logging.info('Request is %s', SeedJobServicePayload().
+                     update_seed_job_payload(target_system_id="dvwy27@"))
         logging.info('Response is %s', job_update_response.text)
         self.assertEquals(
             job_update_response.status_code, 400,
@@ -448,6 +517,8 @@ class JobServiceTestCases(unittest.TestCase):
         job_delete_response = job_service_customer.request(
             RequestType.DELETE, seed_job_url(DELETE_JOB_ID))
         job_delete_response_dict = job_delete_response.json()
+        logging.info('test_delete_job_with_valid_job_id')
+        logging.info('Url is %s', seed_job_url(DELETE_JOB_ID))
         logging.info('Response is %s', job_delete_response.text)
         self.assertEquals(
             job_delete_response.status_code, 200,
@@ -468,6 +539,8 @@ class JobServiceTestCases(unittest.TestCase):
         job_delete_response = job_service_customer.request(
             RequestType.DELETE, seed_job_url(TEMP_KEY))
         job_delete_response_dict = job_delete_response.json()
+        logging.info('test_delete_job_with_invalid_job_id')
+        logging.info('Url is %s', seed_job_url(TEMP_KEY))
         logging.info('Response is %s', job_delete_response.text)
         self.assertEquals(
             job_delete_response.status_code, 404,
@@ -488,6 +561,8 @@ class JobServiceTestCases(unittest.TestCase):
         job_delete_response = job_service_invalid.request(
             RequestType.DELETE, seed_job_url(TEMP_KEY))
         job_delete_response_dict = job_delete_response.json()
+        logging.info('test_delete_job_with_invalid_token')
+        logging.info('Url is %s', seed_job_url(TEMP_KEY))
         logging.info('Response is %s', job_delete_response.text)
         self.assertEquals(
             job_delete_response.status_code, 401,
@@ -506,8 +581,14 @@ class JobServiceTestCases(unittest.TestCase):
 
         # Action on job with valid job id
         user_action_response = job_service_customer.request(
-            RequestType.PUT, user_action_url(SEED_JOB_ID, action='test_conn_source'),
+            RequestType.PUT, user_action_url(
+                SEED_JOB_ID, action='test_conn_source'),
             payload=SeedJobServicePayload().system_credentials())
+        logging.info('test_action_with_valid_id')
+        logging.info('Url is %s', user_action_url(
+            SEED_JOB_ID, action='test_conn_source'))
+        logging.info('Request is %s', SeedJobServicePayload().
+                     system_credentials())
         logging.info('Response is %s', user_action_response.text)
         self.assertEquals(
             user_action_response.status_code, 202,
@@ -522,9 +603,15 @@ class JobServiceTestCases(unittest.TestCase):
 
         # Action on job with valid job id
         user_action_response = job_service_customer.request(
-            RequestType.PUT, user_action_url(TEMP_KEY, action='test_conn_source'),
+            RequestType.PUT, user_action_url(
+                TEMP_KEY, action='test_conn_source'),
             payload=SeedJobServicePayload().system_credentials())
         user_action_response_dict = user_action_response.json()
+        logging.info('test_action_with_invalid_id')
+        logging.info('Url is %s', user_action_url(
+            TEMP_KEY, action='test_conn_source'))
+        logging.info('Request is %s',
+                     SeedJobServicePayload().system_credentials())
         logging.info('Response is %s', user_action_response.text)
         self.assertEquals(
             user_action_response.status_code, 404,
@@ -543,9 +630,15 @@ class JobServiceTestCases(unittest.TestCase):
 
         # Action on job without job id
         user_action_response = job_service_invalid.request(
-            RequestType.PUT, user_action_url(SEED_JOB_ID, action='test_conn_source'),
+            RequestType.PUT, user_action_url(
+                SEED_JOB_ID, action='test_conn_source'),
             payload=SeedJobServicePayload().system_credentials())
         user_action_response_dict = user_action_response.json()
+        logging.info('test_action_with_invalid_token')
+        logging.info('Url is %s', user_action_url(
+            SEED_JOB_ID, action='test_conn_source'))
+        logging.info('Request is %s', SeedJobServicePayload().
+                     system_credentials())
         logging.info('Response is %s', user_action_response.text)
         self.assertEquals(
             user_action_response.status_code, 401,
@@ -567,6 +660,11 @@ class JobServiceTestCases(unittest.TestCase):
             payload=SeedJobServicePayload().system_credentials
             (db_user_name='dbc1'))
         user_action_response_dict = user_action_response.json()
+        logging.info('test_action_with_incorrect_db_user_name')
+        logging.info('Url is %s', user_action_url(
+            SEED_JOB_ID, 'test_conn_source'))
+        logging.info('Request is %s', SeedJobServicePayload().
+                     system_credentials(db_user_name='dbc1'))
         logging.info('Response is %s', user_action_response.text)
         self.assertEquals(
             user_action_response.status_code, 400,
@@ -588,6 +686,11 @@ class JobServiceTestCases(unittest.TestCase):
             payload=SeedJobServicePayload().system_credentials
             (db_user_password='dbc123'))
         user_action_response_dict = user_action_response.json()
+        logging.info('test_action_with_incorrect_db_password')
+        logging.info('Url is %s', user_action_url(
+            SEED_JOB_ID, 'test_conn_source'))
+        logging.info('Request is %s', SeedJobServicePayload().
+                     system_credentials(db_user_password='dbc123'))
         logging.info('Response is %s', user_action_response.text)
         self.assertEquals(
             user_action_response.status_code, 400,
@@ -608,8 +711,13 @@ class JobServiceTestCases(unittest.TestCase):
         # Agent action with valid job id
         agent_action_response = job_service_agent.request(
             RequestType.PATCH,
-            agent_action_url(job_id=SEED_JOB_ID, action='test_conn_source_success'),
+            agent_action_url(job_id=SEED_JOB_ID,
+                             action='test_conn_source_success'),
             payload=SeedJobServicePayload().update_job_logs())
+        logging.info('test_agent_action_with_valid_job_id')
+        logging.info('Url is %s', agent_action_url(
+            job_id=SEED_JOB_ID, action='test_conn_source_success'))
+        logging.info('Request is %s', SeedJobServicePayload().update_job_logs())
         logging.info('Response is %s', agent_action_response.text)
         self.assertEquals(
             agent_action_response.status_code, 200,
@@ -625,9 +733,14 @@ class JobServiceTestCases(unittest.TestCase):
         # Agent action with invalid job id
         agent_action_response = job_service_agent.request(
             RequestType.PATCH,
-            agent_action_url(job_id=TEMP_KEY, action='test_conn_source_success'),
+            agent_action_url(job_id=TEMP_KEY,
+                             action='test_conn_source_success'),
             payload=SeedJobServicePayload().update_job_logs())
         agent_action_response_dict = agent_action_response.json()
+        logging.info('test_agent_action_with_invalid_job_id')
+        logging.info('Url is %s', agent_action_url(
+            job_id=TEMP_KEY, action='test_conn_source_success'))
+        logging.info('Request is %s', SeedJobServicePayload().update_job_logs())
         logging.info('Response is %s', agent_action_response.text)
         self.assertEquals(
             agent_action_response.status_code, 404,
@@ -648,9 +761,15 @@ class JobServiceTestCases(unittest.TestCase):
         # Agent action without source objects
         agent_action_response = job_service_agent.request(
             RequestType.PATCH,
-            agent_action_url(job_id=SEED_JOB_ID, action='test_conn_source_success'),
+            agent_action_url(job_id=SEED_JOB_ID,
+                             action='test_conn_source_success'),
             payload=SeedJobServicePayload().update_job_logs(source_objects={}))
         agent_action_response_dict = agent_action_response.json()
+        logging.info('test_agent_action_without_source_objects')
+        logging.info('Url is %s', agent_action_url(
+            job_id=SEED_JOB_ID, action='test_conn_source_success'))
+        logging.info('Request is %s', SeedJobServicePayload().
+                     update_job_logs(source_objects={}))
         logging.info('Response is %s', agent_action_response.text)
         self.assertEquals(
             agent_action_response.status_code, 503,

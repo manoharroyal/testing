@@ -26,6 +26,9 @@ class AgentServiceTestCases(unittest.TestCase):
         list_agents_response = agent_service_sysops.request(
             RequestType.GET, AGENT_SERVICE_URL)
         list_agents_response_dict = list_agents_response.json()
+        logging.info('test_list_agents_with_valid_url')
+        logging.info('Url is %s', AGENT_SERVICE_URL)
+        logging.info('Request is %s', )
         logging.info('Response is %s', list_agents_response.text)
         self.assertEquals(
             list_agents_response.status_code, 200,
@@ -45,6 +48,8 @@ class AgentServiceTestCases(unittest.TestCase):
         list_agents_response = agent_service_invalid.request(
             RequestType.GET, AGENT_SERVICE_URL)
         list_agents_response_dict = list_agents_response.json()
+        logging.info('test_list_agent_with_invalid_token')
+        logging.info('Url is %s', AGENT_SERVICE_URL)
         logging.info('Response is %s', list_agents_response.text)
         self.assertEquals(
             list_agents_response.status_code, 401,
@@ -65,6 +70,8 @@ class AgentServiceTestCases(unittest.TestCase):
         list_agents_tasks_response = agent_service_agent.request(
             RequestType.GET, list_agent_tasks_url(agent_id))
         list_agents_tasks_response_dict = list_agents_tasks_response.json()
+        logging.info('test_list_agent_tasks_with_valid_agent_id')
+        logging.info('Url is %s', list_agent_tasks_url(agent_id))
         logging.info('Response is %s', list_agents_tasks_response.text)
         self.assertEquals(
             list_agents_tasks_response.status_code, 200,
@@ -84,6 +91,8 @@ class AgentServiceTestCases(unittest.TestCase):
         list_agents_tasks_response = agent_service_agent.request(
             RequestType.GET, list_agent_tasks_url(agent_id="asd"))
         list_agents_tasks_response_dict = list_agents_tasks_response.json()
+        logging.info('test_list_agent_tasks_with_invalid_agent_id')
+        logging.info('Url is %s', list_agent_tasks_url(agent_id="asd"))
         logging.info('Response is %s', list_agents_tasks_response.text)
         self.assertEquals(
             list_agents_tasks_response.status_code, 404,
@@ -106,6 +115,8 @@ class AgentServiceTestCases(unittest.TestCase):
         agent_details_response = agent_service_agent.request(
             RequestType.GET, agent_details_url(agent_id))
         agent_details_response_dict = agent_details_response.json()
+        logging.info('test_agent_details_with_valid_agent_id')
+        logging.info('Url is %s', agent_details_url(agent_id))
         logging.info('Response is %s', agent_details_response.text)
         self.assertEquals(
             agent_details_response.status_code, 200,
@@ -126,6 +137,8 @@ class AgentServiceTestCases(unittest.TestCase):
         agent_details_response = agent_service_agent.request(
             RequestType.GET, agent_details_url(agent_id="asd"))
         agent_details_response_dict = agent_details_response.json()
+        logging.info('test_agent_details_with_invalid_agent_id')
+        logging.info('Url is %s', agent_details_url(agent_id="asd"))
         logging.info('Response is %s', agent_details_response.text)
         self.assertEquals(
             agent_details_response.status_code, 404,
@@ -145,6 +158,8 @@ class AgentServiceTestCases(unittest.TestCase):
         # Get the agent task details with valid task id
         agent_task_details_response = agent_service_agent.request(
             RequestType.GET, agent_task_url(task_id='1234'))
+        logging.info('test_agent_task_details_with_valid_task_id')
+        logging.info('Url is %s', agent_task_url(task_id='1234'))
         logging.info('Response is %s', agent_task_details_response.text)
         self.assertEquals(
             agent_task_details_response.status_code, 200,
@@ -161,6 +176,8 @@ class AgentServiceTestCases(unittest.TestCase):
         agent_task_details_response = agent_service_agent.request(
             RequestType.GET, agent_task_url(task_id='182d8s'))
         agent_task_details_response_dict = agent_task_details_response.json()
+        logging.info('test_agent_task_details_with_invalid_task_id')
+        logging.info('Url is %s', agent_task_url(task_id='182d8s'))
         logging.info('Response is %s', agent_task_details_response.text)
         self.assertEquals(
             agent_task_details_response.status_code, 401,
@@ -179,6 +196,8 @@ class AgentServiceTestCases(unittest.TestCase):
         # Get the agent task details with invalid task id
         agent_task_details_response = agent_service_sysops.request(
             RequestType.GET, agent_task_url(task_id='1234'))
+        logging.info('test_agent_task_details_with_invalid_token')
+        logging.info('Url is %s', agent_task_url(task_id='1234'))
         logging.info('Response is %s', agent_task_details_response.text)
         agent_task_details_response_dict = agent_task_details_response.json()
         self.assertEquals(
@@ -200,6 +219,11 @@ class AgentServiceTestCases(unittest.TestCase):
             RequestType.PUT, agent_task_url(task_id='task_id'),
             payload=AgentServicePayload().update_agent_task_status(
                 status='update', message='updated'))
+        logging.info('test_update_agent_task_with_valid_task_id')
+        logging.info('Url is %s', agent_task_url(task_id='task_id'))
+        logging.info('Request is %s', AgentServicePayload().
+                     update_agent_task_status(status='update',
+                                              message='updated'))
         logging.info('Response is %s', update_agent_task_response.text)
         self.assertEquals(
             update_agent_task_response.status_code, 202,
@@ -217,6 +241,10 @@ class AgentServiceTestCases(unittest.TestCase):
             RequestType.PUT, agent_task_url(task_id='task_id'),
             payload=AgentServicePayload().update_agent_task_status())
         update_agent_task_response_dict = update_agent_task_response.json()
+        logging.info('test_update_agent_task_with_invalid_task_id')
+        logging.info('Url is %s', agent_task_url(task_id='task_id'))
+        logging.info('Request is %s', AgentServicePayload().
+                     update_agent_task_status())
         logging.info('Response is %s', update_agent_task_response.text)
         self.assertEquals(
             update_agent_task_response.status_code, 400,
@@ -238,6 +266,10 @@ class AgentServiceTestCases(unittest.TestCase):
             RequestType.PUT, agent_task_url(task_id='task_id'),
             payload=AgentServicePayload().update_agent_task_status())
         update_agent_task_response_dict = update_agent_task_response.json()
+        logging.info('test_update_agent_task_with_invalid_token')
+        logging.info('Url is %s', agent_task_url(task_id='task_id'))
+        logging.info('Request is %s', AgentServicePayload().
+                     update_agent_task_status())
         logging.info('Response is %s', update_agent_task_response.text)
         self.assertEquals(
             update_agent_task_response.status_code, 401,
@@ -259,6 +291,10 @@ class AgentServiceTestCases(unittest.TestCase):
             RequestType.PUT, agent_task_url(task_id='task_id'),
             payload=AgentServicePayload().update_agent_task_status(status='su'))
         update_agent_task_response_dict = update_agent_task_response.json()
+        logging.info('test_update_agent_task_with_invalid_status')
+        logging.info('Url is %s', agent_task_url(task_id='task_id'))
+        logging.info('Request is %s', AgentServicePayload().
+                     update_agent_task_status(status='su'))
         logging.info('Response is %s', update_agent_task_response.text)
         self.assertEquals(
             update_agent_task_response.status_code, 400,
@@ -281,6 +317,10 @@ class AgentServiceTestCases(unittest.TestCase):
             payload=AgentServicePayload().update_agent_task_status(
                 message='dh'))
         update_agent_task_response_dict = update_agent_task_response.json()
+        logging.info('test_update_agent_task_with_invalid_message')
+        logging.info('Url is %s', agent_task_url(task_id='task_id'))
+        logging.info('Request is %s', AgentServicePayload().
+                     update_agent_task_status(message='dh'))
         logging.info('Response is %s', update_agent_task_response.text)
         self.assertEquals(
             update_agent_task_response.status_code, 400,
@@ -302,6 +342,10 @@ class AgentServiceTestCases(unittest.TestCase):
             RequestType.PUT, agent_task_url(task_id='task_id'),
             payload=AgentServicePayload().update_agent_task_status(status=''))
         update_agent_task_response_dict = update_agent_task_response.json()
+        logging.info('test_update_agent_task_without_status')
+        logging.info('Url is %s', agent_task_url(task_id='task_id'))
+        logging.info('Request is %s', AgentServicePayload().
+                     update_agent_task_status(status=''))
         logging.info('Response is %s', update_agent_task_response.text)
         self.assertEquals(
             update_agent_task_response.status_code, 400,
@@ -323,6 +367,10 @@ class AgentServiceTestCases(unittest.TestCase):
             RequestType.PUT, agent_task_url(task_id='asdf'),
             payload=AgentServicePayload().update_agent_task_status(message=''))
         update_agent_task_response_dict = update_agent_task_response.json()
+        logging.info('test_update_agent_task_without_message')
+        logging.info('Url is %s', agent_task_url(task_id='asdf'))
+        logging.info('Request is %s', AgentServicePayload().
+                     update_agent_task_status(message=''))
         logging.info('Response is %s', update_agent_task_response.text)
         self.assertEquals(
             update_agent_task_response.status_code, 400,
@@ -342,6 +390,8 @@ class AgentServiceTestCases(unittest.TestCase):
         # Register an agent with valid agent id
         register_agent_response = agent_service_agent.request(
             RequestType.PUT, register_agent_url(agent_id))
+        logging.info('test_register_agent_with_valid_agent_id')
+        logging.info('Url is %s', register_agent_url(agent_id))
         logging.info('Response is %s', register_agent_response.text)
         self.assertEquals(
             register_agent_response.status_code, 202,
@@ -356,6 +406,8 @@ class AgentServiceTestCases(unittest.TestCase):
         register_agent_response = agent_service_agent.request(
             RequestType.PUT, register_agent_url(agent_id='sbh'))
         register_agent_response_dict = register_agent_response.json()
+        logging.info('test_register_agent_with_invalid_agent_id')
+        logging.info('Url is %s', register_agent_url(agent_id='sbh'))
         logging.info('Response is %s', register_agent_response.text)
         self.assertEquals(
             register_agent_response.status_code, 403,
@@ -376,6 +428,8 @@ class AgentServiceTestCases(unittest.TestCase):
         register_agent_response = agent_service_invalid.request(
             RequestType.PUT, register_agent_url(agent_id='sbh'))
         register_agent_response_dict = register_agent_response.json()
+        logging.info('test_register_agent_with_invalid_token')
+        logging.info('Url is %s', register_agent_url(agent_id='sbh'))
         logging.info('Response is %s', register_agent_response.text)
         self.assertEquals(
             register_agent_response.status_code, 401,

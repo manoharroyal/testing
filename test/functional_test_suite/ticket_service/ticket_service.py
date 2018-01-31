@@ -23,6 +23,8 @@ class TicketService(unittest.TestCase):
         # Get the list of all tickets with valid url
         list_tickets_response = ticket_service.request(
             RequestType.GET, TICKET_SERVICE_URL)
+        logging.info('test_get_list_tickets_with_valid_url')
+        logging.info('Url is %s', TICKET_SERVICE_URL )
         logging.info('Response is %s', list_tickets_response.text)
         self.assertEqual(
             list_tickets_response.status_code, 200,
@@ -39,6 +41,8 @@ class TicketService(unittest.TestCase):
         list_tickets_response = ticket_service_invalid.request(
             RequestType.GET, TICKET_SERVICE_URL)
         list_tickets_response_dict = list_tickets_response.json()
+        logging.info('test_get_list_tickets_with_invalid_token')
+        logging.info('Url is %s', TICKET_SERVICE_URL)
         logging.info('Response is %s', list_tickets_response.text)
         self.assertEqual(
             list_tickets_response.status_code, 401,
@@ -59,6 +63,10 @@ class TicketService(unittest.TestCase):
         ticket_response = ticket_service.request(
             RequestType.PUT, ticket_detail_url(ticket_id='wbcsjis'),
             payload=TicketServicePayload().update_ticket_payload())
+        logging.info('test_update_ticket_with_valid_ticket_id')
+        logging.info('Url is %s', ticket_detail_url(ticket_id='wbcsjis'))
+        logging.info('Request is %s',
+                     TicketServicePayload().update_ticket_payload())
         logging.info('Response is %s', ticket_response.text)
         self.assertEquals(
             ticket_response.status_code, 200,
@@ -76,6 +84,10 @@ class TicketService(unittest.TestCase):
             RequestType.PUT, ticket_detail_url('asdf'),
             payload=TicketServicePayload().update_ticket_payload())
         ticket_response_dict = ticket_response.json()
+        logging.info('test_update_ticket_with_invalid_ticket_id')
+        logging.info('Url is %s', ticket_detail_url('asdf'))
+        logging.info('Request is %s',
+                     TicketServicePayload().update_ticket_payload())
         logging.info('Response is %s', ticket_response.text)
         self.assertEquals(
             ticket_response.status_code, 400,
@@ -95,6 +107,10 @@ class TicketService(unittest.TestCase):
             RequestType.PUT, ticket_detail_url(''),
             payload=TicketServicePayload().update_ticket_payload())
         ticket_response_dict = ticket_response.json()
+        logging.info('test_update_ticket_with_invalid_token')
+        logging.info('Url is %s', ticket_detail_url(''))
+        logging.info('Request is %s',
+                     TicketServicePayload().update_ticket_payload())
         logging.info('Response is %s', ticket_response.text)
         self.assertEquals(
             ticket_response.status_code, 401,
