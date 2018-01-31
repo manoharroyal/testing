@@ -24,6 +24,9 @@ class SystemServiceTestCases(unittest.TestCase):
             RequestType.POST, SYSTEM_SERVICE_URL,
             payload=SystemServicePayload().system_creation_payload())
         create_system_response_dict = create_system_response.json()
+        logging.info('test_create_source_system_with_valid_details')
+        logging.info('Url is %s', SYSTEM_SERVICE_URL)
+        logging.info('Request is %s', SystemServicePayload().system_creation_payload())
         logging.info('Response is %s', create_system_response.text)
         self.assertEquals(
             create_system_response.status_code, 200,
@@ -45,6 +48,10 @@ class SystemServiceTestCases(unittest.TestCase):
             RequestType.POST, SYSTEM_SERVICE_URL,
             payload=SystemServicePayload().system_creation_payload(details=''))
         create_system_response_dict = create_system_response.json()
+        logging.info('test_create_system_with_invalid_token')
+        logging.info('Url is %s', SYSTEM_SERVICE_URL)
+        logging.info('Request is %s',
+                     SystemServicePayload().system_creation_payload(details=''))
         logging.info('Response is %s', create_system_response.text)
         self.assertEquals(
             create_system_response.status_code, 401,
@@ -67,6 +74,11 @@ class SystemServiceTestCases(unittest.TestCase):
             payload=SystemServicePayload().system_creation_payload(
                 system_name=""))
         create_system_response_dict = create_system_response.json()
+        logging.info('test_create_system_without_system_name')
+        logging.info('Url is %s', SYSTEM_SERVICE_URL)
+        logging.info('Request is %s',
+                     SystemServicePayload().system_creation_payload(
+                         system_name=""))
         logging.info('Response is %s', create_system_response.text)
         self.assertEquals(
             create_system_response.status_code, 400,
@@ -89,6 +101,11 @@ class SystemServiceTestCases(unittest.TestCase):
             payload=SystemServicePayload().system_creation_payload(
                 system_type=""))
         create_system_response_dict = create_system_response.json()
+        logging.info('test_create_system_without_system_type')
+        logging.info('Url is %s', SYSTEM_SERVICE_URL)
+        logging.info('Request is %s',
+                     SystemServicePayload().system_creation_payload(
+                         system_type=""))
         logging.info('Response is %s', create_system_response.text)
         self.assertEquals(
             create_system_response.status_code, 400,
@@ -110,6 +127,10 @@ class SystemServiceTestCases(unittest.TestCase):
             RequestType.POST, SYSTEM_SERVICE_URL,
             payload=SystemServicePayload().system_creation_payload(details=''))
         create_system_response_dict = create_system_response.json()
+        logging.info('test_create_system_without_details')
+        logging.info('Url is %s', SYSTEM_SERVICE_URL)
+        logging.info('Request is %s',
+                     SystemServicePayload().system_creation_payload(details=''))
         logging.info('Response is %s', create_system_response.text)
         self.assertEquals(
             create_system_response.status_code, 400,
@@ -132,6 +153,8 @@ class SystemServiceTestCases(unittest.TestCase):
             RequestType.GET,
             list_system_url(list_system, SystemType.source))
         system_list_response_dict = system_list_response.json()
+        logging.info('test_list_system_for_source_type')
+        logging.info('Url is %s', list_system_url(list_system, SystemType.source))
         logging.info('Response is %s', system_list_response.text)
         self.assertEquals(
             system_list_response.status_code, 200,
@@ -151,6 +174,8 @@ class SystemServiceTestCases(unittest.TestCase):
             RequestType.GET,
             list_system_url(list_system, SystemType.target))
         system_list_response_dict = system_list_response.json()
+        logging.info('test_list_system_for_target_type')
+        logging.info('Url is %s', list_system_url(list_system, SystemType.target))
         logging.info('Response is %s', system_list_response.text)
         self.assertEquals(
             system_list_response.status_code, 200,
@@ -171,6 +196,8 @@ class SystemServiceTestCases(unittest.TestCase):
         system_list_response = invalid_system_service.request(
             RequestType.GET, SYSTEM_SERVICE_URL)
         system_list_response_dict = system_list_response.json()
+        logging.info('test_list_systems_with_invalid_token')
+        logging.info('Url is %s', SYSTEM_SERVICE_URL)
         logging.info('Response is %s', system_list_response.text)
         self.assertEquals(
             system_list_response.status_code, 401,
@@ -192,6 +219,8 @@ class SystemServiceTestCases(unittest.TestCase):
         system_list_response = system_service.request(
             RequestType.GET, SYSTEM_SERVICE_URL)
         system_list_response_dict = system_list_response.json()
+        logging.info('test_list_systems_without_system_type')
+        logging.info('Url is %s', SYSTEM_SERVICE_URL)
         logging.info('Response is %s', system_list_response.text)
         self.assertEquals(
             system_list_response.status_code, 400,

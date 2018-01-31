@@ -32,6 +32,7 @@ class CustomerProfileTestCases(unittest.TestCase):
             RequestType.GET, customer_profile_url)
         customer_profile_response.dict = customer_profile_response.json()
         logging.info('test_list_address_with_customer_id')
+        logging.info('Url is %s', customer_profile_url)
         logging.info('Response is %s', customer_profile_response.text)
         self.assertEquals(
             customer_profile_response.status_code, 200,
@@ -53,6 +54,9 @@ class CustomerProfileTestCases(unittest.TestCase):
             RequestType.GET, CUSTOMER_SERVICE_URL + str(
                 customer_service.customerId) + '12')
         customer_profile_response_dict = customer_profile_response.json()
+        logging.info('test_list_address_with_customer_id_mismatch')
+        logging.info('Url is %s', (CUSTOMER_SERVICE_URL + str(
+                customer_service.customerId) + '12'))
         logging.info('Response is %s', customer_profile_response.text)
         self.assertEquals(
             customer_profile_response.status_code, 400,
@@ -71,6 +75,8 @@ class CustomerProfileTestCases(unittest.TestCase):
         customer_profile_response = customer_service_invalid_token.request(
             RequestType.GET, CUSTOMER_SERVICE_URL)
         customer_profile_response_dict = customer_profile_response.json()
+        logging.info('test_list_address_customer_profile_with_invalid_token')
+        logging.info('Url is %s', CUSTOMER_SERVICE_URL)
         logging.info('Response is %s', customer_profile_response.text)
         self.assertEquals(
             customer_profile_response.status_code, 403,
@@ -97,6 +103,10 @@ class CustomerProfileTestCases(unittest.TestCase):
         customer_profile_response_dict = customer_service.request(
             RequestType.GET,
             customer_profile_address_url + "9876").json()
+        logging.info('test_add_new_shipping_address_with_valid_details')
+        logging.info('Url is %s', customer_profile_url)
+        logging.info('Request is %s', (CustomerProfileServicePayload().customer_profile_payload
+            (addr1="New River Bridge", addr2="Near Post Office")))
         logging.info('Response is %s', customer_profile_response.text)
         self.assertEquals(
             customer_profile_response.status_code, 200,
@@ -117,10 +127,14 @@ class CustomerProfileTestCases(unittest.TestCase):
         # Create an address with invalid customer id
         customer_profile_response = customer_service.request(
             RequestType.PUT,
-            CUSTOMER_SERVICE_URL + str('23eds'),
+            CUSTOMER_SERVICE_URL + str('23e'),
             payload=CustomerProfileServicePayload().customer_profile_payload(
                 addr1="400_NE, River_Bridge", addr2='Near Post Office'))
         customer_profile_response_dict = customer_profile_response.json()
+        logging.info('test_add_new_shipping_address_with_invalid_customer_id')
+        logging.info('Url is %s', CUSTOMER_SERVICE_URL + str('23e'))
+        logging.info('Request is %s', CustomerProfileServicePayload().customer_profile_payload(
+                addr1="400_NE, River_Bridge", addr2='Near Post Office'))
         logging.info('Response is %s', customer_profile_response.text)
         self.assertEquals(
             customer_profile_response.status_code, 400,
@@ -144,8 +158,14 @@ class CustomerProfileTestCases(unittest.TestCase):
             CUSTOMER_SERVICE_URL + str(customer_service.customerId),
             payload=CustomerProfileServicePayload().customer_profile_payload(
                 addr1="400_NE, River_Bridge", addr2='Near Post Office'))
-        customer_profile_response_dict = customer_profile_response.json()
+        logging.info('test_add_new_shipping_address_with_invalid_token')
+        logging.info('Url is %s', CUSTOMER_SERVICE_URL + str('23e'))
+        logging.info('Request is %s',
+                     CustomerProfileServicePayload().customer_profile_payload(
+                         addr1="400_NE, River_Bridge",
+                         addr2='Near Post Office'))
         logging.info('Response is %s', customer_profile_response.text)
+        customer_profile_response_dict = customer_profile_response.json()
         self.assertEquals(
             customer_profile_response.status_code, 401,
             msg='Expected 401 and got %s (%s)' %
@@ -167,6 +187,10 @@ class CustomerProfileTestCases(unittest.TestCase):
             payload=CustomerProfileServicePayload().delete_payload_parameter(
                 "title"))
         customer_profile_response_text = customer_profile_response.json()
+        logging.info('test_update_customer_profile_without_title')
+        logging.info('Url is %s', customer_profile_url)
+        logging.info('Request is %s', CustomerProfileServicePayload().delete_payload_parameter(
+                "title"))
         logging.info('Response is %s', customer_profile_response.text)
         self.assertEquals(
             customer_profile_response.status_code, 400,
@@ -190,6 +214,11 @@ class CustomerProfileTestCases(unittest.TestCase):
             payload=CustomerProfileServicePayload().delete_payload_parameter(
                 "address_line_1"))
         customer_profile_response_text = customer_profile_response.json()
+        logging.info('test_update_customer_profile_without_address_line_1')
+        logging.info('Url is %s', customer_profile_url)
+        logging.info('Request is %s',
+                     CustomerProfileServicePayload().delete_payload_parameter(
+                         "address_line_1"))
         logging.info('Response is %s', customer_profile_response.text)
         self.assertEquals(
             customer_profile_response.status_code, 400,
@@ -215,6 +244,11 @@ class CustomerProfileTestCases(unittest.TestCase):
         customer_profile_response_dict = customer_service.request(
             RequestType.GET,
             customer_profile_address_url + "9876").json()
+        logging.info('test_add_new_shipping_address_without_address_line2')
+        logging.info('Url is %s', customer_profile_url)
+        logging.info('Request is %s',
+                     CustomerProfileServicePayload().customer_profile_payload(
+                         title="9876"))
         logging.info('Response is %s', customer_profile_response.text)
         self.assertEquals(
             customer_profile_response.status_code, 200,
@@ -238,6 +272,11 @@ class CustomerProfileTestCases(unittest.TestCase):
             payload=CustomerProfileServicePayload().delete_payload_parameter(
                 "contact_name"))
         customer_profile_response_text = customer_profile_response.json()
+        logging.info('test_update_customer_profile_without_contact_name')
+        logging.info('Url is %s', customer_profile_url)
+        logging.info('Request is %s',
+                     CustomerProfileServicePayload().delete_payload_parameter(
+                         "contact_name"))
         logging.info('Response is %s', customer_profile_response.text)
         self.assertEquals(
             customer_profile_response.status_code, 400,
@@ -261,6 +300,11 @@ class CustomerProfileTestCases(unittest.TestCase):
             payload=CustomerProfileServicePayload().delete_payload_parameter(
                 "contact_number"))
         customer_profile_response_text = customer_profile_response.json()
+        logging.info('test_update_customer_profile_without_contact_number')
+        logging.info('Url is %s', customer_profile_url)
+        logging.info('Request is %s',
+                     CustomerProfileServicePayload().delete_payload_parameter(
+                         "contact_number"))
         logging.info('Response is %s', customer_profile_response.text)
         self.assertEquals(
             customer_profile_response.status_code, 400,
@@ -283,6 +327,11 @@ class CustomerProfileTestCases(unittest.TestCase):
             payload=CustomerProfileServicePayload().delete_payload_parameter(
                 "city"))
         customer_profile_response_text = customer_profile_response.json()
+        logging.info('test_update_customer_profile_without_city')
+        logging.info('Url is %s', customer_profile_url)
+        logging.info('Request is %s',
+                     CustomerProfileServicePayload().delete_payload_parameter(
+                         "city"))
         logging.info('Response is %s', customer_profile_response.text)
         self.assertEquals(
             customer_profile_response.status_code, 400,
@@ -305,6 +354,11 @@ class CustomerProfileTestCases(unittest.TestCase):
             payload=CustomerProfileServicePayload().delete_payload_parameter(
                 "state"))
         customer_profile_response_text = customer_profile_response.json()
+        logging.info('test_update_customer_profile_without_state')
+        logging.info('Url is %s', customer_profile_url)
+        logging.info('Request is %s',
+                     CustomerProfileServicePayload().delete_payload_parameter(
+                         "state"))
         logging.info('Response is %s', customer_profile_response.text)
         self.assertEquals(
             customer_profile_response.status_code, 400,
@@ -327,6 +381,11 @@ class CustomerProfileTestCases(unittest.TestCase):
             payload=CustomerProfileServicePayload().delete_payload_parameter(
                 "country"))
         customer_profile_response_text = customer_profile_response.json()
+        logging.info('test_update_customer_profile_without_country')
+        logging.info('Url is %s', customer_profile_url)
+        logging.info('Request is %s',
+                     CustomerProfileServicePayload().delete_payload_parameter(
+                         "country"))
         logging.info('Response is %s', customer_profile_response.text)
         self.assertEquals(
             customer_profile_response.status_code, 400,
@@ -350,6 +409,11 @@ class CustomerProfileTestCases(unittest.TestCase):
             payload=CustomerProfileServicePayload().delete_payload_parameter(
                 "zipcode"))
         customer_profile_response_text = customer_profile_response.json()
+        logging.info('test_update_customer_profile_without_zipcode')
+        logging.info('Url is %s', customer_profile_url)
+        logging.info('Request is %s',
+                     CustomerProfileServicePayload().delete_payload_parameter(
+                         "zipcode"))
         logging.info('Response is %s', customer_profile_response.text)
         self.assertEquals(
             customer_profile_response.status_code, 400,
@@ -372,6 +436,8 @@ class CustomerProfileTestCases(unittest.TestCase):
         customer_profile_response = customer_service.request(
             RequestType.GET, customer_profile_address_url + 'Test_Job')
         customer_profile_response_dict = customer_profile_response.json()
+        logging.info('test_get_address_details_for_given_customer')
+        logging.info('Url is %s', customer_profile_address_url + 'Test_Job')
         logging.info('Response is %s', customer_profile_response.text)
         self.assertEquals(
             customer_profile_response.status_code, 200,
@@ -395,6 +461,8 @@ class CustomerProfileTestCases(unittest.TestCase):
         customer_profile_response = customer_service.request(
             RequestType.GET, customer_profile_addresses_url + "Restore_Job")
         customer_profile_response_dict = customer_profile_response.json()
+        logging.info('test_get_address_with_customer_id_mismatch')
+        logging.info('Url is %s', customer_profile_addresses_url + "Restore_Job")
         logging.info('Response is %s', customer_profile_response.text)
         self.assertEquals(
             customer_profile_response.status_code, 400,
@@ -417,6 +485,8 @@ class CustomerProfileTestCases(unittest.TestCase):
             RequestType.GET,
             customer_profile_address_url + str('xyz'))
         customer_profile_response_dict = customer_profile_response.json()
+        logging.info('test_get_address_with_invalid_title')
+        logging.info('Url is %s', customer_profile_address_url + str('xyz'))
         logging.info('Response is %s', customer_profile_response.text)
         self.assertEquals(
             customer_profile_response.status_code, 404,
@@ -442,6 +512,11 @@ class CustomerProfileTestCases(unittest.TestCase):
             payload=CustomerProfileServicePayload
             ().update_shipping_address_payload())
         response_dict = customer_profile_shipping_address_response.json()
+        logging.info('test_update_shipping_address_with_valid_details')
+        logging.info('Url is %s', customer_profile_address_url + address_title)
+        logging.info('Request is %s',
+                     CustomerProfileServicePayload
+                     ().update_shipping_address_payload())
         logging.info('Response is %s',
                      customer_profile_shipping_address_response.text)
         self.assertEquals(
@@ -468,6 +543,11 @@ class CustomerProfileTestCases(unittest.TestCase):
             ().update_shipping_address_payload())
         customer_profile_shipping_address_response_dict = \
             customer_profile_shipping_address_response.json()
+        logging.info('test_update_shipping_address_with_invalid_title')
+        logging.info('Url is %s', customer_profile_address_url + "1111123")
+        logging.info('Request is %s',
+                     CustomerProfileServicePayload
+                     ().update_shipping_address_payload())
         logging.info('Response is %s',
                      customer_profile_shipping_address_response.text)
         self.assertEquals(
@@ -496,6 +576,11 @@ class CustomerProfileTestCases(unittest.TestCase):
             ().update_shipping_address_payload())
         customer_profile_shipping_address_response_dict = \
             customer_profile_shipping_address_response.json()
+        logging.info('test_update_shipping_address_with_invalid_customer_id')
+        logging.info('Url is %s', customer_profile_invalid_customer_id + "9876")
+        logging.info('Request is %s',
+                     CustomerProfileServicePayload
+                     ().update_shipping_address_payload())
         logging.info('Response is %s',
                      customer_profile_shipping_address_response.text)
         self.assertEquals(
@@ -521,9 +606,15 @@ class CustomerProfileTestCases(unittest.TestCase):
         customer_profile_shipping_address_response = \
             customer_service_invalid_token.request(
                 RequestType.PUT, customer_profile_address_url + "9876",
-                payload=CustomerProfileServicePayload().update_shipping_address_payload())
+                payload=CustomerProfileServicePayload().
+                    update_shipping_address_payload())
         customer_profile_shipping_address_response_dict = \
             customer_profile_shipping_address_response.json()
+        logging.info('test_update_shipping_address_with_invalid_token')
+        logging.info('Url is %s', customer_profile_address_url + "9876")
+        logging.info('Request is %s',
+                     CustomerProfileServicePayload().
+                     update_shipping_address_payload())
         logging.info('Response is %s',
                      customer_profile_shipping_address_response.text)
         self.assertEquals(
@@ -551,6 +642,11 @@ class CustomerProfileTestCases(unittest.TestCase):
             payload=CustomerProfileServicePayload
             ().update_shipping_address_payload(addr1=""))
         response_dict = customer_profile_shipping_address_response.json()
+        logging.info('test_update_shipping_address_without_address_line_1')
+        logging.info('Url is %s', customer_profile_address_url + "9876")
+        logging.info('Request is %s',
+                     CustomerProfileServicePayload
+                     ().update_shipping_address_payload(addr1=""))
         logging.info('Response is %s',
                      customer_profile_shipping_address_response.text)
         self.assertEquals(
@@ -576,6 +672,11 @@ class CustomerProfileTestCases(unittest.TestCase):
             payload=CustomerProfileServicePayload
             ().update_shipping_address_payload(addr2=""))
         response_dict = customer_profile_shipping_address_response.json()
+        logging.info('test_update_shipping_address_without_address_line_2')
+        logging.info('Url is %s', customer_profile_address_url + "9876")
+        logging.info('Request is %s',
+                     CustomerProfileServicePayload
+                     ().update_shipping_address_payload(addr2=""))
         logging.info('Response is %s',
                      customer_profile_shipping_address_response.text)
         self.assertEquals(
@@ -601,6 +702,11 @@ class CustomerProfileTestCases(unittest.TestCase):
             payload=CustomerProfileServicePayload
             ().update_shipping_address_payload(contact_name=""))
         response_dict = customer_profile_shipping_address_response.json()
+        logging.info('test_update_shipping_address_without_contact_name')
+        logging.info('Url is %s', customer_profile_address_url + "9876")
+        logging.info('Request is %s',
+                     CustomerProfileServicePayload
+                     ().update_shipping_address_payload(contact_name=""))
         logging.info('Response is %s',
                      customer_profile_shipping_address_response.text)
         self.assertEquals(
@@ -626,6 +732,11 @@ class CustomerProfileTestCases(unittest.TestCase):
             payload=CustomerProfileServicePayload
             ().update_shipping_address_payload(contact_number=""))
         response_dict = customer_profile_shipping_address_response.json()
+        logging.info('test_update_shipping_address_without_contact_number')
+        logging.info('Url is %s', customer_profile_address_url + "9876")
+        logging.info('Request is %s',
+                     CustomerProfileServicePayload
+                     ().update_shipping_address_payload(contact_number=""))
         logging.info('Response is %s',
                      customer_profile_shipping_address_response.text)
         self.assertEquals(
@@ -651,6 +762,12 @@ class CustomerProfileTestCases(unittest.TestCase):
             payload=CustomerProfileServicePayload
             ().update_shipping_address_payload(company_name="buiH12^&!%$"))
         response_dict = customer_profile_shipping_address_response.json()
+        logging.info('test_update_shipping_address_without_company_name')
+        logging.info('Url is %s', customer_profile_address_url + "9876")
+        logging.info('Request is %s',
+                     CustomerProfileServicePayload
+                     ().update_shipping_address_payload(
+                         company_name="buiH12^&!%$"))
         logging.info('Response is %s',
                      customer_profile_shipping_address_response.text)
         self.assertEquals(
@@ -676,6 +793,11 @@ class CustomerProfileTestCases(unittest.TestCase):
             payload=CustomerProfileServicePayload
             ().update_shipping_address_payload(city=""))
         response_dict = customer_profile_shipping_address_response.json()
+        logging.info('test_update_shipping_address_without_city')
+        logging.info('Url is %s', customer_profile_address_url + "9876")
+        logging.info('Request is %s',
+                     CustomerProfileServicePayload
+                     ().update_shipping_address_payload(city=""))
         logging.info('Response is %s',
                      customer_profile_shipping_address_response.text)
         self.assertEquals(
@@ -701,6 +823,11 @@ class CustomerProfileTestCases(unittest.TestCase):
             payload=CustomerProfileServicePayload
             ().update_shipping_address_payload(state=""))
         response_dict = customer_profile_shipping_address_response.json()
+        logging.info('test_update_shipping_address_without_state')
+        logging.info('Url is %s', customer_profile_address_url + "9876")
+        logging.info('Request is %s',
+                     CustomerProfileServicePayload
+                     ().update_shipping_address_payload(state=""))
         logging.info('Response is %s',
                      customer_profile_shipping_address_response.text)
         self.assertEquals(
@@ -726,6 +853,11 @@ class CustomerProfileTestCases(unittest.TestCase):
             payload=CustomerProfileServicePayload
             ().update_shipping_address_payload(country=""))
         response_dict = customer_profile_shipping_address_response.json()
+        logging.info('test_update_shipping_address_without_country')
+        logging.info('Url is %s', customer_profile_address_url + "9876")
+        logging.info('Request is %s',
+                     CustomerProfileServicePayload
+                     ().update_shipping_address_payload(country=""))
         logging.info('Response is %s',
                      customer_profile_shipping_address_response.text)
         self.assertEquals(
@@ -751,6 +883,11 @@ class CustomerProfileTestCases(unittest.TestCase):
             payload=CustomerProfileServicePayload
             ().update_shipping_address_payload(zipcode=""))
         response_dict = customer_profile_shipping_address_response.json()
+        logging.info('test_update_shipping_address_without_zipcode')
+        logging.info('Url is %s', customer_profile_address_url + "9876")
+        logging.info('Request is %s',
+                     CustomerProfileServicePayload
+                     ().update_shipping_address_payload(zipcode=""))
         logging.info('Response is %s',
                      customer_profile_shipping_address_response.text)
         self.assertEquals(
@@ -764,9 +901,9 @@ class CustomerProfileTestCases(unittest.TestCase):
             msg="Expected %s is equal to %s" %
                 (address_title, response_dict['title']))
 
-        """ DELETE: Test cases to delete the customer address with address title """
+    """ DELETE: Test cases to delete the customer address with address title """
 
-    def test_delete_address_with_customer(self):
+    def test_delete_address_with_valid_customer(self):
         """ Testing with the valid address title """
 
         message = "address is deleted successfully"
@@ -775,6 +912,8 @@ class CustomerProfileTestCases(unittest.TestCase):
         customer_profile_response = customer_service.request(
             RequestType.DELETE, customer_profile_address_url + "1111")
         customer_profile_response_dict = customer_profile_response.json()
+        logging.info('test_delete_address_with_valid_customer')
+        logging.info('Url is %s', customer_profile_address_url + "1111")
         logging.info('Response is %s', customer_profile_response.text)
         self.assertEquals(
             customer_profile_response.status_code, 200,
@@ -795,6 +934,8 @@ class CustomerProfileTestCases(unittest.TestCase):
         customer_profile_response = customer_service.request(
             RequestType.DELETE, customer_profile_address_url + "XYZ")
         customer_profile_response_dict = customer_profile_response.json()
+        logging.info('test_delete_address_with_wrong_title')
+        logging.info('Url is %s', customer_profile_address_url + "XYZ")
         logging.info('Response is %s', customer_profile_response.text)
         self.assertEquals(
             customer_profile_response.status_code, 404,
@@ -816,6 +957,9 @@ class CustomerProfileTestCases(unittest.TestCase):
             RequestType.DELETE,
             customer_profile_url + "24" + "/addresses/Test_Job")
         customer_profile_response_dict = customer_profile_response.json()
+        logging.info('test_delete_address_with_customer_id_mismatch')
+        logging.info('Url is %s',
+                     customer_profile_url + "24" + "/addresses/Test_Job")
         logging.info('Response is %s', customer_profile_response.text)
         self.assertEquals(
             customer_profile_response.status_code, 400,
