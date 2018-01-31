@@ -26,9 +26,9 @@ class InventoryServicePayload(object):
         }
         return payload
 
-    def inventory_update_payload(self, item_status='ONEONLY', sku='ASDF123-299',
+    def inventory_update_payload(self, item_status='ASSIGNED', sku='ASDF123-299',
                                  item_id=None, hw_model=None, hw_number=None,
-                                 mac_address=None, storage_capacity=None,
+                                 mac_address=None, storage_capacity=60,
                                  remarks=None, storage_array_model=None,
                                  storage_array_type=None, order_id=None):
         """ Request body for updating an item_status with item id and sku """
