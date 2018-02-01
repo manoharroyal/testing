@@ -44,8 +44,13 @@ DELETE_JOB_ID = config_data['DELETE_JOB_ID']
 """ Setting up the parameters with urls """
 
 
-def box_details_url(box_id):
+def box_details_url(id):
     """ Url ti get the details of box """
+    return '%s/%s' % (BOX_SERVICE_URL, id)
+
+
+def box_action_url(box_id):
+    """ Url to action on box """
     return '%s/%s' % (BOX_SERVICE_URL, box_id)
 
 
