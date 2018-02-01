@@ -903,7 +903,7 @@ class CustomerProfileTestCases(unittest.TestCase):
 
     """ DELETE: Test cases to delete the customer address with address title """
 
-    def test_delete_address_with_valid_customer(self):
+    def test_zdelete_address_with_valid_customer(self):
         """ Testing with the valid address title """
 
         message = "address is deleted successfully"
