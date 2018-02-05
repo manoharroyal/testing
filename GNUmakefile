@@ -21,7 +21,10 @@ agent_service:
 auth_service:
 	export PYTHONPATH=`pwd` && python2.7 -m pytest -v --instafail  `pwd`/test/functional_test_suite/auth_service/auth_service.py --html=./report/auth_service.html --junitxml=./report/auth_service.xml
 
-functional-test:  customer_profile_service inventory_service ticket_service job_service system_service agent_service auth_service pytest-html
+box_service:
+	export PYTHONPATH=`pwd` && python2.7 -m pytest -v --instafail  `pwd`/test/functional_test_suite/box_service/box_service.py --html=./report/box_service.html --junitxml=./report/box_service.xml
+
+functional-test:  customer_profile_service inventory_service ticket_service job_service system_service agent_service auth_service box_service pytest-html
 
 list:
 	@$(info Available Targets)
