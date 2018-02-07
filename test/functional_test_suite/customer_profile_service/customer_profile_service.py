@@ -113,10 +113,6 @@ class CustomerProfileTestCases(unittest.TestCase):
             msg='Expected 200 and got %s (%s)' %
                 (customer_profile_response.status_code,
                  httplib.responses[customer_profile_response.status_code]))
-        self.assertIn(
-            'title', customer_profile_response_dict.keys(),
-            msg='Expected %s in %s' %
-                ('shipping_addresses', customer_profile_response_dict.keys()))
 
     def test_add_new_shipping_address_with_invalid_customer_id(self):
         """ Testing with mismatch customer_id to add
@@ -906,11 +902,9 @@ class CustomerProfileTestCases(unittest.TestCase):
     def test_zdelete_address_with_valid_customer(self):
         """ Testing with the valid address title """
 
-        message = "address is deleted successfully"
-
         # Delete address with valid title
         customer_profile_response = customer_service.request(
-            RequestType.DELETE, customer_profile_address_url + "1111")
+            RequestType.DELETE, customer_profile_address_url + "9876")
         customer_profile_response_dict = customer_profile_response.json()
         logging.info('test_delete_address_with_valid_customer')
         logging.info('Url is %s', customer_profile_address_url + "1111")
@@ -920,10 +914,6 @@ class CustomerProfileTestCases(unittest.TestCase):
             msg='Expected 200 and got %s (%s)' %
                 (customer_profile_response.status_code,
                  httplib.responses[customer_profile_response.status_code]))
-        self.assertEquals(
-            message, customer_profile_response_dict['message'],
-            msg="Expected %s and got is %s" %
-                (message, customer_profile_response_dict['message']))
 
     def test_delete_address_with_wrong_title(self):
         """ Testing with the invalid address title """
