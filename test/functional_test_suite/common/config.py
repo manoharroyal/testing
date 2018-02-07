@@ -14,28 +14,28 @@ end_point = RestAPI(utype='customer')
 """ All Constants goes here """
 CUSTOMER_SERVICE_URL = end_point.request(
     RequestType.GET,
-    config_data['END_POINTS_URL']).json()['customer-profile-dev'][0]['endpoint'].replace("{customer_id}", "")
+    config_data['END_POINTS_URL']).json()['customer-profile-test'][0]['endpoint'].replace("{customer_id}", "")
 INVENTORY_SERVICE_URL = end_point.request(
     RequestType.GET,
-    config_data['END_POINTS_URL']).json()['inventory-service-dev'][0]['endpoint']
+    config_data['END_POINTS_URL']).json()['inventory-service-test'][0]['endpoint']
 SYSTEM_SERVICE_URL = end_point.request(
     RequestType.GET,
-    config_data['END_POINTS_URL']).json()['system-service-dev'][0]['endpoint']
+    config_data['END_POINTS_URL']).json()['system-service-test'][0]['endpoint']
 SEED_JOB_URL = end_point.request(
     RequestType.GET,
-    config_data['END_POINTS_URL']).json()['seedjob-service-dev'][0]['endpoint']
+    config_data['END_POINTS_URL']).json()['seedjob-service-test'][0]['endpoint']
 AGENT_SERVICE_URL = end_point.request(
     RequestType.GET,
-    config_data['END_POINTS_URL']).json()['agent-service-dev'][0]['endpoint']
+    config_data['END_POINTS_URL']).json()['agent-service-test'][0]['endpoint']
 TICKET_SERVICE_URL = end_point.request(
     RequestType.GET,
-    config_data['END_POINTS_URL']).json()['ticket-service-dev'][0]['endpoint']
+    config_data['END_POINTS_URL']).json()['ticket-service-test'][0]['endpoint']
 AUTH_SERVICE_URL = end_point.request(
     RequestType.GET,
-    config_data['END_POINTS_URL']).json()['auth-dev'][0]['endpoint']
+    config_data['END_POINTS_URL']).json()['auth-test'][0]['endpoint']
 BOX_SERVICE_URL = end_point.request(
     RequestType.GET,
-    config_data['END_POINTS_URL']).json()['box-manager-dev'][-1]['endpoint']
+    config_data['END_POINTS_URL']).json()['box-manager-test'][-1]['endpoint']
 
 TEMP_KEY = config_data['TEMP_KEY']
 SEED_JOB_ID = config_data['SEED_JOB_ID']
@@ -50,7 +50,7 @@ def box_details_url(id):
 
 
 def box_action_url(box_id):
-    """ Url to action on box """
+    """ Url to action on box """R
     return '%s/%s' % (BOX_SERVICE_URL, box_id)
 
 
