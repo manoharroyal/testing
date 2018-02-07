@@ -50,7 +50,7 @@ def box_details_url(id):
 
 
 def box_action_url(box_id):
-    """ Url to action on box """R
+    """ Url to action on box """
     return '%s/%s' % (BOX_SERVICE_URL, box_id)
 
 
