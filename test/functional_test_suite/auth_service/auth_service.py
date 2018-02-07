@@ -36,6 +36,8 @@ class AuthService(unittest.TestCase):
             key, create_auth_user_response_dict.keys(),
             msg="Expected %s in %s" %
                 (key, create_auth_user_response_dict.keys))
+        userid = create_auth_user_response_dict['userId']
+        return userid
 
     def test_create_user_with_invalid_token(self):
         """ Create user for given role with invalid token """
@@ -282,17 +284,18 @@ class AuthService(unittest.TestCase):
 
     """ DELETE: Delete the user with user name """
 
-    def test_delete_user_with_valid_user_id(self):
+    def test_zdelete_user_with_valid_user_id(self):
         """ testing with valid user id to delete the user """
 
+        userid = self.test_create_user_with_valid_details()
         auth_service_response = auth_service.request(
-            RequestType.DELETE, delete_auth_user_url(user_id='your'))
+            RequestType.DELETE, delete_auth_user_url(user_id=userid))
         logging.info('test_delete_user_with_valid_user_id')
-        logging.info('Url is %s', delete_auth_user_url(user_id='your'))
+        logging.info('Url is %s', delete_auth_user_url(user_id=userid))
         logging.info("Response is %s" % auth_service_response.text)
         self.assertEquals(
-            auth_service_response.status_code, 202,
-            msg="Expected 202 and got is %s (%s)" %
+            auth_service_response.status_code, 204,
+            msg="Expected 204 and got is %s (%s)" %
                 (auth_service_response.status_code,
                  httplib.responses[auth_service_response.status_code]))
 
