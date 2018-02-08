@@ -96,7 +96,7 @@ class RestAPI(object):
     def generate_customer_invalid_token(self):
         """ Function to generate invalid token """
         encode, customer_id = self.generate_customer_token()
-        encode = encode + 'as'
+        encode = "as" + encode + 'as'
         return encode, customer_id
 
     def generate_sysops_token(self):
@@ -158,19 +158,19 @@ class RestAPI(object):
         try:
 
             if method == RequestType.GET:
-                self.response = requests.get(url, headers=header, timeout=20)
+                self.response = requests.get(url, headers=header, timeout=25)
 
             elif method == RequestType.POST:
-                self.response = requests.post(url, headers=header, timeout=20,
+                self.response = requests.post(url, headers=header, timeout=25,
                                               data=json.dumps(payload))
             elif method == RequestType.PUT:
-                self.response = requests.put(url, headers=header, timeout=20,
+                self.response = requests.put(url, headers=header, timeout=25,
                                              data=json.dumps(payload))
             elif method == RequestType.DELETE:
-                self.response = requests.delete(url, headers=header, timeout=20)
+                self.response = requests.delete(url, headers=header, timeout=25)
 
             elif method == RequestType.PATCH:
-                self.response = requests.patch(url, headers=header, timeout=20,
+                self.response = requests.patch(url, headers=header, timeout=25,
                                                data=json.dumps(payload))
             return self.response
 
