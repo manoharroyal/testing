@@ -28,6 +28,7 @@ class BoxServiceTestCases(unittest.TestCase):
             msg='Expected 200 and got %s (%s)' %
                 (box_service_response.status_code,
                  httplib.responses[box_service_response.status_code]))
+        logging.info('test case executed successfully')
 
     def test_update_box_with_invalid_details(self):
         """ testing with valid details to update the box """
@@ -44,6 +45,7 @@ class BoxServiceTestCases(unittest.TestCase):
             msg='Expected 400 and got %s (%s)' %
                 (box_service_response.status_code,
                  httplib.responses[box_service_response.status_code]))
+        logging.info('test case executed successfully')
 
     """ GET: test cases """
 
@@ -62,6 +64,7 @@ class BoxServiceTestCases(unittest.TestCase):
             msg='Expected code is 200 and got is %s (%s)' %
                 (box_service_response.status_code,
                  httplib.responses[box_service_response.status_code]))
+        logging.info('test case executed successfully')
 
     def test_get_box_details_with_invalid_id(self):
         """ test cases for get method """
@@ -78,6 +81,7 @@ class BoxServiceTestCases(unittest.TestCase):
             msg='Expected code is 404 and got is %s (%s)' %
                 (box_service_response.status_code,
                  httplib.responses[box_service_response.status_code]))
+        logging.info('test case executed successfully')
 
     def test_get_box_details_with_invalid_token(self):
 
@@ -93,6 +97,7 @@ class BoxServiceTestCases(unittest.TestCase):
             msg="Expected 401 and got is %s (%s)" %
                 (box_service_response.status_code,
                  httplib.responses[box_service_response.status_code]))
+        logging.info('test case executed successfully')
 
     """ PATCH: test cases """
 
@@ -104,7 +109,8 @@ class BoxServiceTestCases(unittest.TestCase):
             box_action_url(box_id='1234'),
             payload=BoxServicePayloads.action_box_payload)
         logging.info('test_action_on_box_with_valid_box_id')
-        logging.info('Url is %s', box_action_url(box_id='1234'))
+        logging.info('Url is %s', box_action_url(box_id
+                                                 ='1234'))
         logging.info('Request is %s', BoxServicePayloads.action_box_payload)
         logging.info('Response is %s' % box_service_response.text)
         self.assertEquals(
@@ -112,6 +118,7 @@ class BoxServiceTestCases(unittest.TestCase):
             msg='Expected code is 200 and got is %s (%s)' %
                 (box_service_response.status_code,
                  httplib.responses[box_service_response.status_code]))
+        logging.info('test case executed successfully')
 
     def test_action_on_box_with_invalid_token(self):
 
@@ -128,6 +135,7 @@ class BoxServiceTestCases(unittest.TestCase):
             msg="Expected 401 and got is %s (%s)" %
                 (box_service_response.status_code,
                  httplib.responses[box_service_response.status_code]))
+        logging.info('test case executed successfully')
 
     def test_action_on_box_with_invalid_box_id(self):
 
@@ -145,3 +153,4 @@ class BoxServiceTestCases(unittest.TestCase):
             msg="Expected 404 and got is %s (%s)" %
                 (box_service_response.status_code,
                  httplib.responses[box_service_response.status_code]))
+        logging.info('test case executed successfully')
