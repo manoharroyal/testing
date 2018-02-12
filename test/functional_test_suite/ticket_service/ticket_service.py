@@ -22,9 +22,12 @@ class TicketService(unittest.TestCase):
 
         # Get the list of all tickets with valid url
         list_tickets_response = ticket_service.request(
-            RequestType.GET, TICKET_SERVICE_URL)
+            RequestType.GET, TICKET_SERVICE_URL,
+            payload=TicketServicePayload.get_tickets_payload)
         logging.info('test_get_list_tickets_with_valid_url')
-        logging.info('Url is %s', TICKET_SERVICE_URL )
+        logging.info('Url is %s', TICKET_SERVICE_URL)
+        logging.info('Request is %s',
+                     TicketServicePayload().get_tickets_payload())
         logging.info('Response is %s', list_tickets_response.text)
         self.assertEqual(
             list_tickets_response.status_code, 200,
@@ -40,10 +43,13 @@ class TicketService(unittest.TestCase):
 
         # Get the list of all tickets with invalid url
         list_tickets_response = ticket_service_invalid.request(
-            RequestType.GET, TICKET_SERVICE_URL)
+            RequestType.GET, TICKET_SERVICE_URL,
+            payload=TicketServicePayload.get_tickets_payload)
         list_tickets_response_dict = list_tickets_response.json()
         logging.info('test_get_list_tickets_with_invalid_token')
         logging.info('Url is %s', TICKET_SERVICE_URL)
+        logging.info('Request is %s',
+                     TicketServicePayload().get_tickets_payload())
         logging.info('Response is %s', list_tickets_response.text)
         self.assertEqual(
             list_tickets_response.status_code, 401,
