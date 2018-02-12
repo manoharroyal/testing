@@ -37,6 +37,7 @@ class AuthService(unittest.TestCase):
             msg="Expected %s in %s" %
                 (key, create_auth_user_response_dict.keys))
         userid = create_auth_user_response_dict['userId']
+        logging.info('test case executed successfully')
         return userid
 
     def test_create_user_with_invalid_token(self):
@@ -62,6 +63,7 @@ class AuthService(unittest.TestCase):
             expected_message, create_auth_user_response_dict['message'],
             msg="Expected %s equals %s" %
                 (expected_message, create_auth_user_response_dict['message']))
+        logging.info('test case executed successfully')
 
     def test_create_user_with_invalid_roles(self):
 
@@ -85,6 +87,7 @@ class AuthService(unittest.TestCase):
             expected_message, create_auth_user_response_dict['message'],
             msg="Expected %s equals %s" %
                 (expected_message, create_auth_user_response_dict['message']))
+        logging.info('test case executed successfully')
 
     def test_create_user_without_roles(self):
 
@@ -108,6 +111,7 @@ class AuthService(unittest.TestCase):
             expected_message, create_auth_user_response_dict['message'],
             msg="Expected %s equals %s" %
                 (expected_message, create_auth_user_response_dict['message']))
+        logging.info('test case executed successfully')
 
     """ POST: validate the auth user for given role """
 
@@ -131,6 +135,7 @@ class AuthService(unittest.TestCase):
         self.assertIn(key, validate_auth_user_response_dict.keys(),
                       msg="Expected %s in and got is %s" % (
                           key, validate_auth_user_response_dict.keys()))
+        logging.info('test case executed successfully')
 
     def test_validate_auth_user_with_invalid_user_id(self):
 
@@ -156,6 +161,7 @@ class AuthService(unittest.TestCase):
             expected_message, validate_auth_user_response_dict['message'],
             msg="Expected %s equals %s" %
                 (expected_message, validate_auth_user_response_dict['message']))
+        logging.info('test case executed successfully')
 
     def test_validate_auth_user_with_invalid_password(self):
 
@@ -181,6 +187,7 @@ class AuthService(unittest.TestCase):
             expected_message, validate_auth_user_response_dict['message'],
             msg="Expected %s equals %s" %
                 (expected_message, validate_auth_user_response_dict['message']))
+        logging.info('test case executed successfully')
 
     def test_validate_auth_user_with_invalid_client_id(self):
 
@@ -206,6 +213,7 @@ class AuthService(unittest.TestCase):
             expected_message, validate_auth_user_response_dict['message'],
             msg="Expected %s equals %s" %
                 (expected_message, validate_auth_user_response_dict['message']))
+        logging.info('test case executed successfully')
 
     def test_validate_auth_user_without_user_id(self):
 
@@ -231,6 +239,7 @@ class AuthService(unittest.TestCase):
             expected_message, validate_auth_user_response_dict['message'],
             msg="Expected %s equals %s" %
                 (expected_message, validate_auth_user_response_dict['message']))
+        logging.info('test case executed successfully')
 
     def test_validate_auth_user_without_password(self):
 
@@ -256,6 +265,7 @@ class AuthService(unittest.TestCase):
             expected_message, validate_auth_user_response_dict['message'],
             msg="Expected %s equals %s" %
                 (expected_message, validate_auth_user_response_dict['message']))
+        logging.info('test case executed successfully')
 
     def test_validate_auth_user_without_client_id(self):
 
@@ -281,6 +291,7 @@ class AuthService(unittest.TestCase):
             expected_message, validate_auth_user_response_dict['message'],
             msg="Expected %s equals %s" %
                 (expected_message, validate_auth_user_response_dict['message']))
+        logging.info('test case executed successfully')
 
     """ DELETE: Delete the user with user name """
 
@@ -298,6 +309,7 @@ class AuthService(unittest.TestCase):
             msg="Expected 204 and got is %s (%s)" %
                 (auth_service_response.status_code,
                  httplib.responses[auth_service_response.status_code]))
+        logging.info('test case executed successfully')
 
     def test_delete_user_with_invalid_user_id(self):
         """ testing with valid user id to delete the user """
@@ -319,6 +331,7 @@ class AuthService(unittest.TestCase):
             expected_message, auth_service_response_dict['message'],
             msg="Expected %s equals %s" %
                 (expected_message, auth_service_response_dict['message']))
+        logging.info('test case executed successfully')
 
     def test_delete_user_with_invalid_token(self):
         """ testing with valid user id to delete the user """
@@ -340,3 +353,4 @@ class AuthService(unittest.TestCase):
             expected_message, auth_service_response_dict['message'],
             msg="Expected %s equals %s" %
                 (expected_message, auth_service_response_dict['message']))
+        logging.info('test case executed successfully')

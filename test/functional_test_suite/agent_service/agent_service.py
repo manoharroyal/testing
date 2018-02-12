@@ -38,6 +38,7 @@ class AgentServiceTestCases(unittest.TestCase):
         self.assertIn('agents', list_agents_response_dict.keys(),
                       msg="Expected %s in and got is %s" % (
                           'message', list_agents_response_dict.keys()))
+        logging.info('test case executed successfully')
 
     def test_list_agent_with_invalid_token(self):
         """ Testing with the invalid token to get the list agents """
@@ -60,6 +61,7 @@ class AgentServiceTestCases(unittest.TestCase):
             expected_message, list_agents_response_dict['message'],
             msg="Expected %s in and got is %s" %
                 (expected_message, list_agents_response_dict['message']))
+        logging.info('test case executed successfully')
 
     """ GET: Test cases to get the list agent tasks """
 
@@ -81,6 +83,7 @@ class AgentServiceTestCases(unittest.TestCase):
         self.assertIn('tasks', list_agents_tasks_response_dict.keys(),
                       msg="Expected %s in and got is %s" % (
                           'message', list_agents_tasks_response_dict.keys()))
+        logging.info('test case executed successfully')
 
     def test_list_agent_tasks_with_invalid_agent_id(self):
         """ Testing with the invalid agent id to get the list agent tasks """
@@ -103,6 +106,7 @@ class AgentServiceTestCases(unittest.TestCase):
             expected_message, list_agents_tasks_response_dict['message'],
             msg="Expected %s in and got is %s" %
                 (expected_message, list_agents_tasks_response_dict.keys()))
+        logging.info('test case executed successfully')
 
     """ GET: To get the details of an agent """
 
@@ -127,6 +131,7 @@ class AgentServiceTestCases(unittest.TestCase):
             key, agent_details_response_dict.keys(),
             msg="Expected %s in %s" %
                 (key, agent_details_response_dict.keys()))
+        logging.info('test case executed successfully')
 
     def test_agent_details_with_invalid_agent_id(self):
         """ Testing with invalid agent id to get the details of an agent """
@@ -149,6 +154,7 @@ class AgentServiceTestCases(unittest.TestCase):
             expected_message, agent_details_response_dict['message'],
             msg="Expected %s in %s" %
                 (expected_message, agent_details_response_dict['message']))
+        logging.info('test case executed successfully')
 
     """ GET: To get the agent task details """
 
@@ -166,6 +172,7 @@ class AgentServiceTestCases(unittest.TestCase):
             msg="Expected response code is 200 and got is %s (%s)" % (
                 agent_task_details_response.status_code,
                 httplib.responses[agent_task_details_response.status_code]))
+        logging.info('test case executed successfully')
 
     def test_agent_task_details_with_invalid_task_id(self):
         """ Testing with the invalid task id to get the task details """
@@ -187,6 +194,7 @@ class AgentServiceTestCases(unittest.TestCase):
             message, agent_task_details_response_dict['message'],
             msg="Expected %s equals %s" %
                 (message, agent_task_details_response_dict['message']))
+        logging.info('test case executed successfully')
 
     def test_agent_task_details_with_invalid_token(self):
         """ Testing with the invalid task id to get the task details """
@@ -208,6 +216,7 @@ class AgentServiceTestCases(unittest.TestCase):
             message, agent_task_details_response_dict['message'],
             msg="Expected %s equals %s" %
                 (message, agent_task_details_response_dict['message']))
+        logging.info('test case executed successfully')
 
     """ PUT: Test cases to update the agent task status """
 
@@ -230,6 +239,7 @@ class AgentServiceTestCases(unittest.TestCase):
             msg="Expected response code is 202 and got is %s (%s)" % (
                 update_agent_task_response.status_code,
                 httplib.responses[update_agent_task_response.status_code]))
+        logging.info('test case executed successfully')
 
     def test_update_agent_task_with_invalid_task_id(self):
         """ Testing with the invalid task id to update the agent task status """
@@ -255,6 +265,7 @@ class AgentServiceTestCases(unittest.TestCase):
             expected_message, update_agent_task_response_dict['message'],
             msg="Expected message is %s and got %s" %
                 (expected_message, update_agent_task_response_dict['message']))
+        logging.info('test case executed successfully')
 
     def test_update_agent_task_with_invalid_token(self):
         """ Testing with the invalid token to update the agent task status """
@@ -280,6 +291,7 @@ class AgentServiceTestCases(unittest.TestCase):
             expected_message, update_agent_task_response_dict['message'],
             msg="Expected message is %s and got %s" %
                 (expected_message, update_agent_task_response_dict['message']))
+        logging.info('test case executed successfully')
 
     def test_update_agent_task_with_invalid_status(self):
         """ Testing with the invalid status to update the agent task status """
@@ -305,6 +317,7 @@ class AgentServiceTestCases(unittest.TestCase):
             expected_message, update_agent_task_response_dict['message'],
             msg="Expected message is %s and got %s" %
                 (expected_message, update_agent_task_response_dict['message']))
+        logging.info('test case executed successfully')
 
     def test_update_agent_task_with_invalid_message(self):
         """ Testing with the invalid message to update the agent task status """
@@ -331,6 +344,7 @@ class AgentServiceTestCases(unittest.TestCase):
             expected_message, update_agent_task_response_dict['message'],
             msg="Expected message is %s and got %s" %
                 (expected_message, update_agent_task_response_dict['message']))
+        logging.info('test case executed successfully')
 
     def test_update_agent_task_without_status(self):
         """ Testing without status to update the agent task status """
@@ -356,6 +370,7 @@ class AgentServiceTestCases(unittest.TestCase):
             expected_message, update_agent_task_response_dict['message'],
             msg="Expected message is %s and got %s" %
                 (expected_message, update_agent_task_response_dict['message']))
+        logging.info('test case executed successfully')
 
     def test_update_agent_task_without_message(self):
         """ Testing without message to update the agent task status """
@@ -381,6 +396,7 @@ class AgentServiceTestCases(unittest.TestCase):
             expected_message, update_agent_task_response_dict['message'],
             msg="Expected message is %s and got %s" %
                 (expected_message, update_agent_task_response_dict['message']))
+        logging.info('test case executed successfully')
 
     """ PUT: Test cases to Register an agent by passing input parameters """
 
@@ -398,6 +414,7 @@ class AgentServiceTestCases(unittest.TestCase):
             msg="Expected response code is 202 and got is %s (%s)" % (
                 register_agent_response.status_code,
                 httplib.responses[register_agent_response.status_code]))
+        logging.info('test case executed successfully')
 
     def test_register_agent_with_invalid_agent_id(self):
         """ Testing with invalid url to register an agent """
@@ -418,6 +435,7 @@ class AgentServiceTestCases(unittest.TestCase):
             'message', register_agent_response_dict.keys(),
             msg="Expected %s in %s" %
                 ('message', register_agent_response_dict.keys()))
+        logging.info('test case executed successfully')
 
     def test_register_agent_with_invalid_token(self):
         """ Testing with invalid url to register an agent """
@@ -440,3 +458,4 @@ class AgentServiceTestCases(unittest.TestCase):
             expected_message, register_agent_response_dict['message'],
             msg="Expected %s in %s" %
                 (expected_message, register_agent_response_dict['message']))
+        logging.info('test case executed successfully')

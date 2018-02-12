@@ -26,7 +26,8 @@ class SystemServiceTestCases(unittest.TestCase):
         create_system_response_dict = create_system_response.json()
         logging.info('test_create_source_system_with_valid_details')
         logging.info('Url is %s', SYSTEM_SERVICE_URL)
-        logging.info('Request is %s', SystemServicePayload().system_creation_payload())
+        logging.info('Request is %s',
+                     SystemServicePayload().system_creation_payload())
         logging.info('Response is %s', create_system_response.text)
         self.assertEquals(
             create_system_response.status_code, 200,
@@ -37,6 +38,7 @@ class SystemServiceTestCases(unittest.TestCase):
             system_name, create_system_response_dict['system_name'],
             msg='Expected system name  %s and got %s' %
                 (system_name, create_system_response_dict['system_name']))
+        logging.info('test case executed successfully')
 
     def test_create_system_with_invalid_token(self):
         """ Testing with invalid token to create system """
@@ -62,6 +64,7 @@ class SystemServiceTestCases(unittest.TestCase):
             expected_message, create_system_response_dict['message'],
             msg=" Expecting message \"%s\" and got \"%s\" " %
                 (expected_message, create_system_response_dict['message']))
+        logging.info('test case executed successfully')
 
     def test_create_system_without_system_name(self):
         """ Test to verify blank system name parameter from payload """
@@ -89,6 +92,7 @@ class SystemServiceTestCases(unittest.TestCase):
             expected_message, create_system_response_dict['message'],
             msg='Expected message %s and got %s' %
                 (expected_message, create_system_response_dict['message']))
+        logging.info('test case executed successfully')
 
     def test_create_system_without_system_type(self):
         """ Test to verify system_type parameter passed as blank in payload """
@@ -116,6 +120,7 @@ class SystemServiceTestCases(unittest.TestCase):
             expected_message, create_system_response_dict['message'],
             msg='Expected message %s and got %s' %
                 (expected_message, create_system_response_dict['message']))
+        logging.info('test case executed successfully')
 
     def test_create_system_without_details(self):
         """ Test to verify details parameter passed as blank in payload """
@@ -141,6 +146,7 @@ class SystemServiceTestCases(unittest.TestCase):
             expected_message, create_system_response_dict['message'],
             msg=" Expecting message \"%s\" and got \"%s\" " %
                 (expected_message, create_system_response_dict['message']))
+        logging.info('test case executed successfully')
 
     """ GET: Test cases to get the list of systems """
 
@@ -154,7 +160,8 @@ class SystemServiceTestCases(unittest.TestCase):
             list_system_url(list_system, SystemType.source))
         system_list_response_dict = system_list_response.json()
         logging.info('test_list_system_for_source_type')
-        logging.info('Url is %s', list_system_url(list_system, SystemType.source))
+        logging.info('Url is %s', list_system_url(
+            list_system, SystemType.source))
         logging.info('Response is %s', system_list_response.text)
         self.assertEquals(
             system_list_response.status_code, 200,
@@ -163,7 +170,9 @@ class SystemServiceTestCases(unittest.TestCase):
                  httplib.responses[system_list_response.status_code]))
         self.assertIn(
             "systems", system_list_response_dict.keys(),
-            msg="Expected %s in %s" % ("systems", system_list_response_dict.keys()))
+            msg="Expected %s in %s" % (
+                "systems", system_list_response_dict.keys()))
+        logging.info('test case executed successfully')
 
     def test_list_system_for_target_type(self):
         """ Testing with the given type as target to
@@ -175,7 +184,8 @@ class SystemServiceTestCases(unittest.TestCase):
             list_system_url(list_system, SystemType.target))
         system_list_response_dict = system_list_response.json()
         logging.info('test_list_system_for_target_type')
-        logging.info('Url is %s', list_system_url(list_system, SystemType.target))
+        logging.info('Url is %s', list_system_url(
+            list_system, SystemType.target))
         logging.info('Response is %s', system_list_response.text)
         self.assertEquals(
             system_list_response.status_code, 200,
@@ -184,7 +194,9 @@ class SystemServiceTestCases(unittest.TestCase):
                  httplib.responses[system_list_response.status_code]))
         self.assertIn(
             "systems", system_list_response_dict.keys(),
-            msg="Expected %s in %s" % ("systems", system_list_response_dict.keys()))
+            msg="Expected %s in %s" % (
+                "systems", system_list_response_dict.keys()))
+        logging.info('test case executed successfully')
 
     def test_list_systems_with_invalid_token(self):
         """ Testing without type of system to
@@ -208,6 +220,7 @@ class SystemServiceTestCases(unittest.TestCase):
             expected_message, system_list_response_dict['message'],
             msg="Expected message is %s and got is %s" %
                 (expected_message, system_list_response_dict['message']))
+        logging.info('test case executed successfully')
 
     def test_list_systems_without_system_type(self):
         """ Testing without type of system to
@@ -231,3 +244,4 @@ class SystemServiceTestCases(unittest.TestCase):
             expected_message, system_list_response_dict['message'],
             msg="Expected message is %s and got is %s" %
                 (expected_message, system_list_response_dict['message']))
+        logging.info('test case executed successfully')

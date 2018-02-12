@@ -31,6 +31,7 @@ class TicketService(unittest.TestCase):
             msg="Expected 200 and got is %s (%s)" %
                 (list_tickets_response.status_code,
                  httplib.responses(list_tickets_response.status_code)))
+        logging.info('test case executed successfully')
 
     def test_get_list_tickets_with_invalid_token(self):
         """ Get the list of tickets """
@@ -53,6 +54,7 @@ class TicketService(unittest.TestCase):
             expected_message, list_tickets_response_dict['message'],
             msg="Expected %s equals %s" %
                 (expected_message, list_tickets_response_dict['message']))
+        logging.info('test case executed successfully')
 
     """ PUT: update the ticket status """
 
@@ -73,6 +75,7 @@ class TicketService(unittest.TestCase):
             msg="Expected 200 and actual is %s (%s)" %
                 (ticket_response.status_code,
                  httplib.responses[ticket_response.status_code]))
+        logging.info('test case executed successfully')
 
     def test_update_ticket_with_invalid_ticket_id(self):
         """ Update the ticket with the duplicate ticket_id """
@@ -98,6 +101,7 @@ class TicketService(unittest.TestCase):
             message, ticket_response_dict['message'],
             msg="Expected %s in %s" %
                 (message, ticket_response_dict['message']))
+        logging.info('test case executed successfully')
 
     def test_update_ticket_with_invalid_token(self):
         """ Update the ticket with the duplicate ticket_id """
@@ -121,3 +125,4 @@ class TicketService(unittest.TestCase):
             'message', ticket_response_dict.keys(),
             msg="Expected %s in %s" %
                 ('message', ticket_response_dict.keys()))
+        logging.info('test case executed successfully')

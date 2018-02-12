@@ -41,6 +41,7 @@ class JobServiceTestCases(unittest.TestCase):
             'job_id', create_job_response_dict.keys(),
             msg="Expected %s in %s" %
                 ('job_id', create_job_response_dict.keys()))
+        logging.info('test case executed successfully')
 
     def test_create_job_with_invalid_token(self):
         """ Testing the creation of seed_job with invalid token """
@@ -66,6 +67,7 @@ class JobServiceTestCases(unittest.TestCase):
             error_message, create_job_response_dict['message'],
             msg="Expected %s in %s" %
                 (error_message, create_job_response_dict['message']))
+        logging.info('test case executed successfully')
 
     def test_create_job_with_invalid_source_system_id(self):
         """ Testing the creation of seed_job with invalid source_system_id """
@@ -93,6 +95,7 @@ class JobServiceTestCases(unittest.TestCase):
             error_message, create_job_response_dict['message'],
             msg="Expected %s in %s" %
                 (error_message, create_job_response_dict['message']))
+        logging.info('test case executed successfully')
 
     def test_create_job_with_invalid_target_system_id(self):
         """ Testing the creation of seed_job with invalid target_system_id """
@@ -120,6 +123,7 @@ class JobServiceTestCases(unittest.TestCase):
             error_message, create_job_response_dict['message'],
             msg="Expected %s in %s" %
                 (error_message, create_job_response_dict['message']))
+        logging.info('test case executed successfully')
 
     def test_create_job_with_invalid_address_title(self):
         """ Testing the creation of seed_job with invalid address_title """
@@ -146,6 +150,7 @@ class JobServiceTestCases(unittest.TestCase):
             error_message, create_job_response_dict['message'],
             msg="Expected %s in %s" %
                 (error_message, create_job_response_dict['message']))
+        logging.info('test case executed successfully')
 
     def test_create_job_with_invalid_max_data_size(self):
         """ Testing the creation of seed_job with invalid max_data_size """
@@ -172,6 +177,7 @@ class JobServiceTestCases(unittest.TestCase):
             error_message, create_job_response_dict['message'],
             msg="Expected %s in %s" %
                 (error_message, create_job_response_dict['message']))
+        logging.info('test case executed successfully')
 
     def test_create_job_without_source_system_id(self):
         """ Testing the creation of seed_job without source_system_id """
@@ -198,6 +204,7 @@ class JobServiceTestCases(unittest.TestCase):
             error_message, create_job_response_dict['message'],
             msg="Expected %s in %s" %
                 (error_message, create_job_response_dict['message']))
+        logging.info('test case executed successfully')
 
     def test_create_job_without_target_system_id(self):
         """ Testing the creation of seed_job without target_system_id """
@@ -224,6 +231,7 @@ class JobServiceTestCases(unittest.TestCase):
             error_message, create_job_response_dict['message'],
             msg="Expected %s in %s" %
                 (error_message, create_job_response_dict['message']))
+        logging.info('test case executed successfully')
 
     def test_create_job_without_address_title(self):
         """ Testing the creation of seed_job without address_title """
@@ -250,6 +258,7 @@ class JobServiceTestCases(unittest.TestCase):
             error_message, create_job_response_dict['message'],
             msg="Expected %s in %s" %
                 (error_message, create_job_response_dict['message']))
+        logging.info('test case executed successfully')
 
     def test_create_job_without_max_data_size(self):
         """ Testing the creation of seed_job without max_data_size """
@@ -276,6 +285,7 @@ class JobServiceTestCases(unittest.TestCase):
             error_message, create_job_response_dict['message'],
             msg="Expected %s in %s" %
                 (error_message, create_job_response_dict['message']))
+        logging.info('test case executed successfully')
 
     """ GET: Test cases to get the list of seed jobs """
 
@@ -297,6 +307,7 @@ class JobServiceTestCases(unittest.TestCase):
             'jobs', job_lists_response.json().keys(),
             msg="Expected %s in %s" %
                 ('jobs', job_lists_response.json().keys()))
+        logging.info('test case executed successfully')
 
     def test_list_seed_job_with_invalid_token(self):
         """ Testing with the invalid url to get the list of seed jobs """
@@ -319,6 +330,7 @@ class JobServiceTestCases(unittest.TestCase):
             expected_message, job_lists_response_dict['message'],
             msg="Expected %s equals %s" %
                 (expected_message, job_lists_response_dict['message']))
+        logging.info('test case executed successfully')
 
     """ GET: Test cases to get the details of particular seed job """
 
@@ -340,6 +352,7 @@ class JobServiceTestCases(unittest.TestCase):
             'job_id', job_details_response.json().keys(),
             msg="Expected %s in %s" %
                 ('job_id', job_details_response.json().keys()))
+        logging.info('test case executed successfully')
 
     def test_job_detail_with_invalid_job_id(self):
         """ Testing with the invalid job_id to get the details
@@ -362,6 +375,7 @@ class JobServiceTestCases(unittest.TestCase):
             error_message, job_details_response.json()['message'],
             msg="Expected %s in %s" %
                 (error_message, job_details_response.json()['message']))
+        logging.info('test case executed successfully')
 
     def test_job_detail_with_invalid_token(self):
         """ Testing with the invalid job_id to get the details
@@ -384,6 +398,7 @@ class JobServiceTestCases(unittest.TestCase):
             error_message, job_details_response.json()['message'],
             msg="Expected %s in %s" %
                 (error_message, job_details_response.json()['message']))
+        logging.info('test case executed successfully')
 
     """ PUT: Test cases to Update the seed job """
 
@@ -404,6 +419,7 @@ class JobServiceTestCases(unittest.TestCase):
             msg="Expected code is 202 and got is %s (%s)" % (
                 job_update_response.status_code,
                 httplib.responses[job_update_response.status_code]))
+        logging.info('test case executed successfully')
 
     def test_job_update_with_invalid_job_id(self):
         """ Testing with the invalid job_id to update
@@ -430,6 +446,7 @@ class JobServiceTestCases(unittest.TestCase):
             message, job_update_response_dict['message'],
             msg="Expected %s equals %s" %
                 (message, job_update_response_dict['message']))
+        logging.info('test case executed successfully')
 
     def test_job_update_with_invalid_token(self):
         """ Testing with invalid token to update the details of seed_job """
@@ -455,6 +472,7 @@ class JobServiceTestCases(unittest.TestCase):
             expected_message, job_update_response_dict['message'],
             msg="Expected %s in %s" %
                 (expected_message, job_update_response_dict['message']))
+        logging.info('test case executed successfully')
 
     def test_job_update_with_invalid_source_system_id(self):
         """ Testing with invalid source_system_id to
@@ -480,6 +498,7 @@ class JobServiceTestCases(unittest.TestCase):
             'message', job_update_response_dict.keys(),
             msg="Expected %s in %s" %
                 ('message', job_update_response_dict.keys()))
+        logging.info('test case executed successfully')
 
     def test_job_update_with_invalid_target_system_id(self):
         """ Testing with the invalid target_system_id to
@@ -505,6 +524,7 @@ class JobServiceTestCases(unittest.TestCase):
             'message', job_update_response_dict.keys(),
             msg="Expected %s in %s" %
                 ('message', job_update_response_dict.keys()))
+        logging.info('test case executed successfully')
 
     """ DELETE: Delete the seed job with job id"""
 
@@ -529,6 +549,7 @@ class JobServiceTestCases(unittest.TestCase):
             message, job_delete_response_dict['message'],
             msg="Expected %s in %s" %
                 (message, job_delete_response_dict['message']))
+        logging.info('test case executed successfully')
 
     def test_delete_job_with_invalid_job_id(self):
         """ Testing with the invalid job_id to delete seed_job """
@@ -551,6 +572,7 @@ class JobServiceTestCases(unittest.TestCase):
             error_message, job_delete_response_dict['message'],
             msg="Expected %s in %s" %
                 (error_message, job_delete_response_dict['message']))
+        logging.info('test case executed successfully')
 
     def test_delete_job_with_invalid_token(self):
         """ Testing with the invalid job_id to delete seed_job """
@@ -573,6 +595,7 @@ class JobServiceTestCases(unittest.TestCase):
             error_message, job_delete_response_dict['message'],
             msg="Expected %s in %s" %
                 (error_message, job_delete_response_dict['message']))
+        logging.info('test case executed successfully')
 
     """ PUT: Test cases As a user take an action on job """
 
@@ -595,6 +618,7 @@ class JobServiceTestCases(unittest.TestCase):
             msg="Expected code is 202 and got is %s (%s)" % (
                 user_action_response.status_code,
                 httplib.responses[user_action_response.status_code]))
+        logging.info('test case executed successfully')
 
     def test_action_with_invalid_id(self):
         """ Testing with the invalid job_id to take an action on job by user """
@@ -622,6 +646,7 @@ class JobServiceTestCases(unittest.TestCase):
             message, user_action_response_dict['message'],
             msg="Expected %s in %s" %
                 (message, user_action_response_dict['message']))
+        logging.info('test case executed successfully')
 
     def test_action_with_invalid_token(self):
         """ Testing without job_id to take an action on job by user """
@@ -649,6 +674,7 @@ class JobServiceTestCases(unittest.TestCase):
             expected_message, user_action_response_dict['message'],
             msg="Expected %s in %s" %
                 (expected_message, user_action_response_dict['message']))
+        logging.info('test case executed successfully')
 
     def test_action_with_incorrect_db_user_name(self):
         """ Testing with incorrect database user name to
@@ -675,6 +701,7 @@ class JobServiceTestCases(unittest.TestCase):
             'message', user_action_response_dict.keys(),
             msg="Expected %s in %s" %
                 ('message', user_action_response_dict.keys()))
+        logging.info('test case executed successfully')
 
     def test_action_with_incorrect_db_password(self):
         """ Testing with incorrect database password to take
@@ -701,6 +728,7 @@ class JobServiceTestCases(unittest.TestCase):
             'message', user_action_response_dict.keys(),
             msg="Expected %s in %s" %
                 ('message', user_action_response_dict.keys()))
+        logging.info('test case executed successfully')
 
         # # PATCH: take action by an agent
     """ PATCH: Method Test cases to take an action by an agent on job """
@@ -724,6 +752,7 @@ class JobServiceTestCases(unittest.TestCase):
             msg="Expected code is 200 and got is %s (%s)" % (
                 agent_action_response.status_code,
                 httplib.responses[agent_action_response.status_code]))
+        logging.info('test case executed successfully')
 
     def test_agent_action_with_invalid_job_id(self):
         """ Testing with invalid job_id to take an action on job by an agent """
@@ -751,6 +780,7 @@ class JobServiceTestCases(unittest.TestCase):
             message, agent_action_response_dict['message'],
             msg="Expected %s in %s" %
                 (message, agent_action_response_dict['message']))
+        logging.info('test case executed successfully')
 
     def test_agent_action_without_source_objects(self):
         """ Testing without source objects to take an
@@ -780,3 +810,4 @@ class JobServiceTestCases(unittest.TestCase):
             message, agent_action_response_dict['message'],
             msg="Expected %s in %s" %
                 (message, agent_action_response_dict['message']))
+        logging.info('test case executed successfully')

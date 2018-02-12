@@ -37,13 +37,15 @@ class InventoryServiceTestCases(unittest.TestCase):
             'created_at', add_item_response_dict.keys(),
             msg="Expected %s in %s" %
                 ('created_at', add_item_response_dict.keys()))
+        logging.info('test case executed successfully')
 
     def test_add_item_with_invalid_storage_capacity(self):
         """ Testing with invalid storage_capacity to add
         an item into the inventory """
 
         error_message = "Could not validate the input, " \
-                        "please send the correct input parameters : Invalid storage_capacity value."
+                        "please send the correct input parameters : " \
+                        "Invalid storage_capacity value."
 
         # Add an item with invalid storage capacity
         add_item_response = inventory_service.request(
@@ -66,6 +68,7 @@ class InventoryServiceTestCases(unittest.TestCase):
             error_message, add_item_response_dict['message'],
             msg=" expected message is %s and got is %s" %
                 (error_message, add_item_response_dict['message']))
+        logging.info('test case executed successfully')
 
     def test_add_item_without_item_id(self):
         """ Testing with response item_id to add an item into the inventory """
@@ -93,13 +96,15 @@ class InventoryServiceTestCases(unittest.TestCase):
             message, add_item_response_dict['message'],
             msg=" expected message is %s and got is %s" %
                 (message, add_item_response_dict['message']))
+        logging.info('test case executed successfully')
 
     def test_add_item_without_storage_capacity(self):
         """ Testing without content for mac_address to
         add an item into the inventory """
 
         error_message = "Could not validate the input, " \
-                        "please send the correct input parameters : Invalid storage_capacity value"
+                        "please send the correct input parameters : " \
+                        "Invalid storage_capacity value"
 
         # Add an item without storage capacity
         add_item_response = inventory_service.request(
@@ -122,13 +127,15 @@ class InventoryServiceTestCases(unittest.TestCase):
             error_message, add_item_response_dict['message'],
             msg=" expected message is %s and got is %s" %
                 (error_message, add_item_response_dict['message']))
+        logging.info('test case executed successfully')
 
     def test_add_item_without_item_status(self):
         """ Testing without status of item to add an
         item into the inventory """
 
         error_message = "Could not validate the input, " \
-                        "please send the correct input parameters : Item status is not valid"
+                        "please send the correct input parameters : " \
+                        "Item status is not valid"
 
         # Add an item with out item status
         add_item_response = inventory_service.request(
@@ -151,6 +158,7 @@ class InventoryServiceTestCases(unittest.TestCase):
             error_message, add_item_response_dict['message'],
             msg=" expected message is %s and got is %s" %
                 (error_message, add_item_response_dict['message']))
+        logging.info('test case executed successfully')
 
     def test_add_item_without_order_id(self):
         """ Testing with response order_id to add an item into the inventory """
@@ -177,6 +185,7 @@ class InventoryServiceTestCases(unittest.TestCase):
         self.assertEquals(message, add_item_response_dict['message'],
                           msg=" expected message is %s and got is %s" %
                               (message, add_item_response_dict['message']))
+        logging.info('test case executed successfully')
 
     """ check the item in an inventory """
     """ Method:GET """
@@ -188,7 +197,8 @@ class InventoryServiceTestCases(unittest.TestCase):
         item_availability_response = inventory_service.request(
             RequestType.GET, get_items_url(param='hw_model', value='ASDF123'))
         logging.info('test_item_availability_with_valid_hw_model')
-        logging.info('Url is %s', get_items_url(param='hw_model', value='ASDF123'))
+        logging.info('Url is %s', get_items_url(param='hw_model',
+                                                value='ASDF123'))
         logging.info('Response is %s', item_availability_response.text)
         self.assertEquals(
             item_availability_response.status_code, 200,
@@ -199,15 +209,18 @@ class InventoryServiceTestCases(unittest.TestCase):
             'items', item_availability_response.json().keys(),
             msg="Expected %s in %s" %
                 ('items', item_availability_response.json().keys()))
+        logging.info('test case executed successfully')
 
     def test_item_availability_with_valid_item_id(self):
         """ Checking the item availability with valid item_id """
 
         # Check item availability in the inventory with item id
         item_availability_response = inventory_service.request(
-            RequestType.GET, get_items_url(param='item_id', value='NOOR'))
+            RequestType.GET, get_items_url(
+                param='item_id', value='NOOR'))
         logging.info('test_item_availability_with_valid_item_id')
-        logging.info('Url is %s', get_items_url(param='item_id', value='NOOR'))
+        logging.info('Url is %s', get_items_url(
+            param='item_id', value='NOOR'))
         logging.info('Response is %s', item_availability_response.text)
         self.assertEquals(
             item_availability_response.status_code, 200,
@@ -218,15 +231,18 @@ class InventoryServiceTestCases(unittest.TestCase):
             'items', item_availability_response.json().keys(),
             msg="Expected %s in %s" %
                 ('items', item_availability_response.json().keys()))
+        logging.info('test case executed successfully')
 
     def test_item_availability_with_valid_storage_capacity(self):
         """ Checking the item availability with valid storage_capacity """
 
         # Check item availability in the inventory with storage capacity
         item_availability_response = inventory_service.request(
-            RequestType.GET, get_items_url(param='storage_capacity', value='299'))
+            RequestType.GET, get_items_url(
+                param='storage_capacity', value='299'))
         logging.info('test_item_availability_with_valid_storage_capacity')
-        logging.info('Url is %s', get_items_url(param='storage_capacity', value='299'))
+        logging.info('Url is %s', get_items_url(
+            param='storage_capacity', value='299'))
         logging.info('Response is %s', item_availability_response.text)
         self.assertEquals(
             item_availability_response.status_code, 200,
@@ -237,15 +253,18 @@ class InventoryServiceTestCases(unittest.TestCase):
             'items', item_availability_response.json().keys(),
             msg="Expected %s in %s" %
                 ('items', item_availability_response.json().keys()))
+        logging.info('test case executed successfully')
 
     def test_item_availability_with_valid_item_status(self):
         """ Checking the item availability with valid item_status """
 
         # Check item availability in the inventory with hardware model
         item_availability_response = inventory_service.request(
-            RequestType.GET, get_items_url(param='item_status', value='NEW'))
+            RequestType.GET, get_items_url(
+                param='item_status', value='NEW'))
         logging.info('test_item_availability_with_valid_item_status')
-        logging.info('Url is %s', get_items_url(param='item_status', value='NEW'))
+        logging.info('Url is %s', get_items_url(
+            param='item_status', value='NEW'))
         logging.info('Response is %s', item_availability_response.text)
         self.assertEquals(
             item_availability_response.status_code, 200,
@@ -256,6 +275,7 @@ class InventoryServiceTestCases(unittest.TestCase):
             'items', item_availability_response.json().keys(),
             msg="Expected %s in %s" %
                 ('items', item_availability_response.json().keys()))
+        logging.info('test case executed successfully')
 
     def test_item_availability_with_invalid_hw_model(self):
         """ Checking the item availability with invalid hardware_model """
@@ -278,6 +298,7 @@ class InventoryServiceTestCases(unittest.TestCase):
             error_message, item_availability_response_dict['message'],
             msg="Expected message is %s and got is %s" %
                 (error_message, item_availability_response_dict['message']))
+        logging.info('test case executed successfully')
 
     def test_item_availability_with_invalid_item_id(self):
         """ Checking the item availability with invalid item_id"""
@@ -300,6 +321,7 @@ class InventoryServiceTestCases(unittest.TestCase):
             error_message, item_availability_response_dict['message'],
             msg="Expected message is %s and got is %s" %
                 (error_message, item_availability_response_dict['message']))
+        logging.info('test case executed successfully')
 
     def test_item_availability_with_invalid_item_status(self):
         """ Checking the item availability with invalid item_status """
@@ -311,7 +333,8 @@ class InventoryServiceTestCases(unittest.TestCase):
             RequestType.GET, get_items_url(param='item_status', value='asdf'))
         item_availability_response_dict = item_availability_response.json()
         logging.info('test_item_availability_with_invalid_item_status')
-        logging.info('Url is %s', get_items_url(param='item_status', value='asdf'))
+        logging.info('Url is %s', get_items_url(
+            param='item_status', value='asdf'))
         logging.info('Response is %s', item_availability_response.text)
         self.assertEquals(
             item_availability_response.status_code, 400,
@@ -322,6 +345,7 @@ class InventoryServiceTestCases(unittest.TestCase):
             error_message, item_availability_response_dict['message'],
             msg="Expected message is %s and got is %s" %
                 (error_message, item_availability_response_dict['message']))
+        logging.info('test case executed successfully')
 
     def test_item_availability_without_hw_model(self):
         """ Checking the item availability without hardware_model """
@@ -344,6 +368,7 @@ class InventoryServiceTestCases(unittest.TestCase):
             error_message, item_availability_response_dict['message'],
             msg="Expected message is %s and got is %s" %
                 (error_message, item_availability_response_dict['message']))
+        logging.info('test case executed successfully')
 
     def test_item_availability_without_item_id(self):
         """ Checking the item availability without item_id """
@@ -355,7 +380,7 @@ class InventoryServiceTestCases(unittest.TestCase):
             RequestType.GET, get_items_url('item_id', ''))
         item_availability_response_dict = item_availability_response.json()
         logging.info('test_item_availability_without_item_id')
-        logging.info('Url is %s',get_items_url('item_id', ''))
+        logging.info('Url is %s', get_items_url('item_id', ''))
         logging.info('Response is %s', item_availability_response.text)
         self.assertEquals(
             item_availability_response.status_code, 400,
@@ -366,6 +391,7 @@ class InventoryServiceTestCases(unittest.TestCase):
             error_message, item_availability_response_dict['message'],
             msg="Expected message is %s and got is %s" %
                 (error_message, item_availability_response_dict['message']))
+        logging.info('test case executed successfully')
 
     def test_item_availability_without_storage_capacity(self):
         """ Checking the item availability without storage_capacity """
@@ -389,6 +415,7 @@ class InventoryServiceTestCases(unittest.TestCase):
             item_availability_response_dict['message'],
             msg="Expected message is %s and got is %s" %
                 (error_message, item_availability_response_dict['message']))
+        logging.info('test case executed successfully')
 
     def test_item_availability_without_item_status(self):
         """ Checking the item availability without item_status """
@@ -412,6 +439,7 @@ class InventoryServiceTestCases(unittest.TestCase):
             item_availability_response_dict['message'],
             msg="Expected message is %s and got is %s" %
                 (error_message, item_availability_response_dict['message']))
+        logging.info('test case executed successfully')
 
     """ update the status of an item """
 
@@ -442,6 +470,7 @@ class InventoryServiceTestCases(unittest.TestCase):
             update_item_status_response_dict['message'],
             msg="Expected message is %s and got is %s" %
                 (expected_message, update_item_status_response_dict['message']))
+        logging.info('test case executed successfully')
 
     def test_update_item_with_invalid_item_status(self):
         """ Updating the item_status with
@@ -457,8 +486,9 @@ class InventoryServiceTestCases(unittest.TestCase):
         update_item_status_response_dict = update_item_status_response.json()
         logging.info('test_update_item_with_invalid_item_status')
         logging.info('Url is %s', update_item_url(item_id='NOOR'))
-        logging.info('Request is %s', InventoryServicePayload().inventory_update_payload(
-                item_status='newly', sku=''))
+        logging.info('Request is %s',
+                     InventoryServicePayload().inventory_update_payload(
+                         item_status='newly', sku=''))
         logging.info('Response is %s', update_item_status_response.text)
         self.assertEquals(
             update_item_status_response.status_code, 400,
@@ -470,3 +500,4 @@ class InventoryServiceTestCases(unittest.TestCase):
             update_item_status_response_dict['message'],
             msg="Expected message is %s and got is %s" %
                 (error_message, update_item_status_response_dict['message']))
+        logging.info('test case executed successfully')
