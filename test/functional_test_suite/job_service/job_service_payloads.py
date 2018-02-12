@@ -6,10 +6,10 @@ class SeedJobServicePayload(object):
 
     def create_seed_job_payload(
             self, job_name='TestBackup102', job_type='BOX',
-            target_system_id='CTAZURE2',
-            address_title='9876', description='Thisistestjob',
-            source_system_id='01e493cc-4dfd-47bb-9881-e24599432f16',
-            max_data_size=1, email_id='emanohar80@gmail.com',
+            target_system_id='',
+            address_title="9876", description='Thisistestjob',
+            source_system_id='0cb0fba4-1776-4434-9f44-170b8013a710',
+            max_data_size="60", email_id='emanohar80@gmail.com',
             job_complete=True, job_approved=False, box_shipped=True,
             ready_to_restore=False, data_erased=True, box_prepared=True,
             box_in_transit=True, box_at_switch=True, box_del_to_cust=True,
