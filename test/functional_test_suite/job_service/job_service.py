@@ -6,7 +6,7 @@ from test.shared.rest_framework import RequestType, RestAPI, path
 from test.functional_test_suite.job_service.job_service_payloads import SeedJobServicePayload
 from test.functional_test_suite.common.config import SEED_JOB_URL,\
     SEED_JOB_ID, seed_job_url, user_action_url, \
-    TEMP_KEY, DELETE_JOB_ID, agent_action_url, initialize_logger
+    TEMP_KEY, agent_action_url, initialize_logger
 
 job_service_customer = RestAPI(utype='customer')
 job_service_sysops = RestAPI(utype='sysops')
@@ -41,7 +41,9 @@ class JobServiceTestCases(unittest.TestCase):
             'job_id', create_job_response_dict.keys(),
             msg="Expected %s in %s" %
                 ('job_id', create_job_response_dict.keys()))
+        jobid = create_job_response_dict['job_id']
         logging.info('test case executed successfully')
+        return jobid
 
     def test_create_job_with_invalid_token(self):
         """ Testing the creation of seed_job with invalid token """
@@ -338,10 +340,11 @@ class JobServiceTestCases(unittest.TestCase):
         """ Testing with the valid job_id to get the details of the seed job """
 
         # Get the seed job details with valid job id
+        jobid = self.test_create_job_with_valid_details()
         job_details_response = job_service_customer.request(
-            RequestType.GET, seed_job_url(SEED_JOB_ID))
+            RequestType.GET, seed_job_url(jobid))
         logging.info('test_job_details_with_valid_job_id')
-        logging.info('Url is %s', seed_job_url(SEED_JOB_ID))
+        logging.info('Url is %s', seed_job_url(jobid))
         logging.info('Response is %s', job_details_response.text)
         self.assertEquals(
             job_details_response.status_code, 200,
@@ -382,12 +385,12 @@ class JobServiceTestCases(unittest.TestCase):
         of the seed job """
 
         error_message = "Unauthorized"
-
+        jobid = self.test_create_job_with_valid_details()
         # Get the details of seed job with invalid job id
         job_details_response = job_service_invalid.request(
-            RequestType.GET, seed_job_url(SEED_JOB_ID))
+            RequestType.GET, seed_job_url(jobid))
         logging.info('test_job_detail_with_invalid_token')
-        logging.info('Url is %s', seed_job_url(SEED_JOB_ID))
+        logging.info('Url is %s', seed_job_url(jobid))
         logging.info('Response is %s', job_details_response.text)
         self.assertEquals(
             job_details_response.status_code, 401,
@@ -406,11 +409,12 @@ class JobServiceTestCases(unittest.TestCase):
         """ Testing with the valid job_id to update the details of seed_job """
 
         # Update the seed job with valid job id
+        jobid = self.test_create_job_with_valid_details()
         job_update_response = job_service_customer.request(
-            RequestType.PUT, seed_job_url(SEED_JOB_ID),
+            RequestType.PUT, seed_job_url(jobid),
             payload=SeedJobServicePayload().update_seed_job_payload())
         logging.info('test_job_update_with_valid_job_id')
-        logging.info('Url is %s', seed_job_url(SEED_JOB_ID))
+        logging.info('Url is %s', seed_job_url(jobid))
         logging.info('Request is %s', SeedJobServicePayload().
                      update_seed_job_payload())
         logging.info('Response is %s', job_update_response.text)
@@ -452,14 +456,15 @@ class JobServiceTestCases(unittest.TestCase):
         """ Testing with invalid token to update the details of seed_job """
 
         expected_message = "Unauthorized"
-
+        jobid = self.test_create_job_with_valid_details()
+        
         # Update the seed job without job id
         job_update_response = job_service_invalid.request(
-            RequestType.PUT, seed_job_url(SEED_JOB_ID),
+            RequestType.PUT, seed_job_url(jobid),
             payload=SeedJobServicePayload().update_seed_job_payload())
         job_update_response_dict = job_update_response.json()
         logging.info('test_job_update_with_invalid_token')
-        logging.info('Url is %s', seed_job_url(SEED_JOB_ID))
+        logging.info('Url is %s', seed_job_url(jobid))
         logging.info('Request is %s', SeedJobServicePayload().
                      update_seed_job_payload())
         logging.info('Response is %s', job_update_response.text)
@@ -474,142 +479,19 @@ class JobServiceTestCases(unittest.TestCase):
                 (expected_message, job_update_response_dict['message']))
         logging.info('test case executed successfully')
 
-    def test_job_update_with_invalid_source_system_id(self):
-        """ Testing with invalid source_system_id to
-        update the details of seed_job """
-
-        # Update the seed job with invalid source system id
-        job_update_response = job_service_customer.request(
-            RequestType.PUT, seed_job_url(SEED_JOB_ID),
-            payload=SeedJobServicePayload().update_seed_job_payload
-            (source_system_id='26xv762 @'))
-        job_update_response_dict = job_update_response.json()
-        logging.info('test_job_update_with_invalid_source_system_id')
-        logging.info('Url is %s', seed_job_url(SEED_JOB_ID))
-        logging.info('Request is %s', SeedJobServicePayload().
-                     update_seed_job_payload(source_system_id='26xv762 @'))
-        logging.info('Response is %s', job_update_response.text)
-        self.assertEquals(
-            job_update_response.status_code, 400,
-            msg="Expected code is 400 and got is %s (%s)" % (
-                job_update_response.status_code,
-                httplib.responses[job_update_response.status_code]))
-        self.assertIn(
-            'message', job_update_response_dict.keys(),
-            msg="Expected %s in %s" %
-                ('message', job_update_response_dict.keys()))
-        logging.info('test case executed successfully')
-
-    def test_job_update_with_invalid_target_system_id(self):
-        """ Testing with the invalid target_system_id to
-        update the details of seed_job """
-
-        # Update the seed job with invalid target system id
-        job_update_response = job_service_customer.request(
-            RequestType.PUT, seed_job_url(SEED_JOB_ID),
-            payload=SeedJobServicePayload().update_seed_job_payload
-            (target_system_id="dvwy27@"))
-        job_update_response_dict = job_update_response.json()
-        logging.info('test_job_update_with_invalid_target_system_id')
-        logging.info('Url is %s', seed_job_url(SEED_JOB_ID))
-        logging.info('Request is %s', SeedJobServicePayload().
-                     update_seed_job_payload(target_system_id="dvwy27@"))
-        logging.info('Response is %s', job_update_response.text)
-        self.assertEquals(
-            job_update_response.status_code, 400,
-            msg="Expected code is 400 and got is %s (%s)" % (
-                job_update_response.status_code,
-                httplib.responses[job_update_response.status_code]))
-        self.assertIn(
-            'message', job_update_response_dict.keys(),
-            msg="Expected %s in %s" %
-                ('message', job_update_response_dict.keys()))
-        logging.info('test case executed successfully')
-
-    """ DELETE: Delete the seed job with job id"""
-
-    def test_delete_job_with_valid_job_id(self):
-        """ Testing with the valid job_id to delete seed_job """
-
-        message = "Seed Job is deleted"
-
-        # Delete the seed job with valid job id
-        job_delete_response = job_service_customer.request(
-            RequestType.DELETE, seed_job_url(DELETE_JOB_ID))
-        job_delete_response_dict = job_delete_response.json()
-        logging.info('test_delete_job_with_valid_job_id')
-        logging.info('Url is %s', seed_job_url(DELETE_JOB_ID))
-        logging.info('Response is %s', job_delete_response.text)
-        self.assertEquals(
-            job_delete_response.status_code, 200,
-            msg="Expected code is 200 and got is %s (%s)" % (
-                job_delete_response.status_code,
-                httplib.responses[job_delete_response.status_code]))
-        self.assertEquals(
-            message, job_delete_response_dict['message'],
-            msg="Expected %s in %s" %
-                (message, job_delete_response_dict['message']))
-        logging.info('test case executed successfully')
-
-    def test_delete_job_with_invalid_job_id(self):
-        """ Testing with the invalid job_id to delete seed_job """
-
-        error_message = "Resource with id %s does not exists" % TEMP_KEY
-
-        # Delete the seed job with invalid job id
-        job_delete_response = job_service_customer.request(
-            RequestType.DELETE, seed_job_url(TEMP_KEY))
-        job_delete_response_dict = job_delete_response.json()
-        logging.info('test_delete_job_with_invalid_job_id')
-        logging.info('Url is %s', seed_job_url(TEMP_KEY))
-        logging.info('Response is %s', job_delete_response.text)
-        self.assertEquals(
-            job_delete_response.status_code, 404,
-            msg="Expected code is 404 and got is %s (%s)" % (
-                job_delete_response.status_code,
-                httplib.responses[job_delete_response.status_code]))
-        self.assertEquals(
-            error_message, job_delete_response_dict['message'],
-            msg="Expected %s in %s" %
-                (error_message, job_delete_response_dict['message']))
-        logging.info('test case executed successfully')
-
-    def test_delete_job_with_invalid_token(self):
-        """ Testing with the invalid job_id to delete seed_job """
-
-        error_message = "Unauthorized"
-
-        # Delete the seed job with invalid job id
-        job_delete_response = job_service_invalid.request(
-            RequestType.DELETE, seed_job_url(TEMP_KEY))
-        job_delete_response_dict = job_delete_response.json()
-        logging.info('test_delete_job_with_invalid_token')
-        logging.info('Url is %s', seed_job_url(TEMP_KEY))
-        logging.info('Response is %s', job_delete_response.text)
-        self.assertEquals(
-            job_delete_response.status_code, 401,
-            msg="Expected code is 401 and got is %s (%s)" % (
-                job_delete_response.status_code,
-                httplib.responses[job_delete_response.status_code]))
-        self.assertEquals(
-            error_message, job_delete_response_dict['message'],
-            msg="Expected %s in %s" %
-                (error_message, job_delete_response_dict['message']))
-        logging.info('test case executed successfully')
-
     """ PUT: Test cases As a user take an action on job """
 
     def test_action_with_valid_id(self):
         """ Testing with the valid job_id to take an action on job by user """
-
+        jobid = self.test_create_job_with_valid_details()
         # Action on job with valid job id
         user_action_response = job_service_customer.request(
             RequestType.PUT, user_action_url(
-                SEED_JOB_ID, action='test_conn_source'),
+                jobid, action='test_conn_source'),
             payload=SeedJobServicePayload().system_credentials())
         logging.info('test_action_with_valid_id')
         logging.info('Url is %s', user_action_url(
-            SEED_JOB_ID, action='test_conn_source'))
+            jobid, action='test_conn_source'))
         logging.info('Request is %s', SeedJobServicePayload().
                      system_credentials())
         logging.info('Response is %s', user_action_response.text)
@@ -652,16 +534,15 @@ class JobServiceTestCases(unittest.TestCase):
         """ Testing without job_id to take an action on job by user """
 
         expected_message = "Unauthorized"
-
+        jobid = self.test_create_job_with_valid_details()
         # Action on job without job id
         user_action_response = job_service_invalid.request(
-            RequestType.PUT, user_action_url(
-                SEED_JOB_ID, action='test_conn_source'),
+            RequestType.PUT, user_action_url(jobid, action='test_conn_source'),
             payload=SeedJobServicePayload().system_credentials())
         user_action_response_dict = user_action_response.json()
         logging.info('test_action_with_invalid_token')
         logging.info('Url is %s', user_action_url(
-            SEED_JOB_ID, action='test_conn_source'))
+            jobid, action='test_conn_source'))
         logging.info('Request is %s', SeedJobServicePayload().
                      system_credentials())
         logging.info('Response is %s', user_action_response.text)
@@ -679,16 +560,16 @@ class JobServiceTestCases(unittest.TestCase):
     def test_action_with_incorrect_db_user_name(self):
         """ Testing with incorrect database user name to
         take an action on job by user """
-
+        jobid = self.test_create_job_with_valid_details()
         # Action on job with incorrect database user name
         user_action_response = job_service_customer.request(
-            RequestType.PUT, user_action_url(SEED_JOB_ID, 'test_conn_source'),
+            RequestType.PUT, user_action_url(jobid, 'test_conn_source'),
             payload=SeedJobServicePayload().system_credentials
             (db_user_name='dbc1'))
         user_action_response_dict = user_action_response.json()
         logging.info('test_action_with_incorrect_db_user_name')
         logging.info('Url is %s', user_action_url(
-            SEED_JOB_ID, 'test_conn_source'))
+            jobid, 'test_conn_source'))
         logging.info('Request is %s', SeedJobServicePayload().
                      system_credentials(db_user_name='dbc1'))
         logging.info('Response is %s', user_action_response.text)
@@ -706,16 +587,16 @@ class JobServiceTestCases(unittest.TestCase):
     def test_action_with_incorrect_db_password(self):
         """ Testing with incorrect database password to take
         an action on job by user """
-
+        jobid = self.test_create_job_with_valid_details()
         # Action on job with incorrect database password
         user_action_response = job_service_customer.request(
-            RequestType.PUT, user_action_url(SEED_JOB_ID, 'test_conn_source'),
+            RequestType.PUT, user_action_url(jobid, 'test_conn_source'),
             payload=SeedJobServicePayload().system_credentials
             (db_user_password='dbc123'))
         user_action_response_dict = user_action_response.json()
         logging.info('test_action_with_incorrect_db_password')
         logging.info('Url is %s', user_action_url(
-            SEED_JOB_ID, 'test_conn_source'))
+            jobid, 'test_conn_source'))
         logging.info('Request is %s', SeedJobServicePayload().
                      system_credentials(db_user_password='dbc123'))
         logging.info('Response is %s', user_action_response.text)
@@ -737,14 +618,15 @@ class JobServiceTestCases(unittest.TestCase):
         """ Testing with valid job_id to take an action on job by an agent """
 
         # Agent action with valid job id
+        jobid = self.test_create_job_with_valid_details()
         agent_action_response = job_service_agent.request(
             RequestType.PATCH,
-            agent_action_url(job_id=SEED_JOB_ID,
+            agent_action_url(job_id=jobid,
                              action='test_conn_source_success'),
             payload=SeedJobServicePayload().update_job_logs())
         logging.info('test_agent_action_with_valid_job_id')
         logging.info('Url is %s', agent_action_url(
-            job_id=SEED_JOB_ID, action='test_conn_source_success'))
+            job_id=jobid, action='test_conn_source_success'))
         logging.info('Request is %s', SeedJobServicePayload().update_job_logs())
         logging.info('Response is %s', agent_action_response.text)
         self.assertEquals(
@@ -787,17 +669,17 @@ class JobServiceTestCases(unittest.TestCase):
         action on job by an agent """
 
         message = "for action test_conn_source_success db objects required"
-
+        jobid = self.test_create_job_with_valid_details()
         # Agent action without source objects
         agent_action_response = job_service_agent.request(
             RequestType.PATCH,
-            agent_action_url(job_id=SEED_JOB_ID,
+            agent_action_url(job_id=jobid,
                              action='test_conn_source_success'),
             payload=SeedJobServicePayload().update_job_logs(source_objects={}))
         agent_action_response_dict = agent_action_response.json()
         logging.info('test_agent_action_without_source_objects')
         logging.info('Url is %s', agent_action_url(
-            job_id=SEED_JOB_ID, action='test_conn_source_success'))
+            job_id=jobid, action='test_conn_source_success'))
         logging.info('Request is %s', SeedJobServicePayload().
                      update_job_logs(source_objects={}))
         logging.info('Response is %s', agent_action_response.text)
@@ -810,4 +692,75 @@ class JobServiceTestCases(unittest.TestCase):
             message, agent_action_response_dict['message'],
             msg="Expected %s in %s" %
                 (message, agent_action_response_dict['message']))
+        logging.info('test case executed successfully')
+
+    """ DELETE: Delete the seed job with job id"""
+
+    def test_zdelete_job_with_valid_job_id(self):
+        """ Testing with the valid job_id to delete seed_job """
+
+        message = "Seed Job is deleted"
+        jobid = self.test_create_job_with_valid_details()
+        # Delete the seed job with valid job id
+        job_delete_response = job_service_customer.request(
+            RequestType.DELETE, seed_job_url(jobid))
+        job_delete_response_dict = job_delete_response.json()
+        logging.info('test_delete_job_with_valid_job_id')
+        logging.info('Url is %s', seed_job_url(jobid))
+        logging.info('Response is %s', job_delete_response.text)
+        self.assertEquals(
+            job_delete_response.status_code, 200,
+            msg="Expected code is 200 and got is %s (%s)" % (
+                job_delete_response.status_code,
+                httplib.responses[job_delete_response.status_code]))
+        self.assertEquals(
+            message, job_delete_response_dict['message'],
+            msg="Expected %s in %s" %
+                (message, job_delete_response_dict['message']))
+        logging.info('test case executed successfully')
+
+    def test_delete_job_with_invalid_job_id(self):
+        """ Testing with the invalid job_id to delete seed_job """
+
+        error_message = "Resource with id %s does not exists" % TEMP_KEY
+
+        # Delete the seed job with invalid job id
+        job_delete_response = job_service_customer.request(
+            RequestType.DELETE, seed_job_url(TEMP_KEY))
+        job_delete_response_dict = job_delete_response.json()
+        logging.info('test_delete_job_with_invalid_job_id')
+        logging.info('Url is %s', seed_job_url(TEMP_KEY))
+        logging.info('Response is %s', job_delete_response.text)
+        self.assertEquals(
+            job_delete_response.status_code, 404,
+            msg="Expected code is 404 and got is %s (%s)" % (
+                job_delete_response.status_code,
+                httplib.responses[job_delete_response.status_code]))
+        self.assertEquals(
+            error_message, job_delete_response_dict['message'],
+            msg="Expected %s in %s" %
+                (error_message, job_delete_response_dict['message']))
+        logging.info('test case executed successfully')
+
+    def test_delete_job_with_invalid_token(self):
+        """ Testing with the invalid job_id to delete seed_job """
+
+        error_message = "Unauthorized"
+        jobid = self.test_create_job_with_valid_details()
+        # Delete the seed job with invalid job id
+        job_delete_response = job_service_invalid.request(
+            RequestType.DELETE, seed_job_url(jobid))
+        job_delete_response_dict = job_delete_response.json()
+        logging.info('test_delete_job_with_invalid_token')
+        logging.info('Url is %s', seed_job_url(jobid))
+        logging.info('Response is %s', job_delete_response.text)
+        self.assertEquals(
+            job_delete_response.status_code, 401,
+            msg="Expected code is 401 and got is %s (%s)" % (
+                job_delete_response.status_code,
+                httplib.responses[job_delete_response.status_code]))
+        self.assertEquals(
+            error_message, job_delete_response_dict['message'],
+            msg="Expected %s in %s" %
+                (error_message, job_delete_response_dict['message']))
         logging.info('test case executed successfully')
