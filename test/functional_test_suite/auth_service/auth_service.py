@@ -170,7 +170,7 @@ class AuthService(unittest.TestCase):
         validate_auth_user_response = auth_service.request(
             RequestType.POST, validate_auth_user_url,
             payload=AuthServicePayload().validate_user_credentials_payload
-            (password="1@"))
+            (password="1xsjnsjs@"))
         validate_auth_user_response_dict = validate_auth_user_response.json()
         logging.info('test_validate_auth_user_with_invalid_password')
         logging.info('Url is %s', validate_auth_user_url)
@@ -299,6 +299,7 @@ class AuthService(unittest.TestCase):
         """ testing with valid user id to delete the user """
 
         userid = self.test_create_user_with_valid_details()
+        print userid
         auth_service_response = auth_service.request(
             RequestType.DELETE, delete_auth_user_url(user_id=userid))
         logging.info('test_delete_user_with_valid_user_id')
