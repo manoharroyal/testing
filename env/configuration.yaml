@@ -1,6 +1,6 @@
 # Do Not change this Base url
 BASE_URL:  "https://{0}.execute-api.us-west-2.amazonaws.com/dev"
-END_POINTS_URL: "https://e39vocykp2.execute-api.us-west-2.amazonaws.com/dev/endpoints"
+END_POINTS_URL: "https://iwtrjplex7.execute-api.us-west-2.amazonaws.com/dev/endpoints"
 
 TEMP_KEY: 'bb90c867-a02e-4868-bfff-a8ef9c5f68eb2'
 SEED_JOB_ID: 'e3b3d908-c916-42ae-964f-ebba727a00ab'
