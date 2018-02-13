@@ -90,7 +90,7 @@ class TicketService(unittest.TestCase):
 
         # Update the ticket with invalid ticket id
         ticket_response = ticket_service.request(
-            RequestType.PUT, ticket_detail_url('asdf'),
+            RequestType.PUT, ticket_detail_url('1234'),
             payload=TicketServicePayload().update_ticket_payload())
         ticket_response_dict = ticket_response.json()
         logging.info('test_update_ticket_with_invalid_ticket_id')
@@ -112,9 +112,11 @@ class TicketService(unittest.TestCase):
     def test_update_ticket_with_invalid_token(self):
         """ Update the ticket with the duplicate ticket_id """
 
+        expected_message = "Unauthorized"
+
         # Update the ticket without ticket id
         ticket_response = ticket_service_invalid.request(
-            RequestType.PUT, ticket_detail_url(''),
+            RequestType.PUT, ticket_detail_url('asdf'),
             payload=TicketServicePayload().update_ticket_payload())
         ticket_response_dict = ticket_response.json()
         logging.info('test_update_ticket_with_invalid_token')
@@ -127,8 +129,8 @@ class TicketService(unittest.TestCase):
             msg="Expected 401 and actual is %s (%s)" %
                 (ticket_response.status_code,
                  httplib.responses[ticket_response.status_code]))
-        self.assertIn(
-            'message', ticket_response_dict.keys(),
-            msg="Expected %s in %s" %
-                ('message', ticket_response_dict.keys()))
+        self.assertEquals(
+            expected_message, ticket_response_dict['message'],
+            msg="Expected %s equals %s" %
+                (expected_message, ticket_response_dict['message']))
         logging.info('test case executed successfully')
