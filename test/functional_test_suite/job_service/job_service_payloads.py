@@ -5,45 +5,49 @@ class SeedJobServicePayload(object):
     """ Payload for seed job service """
 
     def create_seed_job_payload(
-            self, job_name='TestBackup102', job_type='BOX',
-            target_system_id='',
-            address_title="9876", description='Thisistestjob',
-            source_system_id='0cb0fba4-1776-4434-9f44-170b8013a710',
-            max_data_size="60", email_id='emanohar80@gmail.com',
-            job_complete=True, job_approved=False, box_shipped=True,
-            ready_to_restore=False, data_erased=True, box_prepared=True,
-            box_in_transit=True, box_at_switch=True, box_del_to_cust=True,
-            data_restored=True,
-            optional_email_id='eethakatla.manohar@opcito.com'):
+            self, job_name='TestBackup102', description='Thisistestjob',
+            job_type='BOX', address_title='Intellicloud',
+            source_system_id='042dc3eb-7957-4048-8e1c-362fce51b0d2',
+            target_system_id='JOHNTEST2AAAAAA', max_data_size=60, passphrase='new1234',
+            email_id='emanohar80@gmail.com',
+            optional_email_id='eethakatla.manohar@opcito.com',
+            box_connected_to_customer_permimses=True, job_approved=False,
+            box_shipped=True,  box_del_to_cust=True, box_at_switch=True,
+            data_exported=True, data_restored=True, job_complete=True,
+            data_erased=True, data_integrity_validated=True):
         """ Request body for creation of seed job"""
 
         payload = {"job_name": job_name,
-                   "job_type": job_type,
-                   "target_system_id": target_system_id,
-                   "notification": {"email_id": email_id,
-                                    "job_complete": job_complete,
-                                    "job_approved": job_approved,
-                                    "box_shipped": box_shipped,
-                                    "ready_to_restore": ready_to_restore,
-                                    "data_erased": data_erased,
-                                    "box_prepared": box_prepared,
-                                    "optional_email_id": optional_email_id,
-                                    "box_in_transit": box_in_transit,
-                                    "box_at_switch": box_at_switch,
-                                    "box_del_to_cust": box_del_to_cust,
-                                    "data_restored": data_restored},
-                   "address_title": address_title,
                    "description": description,
+                   "job_type": job_type,
+                   "notification": {
+                        "email_id": email_id,
+                        "optional_email_id": optional_email_id,
+                        "box_connected_to_customer_permimses": box_connected_to_customer_permimses,
+                        "job_approved": job_approved,
+                        "box_shipped": box_shipped,
+                        "box_del_to_cust": box_del_to_cust,
+                        "box_at_switch": box_at_switch,
+                        "data_exported": data_exported,
+                        "data_restored": data_restored,
+                        "job_complete": job_complete,
+                        "data_erased": data_erased,
+                        "data_integrity_validated": data_integrity_validated
+                        },
+                   "address_title": address_title,
                    "source_system_id": source_system_id,
-                   "max_data_size": max_data_size}
+                   "target_system_id": target_system_id,
+                   "max_data_size": max_data_size,
+                   "passphrase": passphrase
+                   }
         return payload
 
     def update_seed_job_payload(
             self,
             email_optional='eethakatla.manohar@opcito.com',
             email='emanohar80@gmail.com',
-            source_system_id='86dc65e4-42a0-4ee8-91e8-f201678f53aa',
-            target_system_id='0f9dcceb-926c-4b0e-be63-785d26edc8a1',
+            source_system_id='042dc3eb-7957-4048-8e1c-362fce51b0d2',
+            target_system_id='JOHNTEST2AAAAAA',
             seeding_type='new', job_complete=True, job_approved=False,
             box_shipped=False, ready_to_restore=False, data_erased=False,
             box_prepared=False, box_in_transit=False, box_at_switch=False,
