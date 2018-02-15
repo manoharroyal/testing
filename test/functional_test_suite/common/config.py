@@ -36,12 +36,21 @@ AUTH_SERVICE_URL = end_point.request(
 BOX_SERVICE_URL = end_point.request(
     RequestType.GET,
     config_data['END_POINTS_URL']).json()['box-manager-dev'][-1]['endpoint']
+ORDER_SERVICE_URL = end_point.request(
+    RequestType.GET,
+    config_data['END_POINTS_URL']).json()['order-manager-dev'][0]['endpoint'].replace("{order_id}/track", "")
+
 
 TEMP_KEY = config_data['TEMP_KEY']
 SEED_JOB_ID = config_data['SEED_JOB_ID']
 DELETE_JOB_ID = config_data['DELETE_JOB_ID']
 
 """ Setting up the parameters with urls """
+
+
+def order_details_url(order_id):
+    """ Url to get tracking details of an order """
+    return '%s/%s/track' % (ORDER_SERVICE_URL, order_id)
 
 
 def box_details_url(id):
