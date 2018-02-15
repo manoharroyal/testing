@@ -4,8 +4,7 @@
 class BoxServicePayloads(object):
     """ payloads for box service are goes here """
 
-    def action_box_payload(self,
-                           box_id='ASDFGH', agent_id='345728',
+    def action_box_payload(self, box_id='ASDFGH', agent_id='345728',
                            job_id='9273ba2c-d4ac-41a0-b609-1ce5526051ad',
                            order_id=None,
                            customer_id='66214cc36fa1a900b9e847dc5d3ee474',
