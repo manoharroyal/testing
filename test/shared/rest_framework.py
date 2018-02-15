@@ -158,20 +158,20 @@ class RestAPI(object):
         try:
 
             if method == RequestType.GET:
-                self.response = requests.get(url, headers=header, timeout=30)
-
+                self.response = requests.get(
+                    url, headers=header, timeout=30)
             elif method == RequestType.POST:
-                self.response = requests.post(url, headers=header, timeout=30,
-                                              data=json.dumps(payload))
+                self.response = requests.post(
+                    url, headers=header, timeout=30, data=json.dumps(payload))
             elif method == RequestType.PUT:
-                self.response = requests.put(url, headers=header, timeout=30,
-                                             data=json.dumps(payload))
+                self.response = requests.put(
+                    url, headers=header, timeout=30, data=json.dumps(payload))
             elif method == RequestType.DELETE:
-                self.response = requests.delete(url, headers=header, timeout=30)
-
+                self.response = requests.delete(
+                    url, headers=header, timeout=30)
             elif method == RequestType.PATCH:
-                self.response = requests.patch(url, headers=header, timeout=30,
-                                               data=json.dumps(payload))
+                self.response = requests.patch(
+                    url, headers=header, timeout=30, data=json.dumps(payload))
             return self.response
 
         except:
