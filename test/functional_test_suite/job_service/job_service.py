@@ -5,8 +5,7 @@ import httplib
 from test.shared.rest_framework import RequestType, RestAPI, path
 from test.functional_test_suite.job_service.job_service_payloads import SeedJobServicePayload
 from test.functional_test_suite.common.config import SEED_JOB_URL,\
-    SEED_JOB_ID, seed_job_url, user_action_url, \
-    TEMP_KEY, agent_action_url, initialize_logger
+    seed_job_url, user_action_url, TEMP_KEY, agent_action_url, initialize_logger
 
 job_service_customer = RestAPI(utype='customer')
 job_service_sysops = RestAPI(utype='sysops')
@@ -23,6 +22,7 @@ class JobServiceTestCases(unittest.TestCase):
         """ Testing the creation of seed_job with all valid details """
 
         # Create job with all valid details
+
         create_job_response = job_service_customer.request(
             RequestType.POST, SEED_JOB_URL,
             payload=SeedJobServicePayload().create_seed_job_payload())
@@ -457,7 +457,7 @@ class JobServiceTestCases(unittest.TestCase):
 
         expected_message = "Unauthorized"
         jobid = self.test_create_job_with_valid_details()
-        
+
         # Update the seed job without job id
         job_update_response = job_service_invalid.request(
             RequestType.PUT, seed_job_url(jobid),
