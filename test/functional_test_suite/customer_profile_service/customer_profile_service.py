@@ -23,7 +23,7 @@ class CustomerProfileTestCases(unittest.TestCase):
     by passing the input parameters """
 
     """ GET: Test cases to get the list of addresses of customer """
-    
+
     def test_list_address_with_customer_id(self):
         """ Test with the valid customer_id to get the list of addresses """
 
@@ -44,7 +44,7 @@ class CustomerProfileTestCases(unittest.TestCase):
             msg="Expected %s in %s" %
                 ('shipping_addresses', customer_profile_response.dict.keys()))
         logging.info('test case executed successfully')
-    
+
     def test_list_address_with_customer_id_mismatch(self):
         """ Test with mis matched customer_id to get the list of addresses """
 
@@ -69,7 +69,7 @@ class CustomerProfileTestCases(unittest.TestCase):
             msg="Expected message is %s and got %s" %
                 (customer_profile_response_dict['message'], expected_message))
         logging.info('test case executed successfully')
-    
+
     def test_list_address_customer_profile_with_invalid_token(self):
         """ Test without customer_id to get the list of addresses """
 
@@ -150,7 +150,7 @@ class CustomerProfileTestCases(unittest.TestCase):
             msg="Expected message %s and got %s" %
                 (expected_message, customer_profile_response_dict['message']))
         logging.info('test case executed successfully')
-    
+
     def test_add_new_shipping_address_with_invalid_token(self):
         """ Testing with mismatch customer_id to add
         new shipping address to the customer profile """
@@ -181,7 +181,7 @@ class CustomerProfileTestCases(unittest.TestCase):
             msg="Expected message %s and got %s" %
                 (expected_message, customer_profile_response_dict['message']))
         logging.info('test case executed successfully')
-    
+
     def test_update_customer_profile_without_title(self):
         """ Testing without title to update customer profile """
 
@@ -209,7 +209,7 @@ class CustomerProfileTestCases(unittest.TestCase):
             msg="Expected message is %s and got %s" %
                 (expected_message, customer_profile_response_text['message']))
         logging.info('test case executed successfully')
-    
+
     def test_update_customer_profile_without_address_line_1(self):
         """ Testing without address_line_1 to update customer profile """
 
@@ -238,7 +238,7 @@ class CustomerProfileTestCases(unittest.TestCase):
             msg="Expected message is %s and got %s" %
                 (expected_message,  customer_profile_response_text['message']))
         logging.info('test case executed successfully')
-    
+
     def test_add_new_shipping_address_without_address_line2(self):
         """ Testing without address line2 to add
         new shipping address to the customer profile """
@@ -269,7 +269,7 @@ class CustomerProfileTestCases(unittest.TestCase):
             msg='Expected %s in %s' %
                 ('shipping_addresses', customer_profile_response_dict.keys()))
         logging.info('test case executed successfully')
-    
+
     def test_update_customer_profile_without_contact_name(self):
         """ Testing without  contact name to update customer profile """
 
@@ -298,7 +298,7 @@ class CustomerProfileTestCases(unittest.TestCase):
             msg="Expected message is %s and got %s" %
                 (expected_message, customer_profile_response_text['message']))
         logging.info('test case executed successfully')
-    
+
     def test_update_customer_profile_without_contact_number(self):
         """ Testing without contact number to update customer profile """
 
@@ -327,7 +327,7 @@ class CustomerProfileTestCases(unittest.TestCase):
             msg="Expected message is %s and got %s" %
                 (expected_message, customer_profile_response_text['message']))
         logging.info('test case executed successfully')
-    
+
     def test_update_customer_profile_without_city(self):
         """ Testing without city to update customer profile """
 
@@ -355,7 +355,7 @@ class CustomerProfileTestCases(unittest.TestCase):
             msg="Expected message is %s and got %s" %
                 (expected_message, customer_profile_response_text['message']))
         logging.info('test case executed successfully')
-    
+
     def test_update_customer_profile_without_state(self):
         """ Testing without state to update customer profile """
 
@@ -383,7 +383,7 @@ class CustomerProfileTestCases(unittest.TestCase):
             msg="Expected message is %s and got %s" %
                 (expected_message, customer_profile_response_text['message']))
         logging.info('test case executed successfully')
-    
+
     def test_update_customer_profile_without_country(self):
         """ Testing without country to update customer profile """
 
@@ -411,7 +411,7 @@ class CustomerProfileTestCases(unittest.TestCase):
             msg="Expected message is %s and got %s" %
                 (expected_message, customer_profile_response_text['message']))
         logging.info('test case executed successfully')
-    
+
     def test_update_customer_profile_without_zipcode(self):
         """
         Testing without zipcode to update customer profile """
@@ -443,7 +443,7 @@ class CustomerProfileTestCases(unittest.TestCase):
 
     """ GET: Test cases to get the particular address details
          of the customer by the address title """
-    
+
     def test_get_address_details_for_given_customer(self):
         """ Testing with the valid address to get the
         details of the customer """
@@ -464,7 +464,7 @@ class CustomerProfileTestCases(unittest.TestCase):
                       msg="Expected %s in %s" %
                           ('title', customer_profile_response_dict.keys()))
         logging.info('test case executed successfully')
-    
+
     def test_get_address_with_customer_id_mismatch(self):
         """ Testing with the mis match customer_id to get the
         details of the customer """
@@ -492,7 +492,7 @@ class CustomerProfileTestCases(unittest.TestCase):
             msg="Expected message is %s and got is %s" %
                 (expected_message, customer_profile_response_dict['message']))
         logging.info('test case executed successfully')
-    
+
     def test_get_address_with_invalid_title(self):
         """ Testing with invalid address title to get the
         details of the customer """
@@ -550,7 +550,7 @@ class CustomerProfileTestCases(unittest.TestCase):
             msg="Expected %s is equal to %s" %
                 (address_title, response_dict['title']))
         logging.info('test case executed successfully')
-    
+
     def test_update_shipping_address_with_invalid_title(self):
         """ Testing with invalid title to update
         shipping address to the customer profile """
@@ -584,7 +584,7 @@ class CustomerProfileTestCases(unittest.TestCase):
                 (expected_message,
                  customer_profile_shipping_address_response_dict['message']))
         logging.info('test case executed successfully')
-    
+
     def test_update_shipping_address_with_invalid_customer_id(self):
         """ Testing with invalid title to update
         shipping address to the customer profile """
@@ -618,7 +618,7 @@ class CustomerProfileTestCases(unittest.TestCase):
                 (expected_message,
                  customer_profile_shipping_address_response_dict['message']))
         logging.info('test case executed successfully')
-    
+
     def test_update_shipping_address_with_invalid_token(self):
         """ Testing with invalid title to update
         shipping address to the customer profile """
@@ -653,7 +653,7 @@ class CustomerProfileTestCases(unittest.TestCase):
                 (expected_message,
                  customer_profile_shipping_address_response_dict['message']))
         logging.info('test case executed successfully')
-    
+
     def test_update_shipping_address_without_address_line_1(self):
         """ Testing without address_line_1 to update
         shipping address to the customer profile """
@@ -684,7 +684,7 @@ class CustomerProfileTestCases(unittest.TestCase):
             msg="Expected %s is equal to %s" %
                 (address_title, response_dict['title']))
         logging.info('test case executed successfully')
-    
+
     def test_update_shipping_address_without_address_line_2(self):
         """ Testing without address_line_2 to update
         shipping address to the customer profile """
@@ -715,7 +715,7 @@ class CustomerProfileTestCases(unittest.TestCase):
             msg="Expected %s is equal to %s" %
                 (address_title, response_dict['title']))
         logging.info('test case executed successfully')
-    
+
     def test_update_shipping_address_without_contact_name(self):
         """ Testing without contact name to update
         shipping address to the customer profile """
@@ -746,7 +746,7 @@ class CustomerProfileTestCases(unittest.TestCase):
             msg="Expected %s is equal to %s" %
                 (address_title, response_dict['title']))
         logging.info('test case executed successfully')
-    
+
     def test_update_shipping_address_without_contact_number(self):
         """ Testing without contact number to update
         shipping address to the customer profile """
@@ -777,7 +777,7 @@ class CustomerProfileTestCases(unittest.TestCase):
             msg="Expected %s is equal to %s" %
                 (address_title, response_dict['title']))
         logging.info('test case executed successfully')
-    
+
     def test_update_shipping_address_without_company_name(self):
         """ Testing without company name update
         shipping address to the customer profile """
@@ -809,7 +809,7 @@ class CustomerProfileTestCases(unittest.TestCase):
             msg="Expected %s is equal to %s" %
                 (address_title, response_dict['title']))
         logging.info('test case executed successfully')
-    
+
     def test_update_shipping_address_without_city(self):
         """ Testing without city to update
         shipping address to the customer profile """
@@ -840,7 +840,7 @@ class CustomerProfileTestCases(unittest.TestCase):
             msg="Expected %s is equal to %s" %
                 (address_title, response_dict['title']))
         logging.info('test case executed successfully')
-    
+
     def test_update_shipping_address_without_state(self):
         """ Testing without state to update
         shipping address to the customer profile """
@@ -871,7 +871,7 @@ class CustomerProfileTestCases(unittest.TestCase):
             msg="Expected %s is equal to %s" %
                 (address_title, response_dict['title']))
         logging.info('test case executed successfully')
-    
+
     def test_update_shipping_address_without_country(self):
         """ Testing without country to update
         shipping address to the customer profile """
@@ -902,7 +902,7 @@ class CustomerProfileTestCases(unittest.TestCase):
             msg="Expected %s is equal to %s" %
                 (address_title, response_dict['title']))
         logging.info('test case executed successfully')
-    
+
     def test_update_shipping_address_without_zipcode(self):
         """ Testing without zipcode to update
         shipping address to the customer profile """
@@ -951,7 +951,7 @@ class CustomerProfileTestCases(unittest.TestCase):
                 (customer_profile_response.status_code,
                  httplib.responses[customer_profile_response.status_code]))
         logging.info('test case executed successfully')
-    
+
     def test_delete_address_with_wrong_title(self):
         """ Testing with the invalid address title """
 
@@ -974,7 +974,7 @@ class CustomerProfileTestCases(unittest.TestCase):
             msg="Expected message is %s and got is %s" %
                 (expected_message, customer_profile_response_dict['message']))
         logging.info('test case executed successfully')
-    
+
     def test_delete_address_with_customer_id_mismatch(self):
         """ Testing with the invalid address title """
 
