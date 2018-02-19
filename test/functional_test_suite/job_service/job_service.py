@@ -21,7 +21,7 @@ logging.info('Request is %s', SeedJobServicePayload().create_seed_job_payload())
 jobid = job_service_customer.request(
     RequestType.POST, SEED_JOB_URL,
     payload=SeedJobServicePayload().create_seed_job_payload()).json()['job_id']
-print jobid
+logging.info("Response is %s" % jobid)
 
 
 class JobServiceTestCases(unittest.TestCase):
@@ -29,33 +29,6 @@ class JobServiceTestCases(unittest.TestCase):
 
     """ POST: Test cases to Creation of seed job """
 
-#     def test_create_job_with_valid_details(self):
-#         """ Testing the creation of seed_job with all valid details """
-#
-#         # Create job with all valid details
-#
-#         create_job_response = job_service_customer.request(
-#             RequestType.POST, SEED_JOB_URL,
-#             payload=SeedJobServicePayload().create_seed_job_payload())
-#         create_job_response_dict = create_job_response.json()
-#         logging.info('test_create_job_with_valid_details')
-#         logging.info('Url is %s', SEED_JOB_URL)
-#         logging.info('Request is %s',
-#                      SeedJobServicePayload().create_seed_job_payload())
-#         logging.info('Response is %s', create_job_response.text)
-#         self.assertEquals(
-#             create_job_response.status_code, 201,
-#             msg="Expected code is 201 and got is %s (%s)" %
-#                 (create_job_response.status_code,
-#                  httplib.responses[create_job_response.status_code]))
-#         self.assertIn(
-#             'job_id', create_job_response_dict.keys(),
-#             msg="Expected %s in %s" %
-#                 ('job_id', create_job_response_dict.keys()))
-#         job_id = create_job_response_dict['job_id']
-#         logging.info('test case executed successfully')
-#         return job_id
-#
     def test_create_job_with_invalid_token(self):
         """ Testing the creation of seed_job with invalid token """
 
