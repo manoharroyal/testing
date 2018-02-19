@@ -2,14 +2,16 @@
 import logging
 import unittest
 import httplib
-from test.functional_test_suite.common.config import TICKET_SERVICE_URL, \
-    ticket_detail_url, initialize_logger
+from test.functional_test_suite.common.config import update_ticket_url, \
+    initialize_logger, get_tickets_url
 from test.shared.rest_framework import RestAPI, RequestType, path
 from test.functional_test_suite.ticket_service.ticket_service_payloads import TicketServicePayload
 
 ticket_service = RestAPI(utype='sysops')
 ticket_service_invalid = RestAPI(utype='invalid')
 initialize_logger(path + '/../../logs/ticket_service.log')
+job_id = '86b8ffcf-54ff-49b3-b2fe-05ec13cb043c'
+ticket_id = '3efce081-0f79-452c-8ce6-fe8379823ac0'
 
 
 class TicketService(unittest.TestCase):
@@ -17,23 +19,25 @@ class TicketService(unittest.TestCase):
 
     """ GET: To get the list of tickets """
 
-    def test_get_list_tickets_with_valid_url(self):
+    def test_get_list_tickets_with_valid_job_id(self):
         """ Get the list of tickets """
 
         # Get the list of all tickets with valid url
         list_tickets_response = ticket_service.request(
-            RequestType.GET, TICKET_SERVICE_URL,
-            payload=TicketServicePayload.get_tickets_payload)
+            RequestType.GET, get_tickets_url(job_id=job_id))
+        list_tickets_response_dict = list_tickets_response.json()
         logging.info('test_get_list_tickets_with_valid_url')
-        logging.info('Url is %s', TICKET_SERVICE_URL)
-        logging.info('Request is %s',
-                     TicketServicePayload().get_tickets_payload())
+        logging.info('Url is %s', get_tickets_url(job_id=job_id))
         logging.info('Response is %s', list_tickets_response.text)
         self.assertEqual(
             list_tickets_response.status_code, 200,
             msg="Expected 200 and got is %s (%s)" %
                 (list_tickets_response.status_code,
-                 httplib.responses(list_tickets_response.status_code)))
+                 httplib.responses[list_tickets_response.status_code]))
+        self.assertIn(
+            "list", list_tickets_response_dict.keys(),
+            msg="Expected %s in %s" % (
+                "list", list_tickets_response_dict.keys()))
         logging.info('test case executed successfully')
 
     def test_get_list_tickets_with_invalid_token(self):
@@ -43,13 +47,10 @@ class TicketService(unittest.TestCase):
 
         # Get the list of all tickets with invalid url
         list_tickets_response = ticket_service_invalid.request(
-            RequestType.GET, TICKET_SERVICE_URL,
-            payload=TicketServicePayload.get_tickets_payload)
+            RequestType.GET, get_tickets_url(job_id=job_id))
         list_tickets_response_dict = list_tickets_response.json()
         logging.info('test_get_list_tickets_with_invalid_token')
-        logging.info('Url is %s', TICKET_SERVICE_URL)
-        logging.info('Request is %s',
-                     TicketServicePayload().get_tickets_payload())
+        logging.info('Url is %s', get_tickets_url(job_id=job_id))
         logging.info('Response is %s', list_tickets_response.text)
         self.assertEqual(
             list_tickets_response.status_code, 401,
@@ -69,10 +70,10 @@ class TicketService(unittest.TestCase):
 
         # Update the ticket with valid ticket id
         ticket_response = ticket_service.request(
-            RequestType.PUT, ticket_detail_url(ticket_id='wbcsjis'),
+            RequestType.PUT, update_ticket_url(ticket_id=ticket_id),
             payload=TicketServicePayload().update_ticket_payload())
         logging.info('test_update_ticket_with_valid_ticket_id')
-        logging.info('Url is %s', ticket_detail_url(ticket_id='wbcsjis'))
+        logging.info('Url is %s', update_ticket_url(ticket_id=ticket_id))
         logging.info('Request is %s',
                      TicketServicePayload().update_ticket_payload())
         logging.info('Response is %s', ticket_response.text)
@@ -90,11 +91,11 @@ class TicketService(unittest.TestCase):
 
         # Update the ticket with invalid ticket id
         ticket_response = ticket_service.request(
-            RequestType.PUT, ticket_detail_url('1234'),
+            RequestType.PUT, update_ticket_url('1234'),
             payload=TicketServicePayload().update_ticket_payload())
         ticket_response_dict = ticket_response.json()
         logging.info('test_update_ticket_with_invalid_ticket_id')
-        logging.info('Url is %s', ticket_detail_url('asdf'))
+        logging.info('Url is %s', update_ticket_url('1234'))
         logging.info('Request is %s',
                      TicketServicePayload().update_ticket_payload())
         logging.info('Response is %s', ticket_response.text)
@@ -116,11 +117,11 @@ class TicketService(unittest.TestCase):
 
         # Update the ticket without ticket id
         ticket_response = ticket_service_invalid.request(
-            RequestType.PUT, ticket_detail_url('asdf'),
+            RequestType.PUT, update_ticket_url(ticket_id=ticket_id),
             payload=TicketServicePayload().update_ticket_payload())
         ticket_response_dict = ticket_response.json()
         logging.info('test_update_ticket_with_invalid_token')
-        logging.info('Url is %s', ticket_detail_url(''))
+        logging.info('Url is %s', update_ticket_url(ticket_id=ticket_id))
         logging.info('Request is %s',
                      TicketServicePayload().update_ticket_payload())
         logging.info('Response is %s', ticket_response.text)
