@@ -48,6 +48,11 @@ DELETE_JOB_ID = config_data['DELETE_JOB_ID']
 """ Setting up the parameters with urls """
 
 
+def get_tickets_url(job_id):
+    """ Url to get list of tickets of particular job """
+    return '%s?job_id=%s' % (TICKET_SERVICE_URL, job_id)
+
+
 def order_details_url(order_id):
     """ Url to get tracking details of an order """
     return '%s/%s/track' % (ORDER_SERVICE_URL, order_id)
@@ -141,7 +146,7 @@ def agent_action_url(job_id, action):
     return '%s/agent/%s?action=%s' % (SEED_JOB_URL, job_id, action)
 
 
-def ticket_detail_url(ticket_id):
+def update_ticket_url(ticket_id):
     """ url to get the details of ticket """
     return '%s/%s' % (TICKET_SERVICE_URL, ticket_id)
 
