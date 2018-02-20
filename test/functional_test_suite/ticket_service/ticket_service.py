@@ -11,7 +11,7 @@ ticket_service = RestAPI(utype='sysops')
 ticket_service_invalid = RestAPI(utype='invalid')
 initialize_logger(path + '/../../logs/ticket_service.log')
 job_id = '86b8ffcf-54ff-49b3-b2fe-05ec13cb043c'
-ticket_id = '3efce081-0f79-452c-8ce6-fe8379823ac0'
+ticket_id = 'CHG0052068'
 
 
 class TicketService(unittest.TestCase):
@@ -67,11 +67,12 @@ class TicketService(unittest.TestCase):
 
     def test_update_ticket_with_valid_ticket_id(self):
         """ Update the ticket with the valid ticket_id """
-
+        expected_message = "Updated Ticket id %s" % ticket_id
         # Update the ticket with valid ticket id
         ticket_response = ticket_service.request(
             RequestType.PUT, update_ticket_url(ticket_id=ticket_id),
             payload=TicketServicePayload().update_ticket_payload())
+        ticket_response_dict = ticket_response.json()
         logging.info('test_update_ticket_with_valid_ticket_id')
         logging.info('Url is %s', update_ticket_url(ticket_id=ticket_id))
         logging.info('Request is %s',
@@ -82,6 +83,10 @@ class TicketService(unittest.TestCase):
             msg="Expected 200 and actual is %s (%s)" %
                 (ticket_response.status_code,
                  httplib.responses[ticket_response.status_code]))
+        self.assertEquals(
+            expected_message, ticket_response_dict['message'],
+            msg="%s is equal to %s" %
+                (expected_message, ticket_response_dict['message']))
         logging.info('test case executed successfully')
 
     def test_update_ticket_with_invalid_ticket_id(self):
