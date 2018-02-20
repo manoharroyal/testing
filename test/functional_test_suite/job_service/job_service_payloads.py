@@ -73,11 +73,13 @@ class SeedJobServicePayload(object):
                    "source_selections": [source_selections]}
         return payload
 
-    def system_credentials(self, db_user_name='dbc', db_user_password='dbc'):
+    def system_credentials(self, db_user_name='dbc', db_user_password='dbc',
+                           passphrase='phrase123'):
         """ Credentials for the database """
         payload = {
             "db_user_name": db_user_name,
-            "db_user_password": db_user_password
+            "db_user_password": db_user_password,
+            "passphrase": passphrase
         }
         return payload
 
@@ -94,12 +96,11 @@ class SeedJobServicePayload(object):
                    "timeline_status": timeline_status}
         return payload
 
-    def approve_payload(self, comment="Approved"):
-        """ Payload to approve the job """
-        payload = {"comment": comment}
-        return payload
-
-    def update_job_logs(self, source_objects=({"AS": "OFF"})):
+    def update_job_logs(self, dsa_system_name="test-dsa-system-name",
+                        source_objects=({"AS": "OFF"})):
         """ Payload to update the job logs """
-        payload = {"source_objects": source_objects}
+        payload = {
+            "source_objects": source_objects,
+            "dsa_system_name": dsa_system_name
+        }
         return payload
