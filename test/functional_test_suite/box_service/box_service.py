@@ -81,7 +81,8 @@ class BoxServiceTestCases(unittest.TestCase):
         logging.info('test_update_box_with_invalid_details')
         logging.info('Url is %s', BOX_SERVICE_URL)
         logging.info('Request is %s',
-                     BoxServicePayloads().update_box_payload(customer_id='1234'))
+                     BoxServicePayloads().update_box_payload(
+                         customer_id='1234'))
         logging.info('Response is %s' % box_service_response.text)
         self.assertEquals(
             box_service_response.status_code, 400,
@@ -102,7 +103,8 @@ class BoxServiceTestCases(unittest.TestCase):
         logging.info('test_update_box_with_invalid_details')
         logging.info('Url is %s', BOX_SERVICE_URL)
         logging.info('Request is %s',
-                     BoxServicePayloads().update_box_payload(customer_id='asjhc'))
+                     BoxServicePayloads().
+                     update_box_payload(customer_id='asjhc'))
         logging.info('Response is %s' % box_service_response.text)
         self.assertEquals(
             box_service_response.status_code, 401,
@@ -125,8 +127,7 @@ class BoxServiceTestCases(unittest.TestCase):
             box_action_url(box_id='1234'),
             payload=BoxServicePayloads().action_box_payload())
         logging.info('test_action_on_box_with_valid_box_id')
-        logging.info('Url is %s', box_action_url(box_id
-                                                 ='1234'))
+        logging.info('Url is %s', box_action_url(box_id='1234'))
         logging.info('Request is %s', BoxServicePayloads().action_box_payload())
         logging.info('Response is %s' % box_service_response.text)
         self.assertEquals(
