@@ -539,61 +539,7 @@ class JobServiceTestCases(unittest.TestCase):
                 (expected_message, user_action_response_dict['message']))
         logging.info('test case executed successfully')
 
-    def test_action_with_incorrect_db_user_name(self, job_id=jobid):
-        """ Testing with incorrect database user name to
-        take an action on job by user """
-
-        # Action on job with incorrect database user name
-        user_action_response = job_service_customer.request(
-            RequestType.PUT, user_action_url(job_id, 'test_conn_source'),
-            payload=SeedJobServicePayload().system_credentials
-            (db_user_name='dbc1'))
-        user_action_response_dict = user_action_response.json()
-        logging.info('test_action_with_incorrect_db_user_name')
-        logging.info('Url is %s', user_action_url(
-            job_id, 'test_conn_source'))
-        logging.info('Request is %s', SeedJobServicePayload().
-                     system_credentials(db_user_name='dbc1'))
-        logging.info('Response is %s', user_action_response.text)
-        self.assertEquals(
-            user_action_response.status_code, 400,
-            msg="Expected code is 400 and got is %s (%s)" % (
-                user_action_response.status_code,
-                httplib.responses[user_action_response.status_code]))
-        self.assertIn(
-            'message', user_action_response_dict.keys(),
-            msg="Expected %s in %s" %
-                ('message', user_action_response_dict.keys()))
-        logging.info('test case executed successfully')
-
-    def test_action_with_incorrect_db_password(self, job_id=jobid):
-        """ Testing with incorrect database password to take
-        an action on job by user """
-
-        # Action on job with incorrect database password
-        user_action_response = job_service_customer.request(
-            RequestType.PUT, user_action_url(job_id, 'test_conn_source'),
-            payload=SeedJobServicePayload().system_credentials
-            (db_user_password='dbc123'))
-        user_action_response_dict = user_action_response.json()
-        logging.info('test_action_with_incorrect_db_password')
-        logging.info('Url is %s', user_action_url(
-            job_id, 'test_conn_source'))
-        logging.info('Request is %s', SeedJobServicePayload().
-                     system_credentials(db_user_password='dbc123'))
-        logging.info('Response is %s', user_action_response.text)
-        self.assertEquals(
-            user_action_response.status_code, 400,
-            msg="Expected code is 400 and got is %s (%s)" % (
-                user_action_response.status_code,
-                httplib.responses[user_action_response.status_code]))
-        self.assertIn(
-            'message', user_action_response_dict.keys(),
-            msg="Expected %s in %s" %
-                ('message', user_action_response_dict.keys()))
-        logging.info('test case executed successfully')
-
-        # # PATCH: take action by an agent
+        # PATCH: take action by an agent
     """ PATCH: Method Test cases to take an action by an agent on job """
 
     def test_agent_action_with_valid_job_id(self, job_id=jobid):
@@ -636,8 +582,8 @@ class JobServiceTestCases(unittest.TestCase):
         logging.info('Request is %s', SeedJobServicePayload().update_job_logs())
         logging.info('Response is %s', agent_action_response.text)
         self.assertEquals(
-            agent_action_response.status_code, 404,
-            msg="Expected code is 404 and got is %s (%s)" %
+            agent_action_response.status_code, 503,
+            msg="Expected code is 503 and got is %s (%s)" %
                 (agent_action_response.status_code,
                  httplib.responses[agent_action_response.status_code]))
         self.assertEquals(
