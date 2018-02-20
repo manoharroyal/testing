@@ -38,7 +38,7 @@ BOX_SERVICE_URL = end_point.request(
     config_data['END_POINTS_URL']).json()['box-manager-dev'][-1]['endpoint']
 ORDER_SERVICE_URL = end_point.request(
     RequestType.GET,
-    config_data['END_POINTS_URL']).json()['order-manager-dev'][0]['endpoint'].replace("{order_id}/track", "")
+    config_data['END_POINTS_URL']).json()['order-manager-dev'][0]['endpoint'].replace("/{order_id}/track", "")
 
 
 TEMP_KEY = config_data['TEMP_KEY']
