@@ -20,8 +20,8 @@ class BoxServicePayloads(object):
         }
         return payload
 
-    def update_box_payload(self, agent_id='ASDFGH',
-                           job_id='9273ba2c-d4ac-41a0-b609-1ce5526051ad',
+    def update_box_payload(self, agent_id='000f1fa0-fba6-44b9-9232-fcfab1f2b999',
+                           job_id='79053803-7937-4022-a318-9bc6c92a8fef',
                            customer_id='66214cc36fa1a900b9e847dc5d3ee474'):
         """ Pay load to create box """
 
