@@ -1,6 +1,7 @@
 """ Functional Test cases for Job Service """
 import logging
 import unittest
+import pytest
 import httplib
 from test.shared.rest_framework import RequestType, RestAPI, path
 from test.functional_test_suite.job_service.job_service_payloads import SeedJobServicePayload
@@ -13,21 +14,40 @@ job_service_invalid = RestAPI(utype='invalid')
 job_service_agent = RestAPI(utype='agent')
 initialize_logger(path + '/../../logs/job_service.log')
 
-
-logging.info('test_create_job_with_valid_details')
-logging.info('Url is %s', SEED_JOB_URL)
-logging.info('Request is %s', SeedJobServicePayload().create_seed_job_payload())
-
-jobid = job_service_customer.request(
-    RequestType.POST, SEED_JOB_URL,
-    payload=SeedJobServicePayload().create_seed_job_payload()).json()['job_id']
-logging.info("Response is %s" % jobid)
+job_id = 0
 
 
 class JobServiceTestCases(unittest.TestCase):
     """ Test cases of Job Service"""
 
     """ POST: Test cases to Creation of seed job """
+
+    @pytest.mark.run(order=1)
+    def test_create_job_with_valid_details(self):
+        """ Create job with valid details """
+
+        global job_id
+
+        create_job_response = job_service_customer.request(
+            RequestType.POST, SEED_JOB_URL,
+            payload=SeedJobServicePayload().create_seed_job_payload())
+        create_job_response_dict = create_job_response.json()
+        logging.info('test_create_job_with_valid_details')
+        logging.info('Url is %s', SEED_JOB_URL)
+        logging.info('Request is %s',
+                     SeedJobServicePayload().create_seed_job_payload())
+        logging.info('Response is %s', create_job_response.text)
+        self.assertEquals(
+            create_job_response.status_code, 201,
+            msg="Expected 201 and got is %s (%s)" % (
+                create_job_response.status_code,
+                httplib.responses[create_job_response.status_code]))
+        self.assertIn(
+            'job_id', create_job_response_dict.keys(),
+            msg=" Expected %s in %s" % (
+                'job_id', create_job_response_dict.keys()))
+        job_id = create_job_response_dict['job_id']
+        logging.info('test case executed successfully')
 
     def test_create_job_with_invalid_token(self):
         """ Testing the creation of seed_job with invalid token """
@@ -320,7 +340,7 @@ class JobServiceTestCases(unittest.TestCase):
 
     """ GET: Test cases to get the details of particular seed job """
 
-    def test_job_details_with_valid_job_id(self, job_id=jobid):
+    def test_job_details_with_valid_job_id(self):
         """ Testing with the valid job_id to get the details of the seed job """
 
         # Get the seed job details with valid job id
@@ -338,6 +358,8 @@ class JobServiceTestCases(unittest.TestCase):
             'job_id', job_details_response.json().keys(),
             msg="Expected %s in %s" %
                 ('job_id', job_details_response.json().keys()))
+        print "inside function"
+        self.assertTrue(1,2)
         logging.info('test case executed successfully')
 
     def test_job_detail_with_invalid_job_id(self):
@@ -363,7 +385,7 @@ class JobServiceTestCases(unittest.TestCase):
                 (error_message, job_details_response.json()['message']))
         logging.info('test case executed successfully')
 
-    def test_job_detail_with_invalid_token(self, job_id=jobid):
+    def test_job_detail_with_invalid_token(self):
         """ Testing with the invalid job_id to get the details
         of the seed job """
 
@@ -388,7 +410,7 @@ class JobServiceTestCases(unittest.TestCase):
 
     """ PUT: Test cases to Update the seed job """
 
-    def test_job_update_with_valid_job_id(self, job_id=jobid):
+    def test_job_update_with_valid_job_id(self):
         """ Testing with the valid job_id to update the details of seed_job """
 
         # Update the seed job with valid job id
@@ -435,7 +457,7 @@ class JobServiceTestCases(unittest.TestCase):
                 (message, job_update_response_dict['message']))
         logging.info('test case executed successfully')
 
-    def test_job_update_with_invalid_token(self, job_id=jobid):
+    def test_job_update_with_invalid_token(self):
         """ Testing with invalid token to update the details of seed_job """
 
         expected_message = "Unauthorized"
@@ -463,7 +485,7 @@ class JobServiceTestCases(unittest.TestCase):
 
     """ PUT: Test cases As a user take an action on job """
 
-    def test_action_with_valid_id(self, job_id=jobid):
+    def test_action_with_valid_id(self):
         """ Testing with the valid job_id to take an action on job by user """
 
         # Action on job with valid job id
@@ -512,7 +534,7 @@ class JobServiceTestCases(unittest.TestCase):
                 (message, user_action_response_dict['message']))
         logging.info('test case executed successfully')
 
-    def test_action_with_invalid_token(self, job_id=jobid):
+    def test_action_with_invalid_token(self):
         """ Testing without job_id to take an action on job by user """
 
         expected_message = "Unauthorized"
@@ -542,7 +564,7 @@ class JobServiceTestCases(unittest.TestCase):
         # PATCH: take action by an agent
     """ PATCH: Method Test cases to take an action by an agent on job """
 
-    def test_agent_action_with_valid_job_id(self, job_id=jobid):
+    def test_agent_action_with_valid_job_id(self):
         """ Testing with valid job_id to take an action on job by an agent """
 
         # Agent action with valid job id
@@ -564,7 +586,7 @@ class JobServiceTestCases(unittest.TestCase):
                 httplib.responses[agent_action_response.status_code]))
         logging.info('test case executed successfully')
 
-    def test_agent_action_with_invalid_job_id(self, job_id=jobid):
+    def test_agent_action_with_invalid_job_id(self):
         """ Testing with invalid job_id to take an action on job by an agent """
 
         message = "Resource with id %s does not exists" % TEMP_KEY
@@ -592,7 +614,7 @@ class JobServiceTestCases(unittest.TestCase):
                 (message, agent_action_response_dict['message']))
         logging.info('test case executed successfully')
 
-    def test_agent_action_without_source_objects(self, job_id=jobid):
+    def test_agent_action_without_source_objects(self):
         """ Testing without source objects to take an
         action on job by an agent """
 
@@ -623,7 +645,8 @@ class JobServiceTestCases(unittest.TestCase):
 
     """ DELETE: Delete the seed job with job id"""
 
-    def test_zdelete_job_with_valid_job_id(self, job_id=jobid):
+    @pytest.mark.last
+    def test_delete_job_with_valid_job_id(self):
         """ Testing with the valid job_id to delete seed_job """
 
         message = "Seed Job is deleted"
@@ -668,7 +691,7 @@ class JobServiceTestCases(unittest.TestCase):
                 (error_message, job_delete_response_dict['message']))
         logging.info('test case executed successfully')
 
-    def test_delete_job_with_invalid_token(self, job_id=jobid):
+    def test_delete_job_with_invalid_token(self):
         """ Testing with the invalid job_id to delete seed_job """
 
         error_message = "Unauthorized"

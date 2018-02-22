@@ -936,20 +936,24 @@ class CustomerProfileTestCases(unittest.TestCase):
 
     """ DELETE: Test cases to delete the customer address with address title """
 
-    def test_zdelete_address_with_valid_customer(self):
+    def test_delete_address_with_valid_customer(self):
         """ Testing with the valid address title """
 
         # Delete address with valid title
         customer_profile_response = customer_service.request(
-            RequestType.DELETE, customer_profile_address_url + "9876")
+            RequestType.DELETE, customer_profile_address_url + "Test_Job")
         logging.info('test_delete_address_with_valid_customer')
-        logging.info('Url is %s', customer_profile_address_url + "1111")
+        logging.info('Url is %s', customer_profile_address_url + "Test_Job")
         logging.info('Response is %s', customer_profile_response.text)
         self.assertEquals(
             customer_profile_response.status_code, 200,
             msg='Expected 200 and got %s (%s)' %
                 (customer_profile_response.status_code,
                  httplib.responses[customer_profile_response.status_code]))
+        self.assertIn(
+            'shipping_addresses', customer_profile_response.dict.keys(),
+            msg="Expected %s in %s" %
+                ('shipping_addresses', customer_profile_response.dict.keys()))
         logging.info('test case executed successfully')
 
     def test_delete_address_with_wrong_title(self):
