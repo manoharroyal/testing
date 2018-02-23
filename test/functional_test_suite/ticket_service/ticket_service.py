@@ -92,7 +92,7 @@ class TicketService(unittest.TestCase):
     def test_update_ticket_with_invalid_ticket_id(self):
         """ Update the ticket with the duplicate ticket_id """
 
-        message = "No ticket found for provided ticket id"
+        message = "Exception from Ticket client while fetching the Ticket"
 
         # Update the ticket with invalid ticket id
         ticket_response = ticket_service.request(
@@ -105,8 +105,8 @@ class TicketService(unittest.TestCase):
                      TicketServicePayload().update_ticket_payload())
         logging.info('Response is %s', ticket_response.text)
         self.assertEquals(
-            ticket_response.status_code, 400,
-            msg="Expected 400 and actual is %s (%s)" %
+            ticket_response.status_code, 500,
+            msg="Expected 500 and actual is %s (%s)" %
                 (ticket_response.status_code,
                  httplib.responses[ticket_response.status_code]))
         self.assertEquals(
