@@ -46,14 +46,13 @@ class SeedJobServicePayload(object):
             self,
             email_optional='eethakatla.manohar@opcito.com',
             email='emanohar80@gmail.com',
-            source_system_id='042dc3eb-7957-4048-8e1c-362fce51b0d2',
-            target_system_id='JOHNTEST2AAAAAA',
-            seeding_type='new', job_complete=True, job_approved=False,
+            source_system_id='930c3a1e-c354-4441-8983-e56ada60e94b',
+            target_system_id='JOHNAWS2',
+            seeding_type='FULL_SEEDING', job_complete=True, job_approved=False,
             box_shipped=False, ready_to_restore=False, data_erased=False,
             box_prepared=False, box_in_transit=False, box_at_switch=False,
-            box_del_to_cust=False, data_restored=False,
-            source_selections="test"):
-        """ Request body to update the seedjob details """
+            box_del_to_cust=False, data_restored=False):
+        """ Request body to update the seed job details """
 
         payload = {"notification": {"email_optional": email_optional,
                                     "job_complete": job_complete,
@@ -70,7 +69,7 @@ class SeedJobServicePayload(object):
                    "source_system_id": source_system_id,
                    "target_system_id": target_system_id,
                    "seeding_type": seeding_type,
-                   "source_selections": [source_selections]}
+        }
         return payload
 
     def system_credentials(self, db_user_name='dbc', db_user_password='dbc',
