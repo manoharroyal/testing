@@ -1,12 +1,12 @@
 """ Functional Test cases for Job Service """
 import logging
 import unittest
-import pytest
 import httplib
 from test.shared.rest_framework import RequestType, RestAPI, path
 from test.functional_test_suite.job_service.job_service_payloads import SeedJobServicePayload
 from test.functional_test_suite.common.config import SEED_JOB_URL,\
     seed_job_url, user_action_url, TEMP_KEY, agent_action_url, initialize_logger
+
 
 job_service_customer = RestAPI(utype='customer')
 job_service_sysops = RestAPI(utype='sysops')
@@ -22,12 +22,10 @@ class JobServiceTestCases(unittest.TestCase):
 
     """ POST: Test cases to Creation of seed job """
 
-    @pytest.mark.run(order=1)
-    def test_create_job_with_valid_details(self):
+    def test__create_job_with_valid_details(self):
         """ Create job with valid details """
 
         global job_id
-
         create_job_response = job_service_customer.request(
             RequestType.POST, SEED_JOB_URL,
             payload=SeedJobServicePayload().create_seed_job_payload())
@@ -358,8 +356,6 @@ class JobServiceTestCases(unittest.TestCase):
             'job_id', job_details_response.json().keys(),
             msg="Expected %s in %s" %
                 ('job_id', job_details_response.json().keys()))
-        print "inside function"
-        self.assertTrue(1,2)
         logging.info('test case executed successfully')
 
     def test_job_detail_with_invalid_job_id(self):
@@ -386,8 +382,7 @@ class JobServiceTestCases(unittest.TestCase):
         logging.info('test case executed successfully')
 
     def test_job_detail_with_invalid_token(self):
-        """ Testing with the invalid job_id to get the details
-        of the seed job """
+        """ Testing with invalid job_id to get the details of the seed job """
 
         error_message = "Unauthorized"
 
@@ -424,8 +419,8 @@ class JobServiceTestCases(unittest.TestCase):
                      update_seed_job_payload())
         logging.info('Response is %s', job_update_response.text)
         self.assertEquals(
-            job_update_response.status_code, 202,
-            msg="Expected code is 202 and got is %s (%s)" % (
+            job_update_response.status_code, 200,
+            msg="Expected code is 200 and got is %s (%s)" % (
                 job_update_response.status_code,
                 httplib.responses[job_update_response.status_code]))
         logging.info('test case executed successfully')
@@ -645,8 +640,7 @@ class JobServiceTestCases(unittest.TestCase):
 
     """ DELETE: Delete the seed job with job id"""
 
-    @pytest.mark.last
-    def test_delete_job_with_valid_job_id(self):
+    def test_zdelete_job_with_valid_job_id(self):
         """ Testing with the valid job_id to delete seed_job """
 
         message = "Seed Job is deleted"
