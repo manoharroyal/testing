@@ -104,8 +104,8 @@ def target_system_url(site_id):
     return '%s%s' % (target_system, site_id)
 
 
-agent_id = '000f1fa0-fba6-44b9-9232-fcfab1f2b999'
-task_id = '558ca2ce-957b-47a2-b851-128aba72224b'
+agent_id = 'bfcf1fa0-fba6-44b9-9232-fcfab1f2bdd7'
+task_id = '8f499707-4b06-4688-9f5c-c625fd01d063'
 TICKETS_URL = TICKET_SERVICE_URL + "/{ticket_id}"
 LIST_AGENT_TASK_URL = AGENT_SERVICE_URL + '/tasks'
 
