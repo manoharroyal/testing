@@ -89,6 +89,33 @@ class TicketService(unittest.TestCase):
                 (expected_message, ticket_response_dict['message']))
         logging.info('test case executed successfully')
 
+    def test_updates_ticket_with_invalid_ticket_id(self):
+        """ Update the ticket with the duplicate ticket_id """
+
+        message = "No ticket found for provided ticket id"
+
+        # Update the ticket with invalid ticket id
+        ticket_response = ticket_service.request(
+            RequestType.PUT, update_ticket_url('CHG1234'),
+            payload=TicketServicePayload().update_ticket_payload())
+        ticket_response_dict = ticket_response.json()
+        logging.info('test_update_ticket_with_invalid_ticket_id')
+        logging.info('Url is %s', update_ticket_url('CHG1234'))
+        logging.info('Request is %s',
+                     TicketServicePayload().update_ticket_payload())
+        logging.info('Response is %s', ticket_response.text)
+        self.assertEquals(
+            ticket_response.status_code, 400,
+            msg="Expected 400 and actual is %s (%s)" %
+                (ticket_response.status_code,
+                 httplib.responses[ticket_response.status_code]))
+        self.assertEquals(
+            message, ticket_response_dict['message'],
+            msg="Expected %s in %s" %
+                (message, ticket_response_dict['message']))
+        logging.info('test case executed successfully')
+
+    # TODO: Change Status code and Response Message
     def test_update_ticket_with_invalid_ticket_id(self):
         """ Update the ticket with the duplicate ticket_id """
 
