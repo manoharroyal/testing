@@ -5,10 +5,10 @@ class SeedJobServicePayload(object):
     """ Payload for seed job service """
 
     def create_seed_job_payload(
-            self, job_name='TestBackup102', description='Thisistestjob',
+            self, job_name='test 28', description='Thisistestjob',
             job_type='BOX', address_title="9876",
             source_system_id='930c3a1e-c354-4441-8983-e56ada60e94b',
-            target_system_id='JOHNAWS2', max_data_size=60, passphrase='new1234',
+            target_system_id='JOHNAWS2', max_data_size="60", passphrase='new1234',
             email_id='emanohar80@gmail.com',
             optional_email_id='eethakatla.manohar@opcito.com',
             box_connected_to_customer_permimses=True, job_approved=False,
