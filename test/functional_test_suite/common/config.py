@@ -48,6 +48,11 @@ DELETE_JOB_ID = config_data['DELETE_JOB_ID']
 """ Setting up the parameters with urls """
 
 
+def get_box_url(job_id):
+    """ Url to get boxes """
+    return '%s?job_id=%s' % (BOX_SERVICE_URL, job_id)
+
+
 def get_tickets_url(job_id):
     """ Url to get list of tickets of particular job """
     return '%s?job_id=%s' % (TICKET_SERVICE_URL, job_id)
@@ -104,8 +109,8 @@ def target_system_url(site_id):
     return '%s%s' % (target_system, site_id)
 
 
-agent_id = 'bfcf1fa0-fba6-44b9-9232-fcfab1f2bdd7'
-task_id = '8f499707-4b06-4688-9f5c-c625fd01d063'
+agent_id = '67be6ee7-092e-4bfc-a0c9-5ee2c3c70e43'
+task_id = '3ab0062e-09f4-463f-94b8-e05247b888df'
 TICKETS_URL = TICKET_SERVICE_URL + "/{ticket_id}"
 LIST_AGENT_TASK_URL = AGENT_SERVICE_URL + '/tasks'
 
