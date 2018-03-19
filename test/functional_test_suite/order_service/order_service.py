@@ -16,13 +16,17 @@ class OrderServiceTestCases(unittest.TestCase):
 
     """ GET: To get the order details """
 
+    # Todo
     def test_track_order_with_valid_order_id(self):
         """ testing with valid order to get order details """
 
+        order_id = 'a6d8c3a4-b84d-4f7c-86f6-68805837b51b'
+
         order_service_response = order_service.request(
-            RequestType.GET, order_details_url(order_id='1234'))
+            RequestType.GET, order_details_url(
+                order_id=order_id))
         logging.info('test_track_order_with_valid_order_id')
-        logging.info('Url is %s' % order_details_url(order_id='1234'))
+        logging.info('Url is %s' % order_details_url(order_id=order_id))
         logging.info('Response is %s' % order_service_response.text)
         self.assertEquals(
             order_service_response.status_code, 200,
