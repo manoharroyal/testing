@@ -141,6 +141,11 @@ def seed_job_url(seed_job_id):
     return '%s/%s' % (SEED_JOB_URL, seed_job_id)
 
 
+def current_tickets_url(job_id, value):
+    """ To get current tickets of job """
+    return "%s/%s?fields=%s" % (SEED_JOB_URL, job_id, value)
+
+
 def user_action_url(seed_job_id, action):
     """ Url for giving an action by user """
     return '%s/%s/job?action=%s' % (SEED_JOB_URL, seed_job_id, action)
