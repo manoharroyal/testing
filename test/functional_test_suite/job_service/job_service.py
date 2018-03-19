@@ -4,16 +4,22 @@ import unittest
 import httplib
 from test.shared.rest_framework import RequestType, RestAPI, path
 from test.functional_test_suite.job_service.job_service_payloads import SeedJobServicePayload
+from test.functional_test_suite.ticket_service.ticket_service_payloads import TicketServicePayload
+from test.functional_test_suite.inventory_service.inventory_service_payloads import InventoryServicePayload
 from test.functional_test_suite.common.config import SEED_JOB_URL,\
     seed_job_url, user_action_url, TEMP_KEY, agent_action_url, \
-    initialize_logger, agent_task_url, list_agent_tasks_url, agent_details_url
+    initialize_logger, agent_task_url, list_agent_tasks_url, agent_details_url, \
+    current_tickets_url, update_ticket_url,INVENTORY_SERVICE_URL
 
 job_service_customer = RestAPI(utype='customer')
 job_service_invalid = RestAPI(utype='invalid')
 job_service_agent = RestAPI(utype='agent')
+inventory_service = RestAPI(utype='sysops')
+ticket_service = RestAPI(utype='sysops')
 initialize_logger(path + '/../../logs/job_service.log')
 
 job_id = 0
+ticket_id = 0
 
 
 class JobServiceTestCases(unittest.TestCase):
@@ -82,7 +88,7 @@ class JobServiceTestCases(unittest.TestCase):
         create_job_response = job_service_customer.request(
             RequestType.POST, SEED_JOB_URL,
             payload=SeedJobServicePayload().create_seed_job_payload
-            (source_system_id=TEMP_KEY))
+            (source_system_id=TEMP_KEY, job_name='test 25'))
         create_job_response_dict = create_job_response.json()
         logging.info('test_create_job_with_invalid_source_system_id')
         logging.info('Url is %s', SEED_JOB_URL)
@@ -110,7 +116,7 @@ class JobServiceTestCases(unittest.TestCase):
         create_job_response = job_service_customer.request(
             RequestType.POST, SEED_JOB_URL,
             payload=SeedJobServicePayload().create_seed_job_payload
-            (target_system_id=TEMP_KEY))
+            (target_system_id=TEMP_KEY, job_name='test 26'))
         create_job_response_dict = create_job_response.json()
         logging.info('test_create_job_with_invalid_target_system_id')
         logging.info('Url is %s', SEED_JOB_URL)
@@ -137,7 +143,7 @@ class JobServiceTestCases(unittest.TestCase):
         create_job_response = job_service_customer.request(
             RequestType.POST, SEED_JOB_URL,
             payload=SeedJobServicePayload().create_seed_job_payload
-            (address_title='address_title'))
+            (address_title='address_title', job_name='test 27'))
         create_job_response_dict = create_job_response.json()
         logging.info('test_create_job_with_invalid_address_title')
         logging.info('Url is %s', SEED_JOB_URL)
@@ -272,7 +278,7 @@ class JobServiceTestCases(unittest.TestCase):
         create_job_response = job_service_customer.request(
             RequestType.POST, SEED_JOB_URL,
             payload=SeedJobServicePayload().create_seed_job_payload
-            (max_data_size='', job_name='test 34'))
+            (max_data_size='', job_name='test 32'))
         create_job_response_dict = create_job_response.json()
         logging.info('test_create_job_without_max_data_size')
         logging.info('Url is %s', SEED_JOB_URL)
@@ -337,14 +343,92 @@ class JobServiceTestCases(unittest.TestCase):
 
     """ GET: Test cases to get the details of particular seed job """
 
+    def test__add_item_with_valid_details(self):
+        """ Adding an item with all valid parameters into the inventory """
+
+        # Add an item with valid details
+        add_item_response = inventory_service.request(
+            RequestType.POST, INVENTORY_SERVICE_URL,
+            payload=InventoryServicePayload().inventory_additem_payload())
+        add_item_response_dict = add_item_response.json()
+        logging.info('test_add_item_with_valid_details')
+        logging.info('Url is %s', INVENTORY_SERVICE_URL)
+        logging.info('Request is %s',
+                     InventoryServicePayload().inventory_additem_payload())
+        logging.info('Response is %s', add_item_response.text)
+        self.assertEquals(
+            add_item_response.status_code, 200,
+            msg="Expected code is 200 and got is %s (%s)" %
+                (add_item_response.status_code,
+                    httplib.responses[add_item_response.status_code]))
+        self.assertIn(
+            'created_at', add_item_response_dict.keys(),
+            msg="Expected %s in %s" %
+                ('created_at', add_item_response_dict.keys()))
+        logging.info('test case executed successfully')
+
+    def test__current_ticket_details_with_valid_job_id(self):
+        """ Testing with the valid job_id to get the details of the seed job """
+        global ticket_id
+        # Get the seed job details with valid job id
+        job_details_response = job_service_customer.request(
+            RequestType.GET, current_tickets_url(
+                job_id, value='current_ticket'))
+        job_details_response_dict = job_details_response.json()
+        logging.info('test_job_details_with_valid_job_id')
+        logging.info('Url is %s', current_tickets_url(
+            job_id, value='current_ticket'))
+        logging.info('Response is %s', job_details_response.text)
+        self.assertEquals(
+            job_details_response.status_code, 200,
+            msg="Expected code is 200 and got is %s (%s)" % (
+                job_details_response.status_code,
+                httplib.responses[job_details_response.status_code]))
+        self.assertIn(
+            'job_id', job_details_response.json().keys(),
+            msg="Expected %s in %s" %
+                ('job_id', job_details_response.json().keys()))
+        ticket_id = job_details_response_dict['current_ticket']
+        logging.info('test case executed successfully')
+
+    def test__current_ticket_update_with_valid_ticket_id(self):
+        """ Update the ticket with the valid ticket_id """
+
+        expected_message = "Updated Ticket id %s" % ticket_id
+
+        # Update the ticket with valid ticket id
+        ticket_response = ticket_service.request(
+            RequestType.PUT, update_ticket_url(ticket_id=ticket_id),
+            payload=TicketServicePayload().update_ticket_payload(
+                ticket_status='CLOSED_COMPLETE'))
+        ticket_response_dict = ticket_response.json()
+        logging.info('test_update_ticket_with_valid_ticket_id')
+        logging.info('Url is %s', update_ticket_url(ticket_id=ticket_id))
+        logging.info('Request is %s',
+                     TicketServicePayload().update_ticket_payload(
+                         ticket_status='CLOSED_COMPLETE'))
+        logging.info('Response is %s', ticket_response.text)
+        self.assertEquals(
+            ticket_response.status_code, 200,
+            msg="Expected 200 and actual is %s (%s)" %
+                (ticket_response.status_code,
+                 httplib.responses[ticket_response.status_code]))
+        self.assertEquals(
+            expected_message, ticket_response_dict['message'],
+            msg="%s is equal to %s" %
+                (expected_message, ticket_response_dict['message']))
+        logging.info('test case executed successfully')
+
     def test__job_details_with_valid_job_id(self):
         """ Testing with the valid job_id to get the details of the seed job """
 
+        url = "https://l8czy78mlk.execute-api.us-west-2.amazonaws.com/dev/mock/job-service?job_id=%s" % job_id
+
         # Get the seed job details with valid job id
         job_details_response = job_service_customer.request(
-            RequestType.GET, seed_job_url(job_id))
+            RequestType.GET, url)
         logging.info('test_job_details_with_valid_job_id')
-        logging.info('Url is %s', seed_job_url(job_id))
+        logging.info('Url is %s', url)
         logging.info('Response is %s', job_details_response.text)
         self.assertEquals(
             job_details_response.status_code, 200,
@@ -546,16 +630,17 @@ class JobServiceTestCases(unittest.TestCase):
     def test_action_with_valid_id(self):
         """ Testing with the valid job_id to take an action on job by user """
 
-        jobid = '537bf6a1-ad20-4cdd-adb0-a167d267c062'
+        task_status = 'CREATED'
 
         # Action on job with valid job id
         user_action_response = job_service_customer.request(
             RequestType.PUT, user_action_url(
-                jobid, action='test_conn_source'),
+                job_id, action='test_conn_source'),
             payload=SeedJobServicePayload().system_credentials())
+        user_action_response_dict = user_action_response.json()
         logging.info('test_action_with_valid_id')
         logging.info('Url is %s', user_action_url(
-            jobid, action='test_conn_source'))
+            job_id, action='test_conn_source'))
         logging.info('Request is %s', SeedJobServicePayload().
                      system_credentials())
         logging.info('Response is %s', user_action_response.text)
@@ -564,9 +649,11 @@ class JobServiceTestCases(unittest.TestCase):
             msg="Expected code is 202 and got is %s (%s)" % (
                 user_action_response.status_code,
                 httplib.responses[user_action_response.status_code]))
-        logging.info('test case executed successfully')
+        self.assertEquals(
+            task_status, user_action_response_dict['task_status'],
+            msg="Expected %s equals %s" % (
+                task_status, user_action_response_dict['task_status']))
 
-    def test_action_with_invalid_id(self):
         """ Testing with the invalid job_id to take an action on job by user """
 
         message = "Resource with id %s does not exists" % TEMP_KEY
@@ -627,18 +714,16 @@ class JobServiceTestCases(unittest.TestCase):
     def test_agent_action_with_valid_job_id(self):
         """ Testing with valid job_id to take an action on job by an agent """
 
-        jobid = '537bf6a1-ad20-4cdd-adb0-a167d267c062'
-
         # Agent action with valid job id
 
         agent_action_response = job_service_agent.request(
             RequestType.PATCH,
-            agent_action_url(job_id=jobid,
+            agent_action_url(job_id=job_id,
                              action='test_conn_source_success'),
             payload=SeedJobServicePayload().update_job_logs())
         logging.info('test_agent_action_with_valid_job_id')
         logging.info('Url is %s', agent_action_url(
-            job_id=jobid, action='test_conn_source_success'))
+            job_id=job_id, action='test_conn_source_success'))
         logging.info('Request is %s', SeedJobServicePayload().update_job_logs())
         logging.info('Response is %s', agent_action_response.text)
         self.assertEquals(
@@ -707,28 +792,6 @@ class JobServiceTestCases(unittest.TestCase):
 
     """ DELETE: Delete the seed job with job id"""
 
-    def test_zdelete_job_with_valid_job_id(self):
-        """ Testing with the valid job_id to delete seed_job """
-
-        message = "Seed Job is deleted"
-        # Delete the seed job with valid job id
-        job_delete_response = job_service_customer.request(
-            RequestType.DELETE, seed_job_url(job_id))
-        job_delete_response_dict = job_delete_response.json()
-        logging.info('test_delete_job_with_valid_job_id')
-        logging.info('Url is %s', seed_job_url(job_id))
-        logging.info('Response is %s', job_delete_response.text)
-        self.assertEquals(
-            job_delete_response.status_code, 200,
-            msg="Expected code is 200 and got is %s (%s)" % (
-                job_delete_response.status_code,
-                httplib.responses[job_delete_response.status_code]))
-        self.assertEquals(
-            message, job_delete_response_dict['message'],
-            msg="Expected %s in %s" %
-                (message, job_delete_response_dict['message']))
-        logging.info('test case executed successfully')
-
     def test_delete_job_with_invalid_job_id(self):
         """ Testing with the invalid job_id to delete seed_job """
 
@@ -773,4 +836,26 @@ class JobServiceTestCases(unittest.TestCase):
             error_message, job_delete_response_dict['message'],
             msg="Expected %s in %s" %
                 (error_message, job_delete_response_dict['message']))
+        logging.info('test case executed successfully')
+
+    def test_zdelete_job_with_valid_job_id(self):
+        """ Testing with the valid job_id to delete seed_job """
+
+        message = "Seed Job is deleted"
+        # Delete the seed job with valid job id
+        job_delete_response = job_service_customer.request(
+            RequestType.DELETE, seed_job_url(job_id))
+        job_delete_response_dict = job_delete_response.json()
+        logging.info('test_delete_job_with_valid_job_id')
+        logging.info('Url is %s', seed_job_url(job_id))
+        logging.info('Response is %s', job_delete_response.text)
+        self.assertEquals(
+            job_delete_response.status_code, 200,
+            msg="Expected code is 200 and got is %s (%s)" % (
+                job_delete_response.status_code,
+                httplib.responses[job_delete_response.status_code]))
+        self.assertEquals(
+            message, job_delete_response_dict['message'],
+            msg="Expected %s in %s" %
+                (message, job_delete_response_dict['message']))
         logging.info('test case executed successfully')
