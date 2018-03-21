@@ -7,25 +7,19 @@ SEED_JOB_ID: 'e3b3d908-c916-42ae-964f-ebba727a00ab'
 DELETE_JOB_ID: 'd63f774c-2e3b-48fb-a0ce-f4db1effc8cc'
 SOURCE_SYSTEM_ID: '86dc65e4-42a0-4ee8-91e8-f201678f53aa'
 
-USER_LOGIN_URL: "https://sso.teradatacloud.io/oauth/ro"
 LOGIN_URL: "https://sso.teradatacloud.io/oauth/token"
 
 client_id: "h4psC1NTevUPYCJ6hTa76htrup4UNIyq"
-client_secret: "y96yTT3jlXSPUvw7H7DHHkCVYWJTS_8AKQJcemSZ06vPdStUEe3BTKwxyIXAOvo5"
 audience: "https://dev.api.teradatacloud.io/"
-customer_grant_type: "password"
 grant_type: "http://auth0.com/oauth/grant-type/password-realm"
-customer_connection: "AD-DEV"
-sysops_connection: "AD-DEV"
-agent_connection: "DSS"
-sysops_realm: "AD-DEV"
-realm: "DSS"
-customer_scope: "openid profile roles customerId userId serviceNowUserId"
+customer_realm: "AD-DEV"
+sysops_realm: "DSS"
+agent_realm: "DSS"
 scope: "openid profile"
 
 customer_username: "customer.one"
 customer_password:
-sysops_username: "sys.ops"
+sysops_username: "ed5f350f-5e96-41e7-b24f-27e007578cec"
 sysops_password:
-agent_username: "39ac13e7-bba9-4df7-8a21-e87b6d7c8887"
+agent_username: "f156ba27-5c88-4a03-b033-dcbb7d2bc1ec"
 agent_password:
