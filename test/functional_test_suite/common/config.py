@@ -40,6 +40,7 @@ ORDER_SERVICE_URL = end_point.request(
     RequestType.GET,
     config_data['END_POINTS_URL']).json()['order-manager-dev'][0]['endpoint'].replace("/{order_id}/track", "")
 
+# SEED_JOB_URL = 'https://9dpl6t9f4l.execute-api.us-west-2.amazonaws.com/test/jobs'
 
 TEMP_KEY = config_data['TEMP_KEY']
 SEED_JOB_ID = config_data['SEED_JOB_ID']

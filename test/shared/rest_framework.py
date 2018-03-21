@@ -12,10 +12,10 @@ with open(path + "/../../env/configuration.yaml", 'r') as stream:
     except yaml.YAMLError as exc:
         print "Cannot able to access input configuration"
 
-USER_LOGIN_URL = config_data['USER_LOGIN_URL']
 LOGIN_URL = config_data['LOGIN_URL']
 
 """ Pre Function """
+
 
 def pre_check(key):
     if config_data.get(key) != None:
@@ -71,17 +71,18 @@ class RestAPI(object):
 
         data = {
             "client_id": config_data['client_id'],
+            "audience": config_data["audience"],
+            "grant_type": config_data['grant_type'],
             "username": config_data['customer_username'],
             "password": config_data['customer_password'],
-            "connection": config_data['customer_connection'],
-            "grant_type": config_data['customer_grant_type'],
-            "scope": config_data['customer_scope']
+            "realm": config_data['customer_realm'],
+            "scope": config_data['scope']
         }
 
         header = {
             "Content-Type": "application/json"
         }
-        response = requests.post(USER_LOGIN_URL, data=json.dumps(data),
+        response = requests.post(LOGIN_URL, data=json.dumps(data),
                                  headers=header)
         try:
             encode = str(response.json()['id_token'])
@@ -103,7 +104,6 @@ class RestAPI(object):
 
         data = {
             "client_id": config_data['client_id'],
-            "client_secret": config_data['client_secret'],
             "audience": config_data["audience"],
             "grant_type": config_data['grant_type'],
             "username": config_data['sysops_username'],
@@ -128,12 +128,11 @@ class RestAPI(object):
 
         data = {
             "client_id": config_data['client_id'],
-            "client_secret": config_data['client_secret'],
             "audience": config_data["audience"],
             "grant_type": config_data['grant_type'],
             "username": config_data['agent_username'],
-            "password": config_data['agent_password'],
-            "realm": config_data['realm'],
+            "password": config_data['agnet_password'],
+            "realm": config_data['agent_realm'],
             "scope": config_data['scope']
         }
 
