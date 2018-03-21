@@ -12,35 +12,46 @@ with open(path + "/../../../env/configuration.yaml", 'r') as stream:
 end_point = RestAPI(utype='customer')
 
 """ All Constants goes here """
-CUSTOMER_SERVICE_URL = end_point.request(
-    RequestType.GET,
-    config_data['END_POINTS_URL']).json()['customer-profile-dev'][0]['endpoint'].replace("{customer_id}", "")
-INVENTORY_SERVICE_URL = end_point.request(
-    RequestType.GET,
-    config_data['END_POINTS_URL']).json()['inventory-service-dev'][0]['endpoint']
-SYSTEM_SERVICE_URL = end_point.request(
-    RequestType.GET,
-    config_data['END_POINTS_URL']).json()['system-service-dev'][0]['endpoint']
-SEED_JOB_URL = end_point.request(
-    RequestType.GET,
-    config_data['END_POINTS_URL']).json()['seedjob-service-dev'][0]['endpoint']
-AGENT_SERVICE_URL = end_point.request(
-    RequestType.GET,
-    config_data['END_POINTS_URL']).json()['agent-service-dev'][0]['endpoint']
-TICKET_SERVICE_URL = end_point.request(
-    RequestType.GET,
-    config_data['END_POINTS_URL']).json()['ticket-service-dev'][0]['endpoint']
-AUTH_SERVICE_URL = end_point.request(
-    RequestType.GET,
-    config_data['END_POINTS_URL']).json()['auth-dev'][0]['endpoint']
-BOX_SERVICE_URL = end_point.request(
-    RequestType.GET,
-    config_data['END_POINTS_URL']).json()['box-manager-dev'][-1]['endpoint']
-ORDER_SERVICE_URL = end_point.request(
-    RequestType.GET,
-    config_data['END_POINTS_URL']).json()['order-manager-dev'][0]['endpoint'].replace("/{order_id}/track", "")
+CUSTOMER_SERVICE_URL = config_data['TEST_BASE_URL'].format(config_data['CUSTOMER_SERVICE_API_ID']) + "/customer-profiles/"
+INVENTORY_SERVICE_URL = config_data['TEST_BASE_URL'].format(config_data['INVENTORY_SERVICE_API_ID']) + "/inventory/items"
+SYSTEM_SERVICE_URL = config_data['TEST_BASE_URL'].format(config_data['SYSTEM_SERVICE_API_ID']) + "/systems"
+SEED_JOB_URL = config_data['TEST_BASE_URL'].format(config_data['JOB_API_ID']) + "/jobs"
+AGENT_SERVICE_URL = config_data['TEST_BASE_URL'].format(config_data['AGENT_SERVICE_API_ID']) + "/agents"
+TICKET_SERVICE_URL = config_data['TEST_BASE_URL'].format(config_data['TICKET_SERVICE_API_ID']) + "/tickets"
+AUTH_SERVICE_URL = config_data['TEST_BASE_URL'].format(config_data['AUTH_SERVICE_API_ID']) + "/auth/users"
+BOX_SERVICE_URL = config_data['TEST_BASE_URL'].format(config_data['BOX_SERVICE_API_ID']) + "/box"
+ORDER_SERVICE_URL = config_data['TEST_BASE_URL'].format(config_data['ORDER_SERVICE_API_ID']) + "/order"
 
-# SEED_JOB_URL = 'https://9dpl6t9f4l.execute-api.us-west-2.amazonaws.com/test/jobs'
+
+
+# CUSTOMER_SERVICE_URL = end_point.request(
+#     RequestType.GET,
+#     config_data['END_POINTS_URL']).json()['customer-profile-dev'][0]['endpoint'].replace("{customer_id}", "")
+# INVENTORY_SERVICE_URL = end_point.request(
+#     RequestType.GET,
+#     config_data['END_POINTS_URL']).json()['inventory-service-dev'][0]['endpoint']
+# SYSTEM_SERVICE_URL = end_point.request(
+#     RequestType.GET,
+#     config_data['END_POINTS_URL']).json()['system-service-dev'][0]['endpoint']
+# SEED_JOB_URL = end_point.request(
+#     RequestType.GET,
+#     config_data['END_POINTS_URL']).json()['seedjob-service-dev'][0]['endpoint']
+# AGENT_SERVICE_URL = end_point.request(
+#     RequestType.GET,
+#     config_data['END_POINTS_URL']).json()['agent-service-dev'][0]['endpoint']
+# TICKET_SERVICE_URL = end_point.request(
+#     RequestType.GET,
+#     config_data['END_POINTS_URL']).json()['ticket-service-dev'][0]['endpoint']
+# AUTH_SERVICE_URL = end_point.request(
+#     RequestType.GET,
+#     config_data['END_POINTS_URL']).json()['auth-dev'][0]['endpoint']
+# BOX_SERVICE_URL = end_point.request(
+#     RequestType.GET,
+#     config_data['END_POINTS_URL']).json()['box-manager-dev'][-1]['endpoint']
+# ORDER_SERVICE_URL = end_point.request(
+#     RequestType.GET,
+#     config_data['END_POINTS_URL']).json()['order-manager-dev'][0]['endpoint'].replace("/{order_id}/track", "")
+
 
 TEMP_KEY = config_data['TEMP_KEY']
 SEED_JOB_ID = config_data['SEED_JOB_ID']
