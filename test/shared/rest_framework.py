@@ -85,13 +85,13 @@ class RestAPI(object):
         response = requests.post(LOGIN_URL, data=json.dumps(data),
                                  headers=header)
         try:
-            encode = str(response.json()['id_token'])
+            encode = str(response.json()['access_token'])
 
         except:
             print "Cannot able to parse the token in Login"
             sys.exit(1)
         decode = jwt.decode(encode, 'secret', algorithm=['RS256'], verify=False)
-        customer_id = decode['customerId']
+        customer_id = decode['https://dev.teradatacloud.io/customerId']
         return encode, customer_id
 
     def generate_customer_invalid_token(self):
@@ -131,7 +131,7 @@ class RestAPI(object):
             "audience": config_data["audience"],
             "grant_type": config_data['grant_type'],
             "username": config_data['agent_username'],
-            "password": config_data['agnet_password'],
+            "password": config_data['agent_password'],
             "realm": config_data['agent_realm'],
             "scope": config_data['scope']
         }
