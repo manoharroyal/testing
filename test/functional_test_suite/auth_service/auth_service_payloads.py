@@ -12,8 +12,8 @@ class AuthServicePayload(object):
         return payload
 
     def validate_user_credentials_payload(
-            self, username="d7ee7d21-0dd0-4ad1-b656-032c3746bf0b",
-            password="U3guXkIbBB4#5s5H",
+            self, username="zxcvb12345",
+            password="L7I7",
             client_id="h4psC1NTevUPYCJ6hTa76htrup4UNIyq"):
         """ Payload to validate user credentials """
         payload = {

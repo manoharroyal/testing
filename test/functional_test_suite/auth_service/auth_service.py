@@ -9,7 +9,8 @@ from test.functional_test_suite.auth_service.auth_service_payloads import AuthSe
 auth_service = RestAPI(utype='sysops')
 auth_service_invalid = RestAPI(utype='invalid')
 initialize_logger(path + '/../../logs/auth_service.log')
-
+userId = 0
+password = 0
 
 class AuthService(unittest.TestCase):
     """ Test cases for the auth service """
@@ -17,7 +18,7 @@ class AuthService(unittest.TestCase):
     """ POST: Create user for given role """
 
     def test_create_user_with_valid_details(self):
-
+        global userId, password
         create_auth_user_response = auth_service.request(
             RequestType.POST, AUTH_SERVICE_URL,
             payload=AuthServicePayload().create_user_payload())
@@ -36,9 +37,9 @@ class AuthService(unittest.TestCase):
             key, create_auth_user_response_dict.keys(),
             msg="Expected %s in %s" %
                 (key, create_auth_user_response_dict.keys))
-        userid = create_auth_user_response_dict['userId']
+        userId = create_auth_user_response_dict['userId']
+        password = create_auth_user_response_dict['password']
         logging.info('test case executed successfully')
-        return userid
 
     def test_create_user_with_invalid_token(self):
         """ Create user for given role with invalid token """
@@ -119,7 +120,8 @@ class AuthService(unittest.TestCase):
 
         validate_auth_user_response = auth_service.request(
             RequestType.POST, validate_auth_user_url,
-            payload=AuthServicePayload().validate_user_credentials_payload())
+            payload=AuthServicePayload().validate_user_credentials_payload(
+                username=userId, password=password))
         validate_auth_user_response_dict = validate_auth_user_response.json()
         logging.info('test_validate_auth_user_with_valid_details')
         logging.info('Url is %s', validate_auth_user_url)
@@ -170,7 +172,7 @@ class AuthService(unittest.TestCase):
         validate_auth_user_response = auth_service.request(
             RequestType.POST, validate_auth_user_url,
             payload=AuthServicePayload().validate_user_credentials_payload
-            (password="1xsjnsjs@"))
+            (password="1xsjnsjs@", username=userId))
         validate_auth_user_response_dict = validate_auth_user_response.json()
         logging.info('test_validate_auth_user_with_invalid_password')
         logging.info('Url is %s', validate_auth_user_url)
@@ -248,7 +250,7 @@ class AuthService(unittest.TestCase):
         validate_auth_user_response = auth_service.request(
             RequestType.POST, validate_auth_user_url,
             payload=AuthServicePayload().validate_user_credentials_payload
-            (password=""))
+            (username=userId, password=""))
         validate_auth_user_response_dict = validate_auth_user_response.json()
         logging.info('test_validate_auth_user_without_password')
         logging.info('Url is %s', validate_auth_user_url)
@@ -298,12 +300,10 @@ class AuthService(unittest.TestCase):
     def test_zdelete_user_with_valid_user_id(self):
         """ testing with valid user id to delete the user """
 
-        userid = self.test_create_user_with_valid_details()
-        print userid
         auth_service_response = auth_service.request(
-            RequestType.DELETE, delete_auth_user_url(user_id=userid))
+            RequestType.DELETE, delete_auth_user_url(user_id=userId))
         logging.info('test_delete_user_with_valid_user_id')
-        logging.info('Url is %s', delete_auth_user_url(user_id=userid))
+        logging.info('Url is %s', delete_auth_user_url(user_id=userId))
         logging.info("Response is %s" % auth_service_response.text)
         self.assertEquals(
             auth_service_response.status_code, 204,
