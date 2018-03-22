@@ -1,40 +1,36 @@
 # Do Not change this Base url
-BASE_URL:  "https://{0}.execute-api.us-west-2.amazonaws.com/dev"
-END_POINTS_URL: "https://e39vocykp2.execute-api.us-west-2.amazonaws.com/dev/endpoints"
-# eg: 
-#     https://oywvlaayha.execute-api.us-west-2.amazonaws.com/dev/
-#     Here api_id: oywvlaayha
-CUSTOMER_SERVICE_API_ID: "8bfaht51mh"
-INVENTORY_SERVICE_API_ID: "jojtixvz2c"
-SYSTEM_SERVICE_API_ID: "7hg5rkdftc"
-SEED_JOB_API_ID: "fudkvrzvb7"
-AGENT_SERVICE_API_ID: "f02gsiq51l"
-TICKET_SERVICE_API_ID: "hl6mcn7aq3"
+DEV_BASE_URL:  "https://{0}.execute-api.us-west-2.amazonaws.com/dev"
+TEST_BASE_URL: "https://{0}.execute-api.us-west-2.amazonaws.com/test"
+END_POINTS_URL: "https://iwtrjplex7.execute-api.us-west-2.amazonaws.com/dev/endpoints"
+
+CUSTOMER_SERVICE_API_ID: "jwmsmvou12"
+SYSTEM_SERVICE_API_ID: "692vg0b566"
+INVENTORY_SERVICE_API_ID: "g6xdx23mj4"
+JOB_API_ID: "9dpl6t9f4l"
+AGENT_SERVICE_API_ID: "hdmhsflyk6"
+AUTH_SERVICE_API_ID: "8v3b0icmk8"
+TICKET_SERVICE_API_ID: "jod2s5rozl"
+BOX_SERVICE_API_ID: "438fuu0x63"
+ORDER_SERVICE_API_ID: "pzaciqss3d"
 
 TEMP_KEY: 'bb90c867-a02e-4868-bfff-a8ef9c5f68eb2'
 SEED_JOB_ID: 'e3b3d908-c916-42ae-964f-ebba727a00ab'
 DELETE_JOB_ID: 'd63f774c-2e3b-48fb-a0ce-f4db1effc8cc'
 SOURCE_SYSTEM_ID: '86dc65e4-42a0-4ee8-91e8-f201678f53aa'
 
-USER_LOGIN_URL: "https://sso.teradatacloud.io/oauth/ro"
 LOGIN_URL: "https://sso.teradatacloud.io/oauth/token"
 
 client_id: "h4psC1NTevUPYCJ6hTa76htrup4UNIyq"
-client_secret: "y96yTT3jlXSPUvw7H7DHHkCVYWJTS_8AKQJcemSZ06vPdStUEe3BTKwxyIXAOvo5"
 audience: "https://dev.api.teradatacloud.io/"
-customer_grant_type: "password"
 grant_type: "http://auth0.com/oauth/grant-type/password-realm"
-customer_connection: "AD-DEV"
-sysops_connection: "AD-DEV"
-agent_connection: "DSS"
-sysops_realm: "AD-DEV"
-realm: "DSS"
-customer_scope: "openid profile roles customerId userId serviceNowUserId"
+customer_realm: "AD-DEV"
+sysops_realm: "DSS"
+agent_realm: "DSS"
 scope: "openid profile"
 
 customer_username: "customer.one"
 customer_password:
-sysops_username: "sys.ops"
+sysops_username: "ed5f350f-5e96-41e7-b24f-27e007578cec"
 sysops_password:
-agent_username: "39ac13e7-bba9-4df7-8a21-e87b6d7c8887"
+agent_username: "f156ba27-5c88-4a03-b033-dcbb7d2bc1ec"
 agent_password:
