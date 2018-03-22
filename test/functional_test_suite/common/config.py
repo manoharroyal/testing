@@ -1,5 +1,7 @@
 import os
 import yaml
+import logging
+from test.shared.rest_framework import RestAPI, RequestType
 path = os.path.dirname(os.path.realpath(__file__))
 with open(path + "/../../../env/configuration.yaml", 'r') as stream:
     try:
@@ -7,19 +9,50 @@ with open(path + "/../../../env/configuration.yaml", 'r') as stream:
     except yaml.YAMLError as exc:
         print "Cannot able to access input configuration"
 
+end_point = RestAPI(utype='customer')
+
 """ All Constants goes here """
+CUSTOMER_SERVICE_URL = config_data['TEST_BASE_URL'].format(config_data['CUSTOMER_SERVICE_API_ID']) + "/customer-profiles/"
+INVENTORY_SERVICE_URL = config_data['TEST_BASE_URL'].format(config_data['INVENTORY_SERVICE_API_ID']) + "/inventory/items"
+SYSTEM_SERVICE_URL = config_data['TEST_BASE_URL'].format(config_data['SYSTEM_SERVICE_API_ID']) + "/systems"
+SEED_JOB_URL = config_data['TEST_BASE_URL'].format(config_data['JOB_API_ID']) + "/jobs"
+AGENT_SERVICE_URL = config_data['TEST_BASE_URL'].format(config_data['AGENT_SERVICE_API_ID']) + "/agents"
+TICKET_SERVICE_URL = config_data['TEST_BASE_URL'].format(config_data['TICKET_SERVICE_API_ID']) + "/tickets"
+AUTH_SERVICE_URL = config_data['TEST_BASE_URL'].format(config_data['AUTH_SERVICE_API_ID']) + "/auth/users"
+BOX_SERVICE_URL = config_data['TEST_BASE_URL'].format(config_data['BOX_SERVICE_API_ID']) + "/box"
+ORDER_SERVICE_URL = config_data['TEST_BASE_URL'].format(config_data['ORDER_SERVICE_API_ID']) + "/order"
 
-CUSTOMER_SERVICE_URL = config_data['BASE_URL'].format(config_data['CUSTOMER_SERVICE_API_ID']) + "/customer-profiles/"
-INVENTORY_SERVICE_URL = config_data['BASE_URL'].format(config_data['INVENTORY_SERVICE_API_ID']) + "/inventory/items"
-SYSTEM_SERVICE_URL = config_data['BASE_URL'].format(config_data['SYSTEM_SERVICE_API_ID']) + "/system"
-SEED_JOB_URL = config_data['BASE_URL'].format(config_data['SEED_JOB_API_ID']) + "/jobs"
-AGENT_SERVICE_URL = config_data['BASE_URL'].format(config_data['AGENT_SERVICE_API_ID']) + "/agents"
-TICKET_SERVICE_URL = config_data['BASE_URL'].format(config_data['TICKET_SERVICE_API_ID']) + "/tickets"
-AUTH_SERVICE_URL = "https://vcufjy5lv4.execute-api.us-east-1.amazonaws.com/test/auth/users"
+
+#
+# CUSTOMER_SERVICE_URL = end_point.request(
+#     RequestType.GET,
+#     config_data['END_POINTS_URL']).json()['customer-profile-dev'][0]['endpoint'].replace("{customer_id}", "")
+# INVENTORY_SERVICE_URL = end_point.request(
+#     RequestType.GET,
+#     config_data['END_POINTS_URL']).json()['inventory-service-dev'][0]['endpoint']
+# SYSTEM_SERVICE_URL = end_point.request(
+#     RequestType.GET,
+#     config_data['END_POINTS_URL']).json()['system-service-dev'][0]['endpoint']
+# SEED_JOB_URL = end_point.request(
+#     RequestType.GET,
+#     config_data['END_POINTS_URL']).json()['seedjob-service-dev'][0]['endpoint']
+# AGENT_SERVICE_URL = end_point.request(
+#     RequestType.GET,
+#     config_data['END_POINTS_URL']).json()['agent-service-dev'][0]['endpoint']
+# TICKET_SERVICE_URL = end_point.request(
+#     RequestType.GET,
+#     config_data['END_POINTS_URL']).json()['ticket-service-dev'][0]['endpoint']
+# AUTH_SERVICE_URL = end_point.request(
+#     RequestType.GET,
+#     config_data['END_POINTS_URL']).json()['auth-dev'][0]['endpoint']
+# BOX_SERVICE_URL = end_point.request(
+#     RequestType.GET,
+#     config_data['END_POINTS_URL']).json()['box-manager-dev'][-1]['endpoint']
+# ORDER_SERVICE_URL = end_point.request(
+#     RequestType.GET,
+#     config_data['END_POINTS_URL']).json()['order-manager-dev'][0]['endpoint'].replace("/{order_id}/track", "")
 
 
-SYSTEM_SERVICE = config_data['BASE_URL'].format(config_data['SYSTEM_SERVICE_API_ID'])
-SOURCE_SYSTEM_ID = config_data['SOURCE_SYSTEM_ID']
 TEMP_KEY = config_data['TEMP_KEY']
 SEED_JOB_ID = config_data['SEED_JOB_ID']
 DELETE_JOB_ID = config_data['DELETE_JOB_ID']
@@ -27,14 +60,39 @@ DELETE_JOB_ID = config_data['DELETE_JOB_ID']
 """ Setting up the parameters with urls """
 
 
-def get_items_url(param, val):
+def get_box_url(job_id):
+    """ Url to get boxes """
+    return '%s?job_id=%s' % (BOX_SERVICE_URL, job_id)
+
+
+def get_tickets_url(job_id):
+    """ Url to get list of tickets of particular job """
+    return '%s?job_id=%s' % (TICKET_SERVICE_URL, job_id)
+
+
+def order_details_url(order_id):
+    """ Url to get tracking details of an order """
+    return '%s/%s/track' % (ORDER_SERVICE_URL, order_id)
+
+
+def box_details_url(id):
+    """ Url ti get the details of box """
+    return '%s/%s' % (BOX_SERVICE_URL, id)
+
+
+def box_action_url(box_id):
+    """ Url to action on box """
+    return '%s/%s' % (BOX_SERVICE_URL, box_id)
+
+
+def get_items_url(param, value):
     """ Url for checking the item availability in the inventory"""
-    return '%s?%s=%s' % (INVENTORY_SERVICE_URL, param, val)
+    return '%s?%s=%s' % (INVENTORY_SERVICE_URL, param, value)
 
 
-def update_item_url(val):
+def update_item_url(item_id):
     """ Url for updating the item status in the inventory by item id """
-    return '%s/%s' % (INVENTORY_SERVICE_URL, val)
+    return '%s/%s' % (INVENTORY_SERVICE_URL, item_id)
 
 
 def list_system_url(list_system, system_type):
@@ -48,9 +106,9 @@ target_system = SYSTEM_SERVICE_URL + "/target/"
 validate_auth_user_url = AUTH_SERVICE_URL + "/validate"
 
 
-def delete_auth_user_url(user_name):
+def delete_auth_user_url(user_id):
     """ Url to delete the user """
-    return '%s/%s' % (AUTH_SERVICE_URL, user_name)
+    return '%s/%s' % (AUTH_SERVICE_URL, user_id)
 
 
 def source_system_url(system_id):
@@ -63,7 +121,8 @@ def target_system_url(site_id):
     return '%s%s' % (target_system, site_id)
 
 
-agent_id = 'dd12082c-972e-49d7-a8ec-13d30a2f59b2'
+agent_id = '67be6ee7-092e-4bfc-a0c9-5ee2c3c70e43'
+task_id = '3ab0062e-09f4-463f-94b8-e05247b888df'
 TICKETS_URL = TICKET_SERVICE_URL + "/{ticket_id}"
 LIST_AGENT_TASK_URL = AGENT_SERVICE_URL + '/tasks'
 
@@ -94,26 +153,44 @@ def seed_job_url(seed_job_id):
     return '%s/%s' % (SEED_JOB_URL, seed_job_id)
 
 
+def current_tickets_url(job_id, value):
+    """ To get current tickets of job """
+    return "%s/%s?fields=%s" % (SEED_JOB_URL, job_id, value)
+
+
 def user_action_url(seed_job_id, action):
     """ Url for giving an action by user """
     return '%s/%s/job?action=%s' % (SEED_JOB_URL, seed_job_id, action)
 
 
-def admin_action_url(seedjobid, action):
-    """ Url for giving an action by admin """
-    return '%s/admin/%s?action=%s' % (SEED_JOB_URL, seedjobid, action)
-
-
-def update_job_logs_url(val):
-    """ Url for update job logs by an agent """
-    return '%s/agent/%s' % (SEED_JOB_URL, val)
-
-
-def agent_api_url(val, value):
+def agent_action_url(job_id, action):
     """ Url for agent api on seed job """
-    return '%s/agent/%s?action=%s' % (SEED_JOB_URL, val, value)
+    return '%s/agent/%s?action=%s' % (SEED_JOB_URL, job_id, action)
 
 
-def ticket_detail_url(value):
+def update_ticket_url(ticket_id):
     """ url to get the details of ticket """
-    return '%s/%s' % (TICKET_SERVICE_URL, value)
+    return '%s/%s' % (TICKET_SERVICE_URL, ticket_id)
+
+
+""" logging function goes here """
+
+
+def initialize_logger(output_dir):
+    """ logging function to generate log reports """
+
+    logger = logging.getLogger()
+    logger.setLevel(logging.DEBUG)
+
+    formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+
+    fh = logging.FileHandler(os.path.join(output_dir), "w", encoding=None, delay=True)
+    fh.setLevel(logging.DEBUG)
+    fh.setFormatter(formatter)
+    logger.addHandler(fh)
+
+    ch = logging.StreamHandler()
+    ch.setLevel(logging.DEBUG)
+    ch.setFormatter(formatter)
+    logger.addHandler(ch)
+    logger.debug('This is a test log message.')
