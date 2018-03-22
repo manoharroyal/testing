@@ -10,6 +10,9 @@ from test.functional_test_suite.common.config import SYSTEM_SERVICE_URL
 from test.functional_test_suite.common.config import SEED_JOB_URL
 from test.functional_test_suite.common.config import register_agent_url
 from test.functional_test_suite.common.config import user_action_url
+from test.functional_test_suite.common.config import list_system
+from test.functional_test_suite.common.config import list_system_url
+
 initialize_logger(path + "/../../logs/integration_test.log")
 
 """ Token Creation """
@@ -92,36 +95,45 @@ system_creation_payload = {
     "details": SYSTEM_DETAILS
 }
 
-tg_system_creation_payload = {
-    "system_type": "target",
-    "system_name": "TestSourceSystem",
-    "details": SYSTEM_DETAILS
-}
 
-create_job_payload = {
-    "job_name": "Test_Backup102",
-    "description": "Thisistestjob",
-    "job_type": "BOX",
-    "notification": {
-        "email_id": "test@test.com",
-        "optional_email_id": "test@test.com",
-        "box_connected_to_customer_permimses": "True",
-        "job_approved": "True",
-        "box_shipped": "True",
-        "box_del_to_cust": "True",
-        "box_at_switch": "True",
-        "data_exported": "True",
-        "data_restored": "True",
-        "job_complete": "True",
-        "data_erased": "True",
-        "data_integrity_validated": "True"
-    },
-    "address_title": "cust_new_test",
-    "source_system_id": "3decb55c-6389-4466-8e67-03f5b0e7ccc9",
-    "target_system_id": "JOHNTEST2AAAAAA",
-    "max_data_size": "50",
-    "passphrase": "testnew"
-}
+def create_seed_job_payload(
+        job_name='test 28', description='Thisistestjob', job_type='BOX',
+        address_title="9876",
+        source_system_id='930c3a1e-c354-4441-8983-e56ada60e94b',
+        target_system_id='JOHNAWS2', max_data_size="60", passphrase='new1234',
+        email_id='emanohar80@gmail.com',
+        optional_email_id='eethakatla.manohar@opcito.com',
+        box_connected_to_customer_permimses=True, job_approved=False,
+        box_shipped=True, box_del_to_cust=True, box_at_switch=True,
+        data_exported=True, data_restored=True, job_complete=True,
+        data_erased=True, data_integrity_validated=True):
+    """ Request body for creation of seed job"""
+
+    payload = {"job_name": job_name,
+               "description": description,
+               "job_type": job_type,
+               "notification": {
+                   "email_id": email_id,
+                   "optional_email_id": optional_email_id,
+                   "box_connected_to_customer_permimses": box_connected_to_customer_permimses,
+                   "job_approved": job_approved,
+                   "box_shipped": box_shipped,
+                   "box_del_to_cust": box_del_to_cust,
+                   "box_at_switch": box_at_switch,
+                   "data_exported": data_exported,
+                   "data_restored": data_restored,
+                   "job_complete": job_complete,
+                   "data_erased": data_erased,
+                   "data_integrity_validated": data_integrity_validated
+               },
+               "address_title": address_title,
+               "source_system_id": source_system_id,
+               "target_system_id": target_system_id,
+               "max_data_size": max_data_size,
+               "passphrase": passphrase
+               }
+    return payload
+
 
 job_action_payload = {
     "db_user_name": "dbc",
@@ -156,18 +168,23 @@ class IntegrationTest(unittest.TestCase):
         source_system_creation = customer.request(
             method=RequestType.POST, url=SYSTEM_SERVICE_URL,
             payload=system_creation_payload)
+        source_system_id = source_system_creation.json()['id']
         logging.info(source_system_creation.text)
 
         # 4. Create Target System
         target_system_creation = customer.request(
-            method=RequestType.POST, url=SYSTEM_SERVICE_URL,
-            payload=tg_system_creation_payload)
+            method=RequestType.GET,
+            url=list_system_url(list_system, system_type='target'))
+        target_system_id = target_system_creation.json()['systems'][0]['siteId']
         logging.info(target_system_creation.text)
 
         # 5. Create Job
         job_creation = customer.request(
             method=RequestType.POST, url=SEED_JOB_URL,
-            payload=create_job_payload)
+            payload=create_seed_job_payload(
+                address_title='cust_new_test',
+                source_system_id=source_system_id,
+                target_system_id=target_system_id))
         job_creation_dict = job_creation.json()
         job_id = job_creation_dict['job_id']
         logging.info(job_creation.text)
@@ -184,53 +201,53 @@ class IntegrationTest(unittest.TestCase):
         logging.info(agent_resp.text)
         self.assertEqual(agent_resp.status_code, 202)
 
-    def test_backupjob_flow(self):
-        """ Testing Backup Job Creation in Customer DC
-            1. Customer Box Ack
-            2. Agent Connected (box)
-            3. Test Source Connection
-            4. Get Task (box)
-            5. Get Source (box)
-            6. Test Connection (box)
-            7. DB Connection (box)
-            8. Ready for Export (box)
-            9. Get Object Tree
-            10. Start Export
-            11. Get Task (box)
-            12. Update Done (box)
-        """
-
-        # 1. Customer Box Ack
-        customer.request(RequestType.PUT,
-                         url=job_ack_url,
-                         payload=job_action_payload)
-
-        # 3. Test Source Connection
-        customer.request(RequestType.PUT,
-                         url=job_test_conn_url,
-                         payload=job_action_payload)
-
-        # 4. Test Start Export
-        export_job = customer.request(RequestType.PUT,
-                                      url=job_export_url,
-                                      payload=job_action_payload)
-        logging.info(export_job.text)
-        self.assertEqual(export_job.status_code, 202)
-
-    def test_restore_at_switch_flow(self):
-        """ The restore job flow
-            1. Box Connected (box)
-            2. Box Ready for Import
-            3. Get Task (box)
-            4. Get Target Details (box)
-            5. Target connection successful (box)
-            6. Ready for restore (box)
-            7. Get task (box)
-            8. Restore job update complete (box)
-        """
-
-        restore = customer.request(RequestType.PUT,
-                                   url=job_import_url,
-                                   payload=job_action_payload)
-        logging.info(restore.text)
-        self.assertEquals(restore.status_code, 202)
+    # def test_backupjob_flow(self):
+    #     """ Testing Backup Job Creation in Customer DC
+    #         1. Customer Box Ack
+    #         2. Agent Connected (box)
+    #         3. Test Source Connection
+    #         4. Get Task (box)
+    #         5. Get Source (box)
+    #         6. Test Connection (box)
+    #         7. DB Connection (box)
+    #         8. Ready for Export (box)
+    #         9. Get Object Tree
+    #         10. Start Export
+    #         11. Get Task (box)
+    #         12. Update Done (box)
+    #     """
+    #
+    #     # 1. Customer Box Ack
+    #     customer.request(RequestType.PUT,
+    #                      url=job_ack_url,
+    #                      payload=job_action_payload)
+    #
+    #     # 3. Test Source Connection
+    #     customer.request(RequestType.PUT,
+    #                      url=job_test_conn_url,
+    #                      payload=job_action_payload)
+    #
+    #     # 4. Test Start Export
+    #     export_job = customer.request(RequestType.PUT,
+    #                                   url=job_export_url,
+    #                                   payload=job_action_payload)
+    #     logging.info(export_job.text)
+    #     self.assertEqual(export_job.status_code, 202)
+    #
+    # def test_restore_at_switch_flow(self):
+    #     """ The restore job flow
+    #         1. Box Connected (box)
+    #         2. Box Ready for Import
+    #         3. Get Task (box)
+    #         4. Get Target Details (box)
+    #         5. Target connection successful (box)
+    #         6. Ready for restore (box)
+    #         7. Get task (box)
+    #         8. Restore job update complete (box)
+    #     """
+    #
+    #     restore = customer.request(RequestType.PUT,
+    #                                url=job_import_url,
+    #                                payload=job_action_payload)
+    #     logging.info(restore.text)
+    #     self.assertEquals(restore.status_code, 202)
