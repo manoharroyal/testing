@@ -9,7 +9,7 @@ from test.functional_test_suite.inventory_service.inventory_service_payloads imp
 from test.functional_test_suite.common.config import SEED_JOB_URL,\
     seed_job_url, user_action_url, TEMP_KEY, agent_action_url, \
     initialize_logger, agent_task_url, list_agent_tasks_url, agent_details_url, \
-    current_tickets_url, update_ticket_url,INVENTORY_SERVICE_URL
+    current_tickets_url, update_ticket_url,INVENTORY_SERVICE_URL, CUSTOMER_PROFILE_URL, list_system, list_system_url
 
 job_service_customer = RestAPI(utype='customer')
 job_service_invalid = RestAPI(utype='invalid')
@@ -18,6 +18,12 @@ inventory_service = RestAPI(utype='sysops')
 ticket_service = RestAPI(utype='sysops')
 initialize_logger(path + '/../../logs/job_service.log')
 
+address_title = job_service_customer.request(
+    RequestType.GET, CUSTOMER_PROFILE_URL).json()['shipping_addresses'][0]['title']
+source_system_id = job_service_customer.request(
+    RequestType.GET, list_system_url(list_system, system_type='source')).json()['systems'][0]['id']
+target_system_id = job_service_customer.request(
+    RequestType.GET, list_system_url(list_system, system_type='target')).json()['systems'][0]['siteId']
 job_id = 0
 ticket_id = 0
 
@@ -33,7 +39,9 @@ class JobServiceTestCases(unittest.TestCase):
         global job_id
         create_job_response = job_service_customer.request(
             RequestType.POST, SEED_JOB_URL,
-            payload=SeedJobServicePayload().create_seed_job_payload())
+            payload=SeedJobServicePayload().create_seed_job_payload(
+                address_title=address_title, source_system_id=source_system_id,
+                target_system_id=target_system_id))
         create_job_response_dict = create_job_response.json()
         logging.info('test_create_job_with_valid_details')
         logging.info('Url is %s', SEED_JOB_URL)
@@ -88,7 +96,7 @@ class JobServiceTestCases(unittest.TestCase):
         create_job_response = job_service_customer.request(
             RequestType.POST, SEED_JOB_URL,
             payload=SeedJobServicePayload().create_seed_job_payload
-            (source_system_id=TEMP_KEY, job_name='test 25'))
+            (address_title=address_title, source_system_id=TEMP_KEY, job_name='test 25'))
         create_job_response_dict = create_job_response.json()
         logging.info('test_create_job_with_invalid_source_system_id')
         logging.info('Url is %s', SEED_JOB_URL)
@@ -116,7 +124,7 @@ class JobServiceTestCases(unittest.TestCase):
         create_job_response = job_service_customer.request(
             RequestType.POST, SEED_JOB_URL,
             payload=SeedJobServicePayload().create_seed_job_payload
-            (target_system_id=TEMP_KEY, job_name='test 26'))
+            (source_system_id=source_system_id, target_system_id=TEMP_KEY, job_name='test 26'))
         create_job_response_dict = create_job_response.json()
         logging.info('test_create_job_with_invalid_target_system_id')
         logging.info('Url is %s', SEED_JOB_URL)
@@ -420,6 +428,26 @@ class JobServiceTestCases(unittest.TestCase):
         logging.info('test case executed successfully')
 
     def test__job_details_with_valid_job_id(self):
+        """ Testing with the valid job_id to get the details of the seed job """
+
+        # Get the seed job details with valid job id
+        job_details_response = job_service_customer.request(
+            RequestType.GET, seed_job_url(job_id))
+        logging.info('test_job_details_with_valid_job_id')
+        logging.info('Url is %s', seed_job_url(job_id))
+        logging.info('Response is %s', job_details_response.text)
+        self.assertEquals(
+            job_details_response.status_code, 200,
+            msg="Expected code is 200 and got is %s (%s)" % (
+                job_details_response.status_code,
+                httplib.responses[job_details_response.status_code]))
+        self.assertIn(
+            'job_id', job_details_response.json().keys(),
+            msg="Expected %s in %s" %
+                ('job_id', job_details_response.json().keys()))
+        logging.info('test case executed successfully')
+
+    def test__job_details_mock_with_valid_job_id(self):
         """ Testing with the valid job_id to get the details of the seed job """
 
         url = "https://l8czy78mlk.execute-api.us-west-2.amazonaws.com/dev/mock/job-service?job_id=%s" % job_id

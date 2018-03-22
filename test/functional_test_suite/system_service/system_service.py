@@ -3,8 +3,10 @@ import logging
 import unittest
 import httplib
 from test.shared.rest_framework import RestAPI, RequestType, SystemType, path
-from test.functional_test_suite.common.config import SYSTEM_SERVICE_URL, \
-    list_system_url, list_system, initialize_logger
+from test.functional_test_suite.common.config import SYSTEM_SERVICE_URL
+from test.functional_test_suite.common.config import list_system_url
+from test.functional_test_suite.common.config import list_system
+from test.functional_test_suite.common.config import initialize_logger
 from test.functional_test_suite.system_service.system_service_payloads import SystemServicePayload
 
 system_service = RestAPI(utype='customer')

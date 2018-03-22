@@ -12,6 +12,7 @@ initialize_logger(path + '/../../logs/auth_service.log')
 userId = 0
 password = 0
 
+
 class AuthService(unittest.TestCase):
     """ Test cases for the auth service """
 

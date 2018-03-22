@@ -3,15 +3,16 @@ import logging
 import unittest
 import httplib
 from test.functional_test_suite.common.config import update_ticket_url, \
-    initialize_logger, get_tickets_url
+    initialize_logger, get_tickets_url, SEED_JOB_URL
 from test.shared.rest_framework import RestAPI, RequestType, path
 from test.functional_test_suite.ticket_service.ticket_service_payloads import TicketServicePayload
 
+job_service = RestAPI(utype='customer')
 ticket_service = RestAPI(utype='sysops')
 ticket_service_invalid = RestAPI(utype='invalid')
 initialize_logger(path + '/../../logs/ticket_service.log')
-job_id = '86b8ffcf-54ff-49b3-b2fe-05ec13cb043c'
-ticket_id = 'CHG0052068'
+job_id = job_service.request(RequestType.GET, SEED_JOB_URL).json()['jobs'][0]['job_id']
+ticket_id = 0
 
 
 class TicketService(unittest.TestCase):
@@ -21,6 +22,8 @@ class TicketService(unittest.TestCase):
 
     def test_get_list_tickets_with_valid_job_id(self):
         """ Get the list of tickets """
+
+        global ticket_id
 
         # Get the list of all tickets with valid url
         list_tickets_response = ticket_service.request(
@@ -38,6 +41,7 @@ class TicketService(unittest.TestCase):
             "list", list_tickets_response_dict.keys(),
             msg="Expected %s in %s" % (
                 "list", list_tickets_response_dict.keys()))
+        ticket_id = list_tickets_response_dict['list'][0]['number_sn']
         logging.info('test case executed successfully')
 
     def test_get_list_tickets_with_invalid_token(self):
