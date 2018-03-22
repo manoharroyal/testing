@@ -2,66 +2,46 @@
 import unittest
 import os
 import yaml
-from test.shared.rest_framework import RequestType, RestAPI
-path = os.path.dirname(os.path.realpath(__file__))
-with open(path + "/../../env/configuration.yaml", 'r') as stream:
-    try:
-        config_data = yaml.load(stream)
-    except yaml.YAMLError as exc:
-        print "Cannot able to access input configuration"
-
-END_POINTS_URL = config_data['END_POINTS_URL']
-end_point = RestAPI(utype='customer')
-
-""" urls over here """
-CUSTOMER_SERVICE_URL = end_point.request(
-    RequestType.GET,
-    END_POINTS_URL).json()['customer-profile-dev'][0]['endpoint'].replace("{customer_id}", "")
-SYSTEM_SERVICE_URL = end_point.request(
-    RequestType.GET,
-    END_POINTS_URL).json()['system-service-dev'][0]['endpoint']
-JOB_SERVICE_URL = end_point.request(
-    RequestType.GET,
-    END_POINTS_URL).json()['seedjob-service-dev'][0]['endpoint']
-BOX_SERVICE_URL = end_point.request(
-    RequestType.GET,
-    END_POINTS_URL).json()['box-manager-dev'][0]['endpoint'].replace("{box_id}", "")
-AGENT_SERVICE_URL = end_point.request(
-    RequestType.GET,
-    END_POINTS_URL).json()['agent-service-dev'][0]['endpoint'] + "/{0}/register"
-SEEDJOB_ACTION_URL = end_point.request(
-    RequestType.GET,
-    END_POINTS_URL).json()['seedjob-service-dev'][0]['endpoint'] + "/{0}/job?action={1}"
-
+import logging
+from test.shared.rest_framework import RequestType, RestAPI, path
+from test.functional_test_suite.common.config import initialize_logger
+from test.functional_test_suite.common.config import CUSTOMER_SERVICE_URL
+from test.functional_test_suite.common.config import SYSTEM_SERVICE_URL
+from test.functional_test_suite.common.config import SEED_JOB_URL
+from test.functional_test_suite.common.config import register_agent_url
+from test.functional_test_suite.common.config import user_action_url
+initialize_logger(path + "/../../logs/integration_test.log")
 
 """ Token Creation """
 customer = RestAPI(utype='customer')
 sysops = RestAPI(utype='sysops')
 agent = RestAPI(utype='agent')
 
-
 """ url manipulation """
 agent_id = 'dd12082c-972e-49d7-a8ec-13d30a2f59b2'
 job_id = 'e3b3d908-c916-42ae-964f-ebba727a00ab'
 customer_profile_url = CUSTOMER_SERVICE_URL + str(customer.customerId)
-register_agent_url = AGENT_SERVICE_URL.format(agent_id)
-seedjob_ack_url = SEEDJOB_ACTION_URL.format(job_id, "ack_box_received")
-seedjob_test_conn_url = SEEDJOB_ACTION_URL.format(job_id, "test_conn_source")
-seedjob_export_url = SEEDJOB_ACTION_URL.format(job_id, "start_export")
-seedjob_import_url = SEEDJOB_ACTION_URL.format(job_id, "start_import")
+register_agent_url = register_agent_url(agent_id=agent_id)
+job_ack_url = user_action_url(seed_job_id=job_id, action="ack_box_received")
+job_test_conn_url = user_action_url(seed_job_id=job_id, action="test_conn_source")
+job_export_url = user_action_url(seed_job_id=job_id, action="start_export")
+job_import_url = user_action_url(seed_job_id=job_id, action="start_import")
 
 """ payloads over here """
-cust_payload = {
-    "title": "cust_new_test",
-    "address_line_1": "testaddr1",
-    "address_line_2": "testaddr2",
-    "contact_name": "testname",
-    "contact_number": 12345,
-    "company_name": "testcompnay",
-    "city": "testcity",
-    "state": "teststate",
-    "country": "testcountry",
-    "zipcode": 411057
+
+
+customer_payload = {
+    "shipping_address": {
+        "title": "cust_new_test",
+        "address_line_1": "testaddr1",
+        "address_line_2": "testaddr2",
+        "contact_name": "testname",
+        "contact_number": 12345,
+        "city": "testcity",
+        "state": "teststate",
+        "country": "testcountry",
+        "zipcode": 411057
+    }
 }
 
 SYSTEM_DETAILS = {
@@ -120,33 +100,35 @@ tg_system_creation_payload = {
 
 create_job_payload = {
     "job_name": "Test_Backup102",
-    "job_type": "BOX",
-    "target_system_id": "CTAZURE2",
-    "address_title": "cust_new_test",
     "description": "Thisistestjob",
-    "source_system_id": "01e493cc-4dfd-47bb-9881-e24599432f16",
-    "max_data_size": "50",
-    "notification":
-    {
+    "job_type": "BOX",
+    "notification": {
         "email_id": "test@test.com",
-        "job_complete": "True",
-        "job_approved": "False",
+        "optional_email_id": "test@test.com",
+        "box_connected_to_customer_permimses": "True",
+        "job_approved": "True",
         "box_shipped": "True",
-        "ready_to_restore": "False",
-        "data_erased": "True",
-        "box_prepared": "True",
-        "box_in_transit": "True",
-        "box_at_switch": "True",
         "box_del_to_cust": "True",
+        "box_at_switch": "True",
+        "data_exported": "True",
         "data_restored": "True",
-        "optional_email_id": "test@test.com"
-    }
+        "job_complete": "True",
+        "data_erased": "True",
+        "data_integrity_validated": "True"
+    },
+    "address_title": "cust_new_test",
+    "source_system_id": "3decb55c-6389-4466-8e67-03f5b0e7ccc9",
+    "target_system_id": "JOHNTEST2AAAAAA",
+    "max_data_size": "50",
+    "passphrase": "testnew"
 }
 
 job_action_payload = {
     "db_user_name": "dbc",
     "db_user_password": "dbc"
 }
+
+job_id = 0
 
 
 class IntegrationTest(unittest.TestCase):
@@ -162,25 +144,34 @@ class IntegrationTest(unittest.TestCase):
             5. Create job
         """
 
+        global job_id
+
         # 2. Customer Profile Creation
-        customer.request(method=RequestType.PUT,
-                         url=customer_profile_url,
-                         payload=cust_payload,
-                         )
+        customer_profile_creation = customer.request(
+            method=RequestType.PUT, url=customer_profile_url,
+            payload=customer_payload)
+        logging.info(customer_profile_creation.text)
+
         # 3. Add Source System
-        customer.request(method=RequestType.POST,
-                         url=SYSTEM_SERVICE_URL,
-                         payload=system_creation_payload
-                         )
+        source_system_creation = customer.request(
+            method=RequestType.POST, url=SYSTEM_SERVICE_URL,
+            payload=system_creation_payload)
+        logging.info(source_system_creation.text)
+
         # 4. Create Target System
-        customer.request(method=RequestType.POST,
-                         url=SYSTEM_SERVICE_URL,
-                         payload=tg_system_creation_payload)
+        target_system_creation = customer.request(
+            method=RequestType.POST, url=SYSTEM_SERVICE_URL,
+            payload=tg_system_creation_payload)
+        logging.info(target_system_creation.text)
+
         # 5. Create Job
-        job = customer.request(method=RequestType.POST,
-                               url=JOB_SERVICE_URL,
-                               payload=create_job_payload)
-        self.assertEquals(job.status_code, 201)
+        job_creation = customer.request(
+            method=RequestType.POST, url=SEED_JOB_URL,
+            payload=create_job_payload)
+        job_creation_dict = job_creation.json()
+        job_id = job_creation_dict['job_id']
+        logging.info(job_creation.text)
+        self.assertEquals(job_creation.status_code, 201)
 
     def test_prepare_shipment_flow(self):
         """ Testing Shipment Flow
@@ -188,9 +179,9 @@ class IntegrationTest(unittest.TestCase):
         """
 
         # 1) Register Agent
-        agent_resp = agent.request(method=RequestType.PUT,
-                                   url=register_agent_url,
-                                   payload=None)
+        agent_resp = agent.request(
+            method=RequestType.PUT, url=register_agent_url, payload=None)
+        logging.info(agent_resp.text)
         self.assertEqual(agent_resp.status_code, 202)
 
     def test_backupjob_flow(self):
@@ -211,22 +202,23 @@ class IntegrationTest(unittest.TestCase):
 
         # 1. Customer Box Ack
         customer.request(RequestType.PUT,
-                         url=seedjob_ack_url,
+                         url=job_ack_url,
                          payload=job_action_payload)
 
         # 3. Test Source Connection
         customer.request(RequestType.PUT,
-                         url=seedjob_test_conn_url,
+                         url=job_test_conn_url,
                          payload=job_action_payload)
 
         # 4. Test Start Export
         export_job = customer.request(RequestType.PUT,
-                                      url=seedjob_export_url,
+                                      url=job_export_url,
                                       payload=job_action_payload)
+        logging.info(export_job.text)
         self.assertEqual(export_job.status_code, 202)
 
     def test_restore_at_switch_flow(self):
-        """ The restore job flow 
+        """ The restore job flow
             1. Box Connected (box)
             2. Box Ready for Import
             3. Get Task (box)
@@ -238,7 +230,7 @@ class IntegrationTest(unittest.TestCase):
         """
 
         restore = customer.request(RequestType.PUT,
-                                   url=seedjob_import_url,
+                                   url=job_import_url,
                                    payload=job_action_payload)
-
+        logging.info(restore.text)
         self.assertEquals(restore.status_code, 202)
