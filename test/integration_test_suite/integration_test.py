@@ -10,6 +10,7 @@ from test.functional_test_suite.common.config import register_agent_url
 from test.functional_test_suite.common.config import user_action_url
 from test.functional_test_suite.common.config import list_system
 from test.functional_test_suite.common.config import list_system_url
+from test.functional_test_suite.common.config import get_agent_id_url
 
 initialize_logger(path + "/../../logs/integration_test.log")
 
@@ -18,15 +19,7 @@ customer = RestAPI(utype='customer')
 sysops = RestAPI(utype='sysops')
 agent = RestAPI(utype='agent')
 
-""" url manipulation """
-agent_id = 'dd12082c-972e-49d7-a8ec-13d30a2f59b2'
-job_id = 'e3b3d908-c916-42ae-964f-ebba727a00ab'
 customer_profile_url = CUSTOMER_SERVICE_URL + str(customer.customerId)
-register_agent_url = register_agent_url(agent_id=agent_id)
-job_ack_url = user_action_url(seed_job_id=job_id, action="ack_box_received")
-job_test_conn_url = user_action_url(seed_job_id=job_id, action="test_conn_source")
-job_export_url = user_action_url(seed_job_id=job_id, action="start_export")
-job_import_url = user_action_url(seed_job_id=job_id, action="start_import")
 
 """ payloads over here """
 
@@ -139,6 +132,7 @@ job_action_payload = {
 }
 
 job_id = 0
+agent_id = 0
 
 
 class IntegrationTest(unittest.TestCase):
@@ -192,10 +186,18 @@ class IntegrationTest(unittest.TestCase):
         """ Testing Shipment Flow
             1) Register Agent
         """
+        # 1) Get agent_id which is associated with job
+        global agent_id
+
+        agent_id_resp = customer.request(
+            RequestType.GET, get_agent_id_url(job_id=job_id))
+        agent_id = agent_id_resp.json()['agent_id']
+        print agent_id
+        logging.info(agent_id_resp.text)
 
         # 1) Register Agent
         agent_resp = agent.request(
-            method=RequestType.PUT, url=register_agent_url, payload=None)
+            RequestType.PUT, register_agent_url(agent_id=agent_id))
         logging.info(agent_resp.text)
         self.assertEqual(agent_resp.status_code, 202)
 
@@ -216,18 +218,20 @@ class IntegrationTest(unittest.TestCase):
         """
 
         # 1. Customer Box Ack
-        customer.request(RequestType.PUT,
-                         url=job_ack_url,
+        box_ack = customer.request(RequestType.PUT,
+                         user_action_url(seed_job_id=job_id, action='ack_box_received'),
                          payload=job_action_payload)
+        logging.info(box_ack.text)
 
         # 3. Test Source Connection
-        customer.request(RequestType.PUT,
-                         url=job_test_conn_url,
+        box_test_conn_source = customer.request(RequestType.PUT,
+                         user_action_url(seed_job_id=job_id, action='test_conn_source'),
                          payload=job_action_payload)
+        logging.info(box_test_conn_source.text)
 
         # 4. Test Start Export
         export_job = customer.request(RequestType.PUT,
-                                      url=job_export_url,
+                                      user_action_url(seed_job_id=job_id, action='start_export'),
                                       payload=job_action_payload)
         logging.info(export_job.text)
         self.assertEqual(export_job.status_code, 202)
@@ -245,7 +249,7 @@ class IntegrationTest(unittest.TestCase):
         """
 
         restore = customer.request(RequestType.PUT,
-                                   url=job_import_url,
+                                   user_action_url(seed_job_id=job_id, action='start_import'),
                                    payload=job_action_payload)
         logging.info(restore.text)
         self.assertEquals(restore.status_code, 202)
