@@ -23,7 +23,7 @@ BOX_SERVICE_URL = config_data['TEST_BASE_URL'].format(config_data['BOX_SERVICE_A
 ORDER_SERVICE_URL = config_data['TEST_BASE_URL'].format(config_data['ORDER_SERVICE_API_ID']) + "/order"
 
 
-
+GET_AGENT_ID_URL = "https://l8czy78mlk.execute-api.us-west-2.amazonaws.com/dev/mock/job-service?job_id="
 # CUSTOMER_SERVICE_URL = end_point.request(
 #     RequestType.GET,
 #     config_data['END_POINTS_URL']).json()['customer-profile-dev'][0]['endpoint'].replace("{customer_id}", "")
@@ -202,6 +202,14 @@ validate_auth_user_url = AUTH_SERVICE_URL + "/validate"
 def delete_auth_user_url(user_id):
     """ Url to delete the user """
     return '%s/%s' % (AUTH_SERVICE_URL, user_id)
+
+
+# Mock urls
+
+
+def get_agent_id_url(job_id):
+    """ Url to get agent_id associated with job """
+    return "%s%s" % (GET_AGENT_ID_URL, job_id)
 
 
 """ logging function goes here """
