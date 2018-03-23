@@ -30,8 +30,8 @@ agent_realm: "DSS"
 scope: "openid profile"
 
 customer_username: "customer.one"
-customer_password: "pass@word1"
+customer_password:
 sysops_username: "ed5f350f-5e96-41e7-b24f-27e007578cec"
-sysops_password: "O1be&4xOXS%p@MN3"
+sysops_password:
 agent_username: "f156ba27-5c88-4a03-b033-dcbb7d2bc1ec"
-agent_password: "jl7AuBG2f!2yA*^q"
+agent_password:

@@ -1,7 +1,5 @@
 """ Integration test cases for All Flows"""
 import unittest
-import os
-import yaml
 import logging
 from test.shared.rest_framework import RequestType, RestAPI, path
 from test.functional_test_suite.common.config import initialize_logger
@@ -201,53 +199,53 @@ class IntegrationTest(unittest.TestCase):
         logging.info(agent_resp.text)
         self.assertEqual(agent_resp.status_code, 202)
 
-    # def test_backupjob_flow(self):
-    #     """ Testing Backup Job Creation in Customer DC
-    #         1. Customer Box Ack
-    #         2. Agent Connected (box)
-    #         3. Test Source Connection
-    #         4. Get Task (box)
-    #         5. Get Source (box)
-    #         6. Test Connection (box)
-    #         7. DB Connection (box)
-    #         8. Ready for Export (box)
-    #         9. Get Object Tree
-    #         10. Start Export
-    #         11. Get Task (box)
-    #         12. Update Done (box)
-    #     """
-    #
-    #     # 1. Customer Box Ack
-    #     customer.request(RequestType.PUT,
-    #                      url=job_ack_url,
-    #                      payload=job_action_payload)
-    #
-    #     # 3. Test Source Connection
-    #     customer.request(RequestType.PUT,
-    #                      url=job_test_conn_url,
-    #                      payload=job_action_payload)
-    #
-    #     # 4. Test Start Export
-    #     export_job = customer.request(RequestType.PUT,
-    #                                   url=job_export_url,
-    #                                   payload=job_action_payload)
-    #     logging.info(export_job.text)
-    #     self.assertEqual(export_job.status_code, 202)
-    #
-    # def test_restore_at_switch_flow(self):
-    #     """ The restore job flow
-    #         1. Box Connected (box)
-    #         2. Box Ready for Import
-    #         3. Get Task (box)
-    #         4. Get Target Details (box)
-    #         5. Target connection successful (box)
-    #         6. Ready for restore (box)
-    #         7. Get task (box)
-    #         8. Restore job update complete (box)
-    #     """
-    #
-    #     restore = customer.request(RequestType.PUT,
-    #                                url=job_import_url,
-    #                                payload=job_action_payload)
-    #     logging.info(restore.text)
-    #     self.assertEquals(restore.status_code, 202)
+    def test_backupjob_flow(self):
+        """ Testing Backup Job Creation in Customer DC
+            1. Customer Box Ack
+            2. Agent Connected (box)
+            3. Test Source Connection
+            4. Get Task (box)
+            5. Get Source (box)
+            6. Test Connection (box)
+            7. DB Connection (box)
+            8. Ready for Export (box)
+            9. Get Object Tree
+            10. Start Export
+            11. Get Task (box)
+            12. Update Done (box)
+        """
+
+        # 1. Customer Box Ack
+        customer.request(RequestType.PUT,
+                         url=job_ack_url,
+                         payload=job_action_payload)
+
+        # 3. Test Source Connection
+        customer.request(RequestType.PUT,
+                         url=job_test_conn_url,
+                         payload=job_action_payload)
+
+        # 4. Test Start Export
+        export_job = customer.request(RequestType.PUT,
+                                      url=job_export_url,
+                                      payload=job_action_payload)
+        logging.info(export_job.text)
+        self.assertEqual(export_job.status_code, 202)
+
+    def test_restore_at_switch_flow(self):
+        """ The restore job flow
+            1. Box Connected (box)
+            2. Box Ready for Import
+            3. Get Task (box)
+            4. Get Target Details (box)
+            5. Target connection successful (box)
+            6. Ready for restore (box)
+            7. Get task (box)
+            8. Restore job update complete (box)
+        """
+
+        restore = customer.request(RequestType.PUT,
+                                   url=job_import_url,
+                                   payload=job_action_payload)
+        logging.info(restore.text)
+        self.assertEquals(restore.status_code, 202)
