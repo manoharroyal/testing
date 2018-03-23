@@ -138,7 +138,7 @@ agent_id = 0
 class IntegrationTest(unittest.TestCase):
     """ The integration test cases """
 
-    def test_create_job_flow(self):
+    def test__create_job_flow(self):
         """ Testing Create job Flow
             ( Trying to create a job with customer )
             1. Login as customer (token_generation)
@@ -182,7 +182,7 @@ class IntegrationTest(unittest.TestCase):
         logging.info(job_creation.text)
         self.assertEquals(job_creation.status_code, 201)
 
-    def test_prepare_shipment_flow(self):
+    def test__prepare_shipment_flow(self):
         """ Testing Shipment Flow
             1) Register Agent
         """
