@@ -132,7 +132,7 @@ def current_tickets_url(job_id, value):
 def seed_job_url(seed_job_id):
     """ Url to GET details of seed job and update the seed job and
     DELETE the seed job with job id """
-    return '%s/%s' % (SEED_JOB_URL, seed_job_id)
+    return '%s/%s?fields=agent_id,agent_status' % (SEED_JOB_URL, seed_job_id)
 
 
 def user_action_url(seed_job_id, action):
