@@ -54,10 +54,6 @@ ORDER_SERVICE_URL = config_data['TEST_BASE_URL'].format(config_data['ORDER_SERVI
 
 
 TEMP_KEY = config_data['TEMP_KEY']
-SEED_JOB_ID = config_data['SEED_JOB_ID']
-DELETE_JOB_ID = config_data['DELETE_JOB_ID']
-agent_id = config_data['AGENT_ID']
-task_id = config_data['TASK_ID']
 
 """ Setting up the parameters with urls """
 
@@ -132,7 +128,7 @@ def current_tickets_url(job_id, value):
 def seed_job_url(seed_job_id):
     """ Url to GET details of seed job and update the seed job and
     DELETE the seed job with job id """
-    return '%s/%s?fields=agent_id,agent_status' % (SEED_JOB_URL, seed_job_id)
+    return '%s/%s?fields=agent_id,agent_online' % (SEED_JOB_URL, seed_job_id)
 
 
 def user_action_url(seed_job_id, action):

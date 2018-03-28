@@ -3,15 +3,29 @@ import logging
 import unittest
 import httplib
 from test.functional_test_suite.common.config import update_ticket_url, \
-    initialize_logger, get_tickets_url, SEED_JOB_URL
+    initialize_logger, get_tickets_url, SEED_JOB_URL, CUSTOMER_PROFILE_URL, \
+    list_system_url, list_system
 from test.shared.rest_framework import RestAPI, RequestType, path
 from test.functional_test_suite.ticket_service.ticket_service_payloads import TicketServicePayload
-
+from test.functional_test_suite.job_service.job_service_payloads import SeedJobServicePayload
+from test.functional_test_suite.customer_profile_service.customer_profile_service_payloads import CustomerProfileServicePayload
 job_service = RestAPI(utype='customer')
 ticket_service = RestAPI(utype='sysops')
 ticket_service_invalid = RestAPI(utype='invalid')
 initialize_logger(path + '/../../logs/ticket_service.log')
-job_id = job_service.request(RequestType.GET, SEED_JOB_URL).json()['jobs'][0]['job_id']
+
+address_title = job_service.request(
+    RequestType.PUT, CUSTOMER_PROFILE_URL,
+    payload=CustomerProfileServicePayload().customer_profile_payload()).json()['shipping_addresses'][0]['title']
+source_system_id = job_service.request(
+    RequestType.GET, list_system_url(list_system, system_type='source')).json()['systems'][0]['id']
+target_system_id = job_service.request(
+    RequestType.GET, list_system_url(list_system, system_type='target')).json()['systems'][0]['siteId']
+
+job_id = job_service.request(RequestType.POST, SEED_JOB_URL, payload=SeedJobServicePayload().create_seed_job_payload(
+                address_title=address_title, source_system_id=source_system_id,
+                target_system_id=target_system_id)).json()['job_id']
+
 ticket_id = 0
 
 
@@ -96,7 +110,7 @@ class TicketService(unittest.TestCase):
     def test_updates_ticket_with_invalid_ticket_id(self):
         """ Update the ticket with the duplicate ticket_id """
 
-        message = "No ticket found for provided ticket id"
+        message = "Invalid Ticket number to update the ticket"
 
         # Update the ticket with invalid ticket id
         ticket_response = ticket_service.request(

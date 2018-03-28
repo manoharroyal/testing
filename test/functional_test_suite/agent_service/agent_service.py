@@ -4,25 +4,45 @@ import logging
 import unittest
 import httplib
 from test.functional_test_suite.agent_service.agent_service_payloads import AgentServicePayload
+from test.functional_test_suite.customer_profile_service.customer_profile_service_payloads import CustomerProfileServicePayload
+from test.functional_test_suite.job_service.job_service_payloads import SeedJobServicePayload
+
 from test.shared.rest_framework import RestAPI, RequestType, path
 from test.functional_test_suite.common.config import AGENT_SERVICE_URL, \
-    agent_task_url, agent_id, task_id, agent_details_url, register_agent_url, \
-    list_agent_tasks_url, initialize_logger
+    agent_task_url, agent_details_url, register_agent_url, \
+    list_agent_tasks_url, initialize_logger, SEED_JOB_URL, CUSTOMER_PROFILE_URL,\
+    list_system, list_system_url
 
 agent_service_customer = RestAPI(utype='customer')
 agent_service_sysops = RestAPI(utype='sysops')
 agent_service_agent = RestAPI(utype='agent')
 agent_service_invalid = RestAPI(utype='invalid')
+job_service = RestAPI(utype='customer')
 initialize_logger(path + '/../../logs/agent_service.log')
 
+address_title = job_service.request(
+    RequestType.PUT, CUSTOMER_PROFILE_URL,
+    payload=CustomerProfileServicePayload().customer_profile_payload()).json()['shipping_addresses'][0]['title']
+source_system_id = job_service.request(
+    RequestType.GET, list_system_url(list_system, system_type='source')).json()['systems'][0]['id']
+target_system_id = job_service.request(
+    RequestType.GET, list_system_url(list_system, system_type='target')).json()['systems'][0]['siteId']
+
+job_id = job_service.request(RequestType.POST, SEED_JOB_URL, payload=SeedJobServicePayload().create_seed_job_payload(
+                address_title=address_title, source_system_id=source_system_id,
+                target_system_id=target_system_id)).json()['job_id']
+agent_id = 0
+task_id = 0
 
 class AgentServiceTestCases(unittest.TestCase):
     """ Test cases of agent service """
 
     """ GET: Test cases to get the list agents """
 
-    def test_list_agents_with_valid_url(self):
+    def test__list_agents_with_valid_url(self):
         """ Testing with the valid url to get the list agents """
+
+        global agent_id
 
         # Get list agents with valid url
         list_agents_response = agent_service_sysops.request(
@@ -40,9 +60,10 @@ class AgentServiceTestCases(unittest.TestCase):
         self.assertIn('agents', list_agents_response_dict.keys(),
                       msg="Expected %s in and got is %s" % (
                           'message', list_agents_response_dict.keys()))
+        agent_id = list_agents_response_dict['agents'][0]['agent_id']
         logging.info('test case executed successfully')
 
-    def test_list_agent_with_invalid_token(self):
+    def test__list_agent_with_invalid_token(self):
         """ Testing with the invalid token to get the list agents """
 
         expected_message = "Unauthorized"
@@ -118,6 +139,8 @@ class AgentServiceTestCases(unittest.TestCase):
     def test_agent_task__list_with_valid_agent_id(self):
         """ Testing with the valid agent id to get the list agent tasks """
 
+        global task_id
+
         # Get list agent tasks  with valid url
         list_agents_tasks_response = agent_service_agent.request(
             RequestType.GET, list_agent_tasks_url(agent_id))
@@ -133,6 +156,7 @@ class AgentServiceTestCases(unittest.TestCase):
         self.assertIn('tasks', list_agents_tasks_response_dict.keys(),
                       msg="Expected %s in and got is %s" % (
                           'message', list_agents_tasks_response_dict.keys()))
+        task_id = list_agents_tasks_response_dict['tasks'][0]['task_id']
         logging.info('test case executed successfully')
 
     def test_list_agent_tasks_with_invalid_agent_id(self):

@@ -2,20 +2,24 @@
 import logging
 import unittest
 import httplib
+import time
 from test.shared.rest_framework import RequestType, RestAPI, path
 from test.functional_test_suite.job_service.job_service_payloads import SeedJobServicePayload
 from test.functional_test_suite.ticket_service.ticket_service_payloads import TicketServicePayload
 from test.functional_test_suite.inventory_service.inventory_service_payloads import InventoryServicePayload
+from test.functional_test_suite.agent_service.agent_service_payloads import AgentServicePayload
 from test.functional_test_suite.common.config import SEED_JOB_URL,\
     seed_job_url, user_action_url, TEMP_KEY, agent_action_url, \
     initialize_logger, agent_task_url, list_agent_tasks_url, agent_details_url, \
-    current_tickets_url, update_ticket_url,INVENTORY_SERVICE_URL, CUSTOMER_PROFILE_URL, list_system, list_system_url
+    current_tickets_url, update_ticket_url,INVENTORY_SERVICE_URL, CUSTOMER_PROFILE_URL, \
+    list_system, list_system_url, register_agent_url
 
 job_service_customer = RestAPI(utype='customer')
 job_service_invalid = RestAPI(utype='invalid')
 job_service_agent = RestAPI(utype='agent')
 inventory_service = RestAPI(utype='sysops')
 ticket_service = RestAPI(utype='sysops')
+agent_service = RestAPI(utype='agent')
 initialize_logger(path + '/../../logs/job_service.log')
 
 address_title = job_service_customer.request(
@@ -24,8 +28,11 @@ source_system_id = job_service_customer.request(
     RequestType.GET, list_system_url(list_system, system_type='source')).json()['systems'][0]['id']
 target_system_id = job_service_customer.request(
     RequestType.GET, list_system_url(list_system, system_type='target')).json()['systems'][0]['siteId']
+
 job_id = 0
 ticket_id = 0
+agent_id = 0
+task_id = 0
 
 
 class JobServiceTestCases(unittest.TestCase):
@@ -33,7 +40,7 @@ class JobServiceTestCases(unittest.TestCase):
 
     """ POST: Test cases to Creation of seed job """
 
-    def test__create_job_with_valid_details(self):
+    def test___create_job_with_valid_details(self):
         """ Create job with valid details """
 
         global job_id
@@ -86,88 +93,88 @@ class JobServiceTestCases(unittest.TestCase):
                 (error_message, create_job_response_dict['message']))
         logging.info('test case executed successfully')
 
-    def test_create_job_with_invalid_source_system_id(self):
-        """ Testing the creation of seed_job with invalid source_system_id """
-
-        error_message = "Failed to create Job as failed to fetch " \
-                        "SOURCE_SYSTEM system %s" % TEMP_KEY
-
-        # Create job with invalid source system
-        create_job_response = job_service_customer.request(
-            RequestType.POST, SEED_JOB_URL,
-            payload=SeedJobServicePayload().create_seed_job_payload
-            (address_title=address_title, source_system_id=TEMP_KEY, job_name='test 25'))
-        create_job_response_dict = create_job_response.json()
-        logging.info('test_create_job_with_invalid_source_system_id')
-        logging.info('Url is %s', SEED_JOB_URL)
-        logging.info('Request is %s', SeedJobServicePayload().
-                     create_seed_job_payload(source_system_id=TEMP_KEY))
-        logging.info('Response is %s', create_job_response.text)
-        self.assertEquals(
-            create_job_response.status_code, 403,
-            msg="Expected code is 403 and got is %s (%s)" %
-                (create_job_response.status_code,
-                 httplib.responses[create_job_response.status_code]))
-        self.assertEquals(
-            error_message, create_job_response_dict['message'],
-            msg="Expected %s in %s" %
-                (error_message, create_job_response_dict['message']))
-        logging.info('test case executed successfully')
-
-    def test_create_job_with_invalid_target_system_id(self):
-        """ Testing the creation of seed_job with invalid target_system_id """
-
-        error_message = "Failed to create Job as failed to " \
-                        "fetch TARGET_SYSTEM system %s" % TEMP_KEY
-
-        # Create job with invalid target system
-        create_job_response = job_service_customer.request(
-            RequestType.POST, SEED_JOB_URL,
-            payload=SeedJobServicePayload().create_seed_job_payload
-            (source_system_id=source_system_id, target_system_id=TEMP_KEY, job_name='test 26'))
-        create_job_response_dict = create_job_response.json()
-        logging.info('test_create_job_with_invalid_target_system_id')
-        logging.info('Url is %s', SEED_JOB_URL)
-        logging.info('Request is %s', SeedJobServicePayload().
-                     create_seed_job_payload(target_system_id=TEMP_KEY))
-        logging.info('Response is %s', create_job_response.text)
-        self.assertEquals(
-            create_job_response.status_code, 403,
-            msg="Expected code is 403 and got is %s (%s)" %
-                (create_job_response.status_code,
-                 httplib.responses[create_job_response.status_code]))
-        self.assertIn(
-            error_message, create_job_response_dict['message'],
-            msg="Expected %s in %s" %
-                (error_message, create_job_response_dict['message']))
-        logging.info('test case executed successfully')
-
-    def test_create_job_with_invalid_address_title(self):
-        """ Testing the creation of seed_job with invalid address_title """
-
-        error_message = "Failed to create Job as failed to fetch address"
-
-        # Create job with invalid address title
-        create_job_response = job_service_customer.request(
-            RequestType.POST, SEED_JOB_URL,
-            payload=SeedJobServicePayload().create_seed_job_payload
-            (address_title='address_title', job_name='test 27'))
-        create_job_response_dict = create_job_response.json()
-        logging.info('test_create_job_with_invalid_address_title')
-        logging.info('Url is %s', SEED_JOB_URL)
-        logging.info('Request is %s', SeedJobServicePayload().
-                     create_seed_job_payload(address_title='address_title'))
-        logging.info('Response is %s', create_job_response.text)
-        self.assertEquals(
-            create_job_response.status_code, 403,
-            msg="Expected code is 403 and got is %s (%s)" % (
-                create_job_response.status_code,
-                httplib.responses[create_job_response.status_code]))
-        self.assertIn(
-            error_message, create_job_response_dict['message'],
-            msg="Expected %s in %s" %
-                (error_message, create_job_response_dict['message']))
-        logging.info('test case executed successfully')
+    # def test_create_job_with_invalid_source_system_id(self):
+    #     """ Testing the creation of seed_job with invalid source_system_id """
+    #
+    #     error_message = "Failed to create Job as failed to fetch " \
+    #                     "SOURCE_SYSTEM system %s" % TEMP_KEY
+    #
+    #     # Create job with invalid source system
+    #     create_job_response = job_service_customer.request(
+    #         RequestType.POST, SEED_JOB_URL,
+    #         payload=SeedJobServicePayload().create_seed_job_payload
+    #         (address_title=address_title, source_system_id=TEMP_KEY, job_name='test 25'))
+    #     create_job_response_dict = create_job_response.json()
+    #     logging.info('test_create_job_with_invalid_source_system_id')
+    #     logging.info('Url is %s', SEED_JOB_URL)
+    #     logging.info('Request is %s', SeedJobServicePayload().
+    #                  create_seed_job_payload(source_system_id=TEMP_KEY))
+    #     logging.info('Response is %s', create_job_response.text)
+    #     self.assertEquals(
+    #         create_job_response.status_code, 403,
+    #         msg="Expected code is 403 and got is %s (%s)" %
+    #             (create_job_response.status_code,
+    #              httplib.responses[create_job_response.status_code]))
+    #     self.assertEquals(
+    #         error_message, create_job_response_dict['message'],
+    #         msg="Expected %s in %s" %
+    #             (error_message, create_job_response_dict['message']))
+    #     logging.info('test case executed successfully')
+    #
+    # def test_create_job_with_invalid_target_system_id(self):
+    #     """ Testing the creation of seed_job with invalid target_system_id """
+    #
+    #     error_message = "Failed to create Job as failed to " \
+    #                     "fetch TARGET_SYSTEM system %s" % TEMP_KEY
+    #
+    #     # Create job with invalid target system
+    #     create_job_response = job_service_customer.request(
+    #         RequestType.POST, SEED_JOB_URL,
+    #         payload=SeedJobServicePayload().create_seed_job_payload
+    #         (source_system_id=source_system_id, target_system_id=TEMP_KEY, job_name='test 26'))
+    #     create_job_response_dict = create_job_response.json()
+    #     logging.info('test_create_job_with_invalid_target_system_id')
+    #     logging.info('Url is %s', SEED_JOB_URL)
+    #     logging.info('Request is %s', SeedJobServicePayload().
+    #                  create_seed_job_payload(target_system_id=TEMP_KEY))
+    #     logging.info('Response is %s', create_job_response.text)
+    #     self.assertEquals(
+    #         create_job_response.status_code, 403,
+    #         msg="Expected code is 403 and got is %s (%s)" %
+    #             (create_job_response.status_code,
+    #              httplib.responses[create_job_response.status_code]))
+    #     self.assertIn(
+    #         error_message, create_job_response_dict['message'],
+    #         msg="Expected %s in %s" %
+    #             (error_message, create_job_response_dict['message']))
+    #     logging.info('test case executed successfully')
+    #
+    # def test_create_job_with_invalid_address_title(self):
+    #     """ Testing the creation of seed_job with invalid address_title """
+    #
+    #     error_message = "Failed to create Job as failed to fetch address"
+    #
+    #     # Create job with invalid address title
+    #     create_job_response = job_service_customer.request(
+    #         RequestType.POST, SEED_JOB_URL,
+    #         payload=SeedJobServicePayload().create_seed_job_payload
+    #         (address_title='address_title', job_name='test 27'))
+    #     create_job_response_dict = create_job_response.json()
+    #     logging.info('test_create_job_with_invalid_address_title')
+    #     logging.info('Url is %s', SEED_JOB_URL)
+    #     logging.info('Request is %s', SeedJobServicePayload().
+    #                  create_seed_job_payload(address_title='address_title'))
+    #     logging.info('Response is %s', create_job_response.text)
+    #     self.assertEquals(
+    #         create_job_response.status_code, 403,
+    #         msg="Expected code is 403 and got is %s (%s)" % (
+    #             create_job_response.status_code,
+    #             httplib.responses[create_job_response.status_code]))
+    #     self.assertIn(
+    #         error_message, create_job_response_dict['message'],
+    #         msg="Expected %s in %s" %
+    #             (error_message, create_job_response_dict['message']))
+    #     logging.info('test case executed successfully')
 
     def test_create_job_with_invalid_max_data_size(self):
         """ Testing the creation of seed_job with invalid max_data_size """
@@ -351,7 +358,7 @@ class JobServiceTestCases(unittest.TestCase):
 
     """ GET: Test cases to get the details of particular seed job """
 
-    def test__add_item_with_valid_details(self):
+    def test___add_item_with_valid_details(self):
         """ Adding an item with all valid parameters into the inventory """
 
         # Add an item with valid details
@@ -375,7 +382,7 @@ class JobServiceTestCases(unittest.TestCase):
                 ('created_at', add_item_response_dict.keys()))
         logging.info('test case executed successfully')
 
-    def test__current_ticket_details_with_valid_job_id(self):
+    def test___current_ticket_details_with_valid_job_id(self):
         """ Testing with the valid job_id to get the details of the seed job """
         global ticket_id
         # Get the seed job details with valid job id
@@ -399,7 +406,7 @@ class JobServiceTestCases(unittest.TestCase):
         ticket_id = job_details_response_dict['current_ticket']
         logging.info('test case executed successfully')
 
-    def test__current_ticket_update_with_valid_ticket_id(self):
+    def test___current_ticket_update_with_valid_ticket_id(self):
         """ Update the ticket with the valid ticket_id """
 
         expected_message = "Updated Ticket id %s" % ticket_id
@@ -427,8 +434,11 @@ class JobServiceTestCases(unittest.TestCase):
                 (expected_message, ticket_response_dict['message']))
         logging.info('test case executed successfully')
 
-    def test__job_details_with_valid_job_id(self):
+    def test___job_details_with_valid_job_id(self):
         """ Testing with the valid job_id to get the details of the seed job """
+        time.sleep(120)
+
+        global agent_id
 
         # Get the seed job details with valid job id
         job_details_response = job_service_customer.request(
@@ -445,28 +455,7 @@ class JobServiceTestCases(unittest.TestCase):
             'job_id', job_details_response.json().keys(),
             msg="Expected %s in %s" %
                 ('job_id', job_details_response.json().keys()))
-        logging.info('test case executed successfully')
-
-    def test__job_details_mock_with_valid_job_id(self):
-        """ Testing with the valid job_id to get the details of the seed job """
-
-        url = "https://l8czy78mlk.execute-api.us-west-2.amazonaws.com/dev/mock/job-service?job_id=%s" % job_id
-
-        # Get the seed job details with valid job id
-        job_details_response = job_service_customer.request(
-            RequestType.GET, url)
-        logging.info('test_job_details_with_valid_job_id')
-        logging.info('Url is %s', url)
-        logging.info('Response is %s', job_details_response.text)
-        self.assertEquals(
-            job_details_response.status_code, 200,
-            msg="Expected code is 200 and got is %s (%s)" % (
-                job_details_response.status_code,
-                httplib.responses[job_details_response.status_code]))
-        self.assertIn(
-            'job_id', job_details_response.json().keys(),
-            msg="Expected %s in %s" %
-                ('job_id', job_details_response.json().keys()))
+        agent_id = job_details_response.json()['agent_id']
         logging.info('test case executed successfully')
 
     def test_job_detail_with_invalid_job_id(self):
@@ -591,11 +580,10 @@ class JobServiceTestCases(unittest.TestCase):
 
     """ PUT: Test cases As a user take an action on job """
 
-    def test__agent_details_with_valid_agent_id(self):
+    def test__agent__details_with_valid_agent_id(self):
         """ Testing with valid agent id to get the details of an agent """
 
         key = "agent_id"
-        agent_id = '67be6ee7-092e-4bfc-a0c9-5ee2c3c70e43'
         # Get the details of an agent with valid agent id
         agent_details_response = job_service_agent.request(
             RequestType.GET, agent_details_url(agent_id))
@@ -614,9 +602,11 @@ class JobServiceTestCases(unittest.TestCase):
                 (key, agent_details_response_dict.keys()))
         logging.info('test case executed successfully')
 
-    def test__agent_task__list_with_valid_agent_id(self):
+    def test_agent_task__list_with_valid_agent_id(self):
         """ Testing with the valid agent id to get the list agent tasks """
-        agent_id = '67be6ee7-092e-4bfc-a0c9-5ee2c3c70e43'
+
+        global task_id
+
         # Get list agent tasks  with valid url
         list_agents_tasks_response = job_service_agent.request(
             RequestType.GET, list_agent_tasks_url(agent_id))
@@ -632,11 +622,12 @@ class JobServiceTestCases(unittest.TestCase):
         self.assertIn('tasks', list_agents_tasks_response_dict.keys(),
                       msg="Expected %s in and got is %s" % (
                           'message', list_agents_tasks_response_dict.keys()))
+        task_id = list_agents_tasks_response_dict['tasks'][0]['task_id']
         logging.info('test case executed successfully')
 
-    def test__agent_task_details_with_valid_task_id(self):
+    def test_agent_task_details_with_valid_task_id(self):
         """ Testing with the valid task id to get the task details """
-        task_id = '3ab0062e-09f4-463f-94b8-e05247b888df'
+
         # Get the agent task details with valid task id
         agent_task_details_response = job_service_customer.request(
             RequestType.GET, agent_task_url(task_id))
@@ -655,7 +646,32 @@ class JobServiceTestCases(unittest.TestCase):
                 'task_status', agent_task_details_response_dict.keys()))
         logging.info('test case executed successfully')
 
-    def test_action_with_valid_id(self):
+    def test__agent_register_with_valid_agent_id(self):
+        """ Testing with valid url to register an agent """
+
+        expected_message = "Crane Agent is registered successfully."
+
+        # Register an agent with valid agent id
+        register_agent_response = agent_service.request(
+            RequestType.PUT, register_agent_url(agent_id),
+            payload=AgentServicePayload().register_agent())
+        register_agent_response_dict = register_agent_response.json()
+        logging.info('test_register_agent_with_valid_agent_id')
+        logging.info('Url is %s', register_agent_url(agent_id))
+        logging.info('Request is %s', AgentServicePayload().register_agent())
+        logging.info('Response is %s', register_agent_response.text)
+        self.assertEquals(
+            register_agent_response.status_code, 202,
+            msg="Expected response code is 202 and got is %s (%s)" % (
+                register_agent_response.status_code,
+                httplib.responses[register_agent_response.status_code]))
+        self.assertEquals(
+            expected_message, register_agent_response_dict['message'],
+            msg="Expected %s equals %s" % (
+                expected_message, register_agent_response_dict['message']))
+        logging.info('test case executed successfully')
+
+    def test__agent_action_with__valid_job_id(self):
         """ Testing with the valid job_id to take an action on job by user """
 
         task_status = 'CREATED'
@@ -682,6 +698,7 @@ class JobServiceTestCases(unittest.TestCase):
             msg="Expected %s equals %s" % (
                 task_status, user_action_response_dict['task_status']))
 
+    def test_action_with_invalid_job_id(self):
         """ Testing with the invalid job_id to take an action on job by user """
 
         message = "Resource with id %s does not exists" % TEMP_KEY
