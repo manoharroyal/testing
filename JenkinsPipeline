@@ -1,0 +1,63 @@
+pipeline {
+    agent {
+        label 'master'
+    }
+    stages {
+        stage('test-functional-dss-customer-profile-service') {
+            steps {
+                script {
+                    def Customer_Profile_Service = build job:'test-functional-dss-customer-profile-service', propagate: false
+                }
+            }
+        }
+        stage('test-functional-dss-inventory-service') {
+            steps {
+                script {
+                    def Inventory_Service = build job: 'test-functional-dss-inventory-service', propagate: false
+                }
+            }
+        }
+        stage('test-functional-dss-system-service') {
+            steps {
+                script {
+                    def System_Service = build job: 'test-functional-dss-system-service', propagate: false
+                }
+            }
+        }
+        stage('test-functional-dss-auth-service') {
+            steps {
+                script {
+                    def Auth_Service = build job: 'test-functional-dss-auth-service', propagate: false
+                }
+            }
+        }
+        stage('functional-dss-agent-service') {
+            steps {
+                script {
+                    def Agent_Service = build job: 'functional-dss-agent-service', propagate: false
+                }
+            }
+        }
+        stage('test-functional-dss-job-service') {
+            steps {
+                script {
+                    def Job_Service = build job: 'test-functional-dss-job-service', propagate: false
+                }
+            }
+        }
+        stage('test-functional-dss-ticket-service') {
+            steps {
+                script {
+                    def Ticket_Service = build job: 'test-functional-dss-ticket-service', propagate: false
+                }
+            }
+        }
+        stage('APIIntegrationTestcases') {
+            steps {
+                script {
+                    def Integration = build job: 'APIIntegrationTestcases', propagate: false
+                }
+            }
+        }
+    }
+}
