@@ -1,8 +1,10 @@
 import logging
 import unittest
 import httplib
-from test.functional_test_suite.common.config import AUTH_SERVICE_URL, \
-    delete_auth_user_url, validate_auth_user_url, initialize_logger
+from test.functional_test_suite.common.config import AUTH_SERVICE_URL
+from test.functional_test_suite.common.config import delete_auth_user_url
+from test.functional_test_suite.common.config import validate_auth_user_url
+from test.functional_test_suite.common.config import initialize_logger
 from test.shared.rest_framework import RestAPI, RequestType, path
 from test.functional_test_suite.auth_service.auth_service_payloads import AuthServicePayload
 
