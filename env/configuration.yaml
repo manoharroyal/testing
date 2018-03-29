@@ -12,11 +12,7 @@ AUTH_SERVICE_API_ID: "8v3b0icmk8"
 TICKET_SERVICE_API_ID: "jod2s5rozl"
 BOX_SERVICE_API_ID: "438fuu0x63"
 ORDER_SERVICE_API_ID: "pzaciqss3d"
-AGENT_ID: "67be6ee7-092e-4bfc-a0c9-5ee2c3c70e43"
-TASK_ID: "3ab0062e-09f4-463f-94b8-e05247b888df"
 TEMP_KEY: 'bb90c867-a02e-4868-bfff-a8ef9c5f68eb2'
-SEED_JOB_ID: 'e3b3d908-c916-42ae-964f-ebba727a00ab'
-DELETE_JOB_ID: 'd63f774c-2e3b-48fb-a0ce-f4db1effc8cc'
 SOURCE_SYSTEM_ID: '86dc65e4-42a0-4ee8-91e8-f201678f53aa'
 
 LOGIN_URL: "https://sso.teradatacloud.io/oauth/token"
