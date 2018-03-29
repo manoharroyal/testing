@@ -2,9 +2,13 @@
 import logging
 import unittest
 import httplib
-from test.functional_test_suite.common.config import update_ticket_url, \
-    initialize_logger, get_tickets_url, SEED_JOB_URL, CUSTOMER_PROFILE_URL, \
-    list_system_url, list_system
+from test.functional_test_suite.common.config import update_ticket_url
+from test.functional_test_suite.common.config import get_tickets_url
+from test.functional_test_suite.common.config import SEED_JOB_URL
+from test.functional_test_suite.common.config import CUSTOMER_PROFILE_URL
+from test.functional_test_suite.common.config import list_system_url
+from test.functional_test_suite.common.config import list_system
+from test.functional_test_suite.common.config import initialize_logger
 from test.shared.rest_framework import RestAPI, RequestType, path
 from test.functional_test_suite.ticket_service.ticket_service_payloads import TicketServicePayload
 from test.functional_test_suite.job_service.job_service_payloads import SeedJobServicePayload
