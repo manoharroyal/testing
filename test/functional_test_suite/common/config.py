@@ -11,7 +11,7 @@ with open(path + "/../../../env/configuration.yaml", 'r') as stream:
 
 customer = RestAPI(utype='customer')
 
-""" All Constants goes here """
+""" Urls of test Environment """
 CUSTOMER_SERVICE_URL = config_data['TEST_BASE_URL'].format(config_data['CUSTOMER_SERVICE_API_ID']) + "/customer-profiles/"
 INVENTORY_SERVICE_URL = config_data['TEST_BASE_URL'].format(config_data['INVENTORY_SERVICE_API_ID']) + "/inventory/items"
 SYSTEM_SERVICE_URL = config_data['TEST_BASE_URL'].format(config_data['SYSTEM_SERVICE_API_ID']) + "/systems"
@@ -23,7 +23,7 @@ BOX_SERVICE_URL = config_data['TEST_BASE_URL'].format(config_data['BOX_SERVICE_A
 ORDER_SERVICE_URL = config_data['TEST_BASE_URL'].format(config_data['ORDER_SERVICE_API_ID']) + "/order"
 
 
-
+# """ Urls for dev Environment """
 # CUSTOMER_SERVICE_URL = end_point.request(
 #     RequestType.GET,
 #     config_data['END_POINTS_URL']).json()['customer-profile-dev'][0]['endpoint'].replace("{customer_id}", "")
